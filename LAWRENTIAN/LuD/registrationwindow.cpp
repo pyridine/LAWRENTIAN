@@ -5,6 +5,8 @@
 #include <iostream>
 #include <QDebug>
 #include <QMessageBox>
+#include <ctype.h>
+#include <stdio.h>
 
 using namespace std;
 
@@ -37,11 +39,25 @@ void RegistrationWindow::on_submitButton_clicked()
     QString confirmPassword = ui->confirmPasswordTextField->text();
     string stringConfirmPassword;
 
+
+    bool fieldsAreSatisfied = true;
+
     if(password != confirmPassword){
         QMessageBox alertBox;
         alertBox.critical(0, "Error", "Confirm password does not match");
         alertBox.setFixedSize(500,200);
-    } else {
+        fieldsAreSatisfied = false;
+    }
+    if(!RegistrationWindow::isPasswordSuitable(password.toStdString())){
+        QMessageBox alertBox;
+        alertBox.critical(0, "Error", "Password must contain at least one number (0-9), one upper case character (A-Z), and one lower case character (a-z).");
+        alertBox.setFixedSize(500,200);
+        fieldsAreSatisfied = false;
+    }
+
+
+
+
     Employee employee(stringName, stringLuId, stringEmail, stringPhone, stringUsername, stringPassword);
     employeeVector.push_back(employee);
     cout<<employee.getName()<<endl;
@@ -50,5 +66,30 @@ void RegistrationWindow::on_submitButton_clicked()
     cout<<employee.getPhoneNumber()<<endl;
     cout<<employee.getUsername()<<endl;
     cout<<employee.getPassword()<<endl;
+}
+
+bool RegistrationWindow::isPasswordSuitable(string s)
+{
+    string::iterator itr;
+    bool containsNum = false;
+    bool containsLow = false;
+    bool containsUp = false;
+
+    if(s.begin() == s.end()){
+        return false;
     }
+
+    for(itr = s.begin(); itr < s.end(); itr++){
+        if(islower(*itr)){
+            containsLow = true;
+        }
+        if(isupper(*itr)){
+            containsUp = true;
+        }
+        if(!isalpha(*itr)){
+            containsNum = true;
+        }
+    }
+
+    return (containsNum && containsLow && containsUp);
 }

@@ -24,6 +24,7 @@ private slots:
 private:
     Ui::RegistrationWindow *ui;
     std::vector<Employee> employeeVector;
+    bool isPasswordSuitable(string s);
 };
 
 #endif // REGISTRATIONWINDOW_H
