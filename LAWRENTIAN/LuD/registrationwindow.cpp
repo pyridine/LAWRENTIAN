@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <QDebug>
+#include <QMessageBox>
 
 using namespace std;
 
@@ -33,7 +34,14 @@ void RegistrationWindow::on_submitButton_clicked()
     string stringUsername = username.toStdString();
     QString password = ui->passwordTextField->text();
     string stringPassword = password.toStdString();
+    QString confirmPassword = ui->confirmPasswordTextField->text();
+    string stringConfirmPassword;
 
+    if(password != confirmPassword){
+        QMessageBox alertBox;
+        alertBox.critical(0, "Error", "Confirm password does not match");
+        alertBox.setFixedSize(500,200);
+    } else {
     Employee employee(stringName, stringLuId, stringEmail, stringPhone, stringUsername, stringPassword);
     employeeVector.push_back(employee);
     cout<<employee.getName()<<endl;
@@ -42,4 +50,5 @@ void RegistrationWindow::on_submitButton_clicked()
     cout<<employee.getPhoneNumber()<<endl;
     cout<<employee.getUsername()<<endl;
     cout<<employee.getPassword()<<endl;
+    }
 }
