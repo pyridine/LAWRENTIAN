@@ -12,6 +12,13 @@ public:
     Employee(string name, string luId, string email, string phoneNumber, string username, string password);
     ~Employee();
 
+    string getName();
+    string getLuId();
+    string getEmail();
+    string getPhoneNumber();
+    string getUsername();
+    string getPassword();
+
 private:
     string name;
     string luId;

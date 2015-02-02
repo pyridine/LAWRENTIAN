@@ -20,3 +20,4 @@ HEADERS  += registrationwindow.h \
     employee.h
 
 FORMS    += registrationwindow.ui
+CONFIG   += console

@@ -16,3 +16,33 @@ Employee::~Employee()
 
 }
 
+string Employee::getName()
+{
+    return Employee::name;
+}
+
+string Employee::getLuId()
+{
+    return Employee::luId;
+}
+
+string Employee::getEmail()
+{
+    return Employee::email;
+}
+
+string Employee::getPhoneNumber()
+{
+    return Employee::phoneNumber;
+}
+
+string Employee::getUsername()
+{
+    return Employee::username;
+}
+
+string Employee::getPassword()
+{
+    return Employee::password;
+}
+
