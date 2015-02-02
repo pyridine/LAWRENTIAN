@@ -25,6 +25,10 @@ private:
     Ui::RegistrationWindow *ui;
     std::vector<Employee> employeeVector;
     bool isPasswordSuitable(string s);
+    bool isPhoneNumberDubiouslyValid(string s); //"dubiously" because the method is not garaunteed to give a valid phone number.
+    bool isEmailValid(string s);
+    void showAlert(const string& title,const string& msg);
+    bool isLuIDDubiouslyValid(std::string inputID);
 };
 
 #endif // REGISTRATIONWINDOW_H
