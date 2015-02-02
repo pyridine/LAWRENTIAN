@@ -101,12 +101,14 @@ public:
         passwordTextField = new QLineEdit(centralWidget);
         passwordTextField->setObjectName(QStringLiteral("passwordTextField"));
         passwordTextField->setGeometry(QRect(160, 240, 231, 21));
+        passwordTextField->setEchoMode(QLineEdit::Password);
         label_7 = new QLabel(centralWidget);
         label_7->setObjectName(QStringLiteral("label_7"));
         label_7->setGeometry(QRect(20, 280, 121, 16));
         confirmPasswordTextField = new QLineEdit(centralWidget);
         confirmPasswordTextField->setObjectName(QStringLiteral("confirmPasswordTextField"));
         confirmPasswordTextField->setGeometry(QRect(160, 280, 231, 21));
+        confirmPasswordTextField->setEchoMode(QLineEdit::Password);
         submitButton = new QPushButton(centralWidget);
         submitButton->setObjectName(QStringLiteral("submitButton"));
         submitButton->setGeometry(QRect(440, 300, 114, 32));
@@ -144,13 +146,14 @@ public:
         label_4->setText(QApplication::translate("RegistrationWindow", "Phone:", 0));
         emailTextField->setPlaceholderText(QApplication::translate("RegistrationWindow", "Add Email...", 0));
 #ifndef QT_NO_ACCESSIBILITY
-        nameTextField->setAccessibleName(QApplication::translate("RegistrationWindow", "nameTextField", 0));
+        nameTextField->setAccessibleName(QString());
 #endif // QT_NO_ACCESSIBILITY
         nameTextField->setPlaceholderText(QApplication::translate("RegistrationWindow", "Add Name...", 0));
         luIdTextField->setPlaceholderText(QApplication::translate("RegistrationWindow", "Add LU ID#...", 0));
         phoneTextField->setPlaceholderText(QApplication::translate("RegistrationWindow", "Add Phone#...", 0));
         label_5->setText(QApplication::translate("RegistrationWindow", "Username:", 0));
         label_6->setText(QApplication::translate("RegistrationWindow", "Password:", 0));
+        passwordTextField->setInputMask(QString());
         label_7->setText(QApplication::translate("RegistrationWindow", "Confirm Password:", 0));
         submitButton->setText(QApplication::translate("RegistrationWindow", "Submit", 0));
         passwordErrorLabel->setText(QApplication::translate("RegistrationWindow", "Password Error", 0));

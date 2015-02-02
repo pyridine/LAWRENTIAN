@@ -102,7 +102,7 @@
      </rect>
     </property>
     <property name="accessibleName">
-     <string>nameTextField</string>
+     <string/>
     </property>
     <property name="placeholderText">
      <string>Add Name...</string>
@@ -179,6 +179,12 @@
       <height>21</height>
      </rect>
     </property>
+    <property name="inputMask">
+     <string/>
+    </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Password</enum>
+    </property>
    </widget>
    <widget class="QLabel" name="label_7">
     <property name="geometry">
@@ -201,6 +207,9 @@
       <width>231</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Password</enum>
     </property>
    </widget>
    <widget class="QPushButton" name="submitButton">
