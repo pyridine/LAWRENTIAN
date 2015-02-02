@@ -14,10 +14,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         registrationwindow.cpp \
-    employee.cpp
+    employee.cpp \
+    checkemployeeswindow.cpp
 
 HEADERS  += registrationwindow.h \
-    employee.h
+    employee.h \
+    checkemployeeswindow.h
 
-FORMS    += registrationwindow.ui
+FORMS    += registrationwindow.ui \
+    checkemployeeswindow.ui
 CONFIG   += console

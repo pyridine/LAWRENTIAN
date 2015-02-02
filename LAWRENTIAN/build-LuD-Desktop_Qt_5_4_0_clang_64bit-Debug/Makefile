@@ -50,11 +50,15 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../LuD/main.cpp \
 		../LuD/registrationwindow.cpp \
-		../LuD/employee.cpp moc_registrationwindow.cpp
+		../LuD/employee.cpp \
+		../LuD/checkemployeeswindow.cpp moc_registrationwindow.cpp \
+		moc_checkemployeeswindow.cpp
 OBJECTS       = main.o \
 		registrationwindow.o \
 		employee.o \
-		moc_registrationwindow.o
+		checkemployeeswindow.o \
+		moc_registrationwindow.o \
+		moc_checkemployeeswindow.o
 DIST          = /Applications/QT/5.4/clang_64/mkspecs/features/spec_pre.prf \
 		/Applications/QT/5.4/clang_64/mkspecs/qdevice.pri \
 		/Applications/QT/5.4/clang_64/mkspecs/features/device_config.prf \
@@ -184,9 +188,11 @@ DIST          = /Applications/QT/5.4/clang_64/mkspecs/features/spec_pre.prf \
 		/Applications/QT/5.4/clang_64/mkspecs/features/yacc.prf \
 		/Applications/QT/5.4/clang_64/mkspecs/features/lex.prf \
 		../LuD/LuD.pro ../LuD/registrationwindow.h \
-		../LuD/employee.h ../LuD/main.cpp \
+		../LuD/employee.h \
+		../LuD/checkemployeeswindow.h ../LuD/main.cpp \
 		../LuD/registrationwindow.cpp \
-		../LuD/employee.cpp
+		../LuD/employee.cpp \
+		../LuD/checkemployeeswindow.cpp
 QMAKE_TARGET  = LuD
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = LuD.app/Contents/MacOS/LuD
@@ -224,7 +230,7 @@ first: all
 
 ####### Build rules
 
-$(TARGET): ui_registrationwindow.h $(OBJECTS)  
+$(TARGET): ui_registrationwindow.h ui_checkemployeeswindow.h $(OBJECTS)  
 	@test -d LuD.app/Contents/MacOS/ || mkdir -p LuD.app/Contents/MacOS/
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
@@ -522,9 +528,9 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../LuD/registrationwindow.h ../LuD/employee.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../LuD/main.cpp ../LuD/registrationwindow.cpp ../LuD/employee.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../LuD/registrationwindow.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../LuD/registrationwindow.h ../LuD/employee.h ../LuD/checkemployeeswindow.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../LuD/main.cpp ../LuD/registrationwindow.cpp ../LuD/employee.cpp ../LuD/checkemployeeswindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../LuD/registrationwindow.ui ../LuD/checkemployeeswindow.ui $(DISTDIR)/
 
 
 clean:compiler_clean 
@@ -549,21 +555,30 @@ compiler_objective_c_make_all:
 compiler_objective_c_clean:
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_registrationwindow.cpp
+compiler_moc_header_make_all: moc_registrationwindow.cpp moc_checkemployeeswindow.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_registrationwindow.cpp
-moc_registrationwindow.cpp: /Applications/QT/5.4/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
+	-$(DEL_FILE) moc_registrationwindow.cpp moc_checkemployeeswindow.cpp
+moc_registrationwindow.cpp: ../LuD/employee.h \
+		/Applications/QT/5.4/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
 		/Applications/QT/5.4/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
 		../LuD/registrationwindow.h
 	/Applications/QT/5.4/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -I/Applications/QT/5.4/clang_64/mkspecs/macx-clang -I'/Users/Liza Girsova/QtProjects/LuD' -I/Applications/QT/5.4/clang_64/lib/QtWidgets.framework/Headers -I/Applications/QT/5.4/clang_64/lib/QtGui.framework/Headers -I/Applications/QT/5.4/clang_64/lib/QtCore.framework/Headers -I. -F/Applications/QT/5.4/clang_64/lib ../LuD/registrationwindow.h -o moc_registrationwindow.cpp
 
+moc_checkemployeeswindow.cpp: /Applications/QT/5.4/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QDialog \
+		/Applications/QT/5.4/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qdialog.h \
+		../LuD/checkemployeeswindow.h
+	/Applications/QT/5.4/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -I/Applications/QT/5.4/clang_64/mkspecs/macx-clang -I'/Users/Liza Girsova/QtProjects/LuD' -I/Applications/QT/5.4/clang_64/lib/QtWidgets.framework/Headers -I/Applications/QT/5.4/clang_64/lib/QtGui.framework/Headers -I/Applications/QT/5.4/clang_64/lib/QtCore.framework/Headers -I. -F/Applications/QT/5.4/clang_64/lib ../LuD/checkemployeeswindow.h -o moc_checkemployeeswindow.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_registrationwindow.h
+compiler_uic_make_all: ui_registrationwindow.h ui_checkemployeeswindow.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_registrationwindow.h
+	-$(DEL_FILE) ui_registrationwindow.h ui_checkemployeeswindow.h
 ui_registrationwindow.h: ../LuD/registrationwindow.ui
 	/Applications/QT/5.4/clang_64/bin/uic ../LuD/registrationwindow.ui -o ui_registrationwindow.h
+
+ui_checkemployeeswindow.h: ../LuD/checkemployeeswindow.ui
+	/Applications/QT/5.4/clang_64/bin/uic ../LuD/checkemployeeswindow.ui -o ui_checkemployeeswindow.h
 
 compiler_rez_source_make_all:
 compiler_rez_source_clean:
@@ -578,6 +593,7 @@ compiler_clean: compiler_moc_header_clean compiler_uic_clean
 ####### Compile
 
 main.o: ../LuD/main.cpp ../LuD/registrationwindow.h \
+		../LuD/employee.h \
 		/Applications/QT/5.4/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
 		/Applications/QT/5.4/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
 		/Applications/QT/5.4/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QApplication \
@@ -585,16 +601,30 @@ main.o: ../LuD/main.cpp ../LuD/registrationwindow.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../LuD/main.cpp
 
 registrationwindow.o: ../LuD/registrationwindow.cpp ../LuD/registrationwindow.h \
+		../LuD/employee.h \
 		/Applications/QT/5.4/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
 		/Applications/QT/5.4/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
-		ui_registrationwindow.h
+		ui_registrationwindow.h \
+		/Applications/QT/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QDebug \
+		/Applications/QT/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qdebug.h \
+		/Applications/QT/5.4/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QMessageBox \
+		/Applications/QT/5.4/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qmessagebox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o registrationwindow.o ../LuD/registrationwindow.cpp
 
 employee.o: ../LuD/employee.cpp ../LuD/employee.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o employee.o ../LuD/employee.cpp
 
+checkemployeeswindow.o: ../LuD/checkemployeeswindow.cpp ../LuD/checkemployeeswindow.h \
+		/Applications/QT/5.4/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QDialog \
+		/Applications/QT/5.4/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qdialog.h \
+		ui_checkemployeeswindow.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o checkemployeeswindow.o ../LuD/checkemployeeswindow.cpp
+
 moc_registrationwindow.o: moc_registrationwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_registrationwindow.o moc_registrationwindow.cpp
+
+moc_checkemployeeswindow.o: moc_checkemployeeswindow.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_checkemployeeswindow.o moc_checkemployeeswindow.cpp
 
 ####### Install
 

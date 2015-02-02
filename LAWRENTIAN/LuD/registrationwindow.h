@@ -2,6 +2,7 @@
 #define REGISTRATIONWINDOW_H
 
 #include "employee.h"
+#include "checkemployeeswindow.h"
 
 #include <QMainWindow>
 #include <vector>
@@ -21,10 +22,12 @@ public:
 private slots:
     void on_submitButton_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::RegistrationWindow *ui;
     std::vector<Employee> employeeVector;
-    bool isPasswordSuitable(string s);
+    CheckEmployeesWindow *checkEmployeesWindow;
 };
 
 #endif // REGISTRATIONWINDOW_H
