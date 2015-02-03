@@ -101,7 +101,7 @@ void RegistrationWindow::on_submitButton_clicked()
         ui->usernameTextField->setText("");
         ui->passwordTextField->setText("");
         ui->confirmPasswordTextField->setText("");
-        ui->passwordErrorLabel->setText("");
+        ui->passwordErrorLabel->hide();
     }
 }
 

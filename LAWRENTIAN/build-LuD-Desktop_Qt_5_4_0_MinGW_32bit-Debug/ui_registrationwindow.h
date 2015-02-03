@@ -119,7 +119,7 @@ public:
         idPicture->setGeometry(QRect(410, 20, 141, 141));
         passwordErrorLabel = new QLabel(centralWidget);
         passwordErrorLabel->setObjectName(QStringLiteral("passwordErrorLabel"));
-        passwordErrorLabel->setGeometry(QRect(410, 240, 111, 16));
+        passwordErrorLabel->setGeometry(QRect(410, 240, 151, 16));
         pushButton = new QPushButton(centralWidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
         pushButton->setGeometry(QRect(10, 310, 141, 32));
