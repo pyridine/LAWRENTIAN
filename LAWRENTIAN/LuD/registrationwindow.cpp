@@ -9,6 +9,7 @@
 
 using namespace std;
 
+
 RegistrationWindow::RegistrationWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::RegistrationWindow)
@@ -60,6 +61,12 @@ void RegistrationWindow::on_submitButton_clicked()
         RegistrationWindow::showAlert("Error", "A field is blank, numbnuts!");
         fieldsAreSatisfied = false;
 
+    }
+
+    //Check to see if the phone number field is *probably* a phone number :P
+    if(!RegistrationWindow::isValidUsername(stringName)){
+        RegistrationWindow::showAlert("Error", "Username invalid.");
+        fieldsAreSatisfied = false;
     }
 
     //Check to see if the phone number field is *probably* a phone number :P
@@ -152,6 +159,8 @@ void RegistrationWindow::showAlert(const string& title,const string& msg)
     alertBox.critical(0, t,m);
     alertBox.setFixedSize(500,200);
 }
+
+bool RegistrationWindow::isValidUsername(std::string s) {return s.size() != 0 && s.find(' ') != 0 && s.rfind(' ') != s.size() - 1  ? true : false; }
 
 bool RegistrationWindow::isLuIDDubiouslyValid(std::string inputID){
 
