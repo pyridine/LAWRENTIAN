@@ -63,9 +63,9 @@ void RegistrationWindow::on_submitButton_clicked()
 
     }
 
-    //Check to see if the phone number field is *probably* a phone number :P
+    //Check to see if the name field is *probably* a name :P
     if(!RegistrationWindow::isValidUsername(stringName)){
-        RegistrationWindow::showAlert("Error", "Username invalid.");
+        RegistrationWindow::showAlert("Error", "Name invalid.");
         fieldsAreSatisfied = false;
     }
 
