@@ -14,7 +14,8 @@ RegistrationWindow::RegistrationWindow(QWidget *parent) :
     ui(new Ui::RegistrationWindow)
 {
     ui->setupUi(this);
-    ui->passwordErrorLabel->setText("");
+    ui->passwordErrorLabel->setText("Password not suitable");
+    ui->passwordErrorLabel->hide();
 }
 
 RegistrationWindow::~RegistrationWindow()
@@ -215,4 +216,13 @@ bool RegistrationWindow::isEmailValid(std::string sbemail){
         ++itr;
     }
     return true;
+}
+
+void RegistrationWindow::on_passwordTextField_textChanged(const QString &arg1)
+{
+    if(RegistrationWindow::isPasswordSuitable(ui->passwordTextField->text().toStdString())){
+        ui->passwordErrorLabel->hide();
+    }else{
+        ui->passwordErrorLabel->show();
+    }
 }

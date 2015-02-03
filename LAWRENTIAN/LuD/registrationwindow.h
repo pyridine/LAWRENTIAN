@@ -24,6 +24,8 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_passwordTextField_textChanged(const QString &arg1);
+
 private:
     Ui::RegistrationWindow *ui;
     std::vector<Employee> employeeVector;
