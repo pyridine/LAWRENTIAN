@@ -54,8 +54,12 @@ void CheckEmployeesWindow::on_pushButton_clicked()
     employeeCount++;
     } else
     {
+        employeeCount = 0;
+        CheckEmployeesWindow::iterateThroughEmployees(employeeCount);
+        employeeCount++;
+        /*
         QMessageBox alertBox;
         alertBox.critical(0, "Error", "No More Employees Available");
-        alertBox.setFixedSize(500,200);
+        alertBox.setFixedSize(500,200); */
     }
 }
