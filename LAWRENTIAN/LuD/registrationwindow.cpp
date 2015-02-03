@@ -94,12 +94,14 @@ void RegistrationWindow::on_submitButton_clicked()
     if(fieldsAreSatisfied){
         Employee employee(stringName, stringLuId, stringEmail, stringPhone, stringUsername, stringPassword);
         employeeVector.push_back(employee);
-        cout<<employee.getName()<<endl;
-        cout<<employee.getLuId()<<endl;
-        cout<<employee.getEmail()<<endl;
-        cout<<employee.getPhoneNumber()<<endl;
-        cout<<employee.getUsername()<<endl;
-        cout<<employee.getPassword()<<endl;
+        ui->nameTextField->setText("");
+        ui->luIdTextField->setText("");
+        ui->emailTextField->setText("");
+        ui->phoneTextField->setText("");
+        ui->usernameTextField->setText("");
+        ui->passwordTextField->setText("");
+        ui->confirmPasswordTextField->setText("");
+        ui->passwordErrorLabel->setText("");
     }
 }
 
