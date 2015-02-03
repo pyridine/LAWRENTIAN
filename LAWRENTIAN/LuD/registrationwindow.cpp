@@ -74,7 +74,7 @@ void RegistrationWindow::on_submitButton_clicked()
     }
 
     //Check to see if passwords match.
-    if(stringPassword != stringConfirmPassword){
+    if(stringPassword.compare(stringConfirmPassword) != 0){
         RegistrationWindow::showAlert("Error", "Your passwords don't match, moron!");
         fieldsAreSatisfied = false;
     }
