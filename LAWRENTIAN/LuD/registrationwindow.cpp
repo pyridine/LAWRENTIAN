@@ -1,12 +1,11 @@
 #include "registrationwindow.h"
 #include "ui_registrationwindow.h"
 #include "employee.h"
+#include "checkemployeeswindow.h"
 
 #include <iostream>
 #include <QDebug>
 #include <QMessageBox>
-#include <ctype.h>
-#include <stdio.h>
 
 using namespace std;
 
@@ -15,6 +14,7 @@ RegistrationWindow::RegistrationWindow(QWidget *parent) :
     ui(new Ui::RegistrationWindow)
 {
     ui->setupUi(this);
+    ui->passwordErrorLabel->setText("");
 }
 
 RegistrationWindow::~RegistrationWindow()
@@ -102,8 +102,7 @@ void RegistrationWindow::on_submitButton_clicked()
     }
 }
 
-bool RegistrationWindow::isPasswordSuitable(string s)
-{
+bool isPasswordSuitable(string s){
     string::iterator itr;
     bool containsNum = false;
     bool containsLow = false;
@@ -127,6 +126,16 @@ bool RegistrationWindow::isPasswordSuitable(string s)
     }
 
     return (containsNum && containsLow && containsUp);
+
+{
+
+
+
+void RegistrationWindow::on_pushButton_clicked()
+{
+    checkEmployeesWindow = new CheckEmployeesWindow;
+    checkEmployeesWindow->initCheckEmployeesWindow(employeeVector); // Passes in the employee vector
+    checkEmployeesWindow->show();
 }
 
 void RegistrationWindow::showAlert(const string& title,const string& msg){

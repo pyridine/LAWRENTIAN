@@ -2,6 +2,7 @@
 #define REGISTRATIONWINDOW_H
 
 #include "employee.h"
+#include "checkemployeeswindow.h"
 
 #include <QMainWindow>
 #include <vector>
@@ -21,6 +22,8 @@ public:
 private slots:
     void on_submitButton_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::RegistrationWindow *ui;
     std::vector<Employee> employeeVector;
@@ -29,6 +32,7 @@ private:
     bool isEmailValid(string s);
     void showAlert(const string& title,const string& msg);
     bool isLuIDDubiouslyValid(std::string inputID); //"dubiously" because it's not garaunteed to be a real LU id.
+    CheckEmployeesWindow *checkEmployeesWindow;
 };
 
 #endif // REGISTRATIONWINDOW_H

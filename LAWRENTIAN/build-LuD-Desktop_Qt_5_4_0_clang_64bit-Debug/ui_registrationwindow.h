@@ -49,6 +49,7 @@ public:
     QPushButton *submitButton;
     QGraphicsView *idPicture;
     QLabel *passwordErrorLabel;
+    QPushButton *pushButton;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -57,7 +58,7 @@ public:
     {
         if (RegistrationWindow->objectName().isEmpty())
             RegistrationWindow->setObjectName(QStringLiteral("RegistrationWindow"));
-        RegistrationWindow->resize(569, 386);
+        RegistrationWindow->resize(569, 403);
         centralWidget = new QWidget(RegistrationWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         label = new QLabel(centralWidget);
@@ -111,7 +112,7 @@ public:
         confirmPasswordTextField->setEchoMode(QLineEdit::Password);
         submitButton = new QPushButton(centralWidget);
         submitButton->setObjectName(QStringLiteral("submitButton"));
-        submitButton->setGeometry(QRect(440, 300, 114, 32));
+        submitButton->setGeometry(QRect(440, 310, 114, 32));
         submitButton->setDefault(true);
         idPicture = new QGraphicsView(centralWidget);
         idPicture->setObjectName(QStringLiteral("idPicture"));
@@ -119,6 +120,9 @@ public:
         passwordErrorLabel = new QLabel(centralWidget);
         passwordErrorLabel->setObjectName(QStringLiteral("passwordErrorLabel"));
         passwordErrorLabel->setGeometry(QRect(410, 240, 111, 16));
+        pushButton = new QPushButton(centralWidget);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(10, 310, 141, 32));
         RegistrationWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(RegistrationWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -160,6 +164,7 @@ public:
         confirmPasswordTextField->setPlaceholderText(QApplication::translate("RegistrationWindow", "Confirm Password...", 0));
         submitButton->setText(QApplication::translate("RegistrationWindow", "Submit", 0));
         passwordErrorLabel->setText(QApplication::translate("RegistrationWindow", "Password Error", 0));
+        pushButton->setText(QApplication::translate("RegistrationWindow", "Check Employees", 0));
     } // retranslateUi
 
 };
