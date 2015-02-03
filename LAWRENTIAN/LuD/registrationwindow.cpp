@@ -27,11 +27,11 @@ void RegistrationWindow::on_submitButton_clicked()
     /*checked*/QString name = ui->nameTextField->text();
     /*checked*/string stringName = name.toStdString();
 
-    /*not checked*/QString luId = ui->luIdTextField->text();
-    /*not checked*/string stringLuId = luId.toStdString();
+    /*checked*/QString luId = ui->luIdTextField->text();
+    /*checked*/string stringLuId = luId.toStdString();
 
-    /*not checked*/QString email = ui->emailTextField->text();
-    /*not checked*/string stringEmail = email.toStdString();
+    /*checked*/QString email = ui->emailTextField->text();
+    /*checked*/string stringEmail = email.toStdString();
 
     /*checked*/QString phone = ui->phoneTextField->text();
     /*checked*/string stringPhone = phone.toStdString();

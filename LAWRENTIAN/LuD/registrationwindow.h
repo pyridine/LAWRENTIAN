@@ -28,7 +28,7 @@ private:
     bool isPhoneNumberDubiouslyValid(string s); //"dubiously" because the method is not garaunteed to give a valid phone number.
     bool isEmailValid(string s);
     void showAlert(const string& title,const string& msg);
-    bool isLuIDDubiouslyValid(std::string inputID);
+    bool isLuIDDubiouslyValid(std::string inputID); //"dubiously" because it's not garaunteed to be a real LU id.
 };
 
 #endif // REGISTRATIONWINDOW_H
