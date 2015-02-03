@@ -174,7 +174,7 @@ bool RegistrationWindow::isEmailValid(std::string sbemail){
     string::iterator itr;
     /*
     1•The email address must start with a letter (no numbers or symbols)
-    2•There must be an @ somewhere in the string that is located BEFORE the dot
+    2•There must be an @ somewhere in the string that is located before the domain dot
     3•There must be text after the @ symbol but BEFORE the dot
     4•There must be a dot
     5•There must be text after the dot
