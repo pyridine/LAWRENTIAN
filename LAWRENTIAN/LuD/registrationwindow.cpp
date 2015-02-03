@@ -188,7 +188,7 @@ bool RegistrationWindow::isEmailValid(std::string sbemail){
     }
     ++itr;
     //2
-    while(itr != sbemail.end() && isalnum(*itr)){
+    while(itr != sbemail.end() && isalnum(*itr) || *itr == '.'){
         ++itr;
     }
     if(itr == sbemail.end() || *itr != '@'){
