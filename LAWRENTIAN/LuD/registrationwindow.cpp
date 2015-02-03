@@ -102,7 +102,7 @@ void RegistrationWindow::on_submitButton_clicked()
     }
 }
 
-bool isPasswordSuitable(string s){
+bool RegistrationWindow::isPasswordSuitable(string s){
     string::iterator itr;
     bool containsNum = false;
     bool containsLow = false;
@@ -126,8 +126,7 @@ bool isPasswordSuitable(string s){
     }
 
     return (containsNum && containsLow && containsUp);
-
-{
+}
 
 
 
@@ -138,7 +137,8 @@ void RegistrationWindow::on_pushButton_clicked()
     checkEmployeesWindow->show();
 }
 
-void RegistrationWindow::showAlert(const string& title,const string& msg){
+void RegistrationWindow::showAlert(const string& title,const string& msg)
+{
     QMessageBox alertBox;
     QString t = QString::fromUtf8(title.c_str());
     QString m = QString::fromUtf8(msg.c_str());
