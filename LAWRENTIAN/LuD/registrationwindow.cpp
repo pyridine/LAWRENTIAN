@@ -133,9 +133,13 @@ bool RegistrationWindow::isPasswordSuitable(string s){
 
 void RegistrationWindow::on_pushButton_clicked()
 {
+    if(employeeVector.size() > 0){
     checkEmployeesWindow = new CheckEmployeesWindow;
     checkEmployeesWindow->initCheckEmployeesWindow(employeeVector); // Passes in the employee vector
     checkEmployeesWindow->show();
+    }else {
+        RegistrationWindow::showAlert("Error", "No employees available");
+    }
 }
 
 void RegistrationWindow::showAlert(const string& title,const string& msg)
