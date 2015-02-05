@@ -15,11 +15,16 @@ TEMPLATE = app
 SOURCES += main.cpp\
         registrationwindow.cpp \
     employee.cpp \
-    checkemployeeswindow.cpp
+    checkemployeeswindow.cpp \
+    permissions.cpp \
+    circulation.cpp
 
 HEADERS  += registrationwindow.h \
     employee.h \
-    checkemployeeswindow.h
+    checkemployeeswindow.h \
+    PermissionDefinitions.h \
+    permissions.h \
+    circulation.h
 
 FORMS    += registrationwindow.ui \
     checkemployeeswindow.ui
