@@ -5,6 +5,8 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += network
+QT       += sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,14 +19,16 @@ SOURCES += main.cpp\
     employee.cpp \
     checkemployeeswindow.cpp \
     permissions.cpp \
-    circulation.cpp
+    circulation.cpp \
+    remotedbconnection.cpp
 
 HEADERS  += registrationwindow.h \
     employee.h \
     checkemployeeswindow.h \
     PermissionDefinitions.h \
     permissions.h \
-    circulation.h
+    circulation.h \
+    remotedbconnection.h
 
 FORMS    += registrationwindow.ui \
     checkemployeeswindow.ui
