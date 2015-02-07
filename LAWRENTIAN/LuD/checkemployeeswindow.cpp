@@ -30,7 +30,7 @@ void CheckEmployeesWindow::iterateThroughEmployees(int employeeCount)
     QString nameQstring = QString::fromStdString(name);
     ui->nameTextField->setText(nameQstring);
 
-    string luId = employeeVector[employeeCount].getLuId();
+    string luId = std::to_string(employeeVector[employeeCount].getLuId());
     QString luIdQstring = QString::fromStdString(luId);
     ui->luIdTextField->setText(luIdQstring);
 

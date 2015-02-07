@@ -9,7 +9,7 @@ using namespace std;
 
 Circulation::Circulation(vector<CirculationNode> &r)
 {
-    Circulation::route = r;
+    Circulation::route = &r;
 }
 
 void Circulation::addNode(CirculationNode &node, int insert_pos)
@@ -26,12 +26,12 @@ void Circulation::addNode(CirculationNode &node, int insert_pos)
         ++it;
         ++current_pos;
     }
-    route.insert(it,node);
+    route->insert(it,node);
 
 }
 vector<Circulation::CirculationNode>::iterator Circulation::begin()
 {
-    return route.begin();
+    return route->begin();
 }
 void Circulation::deleteNode(int index)
 {
@@ -46,12 +46,12 @@ void Circulation::deleteNode(int index)
         ++it;
         ++current_pos;
     }
-    route.erase(it);
+    route->erase(it);
 }
 
 vector<Circulation::CirculationNode>::iterator Circulation::end()
 {
-    return route.end();
+    return route->end();
 }
 
 Circulation::~Circulation()

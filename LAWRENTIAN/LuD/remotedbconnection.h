@@ -16,8 +16,9 @@ public:
     void sampleQuery();
     ~RemoteDBConnection();
     QSqlQuery execute(string s);
+    QSqlQuery execute(QSqlQuery q);
 private:
-    QSqlDatabase database;
+    QSqlDatabase* database;
 };
 
 #endif // REMOTEDBCONNECTION_H

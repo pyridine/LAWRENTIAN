@@ -20,7 +20,7 @@ public:
     void deleteNode(int index);
 
 private:
-   vector<CirculationNode> route;
+   vector<CirculationNode> *route;
 };
 
 #endif // CIRCULATION_H

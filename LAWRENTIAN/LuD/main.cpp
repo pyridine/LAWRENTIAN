@@ -1,6 +1,8 @@
 #include "registrationwindow.h"
 #include <QApplication>
-#include "remotedbconnection.h"
+#include "client.h"
+#include <iostream>
+#include "loginwindow.h"
 
 using namespace std;
 
@@ -10,11 +12,16 @@ int main(int argc, char *argv[])
     RegistrationWindow w;
     w.show();
 
-    RemoteDBConnection con;
-    if(con.Connect())
-    {
-    con.sampleQuery();
+
+    Client c;
+    if(c.connect()){
+        w.initDB(&c);
+
+        cout << "Init done. Application should be on-screen." << endl;
+    } else{
+        cout << "Application failed to start :(" << endl;
     }
+
 
     return a.exec();
 }

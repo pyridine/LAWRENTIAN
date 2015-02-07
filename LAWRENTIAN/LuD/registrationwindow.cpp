@@ -6,14 +6,16 @@
 #include <iostream>
 #include <QDebug>
 #include <QMessageBox>
+#include "client.h"
+#include "registrationwindowdbcontroller.h"
+#include <string>
+#include <iostream>
 
 using namespace std;
 
-
-RegistrationWindow::RegistrationWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::RegistrationWindow)
+RegistrationWindow::RegistrationWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::RegistrationWindow)
 {
+    std::cout << "Hi, I am REGISTRATIONWINDOW." << endl;
     ui->setupUi(this);
     ui->passwordErrorLabel->setText("Password not suitable");
     ui->passwordErrorLabel->hide();
@@ -22,6 +24,13 @@ RegistrationWindow::RegistrationWindow(QWidget *parent) :
 RegistrationWindow::~RegistrationWindow()
 {
     delete ui;
+}
+
+void RegistrationWindow::initDB(Client* cp){
+    RegistrationWindowDBController rwdbc;
+    RegistrationWindow::dbController = &rwdbc;
+
+    RegistrationWindow::dbController->init(cp);
 }
 
 void RegistrationWindow::on_submitButton_clicked()
@@ -99,7 +108,13 @@ void RegistrationWindow::on_submitButton_clicked()
     }
 
     if(fieldsAreSatisfied){
-        Employee employee(stringName, stringLuId, stringEmail, stringPhone, stringUsername, stringPassword);
+        Employee employee(stringName, std::stoi(stringLuId) /*string to int. If this gives problems, make sure you're using c++11 (see the config section of the .pro file)*/,
+                          stringEmail, "NONE", stringPhone, stringUsername, stringPassword, 0);
+
+
+
+        dbController->addEmployee(&employee);
+
         employeeVector.push_back(employee);
         ui->nameTextField->setText("");
         ui->luIdTextField->setText("");
@@ -165,7 +180,6 @@ bool RegistrationWindow::isValidUsername(std::string s) {return s.size() != 0 &&
 bool RegistrationWindow::isLuIDDubiouslyValid(std::string inputID){
 
     string::iterator itr;
-    int numberOfNumbers = 0;
     for(itr = inputID.begin(); itr < inputID.end(); itr++){
         if(!isdigit(*itr)){
             return false;
@@ -204,7 +218,7 @@ bool RegistrationWindow::isEmailValid(std::string sbemail){
     }
     ++itr;
     //2
-    while(itr != sbemail.end() && isalnum(*itr) || *itr == '.'){
+    while((itr != sbemail.end() && isalnum(*itr)) || *itr == '.'){
         ++itr;
     }
     if(itr == sbemail.end() || *itr != '@'){

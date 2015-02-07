@@ -9,23 +9,27 @@ using namespace std;
 class Employee
 {
 public:
-    Employee(string name, string luId, string email, string phoneNumber, string username, string password);
+    Employee(string name, int luId, string email, string title, string phoneNumber, string username, string password, int approved);
     ~Employee();
 
     string getName();
-    string getLuId();
+    int getLuId();
     string getEmail();
     string getPhoneNumber();
+    string getTitle();
     string getUsername();
     string getPassword();
+    int getApproved();
 
 private:
     string name;
-    string luId;
+    int luId;
+    string title;
     string email;
     string phoneNumber;
     string username;
     string password;
+    int approved;
 };
 
 #endif // EMPLOYEE_H

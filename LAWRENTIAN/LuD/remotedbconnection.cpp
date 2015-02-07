@@ -11,25 +11,25 @@
 
 using namespace std;
 
-RemoteDBConnection::RemoteDBConnection()
-{
-
+RemoteDBConnection::RemoteDBConnection(){
+    cout << "Hi, I am the Remote DB Connection." << endl;
 }
 
-RemoteDBConnection::~RemoteDBConnection()
-{
-
-}
+RemoteDBConnection::~RemoteDBConnection(){
+    database->removeDatabase(QString::fromStdString("lawrentian"));
+    delete(&database);}
 
 bool RemoteDBConnection::Connect()
 {
-    database = QSqlDatabase::addDatabase("QMYSQL");
-    database.setHostName("143.44.10.35");
-    database.setDatabaseName("lawrentian");
-    database.setUserName("dev");
-    database.setPassword("dev");
-    if (!database.open()) {
-        cout << "Database Error: " << database.lastError().text().toStdString() << endl;
+
+    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+    database = &db;
+    database->setHostName("143.44.10.35");
+    database->setDatabaseName("lawrentian");
+    database->setUserName("dev");
+    database->setPassword("dev");
+    if (!database->open()) {
+        cout << "Database Error: " << database->lastError().text().toStdString() << endl;
         return false;
     } else{
         cout << "Connection established :D" << endl;
@@ -54,7 +54,12 @@ void RemoteDBConnection::sampleQuery(){
 QSqlQuery RemoteDBConnection::execute(string s){
     QSqlQuery query;
 
-    QString HOLY_QUEST_FOR_A_GNARLY_VEST = QString::fromStdString(s);
-    query.exec(HOLY_QUEST_FOR_A_GNARLY_VEST);
+    QString queryString = QString::fromStdString(s);
+    query.exec(queryString);
     return query;
+}
+QSqlQuery RemoteDBConnection::execute(QSqlQuery s){
+
+    s.exec();
+    return s;
 }

@@ -20,7 +20,10 @@ SOURCES += main.cpp\
     checkemployeeswindow.cpp \
     permissions.cpp \
     circulation.cpp \
-    remotedbconnection.cpp
+    remotedbconnection.cpp \
+    registrationwindowdbcontroller.cpp \
+    client.cpp \
+    loginwindow.cpp
 
 HEADERS  += registrationwindow.h \
     employee.h \
@@ -28,8 +31,13 @@ HEADERS  += registrationwindow.h \
     PermissionDefinitions.h \
     permissions.h \
     circulation.h \
-    remotedbconnection.h
+    remotedbconnection.h \
+    registrationwindowdbcontroller.h \
+    client.h \
+    loginwindow.h
 
 FORMS    += registrationwindow.ui \
-    checkemployeeswindow.ui
+    checkemployeeswindow.ui \
+    loginwindow.ui
 CONFIG   += console
+CONFIG   += C++11

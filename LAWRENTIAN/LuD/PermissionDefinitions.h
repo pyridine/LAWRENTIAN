@@ -67,6 +67,13 @@ namespace PermissionDefinitions{
         SEC_VARIETY = 29,
     };
 
+    string translate(PToken a){
+        switch(a){
+            default:
+                return "lol";
+        }
+        return "oops";
+    }
 
 };
 
