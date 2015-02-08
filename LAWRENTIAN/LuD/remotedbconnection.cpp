@@ -51,15 +51,16 @@ void RemoteDBConnection::sampleQuery(){
                 "password: " << query.value(6).toString().toStdString() << endl;
     }
 }
-QSqlQuery RemoteDBConnection::execute(string s){
-    QSqlQuery query;
+QSqlQuery* RemoteDBConnection::execute(string s){
+    QSqlQuery* query = new QSqlQuery(); //Without the pointer-new, you'd get a segfault!!
 
     QString queryString = QString::fromStdString(s);
-    query.exec(queryString);
+    query->exec(queryString);
     return query;
 }
-QSqlQuery RemoteDBConnection::execute(QSqlQuery s){
+bool RemoteDBConnection::execute(QSqlQuery* s){
 
-    s.exec();
-    return s;
+    bool resultValue = s->exec();
+
+    return resultValue;
 }

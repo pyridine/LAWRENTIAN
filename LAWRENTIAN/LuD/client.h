@@ -8,11 +8,11 @@ class Client
 public:
     Client();
     bool connect();
-    QSqlQuery execute(string s);
-    QSqlQuery execute(QSqlQuery &q);
+    QSqlQuery* execute(string s) const;
+    QSqlQuery* execute(QSqlQuery* q) const;
     ~Client();
 private:
-    RemoteDBConnection *connection;
+    RemoteDBConnection* connection;
 };
 
 #endif // CLIENT_H

@@ -7,23 +7,26 @@ using namespace std;
 Client::Client(){
     cout << "Hi, I am Client." << endl;
     RemoteDBConnection acon;
-    Client::connection = &acon;
+    this->connection = &acon;
 }
 
 bool Client::connect(){
     return connection->Connect();
 }
 
-QSqlQuery Client::execute(string s)
+QSqlQuery* Client::execute(string s) const
 {
     cout << "Executing <" << s << ">." << endl;
     return connection->execute(s);
+
+
 }
-QSqlQuery Client::execute(QSqlQuery &q){
-    cout << "Executing <" << q.lastQuery().toStdString() << ">." << endl;
-    QSqlQuery result = connection->execute(q);
-    cout << result.lastError().text().toStdString() << endl;
-    return result;
+QSqlQuery* Client::execute(QSqlQuery* q) const
+{
+    cout << "Executing <" << q->lastQuery().toStdString() << ">." << endl;
+    connection->execute(q); /*SEGFAULT?!?!?!?! "THIS" PTR IS NULL!?!?!?*/
+    cout << q->lastError().text().toStdString() << endl;
+    return q;
 }
 
 Client::~Client()

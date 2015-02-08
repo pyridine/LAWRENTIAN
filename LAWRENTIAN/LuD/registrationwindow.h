@@ -18,7 +18,7 @@ class RegistrationWindow : public QMainWindow
 
 public:
     explicit RegistrationWindow(QWidget *parent = 0);
-    void initDB(Client *c);
+    void initDB(const Client* c);
     ~RegistrationWindow();
 
 private slots:
@@ -40,8 +40,8 @@ private:
     void showAlert(const string& title,const string& msg);
     bool isLuIDDubiouslyValid(std::string inputID); //"dubiously" because it's not garaunteed to be a real LU id.
 
-    CheckEmployeesWindow *checkEmployeesWindow;
-    RegistrationWindowDBController *dbController;
+    CheckEmployeesWindow* checkEmployeesWindow;
+    RegistrationWindowDBController* dbController;
 
 };
 

@@ -17,8 +17,13 @@ RegistrationWindow::RegistrationWindow(QWidget *parent) : QMainWindow(parent), u
 {
     std::cout << "Hi, I am REGISTRATIONWINDOW." << endl;
     ui->setupUi(this);
+
     ui->passwordErrorLabel->setText("Password not suitable");
     ui->passwordErrorLabel->hide();
+
+
+    RegistrationWindowDBController rwdbc;
+    dbController = &rwdbc;
 }
 
 RegistrationWindow::~RegistrationWindow()
@@ -26,11 +31,9 @@ RegistrationWindow::~RegistrationWindow()
     delete ui;
 }
 
-void RegistrationWindow::initDB(Client* cp){
-    RegistrationWindowDBController rwdbc;
-    RegistrationWindow::dbController = &rwdbc;
-
-    RegistrationWindow::dbController->init(cp);
+void RegistrationWindow::initDB(const Client *cp){
+    cout << "RW is passing client at " << cp << endl;
+    dbController->init(cp);
 }
 
 void RegistrationWindow::on_submitButton_clicked()
@@ -71,25 +74,21 @@ void RegistrationWindow::on_submitButton_clicked()
         fieldsAreSatisfied = false;
 
     }
-
     //Check to see if the name field is *probably* a name :P
     if(!RegistrationWindow::isValidUsername(stringName)){
         RegistrationWindow::showAlert("Error", "Name invalid.");
         fieldsAreSatisfied = false;
     }
-
     //Check to see if the phone number field is *probably* a phone number :P
     if(!RegistrationWindow::isPhoneNumberDubiouslyValid(stringPhone)){
         RegistrationWindow::showAlert("Error", "Your phone number's invalid, you fool!");
         fieldsAreSatisfied = false;
     }
-
     //Check to see if the email field is in fact an email
     if(!RegistrationWindow::isEmailValid(stringEmail)){
         RegistrationWindow::showAlert("Error", "Your email is invalid! What's wrong with you??");
         fieldsAreSatisfied = false;
     }
-
     //Check to see if passwords match.
     if(stringPassword.compare(stringConfirmPassword) != 0){
         RegistrationWindow::showAlert("Error", "Your passwords don't match, moron!");
@@ -100,7 +99,6 @@ void RegistrationWindow::on_submitButton_clicked()
         RegistrationWindow::showAlert("Error", "Password must contain at least one number (0-9), one upper case character (A-Z), and one lower case character (a-z). You idiot.");
         fieldsAreSatisfied = false;
     }
-
     //Check if LU ID is probably an ID.
     if(!RegistrationWindow::isLuIDDubiouslyValid(stringLuId)){
         RegistrationWindow::showAlert("Error", "Your LU ID appears to be invalid. We only need the number. Go back to grade school!");
@@ -108,14 +106,14 @@ void RegistrationWindow::on_submitButton_clicked()
     }
 
     if(fieldsAreSatisfied){
-        Employee employee(stringName, std::stoi(stringLuId) /*string to int. If this gives problems, make sure you're using c++11 (see the config section of the .pro file)*/,
+        Employee employee(stringName, std::stoi(stringLuId) /*string to int. If this gives problems, make sure you're using c++11 (see the .pro file)*/,
                           stringEmail, "NONE", stringPhone, stringUsername, stringPassword, 0);
 
 
 
         dbController->addEmployee(&employee);
 
-        employeeVector.push_back(employee);
+        /*employeeVector.push_back(employee);*/
         ui->nameTextField->setText("");
         ui->luIdTextField->setText("");
         ui->emailTextField->setText("");
@@ -124,6 +122,9 @@ void RegistrationWindow::on_submitButton_clicked()
         ui->passwordTextField->setText("");
         ui->confirmPasswordTextField->setText("");
         ui->passwordErrorLabel->hide();
+
+        RegistrationWindow::showAlert("Registration complete","Thank you for registering.\n The Employee Manager must approve your registration before you are able to log in.");
+        RegistrationWindow::hide();
     }
 }
 
@@ -197,7 +198,7 @@ bool RegistrationWindow::isPhoneNumberDubiouslyValid(std::string inputPhone)
             ++numberOfNumbers;
         }
     }
-    return(numberOfNumbers == 10);
+    return(numberOfNumbers >= 1);
 }
 
 bool RegistrationWindow::isEmailValid(std::string sbemail){

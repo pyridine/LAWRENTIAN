@@ -23,7 +23,9 @@ SOURCES += main.cpp\
     remotedbconnection.cpp \
     registrationwindowdbcontroller.cpp \
     client.cpp \
-    loginwindow.cpp
+    loginwindow.cpp \
+    loginwindowdbcontroller.cpp \
+    logincredentials.cpp
 
 HEADERS  += registrationwindow.h \
     employee.h \
@@ -34,7 +36,9 @@ HEADERS  += registrationwindow.h \
     remotedbconnection.h \
     registrationwindowdbcontroller.h \
     client.h \
-    loginwindow.h
+    loginwindow.h \
+    loginwindowdbcontroller.h \
+    logincredentials.h
 
 FORMS    += registrationwindow.ui \
     checkemployeeswindow.ui \

@@ -15,8 +15,8 @@ public:
     bool Connect();
     void sampleQuery();
     ~RemoteDBConnection();
-    QSqlQuery execute(string s);
-    QSqlQuery execute(QSqlQuery q);
+    QSqlQuery* execute(string s);
+    bool execute(QSqlQuery* q);
 private:
     QSqlDatabase* database;
 };

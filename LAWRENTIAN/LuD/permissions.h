@@ -6,14 +6,15 @@
 using namespace PermissionDefinitions;
 using namespace std;
 
-class permissions
+class Permissions
 {
 public:
-    permissions(vector<PToken> &p, int id);
-    ~permissions();
+    Permissions(vector<PToken> &p, int id);
+    ~Permissions();
 
     bool hasPermission(PToken p);
 
+    static string translatePermission(PToken p);
 
 private:
     int LUID;

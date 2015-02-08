@@ -9,11 +9,6 @@
 using namespace std;
 
 
-namespace RWDBCcommands {
-    const string SQL_ADD_EMPLOYEE = "INSERT INTO lawrentian.employee (luid, name, title, phone, email, username, password, approved) VALUES (:luid, :name, :title, :phone, :email, :username, :password, :approved);";
-
-}
-
 class RegistrationWindowDBController
 {
 
@@ -22,11 +17,11 @@ class RegistrationWindowDBController
 public:
     RegistrationWindowDBController();
     ~RegistrationWindowDBController();
-    void init(Client* c);
+    void init(const Client* c);
     void addEmployee(Employee* e);
 
 private:
-    Client* client;
+    const Client* client;
 
 
 
