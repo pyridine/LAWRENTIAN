@@ -16,15 +16,13 @@ bool Client::connect(){
 
 QSqlQuery* Client::execute(string s) const
 {
-    cout << "Executing <" << s << ">." << endl;
-    return connection->execute(s);
-
-
+    QSqlQuery* returned = connection->execute(s);
+    cout << returned->lastError().text().toStdString() << endl;
+    return returned;
 }
 QSqlQuery* Client::execute(QSqlQuery* q) const
 {
-    cout << "Executing <" << q->lastQuery().toStdString() << ">." << endl;
-    connection->execute(q); /*SEGFAULT?!?!?!?! "THIS" PTR IS NULL!?!?!?*/
+    connection->execute(q);
     cout << q->lastError().text().toStdString() << endl;
     return q;
 }

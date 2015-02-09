@@ -12,19 +12,16 @@ using namespace std;
 class RegistrationWindowDBController
 {
 
-
-
 public:
     RegistrationWindowDBController();
     ~RegistrationWindowDBController();
-    void init(const Client* c);
+    void init(Client *c);
     void addEmployee(Employee* e);
 
 private:
-    const Client* client;
-
-
+    Client* client;
 
 };
+
 
 #endif // REGISTRATIONWINDOWDBCONTROLLER_H

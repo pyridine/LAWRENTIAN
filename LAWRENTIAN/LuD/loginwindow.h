@@ -14,7 +14,7 @@ class LoginWindow : public QDialog
 
 public:
     explicit LoginWindow(QWidget *parent = 0);
-    void initDB(const Client *c);
+    void initDB(Client *c);
     ~LoginWindow();
 
 private slots:
@@ -23,7 +23,6 @@ private slots:
     void on_pushButton_clicked();
 
 private:
-    void showAlert(const string& title,const string& msg);
     LoginWindowDBController* dbController;
     Ui::LoginWindow* ui;
 };

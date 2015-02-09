@@ -74,25 +74,25 @@ string Permissions::translatePermission(PermissionDefinitions::PToken p){
     case EDIT_PHOTO:
         return "Edit Photos";
     case SUBMIT_GRAPHIC:
-            return "Submit Illustrations";
+        return "Submit Illustrations";
     case EDIT_GRAPHIC:
-            return "Submit Illustrations";
+        return "Submit Illustrations";
     case EDIT_ARTICLE_WORKSPACE:
-            return "Create/Edit Article Workspaces";
+        return "Create/Edit Article Workspaces";
     case VIEW_IDEAS:
-            return "View Ideas";
+        return "View Ideas";
     case EDIT_IDEAS:
-            return "Edit Ideas";
+        return "Edit Ideas";
     case SEC_FEATURES:
-            return "Features Section";
+        return "Features Section";
     case SEC_OPED:
-            return "Opinions & Editorials Section";
+        return "Opinions & Editorials Section";
     case SEC_ARTS:
-            return "Arts Section";
+        return "Arts Section";
     case SEC_SPORTS:
-            return "Sports Section";
+        return "Sports Section";
     case SEC_VARIETY:
-            return "Variety Section";
+        return "Variety Section";
     default:
         return "ERROR :(";
     }

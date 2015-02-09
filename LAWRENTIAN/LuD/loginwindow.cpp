@@ -5,6 +5,7 @@
 #include <qwindow>
 #include "loginwindowdbcontroller.h"
 #include "qmessagebox.h"
+#include "alert.h"
 
 using namespace std;
 
@@ -20,7 +21,7 @@ LoginWindow::LoginWindow(QWidget *parent) :
 }
 
 
-void LoginWindow::initDB(const Client* cp){
+void LoginWindow::initDB(Client* cp){
     dbController->init(cp);
 }
 
@@ -36,7 +37,8 @@ void LoginWindow::on_pushButton_2_clicked()
     RegistrationWindow *w = new RegistrationWindow();
     w->setWindowModality(Qt::ApplicationModal);
     w->show();
-    w->initDB(LoginWindow::dbController->getClient());
+    Client* clientPointer = dbController->getClient();
+    w->initDB(clientPointer);
 }
 
 void LoginWindow::on_pushButton_clicked()
@@ -54,39 +56,27 @@ void LoginWindow::on_pushButton_clicked()
             {
                 if(dbController->isApproved(luid))
                 {
-                    showAlert("Well then","Haven't coded this part yet...");
+                    Alert::showAlert("Hooray?","You have logged in! But I haven't coded this part yet...");
                     //TODO: Create the login credentials and open the main screen.
-
-
                 }
                 else
                 {
-                    showAlert("Error","Your registration has not yet been approved. Please contact your employee manager for assistance.");
+                    Alert::showAlert("Error","Your registration has not yet been approved. Please contact your employee manager for assistance.");
                 }
             }
             else
             {
-                showAlert("Error","That username/password combination does not exist. \n Please check your spelling.");
+                Alert::showAlert("Error","That username/password combination does not exist. \n Please check your spelling.");
             }
         }
         else
         {
-            showAlert("Error","Password cannot be blank.");
+            Alert::showAlert("Error","Password cannot be blank.");
         }
     }
     else
     {
-        showAlert("Error","Username cannot be blank.");
+        Alert::showAlert("Error","Username cannot be blank.");
     }
-}
-
-
-void LoginWindow::showAlert(const string& title,const string& msg)
-{
-    QMessageBox alertBox;
-    QString t = QString::fromUtf8(title.c_str());
-    QString m = QString::fromUtf8(msg.c_str());
-    alertBox.critical(0, t,m);
-    alertBox.setFixedSize(500,200);
 }
 

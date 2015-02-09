@@ -4,6 +4,7 @@
 #include <iostream>
 #include "loginwindow.h"
 #include <qmessagebox.h>
+#include "alert.h"
 
 using namespace std;
 
@@ -11,20 +12,16 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    LoginWindow w;
+    LoginWindow l;
 
     Client c;
     if(c.connect()){
-        w.show();
-        w.initDB(&c);
+        l.show();
+        l.initDB(&c);
 
     } else{
-        QMessageBox alertBox;
-        QString t = QString::fromUtf8("FATAL ERROR");
-        QString m = QString::fromUtf8("I couldn't connect to the database. \n This program will now terminate.");
-        alertBox.critical(0, t,m);
-        alertBox.setFixedSize(500,200);
-        return 0;
+        Alert::showAlert("FATAL ERROR","I couldn't connect to the database. \n This program will now terminate.");
+        return 1337;
     }
 
 

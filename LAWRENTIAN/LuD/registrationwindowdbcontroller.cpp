@@ -6,26 +6,29 @@ using namespace std;
 
 namespace RWDBCcommands {
     const string SQL_ADD_EMPLOYEE = "INSERT INTO lawrentian.employee (luid, name, title, phone, email, username, password, approved) VALUES (:luid, :name, :title, :phone, :email, :username, :password, :approved);";
-
 }
-using namespace RWDBCcommands;
 
+using namespace RWDBCcommands;
 
 RegistrationWindowDBController::RegistrationWindowDBController()
 {
     cout << "Hi, I am RWDBC." << endl;
 }
 
-void RegistrationWindowDBController::init(const Client *cp){
+void RegistrationWindowDBController::init(Client *c){
+    Client* cp = c;
     client = cp;
-    cout << "RWDBC recieved the client at " << cp << endl;
+    cout << "RWDBC recieved the client at "<<cp<<endl;
+    cout << "The client will now do a trick."<<endl;
+    client->execute("shiiiit");
 }
 
 
-void RegistrationWindowDBController::addEmployee(Employee* e){
-    cout << "Adding emp " << e->getName() << endl;
+void RegistrationWindowDBController::addEmployee(Employee* e) {
+    cout << "Inserting new employee named " << e->getName() << endl;
 
     QSqlQuery* query = new QSqlQuery();
+
     query->prepare(QString::fromStdString(RWDBCcommands::SQL_ADD_EMPLOYEE));
 
     query->bindValue(":luid",e->getLuId());
@@ -40,8 +43,13 @@ void RegistrationWindowDBController::addEmployee(Employee* e){
     cout << "RWDBC: Client is at " << client << endl;
     cout << "RWDBC: this is " << this << endl;
 
+    /*
+    Client* debugClient = new Client();
+    debugClient->connect();
     client->execute(query);
+    */
 
+    client->execute(query);
 }
 
 

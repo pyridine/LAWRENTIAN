@@ -25,7 +25,16 @@ SOURCES += main.cpp\
     client.cpp \
     loginwindow.cpp \
     loginwindowdbcontroller.cpp \
-    logincredentials.cpp
+    logincredentials.cpp \
+    alert.cpp \
+    ad.cpp \
+    archive.cpp \
+    article.cpp \
+    editortimesheet.cpp \
+    idea.cpp \
+    registrationdialog.cpp \
+    subscription.cpp \
+    writertimesheet.cpp
 
 HEADERS  += registrationwindow.h \
     employee.h \
@@ -38,10 +47,25 @@ HEADERS  += registrationwindow.h \
     client.h \
     loginwindow.h \
     loginwindowdbcontroller.h \
-    logincredentials.h
+    logincredentials.h \
+    alert.h \
+    ad.h \
+    archive.h \
+    article.h \
+    editortimesheet.h \
+    idea.h \
+    registrationdialog.h \
+    subscription.h \
+    writertimesheet.h
 
 FORMS    += registrationwindow.ui \
     checkemployeeswindow.ui \
-    loginwindow.ui
+    loginwindow.ui \
+    registrationdialog.ui
 CONFIG   += console
 CONFIG   += C++11
+
+DISTFILES += \
+    libmysql.dll \
+    LuD.pro.user \
+    LuD.pro.user.0f8f2c1
