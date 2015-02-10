@@ -45,7 +45,9 @@ SOURCES += main.cpp\
     profilewidget.cpp \
     subscriptionswidget.cpp \
     writertimesheetwidget.cpp \
-    employeetabdbcontroller.cpp
+    employeetabdbcontroller.cpp \
+    FileSystem.cpp \
+    Sender.cpp
 
 HEADERS  += registrationwindow.h \
     employee.h \
@@ -79,7 +81,9 @@ HEADERS  += registrationwindow.h \
     profilewidget.h \
     subscriptionswidget.h \
     writertimesheetwidget.h \
-    employeetabdbcontroller.h
+    employeetabdbcontroller.h \
+    FileSystem.h \
+    Sender.h
 
 
 FORMS    += registrationwindow.ui \
@@ -101,4 +105,33 @@ CONFIG   += C++11
 
 DISTFILES += \
     libmysql.dll \
-    LuD.pro.user
+    LuD.pro.user \
+    FileSystem.ice \
+    LuD.pro.user.0f8f2c1 \
+    LuD.pro.user.ee9f765
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../$(ICE_SUB_DIR)/lib/ -lice
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../$(ICE_SUB_DIR)/lib/ -liced
+else:unix: LIBS += -L$$PWD/../../../$(ICE_SUB_DIR)/lib/ -lice
+
+INCLUDEPATH += $$PWD/../../../$(ICE_SUB_DIR)/include
+DEPENDPATH += $$PWD/../../../$(ICE_SUB_DIR)/include
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../$(ICE_SUB_DIR)/lib/libice.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../$(ICE_SUB_DIR)/lib/libiced.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../$(ICE_SUB_DIR)/lib/ice.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../$(ICE_SUB_DIR)/lib/iced.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../../../$(ICE_SUB_DIR)/lib/libice.a
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../$(ICE_SUB_DIR)/lib/ -liceutil
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../$(ICE_SUB_DIR)/lib/ -liceutild
+else:unix: LIBS += -L$$PWD/../../../$(ICE_SUB_DIR)/lib/ -liceutil
+
+INCLUDEPATH += $$PWD/../../../$(ICE_SUB_DIR)/include
+DEPENDPATH += $$PWD/../../../$(ICE_SUB_DIR)/include
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../$(ICE_SUB_DIR)/lib/libiceutil.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../$(ICE_SUB_DIR)/lib/libiceutild.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../$(ICE_SUB_DIR)/lib/iceutil.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../$(ICE_SUB_DIR)/lib/iceutild.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../../../$(ICE_SUB_DIR)/lib/libiceutil.a

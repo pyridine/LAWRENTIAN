@@ -13,8 +13,8 @@ class Sender
 public:
     Sender();
     ~Sender();
-    void sendFile(std::string, std::vector<std::string>);
-    std::ofstream requestFile(std::string, std::vector<std::string>*);
+    bool sendFile(const std::string& dir_sf, const std::string& name);
+    bool requestFile(const std::string& dir_rf, const std::string& down_dir);
 };
 
 #endif // SENDER_H

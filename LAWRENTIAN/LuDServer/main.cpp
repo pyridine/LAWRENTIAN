@@ -1,8 +1,12 @@
-#include <QCoreApplication>
+#include "Receiver.h"
+#include <direct.h>
+#include <string>
 
+using namespace std;
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
+    Receiver rcvr = Receiver();
 
-    return a.exec();
+    return 0;
+
 }
