@@ -27,6 +27,7 @@ public:
 
     Article *getNewArticle() const;
     void setNewArticle(Article *value);
+    bool workspaceExists(string articleTitle);
 
 private slots:
     void on_pushButton_clicked();
@@ -35,7 +36,6 @@ private slots:
 private:
     Ui::articleWorkspace *ui;
     vector<Article *> articleVector;
-    Article *newArticle;
 };
 
 #endif // ARTICLEWORKSPACE_H

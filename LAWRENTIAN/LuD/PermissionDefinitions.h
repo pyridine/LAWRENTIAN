@@ -23,7 +23,7 @@ namespace PermissionDefinitions{
         VIEW_PERMISSIONS = 3, //Probably unnecessary, but for consistency.
         EDIT_PERMISSIONS = 4,
 
-        VIEW_EMPLOYEE_INFO = 5,
+        VIEW_PRIVILEGED_EMPLOYEE_INFO = 5,
         VIEW_ALL_EMPLOYEE_INFO = 6, //Some employee info should be hidden by default. (Like what?)
         EDIT_EMPLOYEE_INFO = 7,
 

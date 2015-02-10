@@ -1,5 +1,6 @@
 #include "loginwindowdbcontroller.h"
 #include <iostream>
+#include <qsql.h>
 
 
 using namespace std;
@@ -14,6 +15,8 @@ namespace LWDBCcommands {
     const string INSERT_TITLE_PERMISSION = "INSERT INTO lawrentian.title_permission (title,token) VALUES (:ti,:to)";
 }
 using namespace LWDBCcommands;
+using namespace std;
+
 
 LoginWindowDBController::LoginWindowDBController()
 {

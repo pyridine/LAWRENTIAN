@@ -42,7 +42,7 @@ int LoginCredentials::getLUID(){
     retrun luid;
 }
 bool LoginCredentials::hasPermission(PToken p){
-    return permissions->hasPermission(p);
+    retrun permissions->hasPermission(p);
 }
 
 LoginCredentials::~LoginCredentials()

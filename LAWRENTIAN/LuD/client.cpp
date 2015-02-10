@@ -6,8 +6,8 @@ using namespace std;
 
 Client::Client(){
     cout << "[Created] Client." << endl;
-    RemoteDBConnection acon;
-    connection = &acon;
+    RemoteDBConnection* acon = new RemoteDBConnection();
+    connection = acon;
 }
 
 bool Client::connect(){

@@ -44,7 +44,8 @@ SOURCES += main.cpp\
     newarticleworkspacewindow.cpp \
     profilewidget.cpp \
     subscriptionswidget.cpp \
-    writertimesheetwidget.cpp
+    writertimesheetwidget.cpp \
+    employeetabdbcontroller.cpp
 
 HEADERS  += registrationwindow.h \
     employee.h \
@@ -77,7 +78,8 @@ HEADERS  += registrationwindow.h \
     newarticleworkspacewindow.h \
     profilewidget.h \
     subscriptionswidget.h \
-    writertimesheetwidget.h
+    writertimesheetwidget.h \
+    employeetabdbcontroller.h
 
 
 FORMS    += registrationwindow.ui \

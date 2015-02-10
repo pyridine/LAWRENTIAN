@@ -31,27 +31,9 @@ void articleWorkspace::on_pushButton_clicked()
     createArticleWorkspaceWindow->setParentArticleWorkspaceWidget(this);
     createArticleWorkspaceWindow->window()->show();
 }
-Article *articleWorkspace::getNewArticle() const
-{
-    return newArticle;
-}
-
-void articleWorkspace::setNewArticle(Article *value)
-{
-    newArticle = value;
-}
-
 
 void articleWorkspace::initArticle(Article *article)
 {
-    articleWorkspace::setNewArticle(article);
-    cout<<getNewArticle()->getIssueDate()<<endl;
-    cout<<getNewArticle()->getTitle()<<endl;
-    cout<<getNewArticle()->getDescription()<<endl;
-    cout<<getNewArticle()->getSection()<<endl;
-    cout<<getNewArticle()->getWriter()<<endl;
-    cout<<getNewArticle()->getPhotographer()<<endl;
-    cout<<getNewArticle()->getFilePath()<<endl;
     articleVector.push_back(article);
 }
 
@@ -73,9 +55,10 @@ void articleWorkspace::handleButton()
 {
     QObject *senderObj = sender();
     QString senderObjName = senderObj->objectName();
-    int i = 0;
-    for (i; i < articleVector.size(); i++);{
-        Article* send = articleVector[i];
+    int count = 0;
+    int size = articleVector.size();
+    while (count != size){
+        Article* send = articleVector[count];
         QString sendTitle = QString::fromStdString(send->getTitle());
         if(sendTitle == senderObjName){
             newArticleWorkspaceWindow *editArticleWorkspaceWindow = new newArticleWorkspaceWindow();
@@ -83,5 +66,21 @@ void articleWorkspace::handleButton()
             editArticleWorkspaceWindow->setupFields(send);
             editArticleWorkspaceWindow->window()->show();
         }
+        count++;
     }
+}
+
+bool articleWorkspace::workspaceExists(string articleTitle)
+{
+    int count = 0;
+    int size = articleVector.size();
+    while (count != size){
+        Article* send = articleVector[count];
+        string sendTitle = send->getTitle();
+        if(sendTitle == articleTitle){
+            return true;
+        }
+        count++;
+    }
+    return false;
 }

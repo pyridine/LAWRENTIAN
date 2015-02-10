@@ -15,7 +15,7 @@ newArticleWorkspaceWindow::newArticleWorkspaceWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     QStringList list;
-    list <<"News"<<"Associate News"<<"Features"<<"Opinions & Editorials"<<"Arts & Entertainment"
+    list <<"Associate News"<<"Features"<<"Opinions & Editorials"<<"Arts & Entertainment"
                         <<"Sports"<<"Variety";
     list.sort();
     ui->sectionComboBox->addItems(list);
@@ -43,8 +43,12 @@ void newArticleWorkspaceWindow::on_pushButton_2_clicked()
     QDate issueDate = ui->issueDateEdit->date();
     string issueDateString = issueDate.toString().toStdString();
     newArticle = new Article(issueDateString, title, description, section, writer, photographer, filePath);
+
+    // Check if article already exists in articleWorkspace (widget)
+    if(!parentArticleWorkspaceWidget->workspaceExists(title)){
     parentArticleWorkspaceWidget->initArticle(newArticle);
     parentArticleWorkspaceWidget->addArticleButton(newArticle);
+    }
     this->close();
 }
 articleWorkspace *newArticleWorkspaceWindow::getParentArticleWorkspaceWidget() const

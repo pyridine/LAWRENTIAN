@@ -19,6 +19,7 @@ public:
     void init(LoginWindow* parent, LoginCredentials* l);
     void initDB(Client* c);
     void logOut();
+    Client* getClient();
     ~MainWindow();
 
 private:

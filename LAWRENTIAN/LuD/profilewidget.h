@@ -17,7 +17,7 @@ class profileWidget : public QWidget
 
 public:
     explicit profileWidget(QWidget *parent = 0);
-    void init(MainWindow* parent, QString name);
+    void init(MainWindow* parent, QString name, string title);
     ~profileWidget();
 
 private slots:

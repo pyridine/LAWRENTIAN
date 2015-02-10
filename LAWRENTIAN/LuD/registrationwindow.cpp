@@ -21,8 +21,9 @@ RegistrationWindow::RegistrationWindow(QWidget *parent) : QMainWindow(parent), u
     ui->passwordErrorLabel->setText("Password not suitable");
     ui->passwordErrorLabel->hide();
 
-    RegistrationWindowDBController rwdbc;
-    dbController = &rwdbc;
+    RegistrationWindowDBController* rwdbc = new RegistrationWindowDBController();
+    dbController = rwdbc;
+
 }
 
 RegistrationWindow::~RegistrationWindow()

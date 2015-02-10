@@ -1,5 +1,6 @@
 #include "editortimesheetwidget.h"
 #include "ui_editortimesheetwidget.h"
+#include "client.h"
 
 editorTimesheetWidget::editorTimesheetWidget(QWidget *parent) :
     QWidget(parent),

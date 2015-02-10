@@ -12,8 +12,10 @@ profileWidget::profileWidget(QWidget *parent) :
     ui->setupUi(this);
 }
 
-void profileWidget::init(MainWindow *parent, QString name){
+void profileWidget::init(MainWindow *parent, QString name, string title){
     ui->welcomeLabel->setText((QString::fromStdString("Welcome, ")+(name)+(QString::fromStdString("!"))));
+    ui->titleLabel->setText((QString::fromStdString("(")+QString::fromStdString(title)+QString::fromStdString(")")));
+
     parentWindow = parent;
 }
 

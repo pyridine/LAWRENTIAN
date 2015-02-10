@@ -21,6 +21,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
 }
 
+Client* MainWindow::getClient(){
+    return client;
+}
+
 void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
     loginCredo = l;
     parentWindow = parent;
@@ -33,10 +37,22 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
 
     //Init/Add profile widget.
     profileWidget* w_profile = new profileWidget();
-    w_profile->init(this,loginCredo->getName());
+    w_profile->init(this,loginCredo->getName(),Permissions::translateTitle(static_cast<Title>(loginCredo->getTitle())));
     tabs->addTab(w_profile, "Profile");
 
-    tabs->addTab(new employeesWidget(), "Employees");
+    employeesWidget* empWidget = new employeesWidget();
+    empWidget->init(loginCredo);
+    empWidget->initDB(client);
+
+    if(loginCredo->hasPermission(PToken::VIEW_ALL_EMPLOYEE_INFO)){
+        empWidget->initTotalView();
+    } else if(loginCredo->hasPermission(PToken::VIEW_PRIVILEGED_EMPLOYEE_INFO)){
+        empWidget->initPrivilegedView();
+    } else{
+        empWidget->initNormalView();
+    }
+
+    tabs->addTab(empWidget, "Employees");
     //TODO: Submenues in employees depending on can see all employee info, can edit permissions,
     //probations, etc.
 

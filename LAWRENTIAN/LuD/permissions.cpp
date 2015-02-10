@@ -47,7 +47,7 @@ string Permissions::translatePermission(PermissionDefinitions::PToken p){
         return "View Permissions";
     case EDIT_PERMISSIONS:
         return "View Permissions";
-    case VIEW_EMPLOYEE_INFO:
+    case VIEW_PRIVILEGED_EMPLOYEE_INFO:
         return "View Public Employee Information";
     case VIEW_ALL_EMPLOYEE_INFO:
         return "View Protected Employee Information";

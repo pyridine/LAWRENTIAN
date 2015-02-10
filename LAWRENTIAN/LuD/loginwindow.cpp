@@ -20,8 +20,7 @@ LoginWindow::LoginWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    LoginWindowDBController lwdbc;
-    dbController = &lwdbc;
+    dbController = new LoginWindowDBController();
 }
 
 
@@ -95,13 +94,13 @@ void LoginWindow::on_pushButton_clicked()
 
                     cout << ">" << endl;
                     MainWindow* m = new MainWindow();
+                    //initDB and THEN init. it MUST be in this order!!!!
+                    m->initDB(dbController->getClient());
                     m->init(this,loginCred);
                     ui->usernamebox->setText("");
                     ui->passwordbox->setText("");
                     this->hide();
                     m->show();
-
-
                 }
                 else
                 {
