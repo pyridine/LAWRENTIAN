@@ -1,19 +1,29 @@
 #ifndef LOGINCREDENTIALS_H
 #define LOGINCREDENTIALS_H
 #include "permissions.h"
+#include <utility>
+#include <qstring.h>
 
 class LoginCredentials
 {
 public:
-    LoginCredentials(string &sn, string &ttl, Permissions* p, int id);
+    LoginCredentials();
     ~LoginCredentials();
+    void setName(string n);
+    void setPermissions(vector<PToken>* v);
+    void setID(int id);
+    void setTitle(int t);
 
+    int getTitle();
+    QString getName();
+    vector<PToken>* getPermissions();
+    int getLUID();
 
 private:
-    string username;
-    string title;
-    Permissions* permissions;
+    QString realName;
+    vector<PToken>* permissions;
     int luid;
+    int title;
 
 
 };

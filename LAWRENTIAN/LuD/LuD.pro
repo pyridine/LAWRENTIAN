@@ -56,7 +56,9 @@ HEADERS  += registrationwindow.h \
     idea.h \
     registrationdialog.h \
     subscription.h \
-    writertimesheet.h
+    writertimesheet.h \
+    titledefinitions.h
+
 
 FORMS    += registrationwindow.ui \
     checkemployeeswindow.ui \
@@ -68,4 +70,3 @@ CONFIG   += C++11
 DISTFILES += \
     libmysql.dll \
     LuD.pro.user \
-    LuD.pro.user.0f8f2c1

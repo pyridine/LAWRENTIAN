@@ -13,7 +13,7 @@ namespace PermissionDefinitions{
         /*Note the systematically defined names of all tokens and associated values*/
 
         /*Admin Priveleges (can do everything)*/
-        ADMIN = 0,
+        ADMIN_PTOKEN = 0,
 
         /*Ads*/
         VIEW_ADS = 1,
@@ -26,6 +26,9 @@ namespace PermissionDefinitions{
         VIEW_EMPLOYEE_INFO = 5,
         VIEW_ALL_EMPLOYEE_INFO = 6, //Some employee info should be hidden by default. (Like what?)
         EDIT_EMPLOYEE_INFO = 7,
+
+        MANAGE_EMPLOYEE_PROBATION = 32,
+        MANAGE_EMPLOYEE_SECTION = 33,
 
         /*Timesheet Management*/
         //I am not splitting up writer/employee timesheets as different permissions.
@@ -54,6 +57,7 @@ namespace PermissionDefinitions{
 
         /*Article Management*/
         EDIT_ARTICLE_WORKSPACE = 22, //For creation, deletion, and editing article workspaces.
+        APPROVE_ARTICLE = 31,
 
         /*Idea Management*/
         VIEW_IDEAS = 23,
@@ -66,6 +70,7 @@ namespace PermissionDefinitions{
         SEC_ARTS = 27,
         SEC_SPORTS = 28,
         SEC_VARIETY = 29,
+        SEC_NEWS = 30, //this is not the last number!!!
     };
 };
 

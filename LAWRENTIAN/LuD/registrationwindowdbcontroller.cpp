@@ -40,15 +40,6 @@ void RegistrationWindowDBController::addEmployee(Employee* e) {
     query->bindValue(":password",QString::fromStdString(e->getPassword()));
     query->bindValue(":approved",e->getApproved());
 
-    cout << "RWDBC: Client is at " << client << endl;
-    cout << "RWDBC: this is " << this << endl;
-
-    /*
-    Client* debugClient = new Client();
-    debugClient->connect();
-    client->execute(query);
-    */
-
     client->execute(query);
 }
 

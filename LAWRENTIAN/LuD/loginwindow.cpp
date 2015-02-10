@@ -6,6 +6,10 @@
 #include "loginwindowdbcontroller.h"
 #include "qmessagebox.h"
 #include "alert.h"
+#include "PermissionDefinitions.h"
+#include "logincredentials.h"
+
+using namespace PermissionDefinitions;
 
 using namespace std;
 
@@ -56,8 +60,38 @@ void LoginWindow::on_pushButton_clicked()
             {
                 if(dbController->isApproved(luid))
                 {
-                    Alert::showAlert("Hooray?","You have logged in! But I haven't coded this part yet...");
-                    //TODO: Create the login credentials and open the main screen.
+
+                    LoginCredentials loginCred;
+
+                    int loginLUID = luid;
+                    string realName = dbController->getEmployeeName(loginLUID);
+                    vector<PToken>* employeePermissions = dbController->getEmployeePermissions(loginLUID);
+                    vector<PToken>* titlePermissions = dbController->getEmployeeTitlePermissions(loginLUID);
+                    int title = dbController->getEmployeetitle(loginLUID);
+
+                    //combine the two vectors.
+                    for(vector<PToken>::iterator it = titlePermissions->begin(); it != titlePermissions->end(); it++){
+                        employeePermissions->push_back(*it);
+                    }
+
+                    loginCred.setID(loginLUID);
+                    loginCred.setName(realName);
+                    loginCred.setPermissions(employeePermissions);
+                    loginCred.setTitle(title);
+
+                    cout << "Permissions: " << endl;
+                    vector<PToken>::iterator pit = loginCred.getPermissions()->begin();
+
+                    while(pit != loginCred.getPermissions()->end()){
+                        cout << Permissions::translatePermission(static_cast<PToken>(*pit)) << ", ";
+                        ++pit;
+                    }
+
+                    cout << endl;
+                    cout << "Real name: " << loginCred.getName().toStdString() << endl;
+                    cout << "Lawrence ID: " << loginCred.getLUID() << endl;
+                    cout << "Title: " << Permissions::translateTitle(static_cast<Title>(loginCred.getTitle())) << endl;
+
                 }
                 else
                 {
@@ -80,3 +114,8 @@ void LoginWindow::on_pushButton_clicked()
     }
 }
 
+
+void LoginWindow::on_pushButton_3_clicked()
+{
+    dbController->__DEBUG__POPULATE_TITLE_PERMISSIONS();
+}

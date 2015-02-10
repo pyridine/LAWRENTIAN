@@ -13,8 +13,10 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     LoginWindow l;
-
     Client c;
+    cout << "start to connect." << endl;
+    l.show();
+
     if(c.connect()){
         l.show();
         l.initDB(&c);

@@ -21,13 +21,14 @@ RemoteDBConnection::~RemoteDBConnection(){
 
 bool RemoteDBConnection::Connect()
 {
-
+    cout << "Start attempt connection.";
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
     database = &db;
     database->setHostName("143.44.10.35");
     database->setDatabaseName("lawrentian");
     database->setUserName("dev");
     database->setPassword("dev");
+    cout << "Open database.";
     if (!database->open()) {
         cout << "Database Error: " << database->lastError().text().toStdString() << endl;
         return false;

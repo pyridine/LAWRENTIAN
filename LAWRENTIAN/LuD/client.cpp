@@ -7,7 +7,9 @@ using namespace std;
 Client::Client(){
     cout << "Hi, I am Client." << endl;
     RemoteDBConnection acon;
-    this->connection = &acon;
+    cout << "made RWDBC." << endl;
+    connection = &acon;
+    cout << "done!" << endl;
 }
 
 bool Client::connect(){
@@ -23,6 +25,7 @@ QSqlQuery* Client::execute(string s) const
 QSqlQuery* Client::execute(QSqlQuery* q) const
 {
     connection->execute(q);
+    cout << q->executedQuery().toStdString() << endl;
     cout << q->lastError().text().toStdString() << endl;
     return q;
 }
