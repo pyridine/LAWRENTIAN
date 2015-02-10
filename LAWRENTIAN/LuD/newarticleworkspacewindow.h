@@ -20,6 +20,7 @@ public:
 
     articleWorkspace *getParentArticleWorkspaceWidget() const;
     void setParentArticleWorkspaceWidget(articleWorkspace *value);
+    void setupFields(Article *article);
 
 private slots:
     void on_pushButton_clicked();

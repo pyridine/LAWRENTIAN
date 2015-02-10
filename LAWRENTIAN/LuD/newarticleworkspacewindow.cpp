@@ -4,6 +4,7 @@
 #include <QFileDialog>
 #include <QString>
 #include <QStringList>
+#include <QDate>
 #include <string>
 
 using namespace std;
@@ -39,8 +40,9 @@ void newArticleWorkspaceWindow::on_pushButton_2_clicked()
     string writer = ui->writerComboBox->currentText().toStdString();
     string photographer = ui->photographerComboBox->currentText().toStdString();
     string filePath = ui->articleFileTextField->text().toStdString();
-    string issueDate = ui->issueDateEdit->text().toStdString();
-    newArticle = new Article(issueDate, title, description, section, writer, photographer, filePath);
+    QDate issueDate = ui->issueDateEdit->date();
+    string issueDateString = issueDate.toString().toStdString();
+    newArticle = new Article(issueDateString, title, description, section, writer, photographer, filePath);
     parentArticleWorkspaceWidget->initArticle(newArticle);
     parentArticleWorkspaceWidget->addArticleButton(newArticle);
     this->close();
@@ -53,5 +55,25 @@ articleWorkspace *newArticleWorkspaceWindow::getParentArticleWorkspaceWidget() c
 void newArticleWorkspaceWindow::setParentArticleWorkspaceWidget(articleWorkspace *value)
 {
     parentArticleWorkspaceWidget = value;
+}
+
+void newArticleWorkspaceWindow::setupFields(Article *article)
+{
+    QString title = QString::fromStdString(article->getTitle());
+    QString description = QString::fromStdString(article->getDescription());
+    QString section = QString::fromStdString(article->getSection());
+    QString writer = QString::fromStdString(article->getWriter());
+    QString photographer = QString::fromStdString(article->getPhotographer());
+    QString filePath = QString::fromStdString(article->getFilePath());
+    QString issueDateString = QString::fromStdString(article->getIssueDate());
+    QDate issueDate = QDate::fromString(issueDateString);
+
+    ui->articleTitleTextField->setText(title);
+    ui->descriptionTextField->setText(description);
+    ui->sectionComboBox->setCurrentText(section);
+    ui->writerComboBox->setCurrentText(writer);
+    ui->photographerComboBox->setCurrentText(photographer);
+    ui->articleFileTextField->setText(filePath);
+    ui->issueDateEdit->setDate(issueDate);
 }
 

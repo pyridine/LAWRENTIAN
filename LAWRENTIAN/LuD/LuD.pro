@@ -99,5 +99,4 @@ CONFIG   += C++11
 
 DISTFILES += \
     libmysql.dll \
-    LuD.pro.user \
-    LuD.pro.user.0f8f2c1
+    LuD.pro.user

@@ -4,6 +4,10 @@
 #include "article.h"
 
 #include <QWidget>
+#include <QString>
+#include <string>
+
+using namespace std;
 
 namespace Ui {
 class articleWorkspace;
@@ -18,15 +22,19 @@ public:
     ~articleWorkspace();
     void initArticle(Article *article);
     void addArticleButton(Article *article);
+    int x;
+    int y;
 
     Article *getNewArticle() const;
     void setNewArticle(Article *value);
 
 private slots:
     void on_pushButton_clicked();
+    void handleButton();
 
 private:
     Ui::articleWorkspace *ui;
+    vector<Article *> articleVector;
     Article *newArticle;
 };
 
