@@ -10,18 +10,19 @@ public:
     LoginCredentials();
     ~LoginCredentials();
     void setName(string n);
-    void setPermissions(vector<PToken>* v);
+    void setPermissions(Permissions* v);
     void setID(int id);
     void setTitle(int t);
 
     int getTitle();
     QString getName();
-    vector<PToken>* getPermissions();
+    Permissions* getPermissions();
     int getLUID();
+    bool hasPermission(PToken p);
 
 private:
     QString realName;
-    vector<PToken>* permissions;
+    Permissions* permissions;
     int luid;
     int title;
 

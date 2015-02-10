@@ -13,18 +13,22 @@ using namespace std;
 class Permissions
 {
 public:
-    Permissions(vector<PToken> &p);
+    Permissions(vector<PToken>* p);
+    Permissions();
     ~Permissions();
 
+
+
     bool hasPermission(PToken p);
+
 
     static string translatePermission(PToken p);
     static string translateTitle(Title t);
 
-    static vector<PToken> __DEBUG_GET_PERMISSION_LIST_FOR_TITLE(Title t);
+    static vector<PToken>* __DEBUG_GET_PERMISSION_LIST_FOR_TITLE(Title t);
 
 private:
-    vector<PToken> perms;
+    vector<PToken>* perms;
 
 };
 

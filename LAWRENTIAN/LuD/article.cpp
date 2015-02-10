@@ -1,61 +1,87 @@
 #include "article.h"
 
-article::article()
+Article::Article(string issueDate, string title, string description, string section, string writer, string photographer, string filePath)
+{
+Article::issueDate = issueDate;
+Article::title = title;
+Article::description = description;
+Article::section = section;
+Article::writer = writer;
+Article::photographer = photographer;
+Article::filePath = filePath;
+}
+
+Article::~Article()
 {
 
 }
 
-article::~article()
+string Article::getIssueDate()
 {
-
+    return Article::issueDate;
 }
 
-string article::getIssueDate()
+void Article::setIssueDate(string issueDate)
 {
-    return article::issueDate;
+    Article::issueDate = issueDate;
 }
 
-void article::setIssueDate(string issueDate)
+string Article::getTitle()
 {
-    article::issueDate = issueDate;
+    return Article::title;
 }
 
-string article::getIssueVolume()
+void Article::setTitle(string title)
 {
-    return article::issueVolume;
+    Article::title = title;
 }
 
-void article::setIssueVolume(string issueVolume)
+string Article::getWriter()
 {
-    article::issueVolume = issueVolume;
+    return Article::writer;
 }
 
-string article::getTitle()
+void Article::setWriter(string writer)
 {
-    return article::title;
+    Article::writer = writer;
 }
 
-void article::setTitle(string title)
+string Article::getPhotographer()
 {
-    article::title = title;
+    return Article::photographer;
 }
 
-string article::getWriter()
+void Article::setPhotographer(string photographer)
 {
-    return article::writer;
+    Article::photographer = photographer;
+}
+string Article::getDescription() const
+{
+    return description;
 }
 
-void article::setWriter(string writer)
+void Article::setDescription(const string &value)
 {
-    article::writer = writer;
+    description = value;
+}
+string Article::getSection() const
+{
+    return section;
 }
 
-string article::getPhotographer()
+void Article::setSection(const string &value)
 {
-    return article::photographer;
+    section = value;
+}
+string Article::getFilePath() const
+{
+    return filePath;
 }
 
-void article::setPhotographer(string photographer)
+void Article::setFilePath(const string &value)
 {
-    article::photographer = photographer;
+    filePath = value;
 }
+
+
+

@@ -16,7 +16,6 @@ using namespace std;
 
 RegistrationWindow::RegistrationWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::RegistrationWindow)
 {
-    std::cout << "Hi, I am REGISTRATIONWINDOW." << endl;
     ui->setupUi(this);
 
     ui->passwordErrorLabel->setText("Password not suitable");
@@ -133,7 +132,6 @@ bool RegistrationWindow::isPasswordSuitable(string s){
     bool containsUp = false;
 
     if(s.begin() == s.end()){
-        cout << "empty password" << endl;
         return false;
     }
 

@@ -12,7 +12,7 @@
 using namespace std;
 
 RemoteDBConnection::RemoteDBConnection(){
-    cout << "Hi, I am the Remote DB Connection." << endl;
+    cout << "[created] Remote DB Connection" << endl;
 }
 
 RemoteDBConnection::~RemoteDBConnection(){
@@ -21,19 +21,17 @@ RemoteDBConnection::~RemoteDBConnection(){
 
 bool RemoteDBConnection::Connect()
 {
-    cout << "Start attempt connection.";
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
     database = &db;
     database->setHostName("143.44.10.35");
     database->setDatabaseName("lawrentian");
     database->setUserName("dev");
     database->setPassword("dev");
-    cout << "Open database.";
     if (!database->open()) {
-        cout << "Database Error: " << database->lastError().text().toStdString() << endl;
+        cout << "!Database Error: " << database->lastError().text().toStdString() << endl;
         return false;
     } else{
-        cout << "Connection established :D" << endl;
+        cout << ":) Connection established :)" << endl;
         return true;
     }
 }
@@ -56,12 +54,17 @@ QSqlQuery* RemoteDBConnection::execute(string s){
     QSqlQuery* query = new QSqlQuery(); //Without the pointer-new, you'd get a segfault!!
 
     QString queryString = QString::fromStdString(s);
-    query->exec(queryString);
+    if(!query->exec(queryString)){
+        cout << "!SQL ERROR: " << query->lastError().text().toStdString() << endl;
+    }
     return query;
 }
 bool RemoteDBConnection::execute(QSqlQuery* s){
 
-    bool resultValue = s->exec();
+    if(!s->exec()){
+        cout << "!SQL ERROR: " << s->lastError().text().toStdString() << endl;
+        return false;
+    }
 
-    return resultValue;
+    return true;
 }

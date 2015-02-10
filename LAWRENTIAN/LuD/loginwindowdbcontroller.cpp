@@ -17,20 +17,16 @@ using namespace LWDBCcommands;
 
 LoginWindowDBController::LoginWindowDBController()
 {
-    cout << "Hi, I am LWDBC." << endl;
+    cout << "[Created] LWDBC" << endl;
 }
 
 
 Client *LoginWindowDBController::getClient() const{
-    cout << "LWDBC is giving the client from " << client << endl;
-    cout << "proof that it works from this address:" << endl;
-    client->execute("sdfs");
     return client;
 }
 
 void LoginWindowDBController::init(Client *c){
     client = c;
-    cout << "LWDBC recieved client at memaddress " << c << endl;
 }
 
 int LoginWindowDBController::getLUID(string usname, string passw){
@@ -41,7 +37,6 @@ int LoginWindowDBController::getLUID(string usname, string passw){
     query->addBindValue(QString::fromStdString(passw));
 
     QSqlQuery* result = client->execute(query);
-        cout << query->executedQuery().toStdString()<<endl;
         if(result->next()){
             return result->value(0).toInt();
         }
@@ -65,7 +60,7 @@ bool LoginWindowDBController::isApproved(int luid){
         }
     }else{
         return false;
-        cout << "error: " << result->lastError().text().toStdString() << endl;
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
     return false;
 }
@@ -83,7 +78,7 @@ string LoginWindowDBController::getEmployeeName(int luid){
         result->next();
         return result->value(0).toString().toStdString();
     }else{
-        cout << "error: " << result->lastError().text().toStdString() << endl;
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
 
 }
@@ -167,10 +162,10 @@ void LoginWindowDBController::__DEBUG__POPULATE_TITLE_PERMISSIONS(){
 
     //from admin to photographer
     for(int nextTitleID = 0; nextTitleID <= 19; nextTitleID++ ){
-        vector<PToken> allTitleTokens = Permissions::__DEBUG_GET_PERMISSION_LIST_FOR_TITLE(static_cast<Title>(nextTitleID));
+        vector<PToken>* allTitleTokens = Permissions::__DEBUG_GET_PERMISSION_LIST_FOR_TITLE(static_cast<Title>(nextTitleID));
 
-        vector<PToken>::iterator titleTokens = allTitleTokens.begin();
-        while(titleTokens != allTitleTokens.end()){
+        vector<PToken>::iterator titleTokens = allTitleTokens->begin();
+        while(titleTokens != allTitleTokens->end()){
             cout << "inserting title " << nextTitleID << " token " << *titleTokens << endl;
             LoginWindowDBController::__insertTitlePermission(nextTitleID,*titleTokens);
             ++titleTokens;

@@ -5,16 +5,14 @@
 
 using namespace std;
 
-class article
+class Article
 {
 public:
-    article();
-    ~article();
+    Article(string issueDate, string title, string description, string section, string writer, string photographer, string filePath);
+    ~Article();
 
     string getIssueDate();
     void setIssueDate(string issueDate);
-    string getIssueVolume();
-    void setIssueVolume(string issueVolume);
     string getTitle();
     void setTitle(string title);
     string getWriter();
@@ -22,13 +20,24 @@ public:
     string getPhotographer();
     void setPhotographer(string photographer);
 
+    string getDescription() const;
+    void setDescription(const string &value);
+
+    string getSection() const;
+    void setSection(const string &value);
+
+    string getFilePath() const;
+    void setFilePath(const string &value);
+
 private:
     int id; // Necessary?
     string issueDate;
-    string issueVolume;
     string title;
+    string description;
+    string section;
     string writer; //int?
     string photographer; //int?
+    string filePath;
 };
 
 #endif // ARTICLE_H

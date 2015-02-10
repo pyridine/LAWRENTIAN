@@ -5,6 +5,8 @@
 #include "loginwindow.h"
 #include <qmessagebox.h>
 #include "alert.h"
+#include "mainwindow.h"
+
 
 using namespace std;
 
@@ -14,7 +16,6 @@ int main(int argc, char *argv[])
 
     LoginWindow l;
     Client c;
-    cout << "start to connect." << endl;
     l.show();
 
     if(c.connect()){
@@ -22,7 +23,7 @@ int main(int argc, char *argv[])
         l.initDB(&c);
 
     } else{
-        Alert::showAlert("FATAL ERROR","I couldn't connect to the database. \n This program will now terminate.");
+        Alert::showAlert("!!FATAL ERROR!!","I couldn't connect to the database. \n This program will now terminate.");
         return 1337;
     }
 

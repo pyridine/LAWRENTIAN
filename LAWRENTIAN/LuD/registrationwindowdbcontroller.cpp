@@ -12,21 +12,15 @@ using namespace RWDBCcommands;
 
 RegistrationWindowDBController::RegistrationWindowDBController()
 {
-    cout << "Hi, I am RWDBC." << endl;
+    cout << "[Created] RWDBC." << endl;
 }
 
 void RegistrationWindowDBController::init(Client *c){
-    Client* cp = c;
-    client = cp;
-    cout << "RWDBC recieved the client at "<<cp<<endl;
-    cout << "The client will now do a trick."<<endl;
-    client->execute("shiiiit");
+    client = c;
 }
 
 
 void RegistrationWindowDBController::addEmployee(Employee* e) {
-    cout << "Inserting new employee named " << e->getName() << endl;
-
     QSqlQuery* query = new QSqlQuery();
 
     query->prepare(QString::fromStdString(RWDBCcommands::SQL_ADD_EMPLOYEE));

@@ -8,6 +8,7 @@
 #include "alert.h"
 #include "PermissionDefinitions.h"
 #include "logincredentials.h"
+#include "mainwindow.h"
 
 using namespace PermissionDefinitions;
 
@@ -17,7 +18,6 @@ LoginWindow::LoginWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::LoginWindow)
 {
-    cout << "Hi, I am LOGINWINDOW." << endl;
     ui->setupUi(this);
 
     LoginWindowDBController lwdbc;
@@ -55,13 +55,12 @@ void LoginWindow::on_pushButton_clicked()
         if(pass.begin() != pass.end())
         {
             int luid = dbController->getLUID(sn,pass);
-            cout << "luid is " << luid << endl;
             if(luid != -1)
             {
                 if(dbController->isApproved(luid))
                 {
 
-                    LoginCredentials loginCred;
+                    LoginCredentials* loginCred = new LoginCredentials();
 
                     int loginLUID = luid;
                     string realName = dbController->getEmployeeName(loginLUID);
@@ -73,24 +72,35 @@ void LoginWindow::on_pushButton_clicked()
                     for(vector<PToken>::iterator it = titlePermissions->begin(); it != titlePermissions->end(); it++){
                         employeePermissions->push_back(*it);
                     }
+                    Permissions* finalPermissions = new Permissions(employeePermissions);
 
-                    loginCred.setID(loginLUID);
-                    loginCred.setName(realName);
-                    loginCred.setPermissions(employeePermissions);
-                    loginCred.setTitle(title);
+                    loginCred->setID(loginLUID);
+                    loginCred->setName(realName);
+                    loginCred->setPermissions(finalPermissions);
+                    loginCred->setTitle(title);
 
+                    cout << "< NEW LOGIN." << endl;
                     cout << "Permissions: " << endl;
-                    vector<PToken>::iterator pit = loginCred.getPermissions()->begin();
+                    vector<PToken>::iterator pit = employeePermissions->begin();
 
-                    while(pit != loginCred.getPermissions()->end()){
+                    while(pit != employeePermissions->end()){
                         cout << Permissions::translatePermission(static_cast<PToken>(*pit)) << ", ";
                         ++pit;
                     }
 
                     cout << endl;
-                    cout << "Real name: " << loginCred.getName().toStdString() << endl;
-                    cout << "Lawrence ID: " << loginCred.getLUID() << endl;
-                    cout << "Title: " << Permissions::translateTitle(static_cast<Title>(loginCred.getTitle())) << endl;
+                    cout << "Real name: " << loginCred->getName().toStdString() << endl;
+                    cout << "Lawrence ID: " << loginCred->getLUID() << endl;
+                    cout << "Title: " << Permissions::translateTitle(static_cast<Title>(loginCred->getTitle())) << endl;
+
+                    cout << ">" << endl;
+                    MainWindow* m = new MainWindow();
+                    m->init(this,loginCred);
+                    ui->usernamebox->setText("");
+                    ui->passwordbox->setText("");
+                    this->hide();
+                    m->show();
+
 
                 }
                 else

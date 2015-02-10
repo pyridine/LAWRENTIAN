@@ -7,7 +7,7 @@ using namespace std;
 
 Employee::Employee(string name, int luId, string email, string title, string phoneNumber, string username, string password, int approved)
 {
-    cout << "Hi, I am an employee object." << endl;
+    cout << "[Created] Employee" << endl;
 Employee::name = name;
 Employee::luId = luId;
 Employee::email = email;

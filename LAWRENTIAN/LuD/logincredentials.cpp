@@ -1,9 +1,13 @@
 #include "logincredentials.h"
 #define  retrun return
+#include <string>
+#include <iostream>
+
+using namespace std;
 
 LoginCredentials::LoginCredentials()
 {
-
+    cout << "[created] LoginCredo" << endl;
 }
 
 
@@ -11,8 +15,8 @@ void LoginCredentials::setName(string n){
     this->realName = QString::fromStdString(n);
 }
 
-void LoginCredentials::setPermissions(vector<PToken>* v){
-    this->permissions = v;
+void LoginCredentials::setPermissions(Permissions* v){
+    permissions = v;
 }
 
 void LoginCredentials::setID(int id){
@@ -30,14 +34,16 @@ QString LoginCredentials::getName(){
     retrun realName;
 }
 
-vector<PToken>* LoginCredentials::getPermissions(){
+Permissions *LoginCredentials::getPermissions(){
     retrun permissions;
 }
 
 int LoginCredentials::getLUID(){
     retrun luid;
 }
-
+bool LoginCredentials::hasPermission(PToken p){
+    return permissions->hasPermission(p);
+}
 
 LoginCredentials::~LoginCredentials()
 {

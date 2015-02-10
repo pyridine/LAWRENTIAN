@@ -10,15 +10,18 @@ using namespace PermissionDefinitions;
 using namespace TitleDefinitions;
 using namespace std;
 
-Permissions::Permissions(vector<PToken> &p)
+Permissions::Permissions(vector<PToken> *p)
 {
     perms = p;
+}
+Permissions::Permissions(){
+
 }
 
 bool Permissions::hasPermission(PToken query){
     vector<PToken>::iterator it;
 
-    for(it = perms.begin(); it != perms.end(); ++it){
+    for(it = perms->begin(); it != perms->end(); ++it){
         if((*it) == query){
             return true;
         }
@@ -157,7 +160,7 @@ string Permissions::translateTitle(Title t){
 }
 
 //TODO: finish this method
-vector<PToken> Permissions::__DEBUG_GET_PERMISSION_LIST_FOR_TITLE(Title t){
+vector<PToken>* Permissions::__DEBUG_GET_PERMISSION_LIST_FOR_TITLE(Title t){
     vector<PToken> permz;
 
     switch(t){
@@ -299,6 +302,6 @@ vector<PToken> Permissions::__DEBUG_GET_PERMISSION_LIST_FOR_TITLE(Title t){
     default:
         break;
 }
-    return permz;
+    return &permz;
 
 }

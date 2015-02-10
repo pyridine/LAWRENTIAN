@@ -34,7 +34,17 @@ SOURCES += main.cpp\
     idea.cpp \
     registrationdialog.cpp \
     subscription.cpp \
-    writertimesheet.cpp
+    writertimesheet.cpp \
+    adwidget.cpp \
+    articleworkspace.cpp \
+    circulationwidget.cpp \
+    editortimesheetwidget.cpp \
+    employeeswidget.cpp \
+    mainwindow.cpp \
+    newarticleworkspacewindow.cpp \
+    profilewidget.cpp \
+    subscriptionswidget.cpp \
+    writertimesheetwidget.cpp
 
 HEADERS  += registrationwindow.h \
     employee.h \
@@ -57,16 +67,37 @@ HEADERS  += registrationwindow.h \
     registrationdialog.h \
     subscription.h \
     writertimesheet.h \
-    titledefinitions.h
+    titledefinitions.h \
+    adwidget.h \
+    articleworkspace.h \
+    circulationwidget.h \
+    editortimesheetwidget.h \
+    employeeswidget.h \
+    mainwindow.h \
+    newarticleworkspacewindow.h \
+    profilewidget.h \
+    subscriptionswidget.h \
+    writertimesheetwidget.h
 
 
 FORMS    += registrationwindow.ui \
     checkemployeeswindow.ui \
     loginwindow.ui \
-    registrationdialog.ui
+    registrationdialog.ui \
+    adwidget.ui \
+    articleworkspace.ui \
+    circulationwidget.ui \
+    editortimesheetwidget.ui \
+    employeeswidget.ui \
+    mainwindow.ui \
+    newarticleworkspacewindow.ui \
+    profilewidget.ui \
+    subscriptionswidget.ui \
+    writertimesheetwidget.ui
 CONFIG   += console
 CONFIG   += C++11
 
 DISTFILES += \
     libmysql.dll \
     LuD.pro.user \
+    LuD.pro.user.0f8f2c1
