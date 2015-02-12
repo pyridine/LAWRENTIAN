@@ -6,6 +6,7 @@
 #include <QStringList>
 #include <QDate>
 #include <string>
+#include "Sender.h"
 
 using namespace std;
 
@@ -34,12 +35,17 @@ void newArticleWorkspaceWindow::on_pushButton_clicked()
 
 void newArticleWorkspaceWindow::on_pushButton_2_clicked()
 {
+    Sender sndr = Sender();
+
     string title = ui->articleTitleTextField->text().toStdString();
     string description = ui->descriptionTextField->toPlainText().toStdString();
     string section = ui->sectionComboBox->currentText().toStdString();
     string writer = ui->writerComboBox->currentText().toStdString();
     string photographer = ui->photographerComboBox->currentText().toStdString();
     string filePath = ui->articleFileTextField->text().toStdString();
+    if(filePath.size())
+        sndr.sendFile(filePath,"LuD.docx");
+
     QDate issueDate = ui->issueDateEdit->date();
     string issueDateString = issueDate.toString().toStdString();
     newArticle = new Article(issueDateString, title, description, section, writer, photographer, filePath);

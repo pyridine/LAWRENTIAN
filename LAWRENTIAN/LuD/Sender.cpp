@@ -40,16 +40,13 @@ bool Sender::sendFile(const std::string& dir_sf, const std::string& name)
     ByteSeq seq(len);
     source.read(reinterpret_cast<char*>(&seq[0]), seq.size());
 
-//    ofstream dest("C:/Programs/testing.docx", ios::binary);
-//    dest.write(reinterpret_cast<char*>(&seq[0]),seq.size());
-//    dest.close();
-
     bool b = fpx->sendFile(name,seq);
     source.close();
 
     return b;
 }
 
+// dir_rf: directory of receive file    down_dir: directory of downloaded file
 bool Sender::requestFile(const std::string& dir_rf, const std::string& down_dir)
 {
     using namespace std;

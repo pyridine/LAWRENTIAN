@@ -16,40 +16,59 @@ FileSystemI::FileSystemI(std::string main_node)
 }
 
 Ice::ByteSeq FileSystemI::receiveFile(const std::string& path,
-                                              const Ice::Current&)
+                                      const Ice::Current&)
 {
     using namespace std;
     using namespace Ice;
 
-    string dir = path;
-    long double i = 1;
+    // create file name.
+    string fn = extractNodeName(path) + ".docx";
+
+    // returns latest version only.
+    long long i = 1;
+
+    // because path is type const string (requied by Ice)
+    string dir;
     if (dirExists(path))
     {
+        string temp_dir = "";
         while(true)
         {
-            if(dirExists(dir + std::to_string(i) ))
+            dir = temp_dir;
+            temp_dir = path + "/" + fn;
+            insertCorrectly(temp_dir, std::to_string(i).c_str());
+
+            ifstream check(temp_dir, ios::binary);
+            if(check)
                 i++;
             else
                 break;
+            check.close();
         }
     }
     else
-        cout << "Path does not exist" << endl; // throw exception in the future.
+        cout << path << endl << "Path does not exist" << endl; // throw exception in the future.
 
     ifstream source(dir,ios::binary);
 
-    source.seekg(0, ios::end);
-    long len = source.tellg();
-    source.seekg(0, ios::beg);
+    ByteSeq seq;
+    seq.push_back('c');
+    if(dir.size() != 0)
+    {
+        source.seekg(0, ios::end);
+        long len = source.tellg();
+        source.seekg(0, ios::beg);
 
-    ByteSeq seq(len);
-    source.read(reinterpret_cast<char*>(&seq[0]), seq.size());
-
+        seq.resize(len);
+        source.read(reinterpret_cast<char*>(&seq[0]), seq.size());
+    }
+    else
+        cout << dir << " does not exist" << endl; // throw exception in future.
     return seq;
 }
 
 bool FileSystemI::sendFile(const std::string& name_sf, const Ice::ByteSeq& seq,
-                                           const Ice::Current &)
+                           const Ice::Current &)
 {
     using namespace std;
     using namespace Ice;
@@ -57,7 +76,7 @@ bool FileSystemI::sendFile(const std::string& name_sf, const Ice::ByteSeq& seq,
     string sec_dir = "Article";
     string article_dir = "Document";
     string type_dir = "Copy";
-    string file_dir = extractName(name_sf);
+    string file_dir = extractFileName(name_sf);
 
     string dir = main_dir + "/" + sec_dir + "/" + article_dir
             + "/" + type_dir + "/" + file_dir;
@@ -111,17 +130,17 @@ bool FileSystemI::sendFile(const std::string& name_sf, const Ice::ByteSeq& seq,
 // got from StackExchange
 bool FileSystemI::dirExists(const std::string& dir)
 {
-      DWORD ftyp = GetFileAttributesA(dir.c_str());
-      if (ftyp == INVALID_FILE_ATTRIBUTES)
+    DWORD ftyp = GetFileAttributesA(dir.c_str());
+    if (ftyp == INVALID_FILE_ATTRIBUTES)
         return false;  //something is wrong with your path!
 
-      if (ftyp & FILE_ATTRIBUTE_DIRECTORY)
+    if (ftyp & FILE_ATTRIBUTE_DIRECTORY)
         return true;   // this is a directory!
 
-      return false;    // this is not a directory!
+    return false;    // this is not a directory!
 }
 
-std::string FileSystemI::extractName(const std::string& str)
+std::string FileSystemI::extractFileName(const std::string& str)
 {
     using namespace std;
 
@@ -141,7 +160,7 @@ std::string FileSystemI::extractName(const std::string& str)
     return name;
 }
 
-void FileSystemI::insertCorrectly(std::string& str, const char* num)
+std::string FileSystemI::insertCorrectly(std::string& str, const char* num)
 {
     using namespace std;
 
@@ -156,11 +175,29 @@ void FileSystemI::insertCorrectly(std::string& str, const char* num)
         }
     }
     str.insert(iter - str.begin(), num);
-    cout << "correct: " << str << endl;
+
+    return str;
+}
+
+std::string FileSystemI::extractNodeName(const std::string str)
+{
+    using namespace std;
+
+    string::const_iterator iter = str.end() - 1;
+    while(*iter != '/' && *iter != '\\')
+    {
+        iter--;
+        if(iter == str.begin())
+        {
+            break; //throw exception.
+            cout << "broken" << endl;
+        }
+    }
+    return str.substr(iter - str.begin() + 1,str.end() - iter - 1);
 }
 
 /* FOR SOME REASON ICE DOES NOT ALLOW ME TO USE find().
-std::string FileSystemI::extractName(const std::string& str)
+std::string FileSystemI::extractFileName(const std::string& str)
 {
    using namespace std;
 

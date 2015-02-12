@@ -9,8 +9,9 @@ class FileSystemI : public FileSystem::File
 private:
     std::string main_dir;
     virtual bool dirExists(const std::string& dirName_in);
-    std::string extractName(const std::string& str);
-    void FileSystemI::insertCorrectly(std::string& str, const char* num);
+    std::string extractFileName(const std::string& str);
+    std::string FileSystemI::extractNodeName(const std::string str);
+    std::string FileSystemI::insertCorrectly(std::string& str, const char* num);
 public:
     FileSystemI();
     FileSystemI(std::string main_node);
