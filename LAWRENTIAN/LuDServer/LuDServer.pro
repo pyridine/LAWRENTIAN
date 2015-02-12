@@ -30,28 +30,28 @@ HEADERS += \
     FileSystemI.h \
     Receiver.h
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../$(ICE_SUB_DIR)/lib/ -lice
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../$(ICE_SUB_DIR)/lib/ -liced
-else:unix: LIBS += -L$$PWD/../../../$(ICE_SUB_DIR)/lib/ -lice
+win32:CONFIG(release, debug|release): LIBS += -L$(ICE_DIR)/lib/ -lice
+else:win32:CONFIG(debug, debug|release): LIBS += -L$(ICE_DIR)/lib/ -liced
+else:unix: LIBS += -L$(ICE_DIR)/lib/ -lice
 
-INCLUDEPATH += $$PWD/../../../$(ICE_SUB_DIR)/include
-DEPENDPATH += $$PWD/../../../$(ICE_SUB_DIR)/include
+INCLUDEPATH += $(ICE_DIR)/include
+DEPENDPATH += $(ICE_DIR)/include
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../$(ICE_SUB_DIR)/lib/libice.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../$(ICE_SUB_DIR)/lib/libiced.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../$(ICE_SUB_DIR)/lib/ice.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../$(ICE_SUB_DIR)/lib/iced.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../../../$(ICE_SUB_DIR)/lib/libice.a
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $(ICE_DIR)/lib/libice.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $(ICE_DIR)/lib/libiced.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $(ICE_DIR)/lib/ice.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $(ICE_DIR)/lib/iced.lib
+else:unix: PRE_TARGETDEPS += $(ICE_DIR)/lib/libice.a
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../$(ICE_SUB_DIR)/lib/ -liceutil
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../$(ICE_SUB_DIR)/lib/ -liceutild
-else:unix: LIBS += -L$$PWD/../../../$(ICE_SUB_DIR)/lib/ -liceutil
+win32:CONFIG(release, debug|release): LIBS += -L$(ICE_DIR)/lib/ -liceutil
+else:win32:CONFIG(debug, debug|release): LIBS += -L$(ICE_DIR)/lib/ -liceutild
+else:unix: LIBS += -L$(ICE_DIR)/lib/ -liceutil
 
-INCLUDEPATH += $$PWD/../../../$(ICE_SUB_DIR)/include
-DEPENDPATH += $$PWD/../../../$(ICE_SUB_DIR)/include
+INCLUDEPATH += $(ICE_DIR)/include
+DEPENDPATH += $(ICE_DIR)/include
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../$(ICE_SUB_DIR)/lib/libiceutil.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../$(ICE_SUB_DIR)/lib/libiceutild.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../$(ICE_SUB_DIR)/lib/iceutil.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../$(ICE_SUB_DIR)/lib/iceutild.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../../../$(ICE_SUB_DIR)/lib/libiceutil.a
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $(ICE_DIR)/lib/libiceutil.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $(ICE_DIR)/lib/libiceutild.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $(ICE_DIR)/lib/iceutil.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $(ICE_DIR)/lib/iceutild.lib
+else:unix: PRE_TARGETDEPS += $(ICE_DIR)/lib/libiceutil.a
