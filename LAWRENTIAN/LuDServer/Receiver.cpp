@@ -2,12 +2,11 @@
 #include "FileSystem.h"
 #include "FileSystemI.h"
 
-using namespace FileSystem;
-
 static const std::string connection = "tcp -h 143.44.10.35 -p 10001";
-
 Receiver::Receiver(const std::string& path)
 {
+    using namespace FileSystem;
+
     ic = Ice::initialize();
     Ice::ObjectAdapterPtr adapter
             = ic->createObjectAdapterWithEndpoints("FileSystem",connection);
@@ -19,6 +18,8 @@ Receiver::Receiver(const std::string& path)
 
 Receiver::Receiver(const std::string& con, const std::string& path)
 {
+    using namespace FileSystem;
+
     ic = Ice::initialize();
     Ice::ObjectAdapterPtr adapter
             = ic->createObjectAdapterWithEndpoints("FileSystem",con);
@@ -30,6 +31,8 @@ Receiver::Receiver(const std::string& con, const std::string& path)
 
 Receiver::Receiver(const int& num, const std::string& path)
 {
+    using namespace FileSystem;
+
     ic = Ice::initialize();
     Ice::ObjectAdapterPtr adapter
             = num ? ic->createObjectAdapterWithEndpoints("FileSystem",connection) : ic->createObjectAdapterWithEndpoints("FileSystem","default -p 10000");
