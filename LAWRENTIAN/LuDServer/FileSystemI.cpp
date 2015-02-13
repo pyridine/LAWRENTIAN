@@ -18,10 +18,14 @@ FileSystemI::FileSystemI(std::string main_node)
 }
 
 Ice::ByteSeq FileSystemI::receiveFile(const std::string& path,
-                                      const Ice::Current&)
+                                      const Ice::Current& c)
 {
     using namespace std;
     using namespace Ice;
+
+    string caller_info = callerInfo(c);
+
+    cout << "===" + caller_info + "===" << endl;
 
     // create file name.
     string fn = extractNodeName(path) + ".docx";
@@ -51,8 +55,8 @@ Ice::ByteSeq FileSystemI::receiveFile(const std::string& path,
     }
     else
         cout << path << endl << "Path does not exist" << endl; // throw exception in the future.
-    cout << "request path: " << path << endl;
-    cout << "request: " << dir << endl;
+    consolePrint("request path: " + path);
+    consolePrint("request: " + dir);
     ifstream source(dir,ios::binary);
 
     ByteSeq seq;
@@ -72,10 +76,13 @@ Ice::ByteSeq FileSystemI::receiveFile(const std::string& path,
 }
 
 bool FileSystemI::sendFile(const std::string& name_sf, const Ice::ByteSeq& seq,
-                           const Ice::Current &)
+                           const Ice::Current& c)
 {
     using namespace std;
     using namespace Ice;
+
+    string caller_info = callerInfo(c);
+    cout << "===" + caller_info + "===" << endl;
 
     string sec_dir = "Article";
     string article_dir = "Document";
@@ -121,8 +128,8 @@ bool FileSystemI::sendFile(const std::string& name_sf, const Ice::ByteSeq& seq,
     }
     dir = dir + "/" + fn;
     file.close();
-    cout << "send name: " << name_sf << endl;
-    cout << "send: " << dir << endl;
+    consolePrint("send name: " + name_sf);
+    consolePrint("send: " + dir);
 
     ofstream dest(dir, ios::binary);
     dest.write(reinterpret_cast<const char*>(&seq[0]),seq.size());
@@ -200,6 +207,26 @@ std::string FileSystemI::extractNodeName(const std::string str)
         }
     }
     return str.substr(iter - str.begin() + 1,str.end() - iter - 1);
+}
+
+// copied from Ice manual.
+std::string FileSystemI::callerInfo(const Ice::Current& c)
+{
+    using namespace std;
+    using namespace Ice;
+
+    ConnectionInfoPtr info = c.con->getInfo();
+    TCPConnectionInfoPtr tcpInfo = Ice::TCPConnectionInfoPtr::dynamicCast(info);
+    return tcpInfo ? tcpInfo->remoteAddress : "UNIDENTIFIED";
+}
+
+void FileSystemI::consolePrint(const std::string& str)
+{
+    using namespace std;
+
+    cout << str;
+    if(str.size() < 66)
+        cout << endl;
 }
 
 /* FOR SOME REASON ICE DOES NOT ALLOW ME TO USE find().

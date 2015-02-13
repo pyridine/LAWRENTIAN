@@ -12,8 +12,8 @@ class Receiver
     FileSystem::FilePrx fpx;
 public:
     Receiver(const std::string path  = "C:/Users/Briggs 419 Server/Dropbox");
-    Receiver(const int& num, const std::string& con, const std::string path = "C:/Users/Briggs 419 Server/Dropbox");
-    Receiver(const int& num, const std::string path = "C:/Users/Briggs 419 Server/Dropbox");
+    Receiver(const int& num, const std::string& con, const std::string path);
+    Receiver(const int& num, const std::string path = "C:/Programs");
 };
 
 #endif // RECEIVER_H
