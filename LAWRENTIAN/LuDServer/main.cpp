@@ -7,6 +7,7 @@ using namespace std;
 int main()
 {
     Receiver rcvr = Receiver();
+    // Receiver rcvr = Receiver(0,"C:/Programs"); // "C:Programs is root directory of server"
     return 0;
 }
 

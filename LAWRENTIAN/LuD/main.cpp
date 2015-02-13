@@ -12,9 +12,15 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    Sender sndr = Sender();
-    sndr.sendFile("C:/Users/lenovo/Dropbox/Hello.docx","Final.docx");
-    sndr.requestFile("C:/Users/Briggs 419 Server/Dropbox/Article/Document/Copy/Implement","C:/Programs/receivedfile.docx");
+    Sender sndr = Sender(); // sens to server computer
+    // Sender sndr = Sender(0); // send to current computer. Needs Receiver rcvr = Receiver(0); in LuDServer main.
+
+    // sendFile(file_to_send, new_name)
+    sndr.sendFile("C:/Users/lenovo/Dropbox/Hello.docx","Works.docx");
+
+    // requestFile(file_to_request, download_name)
+    sndr.requestFile("C:/Users/Briggs 419 Server/Dropbox/Article/Document/Copy/Implement","C:/Programs/doesit.docx");
+
     return 0;
 }
 
