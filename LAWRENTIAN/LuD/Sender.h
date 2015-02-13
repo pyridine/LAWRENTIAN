@@ -12,6 +12,8 @@ class Sender
     FileSystem::FilePrx fpx;
 public:
     Sender();
+    Sender(const std::string& connection);
+    Sender(const int& num);
     ~Sender();
     bool sendFile(const std::string& dir_sf, const std::string& name);
     bool requestFile(const std::string& dir_rf, const std::string& down_dir);

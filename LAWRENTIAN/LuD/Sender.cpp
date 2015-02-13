@@ -6,20 +6,31 @@
 
 using namespace std;
 
+static const string connection = "tcp -h 143.44.10.35 -p 10001";
 Sender::Sender()
 {
-    ic = Ice::initialize();
-    Ice::ObjectPrx base = ic->stringToProxy(
-                "FileSystem:default -p 10000");
-    fpx = FileSystem::FilePrx::checkedCast(base);
-    cout << "work?" << endl;
 
+    ic = Ice::initialize();
+    Ice::ObjectPrx base = ic->stringToProxy("FileSystem:" + connection);
+    fpx = FileSystem::FilePrx::checkedCast(base);
+}
+
+Sender::Sender(const std::string& con)
+{
+    ic = Ice::initialize();
+    Ice::ObjectPrx base = ic->stringToProxy("FileSystem:" + connection);
+    fpx = FileSystem::FilePrx::checkedCast(base);
+}
+
+Sender::Sender(const int& num)
+{
+    ic = Ice::initialize();
+    Ice::ObjectPrx base = num ? ic->stringToProxy("FileSystem:" + connection) : ic->stringToProxy("FileSystem:default -p 10000");
+    fpx = FileSystem::FilePrx::checkedCast(base);
 }
 
 Sender::~Sender()
 {
-    if(ic)
-        cout << "destroy" << endl;
     if(ic)
         ic->destroy();
 }
