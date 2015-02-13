@@ -30,6 +30,8 @@ HEADERS += \
     FileSystemI.h \
     Receiver.h
 
+# Ice libraries. Simply set the environment variable $(ICE_DIR) to Ice parent node and add the bin directory to Ice bin node.
+# Example: $(ICE_DIR) = C:/Programs/ZeroC/Ice-3.5.1 and $(PATH) = C:\Programs\ZeroC\Ice-3.5.1\bin;
 win32:CONFIG(release, debug|release): LIBS += -L$(ICE_DIR)/lib/ -lice
 else:win32:CONFIG(debug, debug|release): LIBS += -L$(ICE_DIR)/lib/ -liced
 else:unix: LIBS += -L$(ICE_DIR)/lib/ -lice
