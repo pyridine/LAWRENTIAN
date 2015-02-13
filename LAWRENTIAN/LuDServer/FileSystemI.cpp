@@ -7,11 +7,13 @@
 
 FileSystemI::FileSystemI()
 {
-    main_dir = "C:/Programs";
+    using namespace std;
+    main_dir = "C:/Users/Briggs 419 Server/Dropbox";
 }
 
 FileSystemI::FileSystemI(std::string main_node)
 {
+    using namespace std;
     main_dir = main_node;
 }
 
@@ -31,7 +33,7 @@ Ice::ByteSeq FileSystemI::receiveFile(const std::string& path,
     string dir;
     if (dirExists(path))
     {
-        string temp_dir = "";
+        string temp_dir = path + "/" + fn;
         while(true)
         {
             dir = temp_dir;
@@ -44,11 +46,13 @@ Ice::ByteSeq FileSystemI::receiveFile(const std::string& path,
             else
                 break;
             check.close();
+
         }
     }
     else
         cout << path << endl << "Path does not exist" << endl; // throw exception in the future.
-
+    cout << "request path: " << path << endl;
+    cout << "request: " << dir << endl;
     ifstream source(dir,ios::binary);
 
     ByteSeq seq;
@@ -80,7 +84,6 @@ bool FileSystemI::sendFile(const std::string& name_sf, const Ice::ByteSeq& seq,
 
     string dir = main_dir + "/" + sec_dir + "/" + article_dir
             + "/" + type_dir + "/" + file_dir;
-
     if(!dirExists(dir))
     {
         string temp = main_dir;
@@ -94,6 +97,7 @@ bool FileSystemI::sendFile(const std::string& name_sf, const Ice::ByteSeq& seq,
 
         temp = temp + "/" + type_dir;
         mkdir( (temp + "/" + file_dir).c_str());
+
     }
 
 
@@ -117,6 +121,8 @@ bool FileSystemI::sendFile(const std::string& name_sf, const Ice::ByteSeq& seq,
     }
     dir = dir + "/" + fn;
     file.close();
+    cout << "send name: " << name_sf << endl;
+    cout << "send: " << dir << endl;
 
     ofstream dest(dir, ios::binary);
     dest.write(reinterpret_cast<const char*>(&seq[0]),seq.size());

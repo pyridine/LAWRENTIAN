@@ -13,8 +13,8 @@ private:
     std::string FileSystemI::extractNodeName(const std::string str);
     std::string FileSystemI::insertCorrectly(std::string& str, const char* num);
 public:
-    FileSystemI();
     FileSystemI(std::string main_node);
+    FileSystemI();
 
     virtual Ice::ByteSeq receiveFile(const std::string& path,
                                      const Ice::Current&);
