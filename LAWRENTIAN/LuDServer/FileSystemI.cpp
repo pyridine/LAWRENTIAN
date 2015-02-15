@@ -23,7 +23,7 @@ Ice::ByteSeq FileSystemI::receiveFile(const std::string& path,
     using namespace std;
     using namespace Ice;
 
-    string caller_info = callerInfo(c);
+    string caller_info = getName(getIP(c));
 
     cout << "===" + caller_info + "===" << endl;
 
@@ -81,7 +81,7 @@ bool FileSystemI::sendFile(const std::string& name_sf, const Ice::ByteSeq& seq,
     using namespace std;
     using namespace Ice;
 
-    string caller_info = callerInfo(c);
+    string caller_info = getName(getIP(c));
     cout << "===" + caller_info + "===" << endl;
 
     string sec_dir = "Article";
@@ -210,7 +210,7 @@ std::string FileSystemI::extractNodeName(const std::string str)
 }
 
 // copied from Ice manual.
-std::string FileSystemI::callerInfo(const Ice::Current& c)
+std::string FileSystemI::getIP(const Ice::Current& c)
 {
     using namespace std;
     using namespace Ice;
@@ -225,8 +225,25 @@ void FileSystemI::consolePrint(const std::string& str)
     using namespace std;
 
     cout << str;
-    if(str.size() < 66)
+    if(str.size() != 80)
         cout << endl;
+}
+
+std::string FileSystemI::getName(const std::string& ip_address)
+{
+    using namespace std;
+
+    typedef map<const string,const string> map_str;
+    typedef pair<const string,const string> pair_str;
+
+    map_str names;
+
+    names.insert(pair_str("143.44.76.61","Sanfer D'souza"));
+    names.insert(pair_str("143.44.65.151","Jordan Mark"));
+    names.insert(pair_str("143.44.68.218","Lisa Girsova"));
+
+    map_str::const_iterator iter = names.find(ip_address);
+    return iter == names.end() ? "UNIDENTIFIED: " + ip_address : iter->second;
 }
 
 /* FOR SOME REASON ICE DOES NOT ALLOW ME TO USE find().

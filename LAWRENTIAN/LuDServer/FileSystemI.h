@@ -12,8 +12,9 @@ private:
     std::string extractFileName(const std::string& str);
     std::string extractNodeName(const std::string str);
     std::string insertCorrectly(std::string& str, const char* num);
-    std::string callerInfo(const Ice::Current& c);
+    std::string getIP(const Ice::Current& c);
     void consolePrint(const std::string& str);
+    std::string getName(const std::string& ip_address);
 public:
     FileSystemI(std::string main_node);
     FileSystemI();
