@@ -40,10 +40,18 @@
 namespace
 {
 
-const ::std::string __FileSystem__File__receiveFile_name = "receiveFile";
+const ::std::string __FileSystem__File__receiveLatest_name = "receiveLatest";
+
+const ::std::string __FileSystem__File__receiveVersion_name = "receiveVersion";
 
 const ::std::string __FileSystem__File__sendFile_name = "sendFile";
 
+const ::std::string __FileSystem__File__getHistory_name = "getHistory";
+
+}
+
+namespace Ice
+{
 }
 ::IceProxy::Ice::Object* ::IceProxy::FileSystem::upCast(::IceProxy::FileSystem::File* p) { return p; }
 
@@ -64,19 +72,19 @@ void
 }
 
 ::FileSystem::ByteSeq
-IceProxy::FileSystem::File::receiveFile(const ::std::string& name, const ::Ice::Context* __ctx)
+IceProxy::FileSystem::File::receiveLatest(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context* __ctx)
 {
-    ::IceInternal::InvocationObserver __observer(this, __FileSystem__File__receiveFile_name, __ctx);
+    ::IceInternal::InvocationObserver __observer(this, __FileSystem__File__receiveLatest_name, __ctx);
     int __cnt = 0;
     while(true)
     {
         ::IceInternal::Handle< ::IceDelegate::Ice::Object> __delBase;
         try
         {
-            __checkTwowayOnly(__FileSystem__File__receiveFile_name);
+            __checkTwowayOnly(__FileSystem__File__receiveLatest_name);
             __delBase = __getDelegate(false);
             ::IceDelegate::FileSystem::File* __del = dynamic_cast< ::IceDelegate::FileSystem::File*>(__delBase.get());
-            return __del->receiveFile(name, __ctx, __observer);
+            return __del->receiveLatest(sec, art, type, fName, __ctx, __observer);
         }
         catch(const ::IceInternal::LocalExceptionWrapper& __ex)
         {
@@ -90,15 +98,18 @@ IceProxy::FileSystem::File::receiveFile(const ::std::string& name, const ::Ice::
 }
 
 ::Ice::AsyncResultPtr
-IceProxy::FileSystem::File::begin_receiveFile(const ::std::string& name, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
+IceProxy::FileSystem::File::begin_receiveLatest(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
 {
-    __checkAsyncTwowayOnly(__FileSystem__File__receiveFile_name);
-    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __FileSystem__File__receiveFile_name, __del, __cookie);
+    __checkAsyncTwowayOnly(__FileSystem__File__receiveLatest_name);
+    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __FileSystem__File__receiveLatest_name, __del, __cookie);
     try
     {
-        __result->__prepare(__FileSystem__File__receiveFile_name, ::Ice::Normal, __ctx);
+        __result->__prepare(__FileSystem__File__receiveLatest_name, ::Ice::Normal, __ctx);
         ::IceInternal::BasicStream* __os = __result->__startWriteParams(::Ice::DefaultFormat);
-        __os->write(name);
+        __os->write(sec);
+        __os->write(art);
+        __os->write(type);
+        __os->write(fName);
         __result->__endWriteParams();
         __result->__send(true);
     }
@@ -110,9 +121,90 @@ IceProxy::FileSystem::File::begin_receiveFile(const ::std::string& name, const :
 }
 
 ::FileSystem::ByteSeq
-IceProxy::FileSystem::File::end_receiveFile(const ::Ice::AsyncResultPtr& __result)
+IceProxy::FileSystem::File::end_receiveLatest(const ::Ice::AsyncResultPtr& __result)
 {
-    ::Ice::AsyncResult::__check(__result, this, __FileSystem__File__receiveFile_name);
+    ::Ice::AsyncResult::__check(__result, this, __FileSystem__File__receiveLatest_name);
+    ::FileSystem::ByteSeq __ret;
+    bool __ok = __result->__wait();
+    try
+    {
+        if(!__ok)
+        {
+            try
+            {
+                __result->__throwUserException();
+            }
+            catch(const ::Ice::UserException& __ex)
+            {
+                throw ::Ice::UnknownUserException(__FILE__, __LINE__, __ex.ice_name());
+            }
+        }
+        ::IceInternal::BasicStream* __is = __result->__startReadParams();
+        __is->read(__ret);
+        __result->__endReadParams();
+        return __ret;
+    }
+    catch(const ::Ice::LocalException& ex)
+    {
+        __result->__getObserver().failed(ex.ice_name());
+        throw;
+    }
+}
+
+::FileSystem::ByteSeq
+IceProxy::FileSystem::File::receiveVersion(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::Ice::Context* __ctx)
+{
+    ::IceInternal::InvocationObserver __observer(this, __FileSystem__File__receiveVersion_name, __ctx);
+    int __cnt = 0;
+    while(true)
+    {
+        ::IceInternal::Handle< ::IceDelegate::Ice::Object> __delBase;
+        try
+        {
+            __checkTwowayOnly(__FileSystem__File__receiveVersion_name);
+            __delBase = __getDelegate(false);
+            ::IceDelegate::FileSystem::File* __del = dynamic_cast< ::IceDelegate::FileSystem::File*>(__delBase.get());
+            return __del->receiveVersion(sec, art, type, fName, ver, __ctx, __observer);
+        }
+        catch(const ::IceInternal::LocalExceptionWrapper& __ex)
+        {
+            __handleExceptionWrapper(__delBase, __ex, __observer);
+        }
+        catch(const ::Ice::LocalException& __ex)
+        {
+            __handleException(__delBase, __ex, true, __cnt, __observer);
+        }
+    }
+}
+
+::Ice::AsyncResultPtr
+IceProxy::FileSystem::File::begin_receiveVersion(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
+{
+    __checkAsyncTwowayOnly(__FileSystem__File__receiveVersion_name);
+    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __FileSystem__File__receiveVersion_name, __del, __cookie);
+    try
+    {
+        __result->__prepare(__FileSystem__File__receiveVersion_name, ::Ice::Normal, __ctx);
+        ::IceInternal::BasicStream* __os = __result->__startWriteParams(::Ice::DefaultFormat);
+        __os->write(sec);
+        __os->write(art);
+        __os->write(type);
+        __os->write(fName);
+        __os->write(ver);
+        __result->__endWriteParams();
+        __result->__send(true);
+    }
+    catch(const ::Ice::LocalException& __ex)
+    {
+        __result->__exceptionAsync(__ex);
+    }
+    return __result;
+}
+
+::FileSystem::ByteSeq
+IceProxy::FileSystem::File::end_receiveVersion(const ::Ice::AsyncResultPtr& __result)
+{
+    ::Ice::AsyncResult::__check(__result, this, __FileSystem__File__receiveVersion_name);
     ::FileSystem::ByteSeq __ret;
     bool __ok = __result->__wait();
     try
@@ -141,7 +233,7 @@ IceProxy::FileSystem::File::end_receiveFile(const ::Ice::AsyncResultPtr& __resul
 }
 
 bool
-IceProxy::FileSystem::File::sendFile(const ::std::string& name, const ::FileSystem::ByteSeq& seq, const ::Ice::Context* __ctx)
+IceProxy::FileSystem::File::sendFile(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context* __ctx)
 {
     ::IceInternal::InvocationObserver __observer(this, __FileSystem__File__sendFile_name, __ctx);
     int __cnt = 0;
@@ -153,7 +245,7 @@ IceProxy::FileSystem::File::sendFile(const ::std::string& name, const ::FileSyst
             __checkTwowayOnly(__FileSystem__File__sendFile_name);
             __delBase = __getDelegate(false);
             ::IceDelegate::FileSystem::File* __del = dynamic_cast< ::IceDelegate::FileSystem::File*>(__delBase.get());
-            return __del->sendFile(name, seq, __ctx, __observer);
+            return __del->sendFile(sec, art, type, fNameExt, seq, __ctx, __observer);
         }
         catch(const ::IceInternal::LocalExceptionWrapper& __ex)
         {
@@ -167,7 +259,7 @@ IceProxy::FileSystem::File::sendFile(const ::std::string& name, const ::FileSyst
 }
 
 ::Ice::AsyncResultPtr
-IceProxy::FileSystem::File::begin_sendFile(const ::std::string& name, const ::FileSystem::ByteSeq& seq, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
+IceProxy::FileSystem::File::begin_sendFile(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
 {
     __checkAsyncTwowayOnly(__FileSystem__File__sendFile_name);
     ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __FileSystem__File__sendFile_name, __del, __cookie);
@@ -175,7 +267,10 @@ IceProxy::FileSystem::File::begin_sendFile(const ::std::string& name, const ::Fi
     {
         __result->__prepare(__FileSystem__File__sendFile_name, ::Ice::Normal, __ctx);
         ::IceInternal::BasicStream* __os = __result->__startWriteParams(::Ice::DefaultFormat);
-        __os->write(name);
+        __os->write(sec);
+        __os->write(art);
+        __os->write(type);
+        __os->write(fNameExt);
         __os->write(seq);
         __result->__endWriteParams();
         __result->__send(true);
@@ -192,6 +287,86 @@ IceProxy::FileSystem::File::end_sendFile(const ::Ice::AsyncResultPtr& __result)
 {
     ::Ice::AsyncResult::__check(__result, this, __FileSystem__File__sendFile_name);
     bool __ret;
+    bool __ok = __result->__wait();
+    try
+    {
+        if(!__ok)
+        {
+            try
+            {
+                __result->__throwUserException();
+            }
+            catch(const ::Ice::UserException& __ex)
+            {
+                throw ::Ice::UnknownUserException(__FILE__, __LINE__, __ex.ice_name());
+            }
+        }
+        ::IceInternal::BasicStream* __is = __result->__startReadParams();
+        __is->read(__ret);
+        __result->__endReadParams();
+        return __ret;
+    }
+    catch(const ::Ice::LocalException& ex)
+    {
+        __result->__getObserver().failed(ex.ice_name());
+        throw;
+    }
+}
+
+::FileSystem::VerSeq
+IceProxy::FileSystem::File::getHistory(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context* __ctx)
+{
+    ::IceInternal::InvocationObserver __observer(this, __FileSystem__File__getHistory_name, __ctx);
+    int __cnt = 0;
+    while(true)
+    {
+        ::IceInternal::Handle< ::IceDelegate::Ice::Object> __delBase;
+        try
+        {
+            __checkTwowayOnly(__FileSystem__File__getHistory_name);
+            __delBase = __getDelegate(false);
+            ::IceDelegate::FileSystem::File* __del = dynamic_cast< ::IceDelegate::FileSystem::File*>(__delBase.get());
+            return __del->getHistory(sec, art, type, fName, __ctx, __observer);
+        }
+        catch(const ::IceInternal::LocalExceptionWrapper& __ex)
+        {
+            __handleExceptionWrapper(__delBase, __ex, __observer);
+        }
+        catch(const ::Ice::LocalException& __ex)
+        {
+            __handleException(__delBase, __ex, true, __cnt, __observer);
+        }
+    }
+}
+
+::Ice::AsyncResultPtr
+IceProxy::FileSystem::File::begin_getHistory(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
+{
+    __checkAsyncTwowayOnly(__FileSystem__File__getHistory_name);
+    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __FileSystem__File__getHistory_name, __del, __cookie);
+    try
+    {
+        __result->__prepare(__FileSystem__File__getHistory_name, ::Ice::Normal, __ctx);
+        ::IceInternal::BasicStream* __os = __result->__startWriteParams(::Ice::DefaultFormat);
+        __os->write(sec);
+        __os->write(art);
+        __os->write(type);
+        __os->write(fName);
+        __result->__endWriteParams();
+        __result->__send(true);
+    }
+    catch(const ::Ice::LocalException& __ex)
+    {
+        __result->__exceptionAsync(__ex);
+    }
+    return __result;
+}
+
+::FileSystem::VerSeq
+IceProxy::FileSystem::File::end_getHistory(const ::Ice::AsyncResultPtr& __result)
+{
+    ::Ice::AsyncResult::__check(__result, this, __FileSystem__File__getHistory_name);
+    ::FileSystem::VerSeq __ret;
     bool __ok = __result->__wait();
     try
     {
@@ -243,13 +418,61 @@ IceProxy::FileSystem::File::__newInstance() const
 }
 
 ::FileSystem::ByteSeq
-IceDelegateM::FileSystem::File::receiveFile(const ::std::string& name, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
+IceDelegateM::FileSystem::File::receiveLatest(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
 {
-    ::IceInternal::Outgoing __og(__handler.get(), __FileSystem__File__receiveFile_name, ::Ice::Normal, __context, __observer);
+    ::IceInternal::Outgoing __og(__handler.get(), __FileSystem__File__receiveLatest_name, ::Ice::Normal, __context, __observer);
     try
     {
         ::IceInternal::BasicStream* __os = __og.startWriteParams(::Ice::DefaultFormat);
-        __os->write(name);
+        __os->write(sec);
+        __os->write(art);
+        __os->write(type);
+        __os->write(fName);
+        __og.endWriteParams();
+    }
+    catch(const ::Ice::LocalException& __ex)
+    {
+        __og.abort(__ex);
+    }
+    bool __ok = __og.invoke();
+    ::FileSystem::ByteSeq __ret;
+    try
+    {
+        if(!__ok)
+        {
+            try
+            {
+                __og.throwUserException();
+            }
+            catch(const ::Ice::UserException& __ex)
+            {
+                ::Ice::UnknownUserException __uue(__FILE__, __LINE__, __ex.ice_name());
+                throw __uue;
+            }
+        }
+        ::IceInternal::BasicStream* __is = __og.startReadParams();
+        __is->read(__ret);
+        __og.endReadParams();
+        return __ret;
+    }
+    catch(const ::Ice::LocalException& __ex)
+    {
+        throw ::IceInternal::LocalExceptionWrapper(__ex, false);
+    }
+}
+
+::FileSystem::ByteSeq
+IceDelegateM::FileSystem::File::receiveVersion(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
+{
+    ::IceInternal::Outgoing __og(__handler.get(), __FileSystem__File__receiveVersion_name, ::Ice::Normal, __context, __observer);
+    try
+    {
+        ::IceInternal::BasicStream* __os = __og.startWriteParams(::Ice::DefaultFormat);
+        __os->write(sec);
+        __os->write(art);
+        __os->write(type);
+        __os->write(fName);
+        __os->write(ver);
         __og.endWriteParams();
     }
     catch(const ::Ice::LocalException& __ex)
@@ -284,13 +507,16 @@ IceDelegateM::FileSystem::File::receiveFile(const ::std::string& name, const ::I
 }
 
 bool
-IceDelegateM::FileSystem::File::sendFile(const ::std::string& name, const ::FileSystem::ByteSeq& seq, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
+IceDelegateM::FileSystem::File::sendFile(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
 {
     ::IceInternal::Outgoing __og(__handler.get(), __FileSystem__File__sendFile_name, ::Ice::Normal, __context, __observer);
     try
     {
         ::IceInternal::BasicStream* __os = __og.startWriteParams(::Ice::DefaultFormat);
-        __os->write(name);
+        __os->write(sec);
+        __os->write(art);
+        __os->write(type);
+        __os->write(fNameExt);
         __os->write(seq);
         __og.endWriteParams();
     }
@@ -325,17 +551,64 @@ IceDelegateM::FileSystem::File::sendFile(const ::std::string& name, const ::File
     }
 }
 
+::FileSystem::VerSeq
+IceDelegateM::FileSystem::File::getHistory(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
+{
+    ::IceInternal::Outgoing __og(__handler.get(), __FileSystem__File__getHistory_name, ::Ice::Normal, __context, __observer);
+    try
+    {
+        ::IceInternal::BasicStream* __os = __og.startWriteParams(::Ice::DefaultFormat);
+        __os->write(sec);
+        __os->write(art);
+        __os->write(type);
+        __os->write(fName);
+        __og.endWriteParams();
+    }
+    catch(const ::Ice::LocalException& __ex)
+    {
+        __og.abort(__ex);
+    }
+    bool __ok = __og.invoke();
+    ::FileSystem::VerSeq __ret;
+    try
+    {
+        if(!__ok)
+        {
+            try
+            {
+                __og.throwUserException();
+            }
+            catch(const ::Ice::UserException& __ex)
+            {
+                ::Ice::UnknownUserException __uue(__FILE__, __LINE__, __ex.ice_name());
+                throw __uue;
+            }
+        }
+        ::IceInternal::BasicStream* __is = __og.startReadParams();
+        __is->read(__ret);
+        __og.endReadParams();
+        return __ret;
+    }
+    catch(const ::Ice::LocalException& __ex)
+    {
+        throw ::IceInternal::LocalExceptionWrapper(__ex, false);
+    }
+}
+
 ::FileSystem::ByteSeq
-IceDelegateD::FileSystem::File::receiveFile(const ::std::string& name, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
+IceDelegateD::FileSystem::File::receiveLatest(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
 {
     class _DirectI : public ::IceInternal::Direct
     {
     public:
 
-        _DirectI(::FileSystem::ByteSeq& __result, const ::std::string& __p_name, const ::Ice::Current& __current) : 
+        _DirectI(::FileSystem::ByteSeq& __result, const ::std::string& __p_sec, const ::std::string& __p_art, const ::std::string& __p_type, const ::std::string& __p_fName, const ::Ice::Current& __current) : 
             ::IceInternal::Direct(__current),
             _result(__result),
-            _m_name(__p_name)
+            _m_sec(__p_sec),
+            _m_art(__p_art),
+            _m_type(__p_type),
+            _m_fName(__p_fName)
         {
         }
         
@@ -347,22 +620,101 @@ IceDelegateD::FileSystem::File::receiveFile(const ::std::string& name, const ::I
             {
                 throw ::Ice::OperationNotExistException(__FILE__, __LINE__, _current.id, _current.facet, _current.operation);
             }
-            _result = servant->receiveFile(_m_name, _current);
+            _result = servant->receiveLatest(_m_sec, _m_art, _m_type, _m_fName, _current);
             return ::Ice::DispatchOK;
         }
         
     private:
         
         ::FileSystem::ByteSeq& _result;
-        const ::std::string& _m_name;
+        const ::std::string& _m_sec;
+        const ::std::string& _m_art;
+        const ::std::string& _m_type;
+        const ::std::string& _m_fName;
     };
     
     ::Ice::Current __current;
-    __initCurrent(__current, __FileSystem__File__receiveFile_name, ::Ice::Normal, __context);
+    __initCurrent(__current, __FileSystem__File__receiveLatest_name, ::Ice::Normal, __context);
     ::FileSystem::ByteSeq __result;
     try
     {
-        _DirectI __direct(__result, name, __current);
+        _DirectI __direct(__result, sec, art, type, fName, __current);
+        try
+        {
+            __direct.getServant()->__collocDispatch(__direct);
+        }
+        catch(...)
+        {
+            __direct.destroy();
+            throw;
+        }
+        __direct.destroy();
+    }
+    catch(const ::Ice::SystemException&)
+    {
+        throw;
+    }
+    catch(const ::IceInternal::LocalExceptionWrapper&)
+    {
+        throw;
+    }
+    catch(const ::std::exception& __ex)
+    {
+        ::IceInternal::LocalExceptionWrapper::throwWrapper(__ex);
+    }
+    catch(...)
+    {
+        throw ::IceInternal::LocalExceptionWrapper(::Ice::UnknownException(__FILE__, __LINE__, "unknown c++ exception"), false);
+    }
+    return __result;
+}
+
+::FileSystem::ByteSeq
+IceDelegateD::FileSystem::File::receiveVersion(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
+{
+    class _DirectI : public ::IceInternal::Direct
+    {
+    public:
+
+        _DirectI(::FileSystem::ByteSeq& __result, const ::std::string& __p_sec, const ::std::string& __p_art, const ::std::string& __p_type, const ::std::string& __p_fName, ::Ice::Int __p_ver, const ::Ice::Current& __current) : 
+            ::IceInternal::Direct(__current),
+            _result(__result),
+            _m_sec(__p_sec),
+            _m_art(__p_art),
+            _m_type(__p_type),
+            _m_fName(__p_fName),
+            _m_ver(__p_ver)
+        {
+        }
+        
+        virtual ::Ice::DispatchStatus
+        run(::Ice::Object* object)
+        {
+            ::FileSystem::File* servant = dynamic_cast< ::FileSystem::File*>(object);
+            if(!servant)
+            {
+                throw ::Ice::OperationNotExistException(__FILE__, __LINE__, _current.id, _current.facet, _current.operation);
+            }
+            _result = servant->receiveVersion(_m_sec, _m_art, _m_type, _m_fName, _m_ver, _current);
+            return ::Ice::DispatchOK;
+        }
+        
+    private:
+        
+        ::FileSystem::ByteSeq& _result;
+        const ::std::string& _m_sec;
+        const ::std::string& _m_art;
+        const ::std::string& _m_type;
+        const ::std::string& _m_fName;
+        ::Ice::Int _m_ver;
+    };
+    
+    ::Ice::Current __current;
+    __initCurrent(__current, __FileSystem__File__receiveVersion_name, ::Ice::Normal, __context);
+    ::FileSystem::ByteSeq __result;
+    try
+    {
+        _DirectI __direct(__result, sec, art, type, fName, ver, __current);
         try
         {
             __direct.getServant()->__collocDispatch(__direct);
@@ -394,16 +746,19 @@ IceDelegateD::FileSystem::File::receiveFile(const ::std::string& name, const ::I
 }
 
 bool
-IceDelegateD::FileSystem::File::sendFile(const ::std::string& name, const ::FileSystem::ByteSeq& seq, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
+IceDelegateD::FileSystem::File::sendFile(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
 {
     class _DirectI : public ::IceInternal::Direct
     {
     public:
 
-        _DirectI(bool& __result, const ::std::string& __p_name, const ::FileSystem::ByteSeq& __p_seq, const ::Ice::Current& __current) : 
+        _DirectI(bool& __result, const ::std::string& __p_sec, const ::std::string& __p_art, const ::std::string& __p_type, const ::std::string& __p_fNameExt, const ::FileSystem::ByteSeq& __p_seq, const ::Ice::Current& __current) : 
             ::IceInternal::Direct(__current),
             _result(__result),
-            _m_name(__p_name),
+            _m_sec(__p_sec),
+            _m_art(__p_art),
+            _m_type(__p_type),
+            _m_fNameExt(__p_fNameExt),
             _m_seq(__p_seq)
         {
         }
@@ -416,14 +771,17 @@ IceDelegateD::FileSystem::File::sendFile(const ::std::string& name, const ::File
             {
                 throw ::Ice::OperationNotExistException(__FILE__, __LINE__, _current.id, _current.facet, _current.operation);
             }
-            _result = servant->sendFile(_m_name, _m_seq, _current);
+            _result = servant->sendFile(_m_sec, _m_art, _m_type, _m_fNameExt, _m_seq, _current);
             return ::Ice::DispatchOK;
         }
         
     private:
         
         bool& _result;
-        const ::std::string& _m_name;
+        const ::std::string& _m_sec;
+        const ::std::string& _m_art;
+        const ::std::string& _m_type;
+        const ::std::string& _m_fNameExt;
         const ::FileSystem::ByteSeq& _m_seq;
     };
     
@@ -432,7 +790,81 @@ IceDelegateD::FileSystem::File::sendFile(const ::std::string& name, const ::File
     bool __result;
     try
     {
-        _DirectI __direct(__result, name, seq, __current);
+        _DirectI __direct(__result, sec, art, type, fNameExt, seq, __current);
+        try
+        {
+            __direct.getServant()->__collocDispatch(__direct);
+        }
+        catch(...)
+        {
+            __direct.destroy();
+            throw;
+        }
+        __direct.destroy();
+    }
+    catch(const ::Ice::SystemException&)
+    {
+        throw;
+    }
+    catch(const ::IceInternal::LocalExceptionWrapper&)
+    {
+        throw;
+    }
+    catch(const ::std::exception& __ex)
+    {
+        ::IceInternal::LocalExceptionWrapper::throwWrapper(__ex);
+    }
+    catch(...)
+    {
+        throw ::IceInternal::LocalExceptionWrapper(::Ice::UnknownException(__FILE__, __LINE__, "unknown c++ exception"), false);
+    }
+    return __result;
+}
+
+::FileSystem::VerSeq
+IceDelegateD::FileSystem::File::getHistory(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
+{
+    class _DirectI : public ::IceInternal::Direct
+    {
+    public:
+
+        _DirectI(::FileSystem::VerSeq& __result, const ::std::string& __p_sec, const ::std::string& __p_art, const ::std::string& __p_type, const ::std::string& __p_fName, const ::Ice::Current& __current) : 
+            ::IceInternal::Direct(__current),
+            _result(__result),
+            _m_sec(__p_sec),
+            _m_art(__p_art),
+            _m_type(__p_type),
+            _m_fName(__p_fName)
+        {
+        }
+        
+        virtual ::Ice::DispatchStatus
+        run(::Ice::Object* object)
+        {
+            ::FileSystem::File* servant = dynamic_cast< ::FileSystem::File*>(object);
+            if(!servant)
+            {
+                throw ::Ice::OperationNotExistException(__FILE__, __LINE__, _current.id, _current.facet, _current.operation);
+            }
+            _result = servant->getHistory(_m_sec, _m_art, _m_type, _m_fName, _current);
+            return ::Ice::DispatchOK;
+        }
+        
+    private:
+        
+        ::FileSystem::VerSeq& _result;
+        const ::std::string& _m_sec;
+        const ::std::string& _m_art;
+        const ::std::string& _m_type;
+        const ::std::string& _m_fName;
+    };
+    
+    ::Ice::Current __current;
+    __initCurrent(__current, __FileSystem__File__getHistory_name, ::Ice::Normal, __context);
+    ::FileSystem::VerSeq __result;
+    try
+    {
+        _DirectI __direct(__result, sec, art, type, fName, __current);
         try
         {
             __direct.getServant()->__collocDispatch(__direct);
@@ -500,14 +932,43 @@ FileSystem::File::ice_staticId()
 }
 
 ::Ice::DispatchStatus
-FileSystem::File::___receiveFile(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
+FileSystem::File::___receiveLatest(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
 {
     __checkMode(::Ice::Normal, __current.mode);
     ::IceInternal::BasicStream* __is = __inS.startReadParams();
-    ::std::string name;
-    __is->read(name);
+    ::std::string sec;
+    ::std::string art;
+    ::std::string type;
+    ::std::string fName;
+    __is->read(sec);
+    __is->read(art);
+    __is->read(type);
+    __is->read(fName);
     __inS.endReadParams();
-    ::FileSystem::ByteSeq __ret = receiveFile(name, __current);
+    ::FileSystem::ByteSeq __ret = receiveLatest(sec, art, type, fName, __current);
+    ::IceInternal::BasicStream* __os = __inS.__startWriteParams(::Ice::DefaultFormat);
+    __os->write(__ret);
+    __inS.__endWriteParams(true);
+    return ::Ice::DispatchOK;
+}
+
+::Ice::DispatchStatus
+FileSystem::File::___receiveVersion(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
+{
+    __checkMode(::Ice::Normal, __current.mode);
+    ::IceInternal::BasicStream* __is = __inS.startReadParams();
+    ::std::string sec;
+    ::std::string art;
+    ::std::string type;
+    ::std::string fName;
+    ::Ice::Int ver;
+    __is->read(sec);
+    __is->read(art);
+    __is->read(type);
+    __is->read(fName);
+    __is->read(ver);
+    __inS.endReadParams();
+    ::FileSystem::ByteSeq __ret = receiveVersion(sec, art, type, fName, ver, __current);
     ::IceInternal::BasicStream* __os = __inS.__startWriteParams(::Ice::DefaultFormat);
     __os->write(__ret);
     __inS.__endWriteParams(true);
@@ -519,12 +980,39 @@ FileSystem::File::___sendFile(::IceInternal::Incoming& __inS, const ::Ice::Curre
 {
     __checkMode(::Ice::Normal, __current.mode);
     ::IceInternal::BasicStream* __is = __inS.startReadParams();
-    ::std::string name;
+    ::std::string sec;
+    ::std::string art;
+    ::std::string type;
+    ::std::string fNameExt;
     ::FileSystem::ByteSeq seq;
-    __is->read(name);
+    __is->read(sec);
+    __is->read(art);
+    __is->read(type);
+    __is->read(fNameExt);
     __is->read(seq);
     __inS.endReadParams();
-    bool __ret = sendFile(name, seq, __current);
+    bool __ret = sendFile(sec, art, type, fNameExt, seq, __current);
+    ::IceInternal::BasicStream* __os = __inS.__startWriteParams(::Ice::DefaultFormat);
+    __os->write(__ret);
+    __inS.__endWriteParams(true);
+    return ::Ice::DispatchOK;
+}
+
+::Ice::DispatchStatus
+FileSystem::File::___getHistory(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
+{
+    __checkMode(::Ice::Normal, __current.mode);
+    ::IceInternal::BasicStream* __is = __inS.startReadParams();
+    ::std::string sec;
+    ::std::string art;
+    ::std::string type;
+    ::std::string fName;
+    __is->read(sec);
+    __is->read(art);
+    __is->read(type);
+    __is->read(fName);
+    __inS.endReadParams();
+    ::FileSystem::VerSeq __ret = getHistory(sec, art, type, fName, __current);
     ::IceInternal::BasicStream* __os = __inS.__startWriteParams(::Ice::DefaultFormat);
     __os->write(__ret);
     __inS.__endWriteParams(true);
@@ -535,11 +1023,13 @@ namespace
 {
 const ::std::string __FileSystem__File_all[] =
 {
+    "getHistory",
     "ice_id",
     "ice_ids",
     "ice_isA",
     "ice_ping",
-    "receiveFile",
+    "receiveLatest",
+    "receiveVersion",
     "sendFile"
 };
 
@@ -548,7 +1038,7 @@ const ::std::string __FileSystem__File_all[] =
 ::Ice::DispatchStatus
 FileSystem::File::__dispatch(::IceInternal::Incoming& in, const ::Ice::Current& current)
 {
-    ::std::pair< const ::std::string*, const ::std::string*> r = ::std::equal_range(__FileSystem__File_all, __FileSystem__File_all + 6, current.operation);
+    ::std::pair< const ::std::string*, const ::std::string*> r = ::std::equal_range(__FileSystem__File_all, __FileSystem__File_all + 8, current.operation);
     if(r.first == r.second)
     {
         throw ::Ice::OperationNotExistException(__FILE__, __LINE__, current.id, current.facet, current.operation);
@@ -558,25 +1048,33 @@ FileSystem::File::__dispatch(::IceInternal::Incoming& in, const ::Ice::Current& 
     {
         case 0:
         {
-            return ___ice_id(in, current);
+            return ___getHistory(in, current);
         }
         case 1:
         {
-            return ___ice_ids(in, current);
+            return ___ice_id(in, current);
         }
         case 2:
         {
-            return ___ice_isA(in, current);
+            return ___ice_ids(in, current);
         }
         case 3:
         {
-            return ___ice_ping(in, current);
+            return ___ice_isA(in, current);
         }
         case 4:
         {
-            return ___receiveFile(in, current);
+            return ___ice_ping(in, current);
         }
         case 5:
+        {
+            return ___receiveLatest(in, current);
+        }
+        case 6:
+        {
+            return ___receiveVersion(in, current);
+        }
+        case 7:
         {
             return ___sendFile(in, current);
         }

@@ -8,7 +8,7 @@ class FileSystemI : public FileSystem::File
 {
 private:
     std::string main_dir;
-    virtual bool dirExists(const std::string& dirName_in);
+    bool dirExists(const std::string& dirName_in);
     std::string extractFileName(const std::string& str);
     std::string extractNodeName(const std::string str);
     std::string insertCorrectly(std::string& str, const char* num);
@@ -19,10 +19,25 @@ public:
     FileSystemI(std::string main_node);
     FileSystemI();
 
-    virtual Ice::ByteSeq receiveFile(const std::string& path,
-                                     const Ice::Current& c);
-    virtual bool sendFile(const std::string& str, const Ice::ByteSeq& seq,
-                          const Ice::Current& c);
+    virtual FileSystem::ByteSeq
+    receiveLatest(const std::string& sec, const std::string& art,
+                  const std::string& type, const std::string& fName,
+                  const Ice::Current& c);
+
+    virtual FileSystem::ByteSeq
+    receiveVersion(const std::string& sec, const std::string& art,
+                   const std::string& type, const std::string& fName,
+                   const int ver, const Ice::Current& c);
+
+    virtual bool
+    sendFile(const std::string& sec, const std::string& art,
+             const std::string& type, const std::string& fNameExt,
+             const FileSystem::ByteSeq& seq, const Ice::Current& c);
+
+    virtual FileSystem::VerSeq
+    getHistory(const std::string& sec, const std::string& art,
+             const std::string& type, const std::string& fName,
+             const Ice::Current& c);
 };
 
 #endif // FILESYSTEMI_H

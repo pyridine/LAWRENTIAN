@@ -176,6 +176,7 @@ Makefile: ..\LuDServer\LuDServer.pro ..\..\..\Qt\5.4\msvc2010_opengl\mkspecs\win
 		..\..\..\Qt\5.4\msvc2010_opengl\mkspecs\features\resolve_config.prf \
 		..\..\..\Qt\5.4\msvc2010_opengl\mkspecs\features\exclusive_builds_post.prf \
 		..\..\..\Qt\5.4\msvc2010_opengl\mkspecs\features\default_post.prf \
+		..\..\..\Qt\5.4\msvc2010_opengl\mkspecs\features\c++11.prf \
 		..\..\..\Qt\5.4\msvc2010_opengl\mkspecs\features\win32\console.prf \
 		..\..\..\Qt\5.4\msvc2010_opengl\mkspecs\features\win32\rtti.prf \
 		..\..\..\Qt\5.4\msvc2010_opengl\mkspecs\features\precompile_header.prf \
@@ -293,6 +294,7 @@ Makefile: ..\LuDServer\LuDServer.pro ..\..\..\Qt\5.4\msvc2010_opengl\mkspecs\win
 ..\..\..\Qt\5.4\msvc2010_opengl\mkspecs\features\resolve_config.prf:
 ..\..\..\Qt\5.4\msvc2010_opengl\mkspecs\features\exclusive_builds_post.prf:
 ..\..\..\Qt\5.4\msvc2010_opengl\mkspecs\features\default_post.prf:
+..\..\..\Qt\5.4\msvc2010_opengl\mkspecs\features\c++11.prf:
 ..\..\..\Qt\5.4\msvc2010_opengl\mkspecs\features\win32\console.prf:
 ..\..\..\Qt\5.4\msvc2010_opengl\mkspecs\features\win32\rtti.prf:
 ..\..\..\Qt\5.4\msvc2010_opengl\mkspecs\features\precompile_header.prf:

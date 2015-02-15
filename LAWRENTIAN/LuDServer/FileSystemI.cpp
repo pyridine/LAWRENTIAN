@@ -8,7 +8,7 @@
 FileSystemI::FileSystemI()
 {
     using namespace std;
-    main_dir = "C:/Users/Briggs 419 Server/Dropbox";
+    main_dir = "C:/Users/Briggs 419 Server/Dropbox/Issue";
 }
 
 FileSystemI::FileSystemI(std::string main_node)
@@ -17,23 +17,25 @@ FileSystemI::FileSystemI(std::string main_node)
     main_dir = main_node;
 }
 
-Ice::ByteSeq FileSystemI::receiveFile(const std::string& path,
-                                      const Ice::Current& c)
+FileSystem::ByteSeq
+FileSystemI::receiveLatest(const std::string& sec, const std::string& art,
+                           const std::string& type, const std::string& fName,
+                           const Ice::Current& c)
 {
     using namespace std;
-    using namespace Ice;
+    using namespace FileSystem;
+
+    ByteSeq seq;
 
     string caller_info = getName(getIP(c));
 
     cout << "===" + caller_info + "===" << endl;
 
-    // create file name.
-    string fn = extractNodeName(path) + ".docx";
+    string path = main_dir + "/" + sec + "/" + art + "/" + type
+            + "/" + fName;
+    string fn = fName + ".docx";
 
-    // returns latest version only.
     long long i = 1;
-
-    // because path is type const string (requied by Ice)
     string dir;
     if (dirExists(path))
     {
@@ -43,24 +45,26 @@ Ice::ByteSeq FileSystemI::receiveFile(const std::string& path,
             dir = temp_dir;
             temp_dir = path + "/" + fn;
             insertCorrectly(temp_dir, std::to_string(i).c_str());
-
             ifstream check(temp_dir, ios::binary);
             if(check)
                 i++;
-            else
+            else if(i != 1)
                 break;
+            else
+                return seq;
             check.close();
 
         }
     }
     else
+    {
         cout << path << endl << "Path does not exist" << endl; // throw exception in the future.
+        return seq;
+    }
     consolePrint("request path: " + path);
     consolePrint("request: " + dir);
     ifstream source(dir,ios::binary);
 
-    ByteSeq seq;
-    seq.push_back('c');
     if(dir.size() != 0)
     {
         source.seekg(0, ios::end);
@@ -75,19 +79,70 @@ Ice::ByteSeq FileSystemI::receiveFile(const std::string& path,
     return seq;
 }
 
-bool FileSystemI::sendFile(const std::string& name_sf, const Ice::ByteSeq& seq,
-                           const Ice::Current& c)
+FileSystem::ByteSeq
+FileSystemI::receiveVersion(const std::string& sec, const std::string& art,
+                           const std::string& type, const std::string& fName,
+                           const int ver, const Ice::Current& c)
 {
     using namespace std;
-    using namespace Ice;
+    using namespace FileSystem;
+
+    ByteSeq seq;
+
+    if (ver == -1)
+        return receiveLatest(sec, art, type, fName, c);
+
+    string caller_info = getName(getIP(c));
+
+    cout << "===" + caller_info + "===" << endl;
+
+    string path = main_dir + "/" + sec + "/" + art + "/" + type
+            + "/" + fName;
+
+    string dir;
+    if (dirExists(path)) {
+        long long ver_num = ver;
+        string fn = fName + std::to_string(ver_num) + ".docx";
+        dir = path + "/" + fn;
+        ifstream check(dir, ios::binary);
+        if (!check)
+            return seq;
+        check.close();
+    }
+    else
+    {
+        cout << path << endl << "Path does not exist" << endl; // throw exception in the future.
+        return seq;
+    }
+    consolePrint("request path: " + path);
+    consolePrint("request: " + dir);
+    ifstream source(dir,ios::binary);
+
+    source.seekg(0, ios::end);
+    long len = source.tellg();
+    source.seekg(0, ios::beg);
+
+    seq.resize(len);
+    source.read(reinterpret_cast<char*>(&seq[0]), seq.size());
+
+    return seq;
+}
+
+bool
+FileSystemI::sendFile(const std::string& sec, const std::string& art,
+                      const std::string& type, const std::string& fNameExt,
+                      const FileSystem::ByteSeq& seq, const Ice::Current& c)
+{
+    using namespace std;
+    using namespace FileSystem;
 
     string caller_info = getName(getIP(c));
     cout << "===" + caller_info + "===" << endl;
 
-    string sec_dir = "Article";
-    string article_dir = "Document";
-    string type_dir = "Copy";
-    string file_dir = extractFileName(name_sf);
+    string sec_dir = sec;
+    string article_dir = art;
+    string type_dir = type;
+    string file_dir = extractFileName(fNameExt);
 
     string dir = main_dir + "/" + sec_dir + "/" + article_dir
             + "/" + type_dir + "/" + file_dir;
@@ -110,8 +165,8 @@ bool FileSystemI::sendFile(const std::string& name_sf, const Ice::ByteSeq& seq,
 
     long long num = 1; // bug MSV2010.
 
-    string temp = dir + "/" + name_sf;
-    string fn = name_sf;
+    string temp = dir + "/" + fNameExt;
+    string fn = fNameExt;
     ifstream file(temp,ios::binary);
     while(true){
         if (!file)
@@ -122,13 +177,13 @@ bool FileSystemI::sendFile(const std::string& name_sf, const Ice::ByteSeq& seq,
             temp = dir + "/" + fn;
             file = ifstream(temp, ios::binary);
             if(file)
-                fn = name_sf;
+                fn = fNameExt;
         }
         num++;
     }
     dir = dir + "/" + fn;
     file.close();
-    consolePrint("send name: " + name_sf);
+    consolePrint("send name: " + fNameExt);
     consolePrint("send: " + dir);
 
     ofstream dest(dir, ios::binary);
@@ -139,6 +194,70 @@ bool FileSystemI::sendFile(const std::string& name_sf, const Ice::ByteSeq& seq,
 
     return status;
 }
+
+FileSystem::VerSeq
+FileSystemI::getHistory(const std::string& sec, const std::string& art,
+         const std::string& type, const std::string& fName,
+         const Ice::Current& c)
+{
+    using namespace std;
+    using namespace FileSystem;
+
+    VerSeq v_seq;
+
+    string caller_info = getName(getIP(c));
+    cout << "===" + caller_info + "===" << endl;
+
+    string path = main_dir + "/" + sec + "/" + art + "/" + type
+            + "/" + fName;
+    string fn = fName + ".docx";
+
+    long long i = 0;
+    if (dirExists(path))
+    {
+        string temp_fn = fn;
+        while(true)
+        {
+            string dir = path + "/" + fn;
+            ifstream check(dir, ios::binary);
+            if(check)
+            {
+                Version vr;
+                vr.verNum = (int)i;
+                vr.verName = i ? fName + std::to_string(i)
+                               : fName;
+
+                v_seq.push_back(vr);
+
+                i++;
+            }
+            else if (i)
+                break;
+            else
+            {
+                Version vr;
+                vr.verNum = 0;
+                vr.verName = "No Version";
+
+                v_seq.push_back(vr);
+
+                return v_seq;
+            }
+            fn = temp_fn;
+            insertCorrectly(fn, std::to_string(i).c_str());
+            check.close();
+        }
+    }
+    else
+    {
+        cout << path << endl << "Path does not exist" << endl; // throw exception in the future.
+        return v_seq;
+    }
+    consolePrint("number of versions " + fName + ": "
+                 + std::to_string((long long)v_seq.size() - 1));
+    return v_seq;
+}
+
 
 // got from StackExchange
 bool FileSystemI::dirExists(const std::string& dir)
@@ -241,6 +360,7 @@ std::string FileSystemI::getName(const std::string& ip_address)
     names.insert(pair_str("143.44.76.61","Sanfer D'souza"));
     names.insert(pair_str("143.44.65.151","Jordan Mark"));
     names.insert(pair_str("143.44.68.218","Lisa Girsova"));
+    names.insert(pair_str("143.44.10.35","Briggs 419 Server"));
 
     map_str::const_iterator iter = names.find(ip_address);
     return iter == names.end() ? "UNIDENTIFIED: " + ip_address : iter->second;

@@ -12,14 +12,23 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    Sender sndr = Sender(); // sens to server computer
+    Sender sndr = Sender(); // sends to server computer
     // Sender sndr = Sender(0); // send to current computer. Needs Receiver rcvr = Receiver(0); in LuDServer main.
 
-    // sendFile(file_to_send, new_name)
-    sndr.sendFile("C:/Users/lenovo/Dropbox/Hello.docx","Works.docx");
+    sndr.sendFile("News","Not Really","Copy","Yo.docx",
+                "C:/Users/Briggs 419 Server/Dropbox/TwoComps.docx");
 
-    // requestFile(file_to_request, download_name)
-    sndr.requestFile("C:/Users/Briggs 419 Server/Dropbox/Article/Document/Copy/Implement","C:/Programs/doesit.docx");
+    sndr.requestFile("Article","Document","Copy","Works","C:/Programs/doesit.docx");
+
+    sndr.requestFile("Article","Document","Copy","Works","C:/Programs/doesit3.docx",3);
+
+    FileSystem::VerSeq v_seq = sndr.getHistory("Article","Document","Copy","Works");
+
+    for (int i = 0; i != v_seq.size(); i++)
+    {
+        FileSystem::Version vr = v_seq.at(i);
+        cout << "Name: " << vr.verName << " Num: " << vr.verNum << endl;
+    }
 
     return 0;
 }

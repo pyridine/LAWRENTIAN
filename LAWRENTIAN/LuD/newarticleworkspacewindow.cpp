@@ -44,7 +44,7 @@ void newArticleWorkspaceWindow::on_pushButton_2_clicked()
     string photographer = ui->photographerComboBox->currentText().toStdString();
     string filePath = ui->articleFileTextField->text().toStdString();
     if(filePath.size())
-        sndr.sendFile(filePath,"LuD.docx");
+        sndr.sendFile(section, title, "Copy", "new.dox", filePath);
 
     QDate issueDate = ui->issueDateEdit->date();
     string issueDateString = issueDate.toString().toStdString();

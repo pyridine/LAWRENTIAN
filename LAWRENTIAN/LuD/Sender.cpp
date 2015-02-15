@@ -38,15 +38,15 @@ Sender::~Sender()
         ic->destroy();
 }
 
-// dir_sf -> directory of file to send.
-bool Sender::sendFile(const std::string& dir_sf, const std::string& name)
+bool
+Sender::sendFile(const std::string& sec, const std::string& art,
+                 const std::string& type, const std::string& fNameExt,
+                 const std::string& clDir)
 {
     using namespace std;
     using namespace Ice;
 
-    cout << dir_sf << endl << name << endl;
-
-    ifstream source(dir_sf, ios::binary);
+    ifstream source(clDir, ios::binary);
     source.seekg(0, ios::end);
     long len = source.tellg();
     source.seekg(0, ios::beg);
@@ -54,23 +54,37 @@ bool Sender::sendFile(const std::string& dir_sf, const std::string& name)
     ByteSeq seq(len);
     source.read(reinterpret_cast<char*>(&seq[0]), seq.size());
 
-    bool b = fpx->sendFile(name,seq);
+    bool b = fpx->sendFile(sec, art, type, fNameExt,seq);
     source.close();
 
     return b;
 }
 
-// dir_rf: directory of receive file    down_dir: directory of downloaded file
-bool Sender::requestFile(const std::string& dir_rf, const std::string& down_dir)
+bool
+Sender::requestFile(const std::string& sec, const std::string& art,
+                    const std::string& type, const std::string& fName,
+                    const std::string& down_dir, int ver)
 {
     using namespace std;
     using namespace Ice;
 
-    ByteSeq seq = fpx->receiveFile(dir_rf);
+    ByteSeq seq = (ver == -1)
+                ? fpx->receiveLatest(sec, art, type, fName)
+                : fpx->receiveVersion(sec, art, type, fName, ver);
+
+    if (!seq.size())
+        return false;
+
     ofstream dest(down_dir, ios::binary);
 
     dest.write(reinterpret_cast<char*>(&seq[0]),seq.size());
-
-    bool b = dest ? true : false;
-    return b;
+    return dest ? true : false;
 }
+
+FileSystem::VerSeq
+Sender::getHistory(const std::string& sec, const std::string& art,
+                   const std::string& type, const std::string& fName)
+{
+    return fpx->getHistory(sec, art, type, fName);
+}
+

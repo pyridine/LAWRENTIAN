@@ -83,7 +83,8 @@ HEADERS  += registrationwindow.h \
     writertimesheetwidget.h \
     employeetabdbcontroller.h \
     FileSystem.h \
-    Sender.h
+    Sender.h \
+    constants.h
 
 
 FORMS    += registrationwindow.ui \
@@ -100,15 +101,19 @@ FORMS    += registrationwindow.ui \
     profilewidget.ui \
     subscriptionswidget.ui \
     writertimesheetwidget.ui
-CONFIG   += console
-CONFIG   += C++11
 
 DISTFILES += \
     libmysql.dll \
     LuD.pro.user \
     FileSystem.ice \
     LuD.pro.user.0f8f2c1 \
-    LuD.pro.user.ee9f765
+    LuD.pro.user.ee9f765 \
+    LuD.pro.user.47f9476
+
+win32{
+
+CONFIG   += console
+CONFIG   += C++11
 
 # Ice libraries. Simply set the environment variable $(ICE_DIR) to Ice parent node and add the bin directory to Ice bin node.
 # Example: $(ICE_DIR) = C:/Programs/ZeroC/Ice-3.5.1 and $(PATH) = C:\Programs\ZeroC\Ice-3.5.1\bin;
@@ -137,3 +142,70 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $(ICE_DIR)/lib/li
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $(ICE_DIR)/lib/iceutil.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $(ICE_DIR)/lib/iceutild.lib
 else:unix: PRE_TARGETDEPS += $(ICE_DIR)/lib/libiceutil.a
+}
+
+macx{
+CONFIG   += console
+#CONFIG   += C++11
+CONFIG += x86
+CONFIG += -arch x86_64
+
+QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -stdlib=libstdc++
+
+LIBS += -framework IOKit
+LIBS += -framework CoreFoundation
+
+LIBS += -stdlib=libc++ #don't need -std=c++11
+
+QMAKE_CXXFLAGS += -stdlib=libc++
+QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -mmacosx-version-min=10.7
+QMAKE_LFLAGS += -mmacosx-version-min=10.7
+
+INCLUDEPATH += -Wl,-rpath,/Library/Developer/Ice-3.5.1/lib -L/Library/Developer/Ice-3.5.1/lib -lIce -lIceUtil
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/c++11/release/ -lIce
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/c++11/debug/ -lIce
+else:unix: LIBS += -L$$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/c++11/ -lIce
+
+INCLUDEPATH += $$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/c++11
+DEPENDPATH += $$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/c++11
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/c++11/release/ -lIceUtil
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/c++11/debug/ -lIceUtil
+else:unix: LIBS += -L$$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/c++11/ -lIceUtil
+
+INCLUDEPATH += $$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/c++11
+DEPENDPATH += $$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/c++11
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/c++11/release/ -lIce
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/c++11/debug/ -lIce
+else:unix: LIBS += -L$$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/c++11/ -lIce
+
+INCLUDEPATH += $$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/c++11
+DEPENDPATH += $$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/c++11
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/c++11/release/ -lIceUtil
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/c++11/debug/ -lIceUtil
+else:unix: LIBS += -L$$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/c++11/ -lIceUtil
+
+INCLUDEPATH += $$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/c++11
+DEPENDPATH += $$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/c++11
+
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/release/ -lIce
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/debug/ -lIce
+else:unix: LIBS += -L$$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/ -lIce
+
+INCLUDEPATH += $$PWD/../../../../../../Library/Developer/Ice-3.5.1/include
+DEPENDPATH += $$PWD/../../../../../../Library/Developer/Ice-3.5.1/include
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/release/ -lIceUtil
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/debug/ -lIceUtil
+else:unix: LIBS += -L$$PWD/../../../../../../Library/Developer/Ice-3.5.1/lib/ -lIceUtil
+
+INCLUDEPATH += $$PWD/../../../../../../Library/Developer/Ice-3.5.1/include
+DEPENDPATH += $$PWD/../../../../../../Library/Developer/Ice-3.5.1/include
+
+}

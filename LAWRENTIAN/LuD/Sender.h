@@ -15,8 +15,9 @@ public:
     Sender(const std::string& connection);
     Sender(const int& num);
     ~Sender();
-    bool sendFile(const std::string& dir_sf, const std::string& name);
-    bool requestFile(const std::string& dir_rf, const std::string& down_dir);
+    bool sendFile(const std::string& sec, const std::string& art, const std::string& type, const std::string& fNameExt, const std::string& clDir);
+    bool requestFile(const std::string& sec, const std::string& art, const std::string& type, const std::string& fName, const std::string& down_dir, int ver = -1);
+    FileSystem::VerSeq getHistory(const std::string& sec, const std::string& art, const std::string& type, const std::string& fName);
 };
 
 #endif // SENDER_H
