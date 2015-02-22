@@ -44,9 +44,9 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
     empWidget->init(loginCredo);
     empWidget->initDB(client);
 
-    if(loginCredo->hasPermission(PToken::VIEW_ALL_EMPLOYEE_INFO)){
+    if(loginCredo->hasPermission(VIEW_ALL_EMPLOYEE_INFO)){
         empWidget->initTotalView();
-    } else if(loginCredo->hasPermission(PToken::VIEW_PRIVILEGED_EMPLOYEE_INFO)){
+    } else if(loginCredo->hasPermission(VIEW_PRIVILEGED_EMPLOYEE_INFO)){
         empWidget->initPrivilegedView();
     } else{
         empWidget->initNormalView();
@@ -57,60 +57,60 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
     //probations, etc.
 
 
-    if(loginCredo->hasPermission(PToken::ADMIN_PTOKEN)
-            ||loginCredo->hasPermission(PToken::SUBMIT_COPY)
-            ||loginCredo->hasPermission(PToken::EDIT_COPY)
-            ||loginCredo->hasPermission(PToken::SUBMIT_GRAPHIC)
-            ||loginCredo->hasPermission(PToken::EDIT_GRAPHIC)
-            ||loginCredo->hasPermission(PToken::SUBMIT_PHOTO)
-            ||loginCredo->hasPermission(PToken::EDIT_PHOTO)
-            ||loginCredo->hasPermission(PToken::EDIT_ARTICLE_WORKSPACE)
-            ||loginCredo->hasPermission(PToken::APPROVE_ARTICLE)){
+    if(loginCredo->hasPermission(ADMIN_PTOKEN)
+            ||loginCredo->hasPermission(SUBMIT_COPY)
+            ||loginCredo->hasPermission(EDIT_COPY)
+            ||loginCredo->hasPermission(SUBMIT_GRAPHIC)
+            ||loginCredo->hasPermission(EDIT_GRAPHIC)
+            ||loginCredo->hasPermission(SUBMIT_PHOTO)
+            ||loginCredo->hasPermission(EDIT_PHOTO)
+            ||loginCredo->hasPermission(EDIT_ARTICLE_WORKSPACE)
+            ||loginCredo->hasPermission(APPROVE_ARTICLE)){
 
         tabs->addTab(new articleWorkspace(), "Article Workspace");
         //TODO: Display submenus of categories (News, Feat, A&E, etc) by permission.
     }
 
-    if(loginCredo->hasPermission(PToken::ADMIN_PTOKEN)
-            ||loginCredo->hasPermission(PToken::EDIT_TIMESHEETS)
-            ||loginCredo->hasPermission(PToken::VIEW_TIMESHEETS)){
+    if(loginCredo->hasPermission(ADMIN_PTOKEN)
+            ||loginCredo->hasPermission(EDIT_TIMESHEETS)
+            ||loginCredo->hasPermission(VIEW_TIMESHEETS)){
 
         tabs->addTab(new editorTimesheetWidget(), "Editor Timesheet");
     }
 
-    if(loginCredo->hasPermission(PToken::ADMIN_PTOKEN)
-            ||loginCredo->hasPermission(PToken::EDIT_TIMESHEETS)
-            ||loginCredo->hasPermission(PToken::VIEW_TIMESHEETS)){
+    if(loginCredo->hasPermission(ADMIN_PTOKEN)
+            ||loginCredo->hasPermission(EDIT_TIMESHEETS)
+            ||loginCredo->hasPermission(VIEW_TIMESHEETS)){
 
         tabs->addTab(new writerTimesheetWidget(), "Writer Timesheet");
     }
 
 
-    if(loginCredo->hasPermission(PToken::ADMIN_PTOKEN)
-            ||loginCredo->hasPermission(PToken::EDIT_TIMESHEETS)
-            ||loginCredo->hasPermission(PToken::VIEW_TIMESHEETS)){
+    if(loginCredo->hasPermission(ADMIN_PTOKEN)
+            ||loginCredo->hasPermission(EDIT_TIMESHEETS)
+            ||loginCredo->hasPermission(VIEW_TIMESHEETS)){
 
         tabs->addTab(new writerTimesheetWidget(), "Writer Timesheet");
     }
 
 
-    if(loginCredo->hasPermission(PToken::ADMIN_PTOKEN)
-            ||loginCredo->hasPermission(PToken::EDIT_SUBSCRIPTIONS)
-            ||loginCredo->hasPermission(PToken::VIEW_SUBSCRIPTIONS)){
+    if(loginCredo->hasPermission(ADMIN_PTOKEN)
+            ||loginCredo->hasPermission(EDIT_SUBSCRIPTIONS)
+            ||loginCredo->hasPermission(VIEW_SUBSCRIPTIONS)){
 
         tabs->addTab(new subscriptionsWidget(), "Subscriptions");
     }
 
-    if(loginCredo->hasPermission(PToken::ADMIN_PTOKEN)
-            ||loginCredo->hasPermission(PToken::EDIT_CIRCULATIONS)
-            ||loginCredo->hasPermission(PToken::VIEW_CIRCULATIONS)){
+    if(loginCredo->hasPermission(ADMIN_PTOKEN)
+            ||loginCredo->hasPermission(EDIT_CIRCULATIONS)
+            ||loginCredo->hasPermission(VIEW_CIRCULATIONS)){
 
         tabs->addTab(new circulationWidget(), "Circulation");
     }
 
-    if(loginCredo->hasPermission(PToken::ADMIN_PTOKEN)
-            ||loginCredo->hasPermission(PToken::EDIT_ADS)
-            ||loginCredo->hasPermission(PToken::VIEW_ADS)){
+    if(loginCredo->hasPermission(ADMIN_PTOKEN)
+            ||loginCredo->hasPermission(EDIT_ADS)
+            ||loginCredo->hasPermission(VIEW_ADS)){
 
         tabs->addTab(new adWidget(), "Ads");
     }

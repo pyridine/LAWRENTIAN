@@ -3,7 +3,7 @@
 
 #include "employee.h"
 #include "checkemployeeswindow.h"
-#include "registrationwindowdbcontroller.h"
+#include "registrationwindowdbc.h"
 
 #include <QMainWindow>
 #include <vector>
@@ -28,7 +28,7 @@ private slots:
 
 private:
     Ui::RegistrationWindow *ui;
-    RegistrationWindowDBController* dbController;
+    RegistrationWindowDBC* dbController;
 
     bool isValidUsername(string s);
     bool isPasswordSuitable(string s);

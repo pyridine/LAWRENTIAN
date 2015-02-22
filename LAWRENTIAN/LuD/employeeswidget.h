@@ -4,7 +4,7 @@
 #include <QWidget>
 #include "client.h"
 #include "logincredentials.h"
-#include "employeetabdbcontroller.h"
+#include "employeetabledbc.h"
 #include "mainwindow.h"
 
 namespace Ui {
@@ -32,7 +32,7 @@ private slots:
 private:
     Ui::employeesWidget *ui;
     LoginCredentials* loginCred;
-    EmployeeTabDBController* dbController;
+    EmployeeTableDBC* dbController;
 
 };
 

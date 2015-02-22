@@ -1,7 +1,7 @@
 #ifndef LOGINWINDOW_H
 #define LOGINWINDOW_H
 
-#include "loginwindowdbcontroller.h"
+#include "loginwindowdbc.h"
 #include <QDialog>
 
 namespace Ui {
@@ -25,7 +25,7 @@ private slots:
     void on_pushButton_3_clicked();
 
 private:
-    LoginWindowDBController* dbController;
+    LoginWindowDBC* dbController;
     Ui::LoginWindow* ui;
 };
 

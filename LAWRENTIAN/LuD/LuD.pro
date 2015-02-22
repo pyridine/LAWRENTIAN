@@ -21,10 +21,8 @@ SOURCES += main.cpp\
     permissions.cpp \
     circulation.cpp \
     remotedbconnection.cpp \
-    registrationwindowdbcontroller.cpp \
     client.cpp \
     loginwindow.cpp \
-    loginwindowdbcontroller.cpp \
     logincredentials.cpp \
     alert.cpp \
     ad.cpp \
@@ -45,9 +43,12 @@ SOURCES += main.cpp\
     profilewidget.cpp \
     subscriptionswidget.cpp \
     writertimesheetwidget.cpp \
-    employeetabdbcontroller.cpp \
     FileSystem.cpp \
-    Sender.cpp
+    Sender.cpp \
+    registrationwindowdbc.cpp \
+    loginwindowdbc.cpp \
+    employeetabledbc.cpp \
+    databasecontroller.cpp
 
 HEADERS  += registrationwindow.h \
     employee.h \
@@ -56,10 +57,8 @@ HEADERS  += registrationwindow.h \
     permissions.h \
     circulation.h \
     remotedbconnection.h \
-    registrationwindowdbcontroller.h \
     client.h \
     loginwindow.h \
-    loginwindowdbcontroller.h \
     logincredentials.h \
     alert.h \
     ad.h \
@@ -81,10 +80,13 @@ HEADERS  += registrationwindow.h \
     profilewidget.h \
     subscriptionswidget.h \
     writertimesheetwidget.h \
-    employeetabdbcontroller.h \
     FileSystem.h \
     Sender.h \
-    constants.h
+    constants.h \
+    registrationwindowdbc.h \
+    loginwindowdbc.h \
+    employeetabledbc.h \
+    databasecontroller.h
 
 
 FORMS    += registrationwindow.ui \

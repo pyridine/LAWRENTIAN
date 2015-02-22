@@ -3,7 +3,7 @@
 #include <iostream>
 #include "registrationwindow.h"
 #include <qwindow>
-#include "loginwindowdbcontroller.h"
+#include "loginwindowdbc.h"
 #include "qmessagebox.h"
 #include "alert.h"
 #include "PermissionDefinitions.h"
@@ -20,12 +20,11 @@ LoginWindow::LoginWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    dbController = new LoginWindowDBController();
 }
 
 
 void LoginWindow::initDB(Client* cp){
-    dbController->init(cp);
+    dbController = new LoginWindowDBC(cp);
 }
 
 LoginWindow::~LoginWindow()

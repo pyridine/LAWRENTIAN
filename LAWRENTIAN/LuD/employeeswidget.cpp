@@ -1,6 +1,6 @@
 #include "employeeswidget.h"
 #include "ui_employeeswidget.h"
-#include "employeetabdbcontroller.h"
+#include "employeetabledbc.h"
 #include "client.h"
 #include "QTableWidgetItem"
 #include "PermissionDefinitions.h"
@@ -20,8 +20,7 @@ void employeesWidget::init(LoginCredentials* l){
     loginCred = l;
 }
 void employeesWidget::initDB(Client *c){
-    dbController = new EmployeeTabDBController();
-    dbController->init(c);
+    dbController = new EmployeeTableDBC(c);
 }
 
 void employeesWidget::initNormalView(){

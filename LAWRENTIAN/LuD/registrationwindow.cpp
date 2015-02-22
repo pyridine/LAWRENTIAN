@@ -7,7 +7,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include "client.h"
-#include "registrationwindowdbcontroller.h"
+#include "registrationwindowdbc.h"
 #include <string>
 #include <iostream>
 #include "alert.h"
@@ -21,9 +21,6 @@ RegistrationWindow::RegistrationWindow(QWidget *parent) : QMainWindow(parent), u
     ui->passwordErrorLabel->setText("Password not suitable");
     ui->passwordErrorLabel->hide();
 
-    RegistrationWindowDBController* rwdbc = new RegistrationWindowDBController();
-    dbController = rwdbc;
-
 }
 
 RegistrationWindow::~RegistrationWindow()
@@ -32,9 +29,8 @@ RegistrationWindow::~RegistrationWindow()
 }
 
 void RegistrationWindow::initDB(Client *c){
-    dbController->init(c);
+    dbController = new RegistrationWindowDBC(c);
 }
-
 
 void RegistrationWindow::on_submitButton_clicked()
 {
