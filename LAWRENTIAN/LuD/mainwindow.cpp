@@ -8,6 +8,8 @@
 #include "writertimesheetwidget.h"
 #include "subscriptionswidget.h"
 #include "circulationwidget.h"
+#include "permissiondef.h"
+#include "mainwindowdbc.h"
 
 #include <QTabWidget>
 
@@ -37,16 +39,16 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
 
     //Init/Add profile widget.
     profileWidget* w_profile = new profileWidget();
-    w_profile->init(this,loginCredo->getName(),Permissions::translateTitle(static_cast<Title>(loginCredo->getTitle())));
+    w_profile->init(this,loginCredo->getName(),dbController->translateTitle(loginCredo->getTitle()));
     tabs->addTab(w_profile, "Profile");
 
     employeesWidget* empWidget = new employeesWidget();
     empWidget->init(loginCredo);
     empWidget->initDB(client);
 
-    if(loginCredo->hasPermission(VIEW_ALL_EMPLOYEE_INFO)){
+    if(loginCredo->hasPermission(PermissionDef::VIEW_ALL_EMPLOYEE_INFO)){
         empWidget->initTotalView();
-    } else if(loginCredo->hasPermission(VIEW_PRIVILEGED_EMPLOYEE_INFO)){
+    } else if(loginCredo->hasPermission(PermissionDef::VIEW_PRIVILEGED_EMPLOYEE_INFO)){
         empWidget->initPrivilegedView();
     } else{
         empWidget->initNormalView();
@@ -57,62 +59,47 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
     //probations, etc.
 
 
-    if(loginCredo->hasPermission(ADMIN_PTOKEN)
-            ||loginCredo->hasPermission(SUBMIT_COPY)
-            ||loginCredo->hasPermission(EDIT_COPY)
-            ||loginCredo->hasPermission(SUBMIT_GRAPHIC)
-            ||loginCredo->hasPermission(EDIT_GRAPHIC)
-            ||loginCredo->hasPermission(SUBMIT_PHOTO)
-            ||loginCredo->hasPermission(EDIT_PHOTO)
-            ||loginCredo->hasPermission(EDIT_ARTICLE_WORKSPACE)
-            ||loginCredo->hasPermission(APPROVE_ARTICLE)){
+    if(loginCredo->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            ||loginCredo->hasPermission(PermissionDef::SUBMIT_COPY)
+            ||loginCredo->hasPermission(PermissionDef::EDIT_COPY)
+            ||loginCredo->hasPermission(PermissionDef::SUBMIT_GRAPHIC)
+            ||loginCredo->hasPermission(PermissionDef::EDIT_GRAPHIC)
+            ||loginCredo->hasPermission(PermissionDef::SUBMIT_PHOTO)
+            ||loginCredo->hasPermission(PermissionDef::EDIT_PHOTO)
+            ||loginCredo->hasPermission(PermissionDef::EDIT_ARTICLE_WORKSPACE)
+            ||loginCredo->hasPermission(PermissionDef::APPROVE_ARTICLE)){
 
         tabs->addTab(new articleWorkspace(), "Article Workspace");
         //TODO: Display submenus of categories (News, Feat, A&E, etc) by permission.
     }
 
-    if(loginCredo->hasPermission(ADMIN_PTOKEN)
-            ||loginCredo->hasPermission(EDIT_TIMESHEETS)
-            ||loginCredo->hasPermission(VIEW_TIMESHEETS)){
+    if(loginCredo->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            ||loginCredo->hasPermission(PermissionDef::EDIT_TIMESHEETS)
+            ||loginCredo->hasPermission(PermissionDef::VIEW_TIMESHEETS)){
 
         tabs->addTab(new editorTimesheetWidget(), "Editor Timesheet");
     }
 
-    if(loginCredo->hasPermission(ADMIN_PTOKEN)
-            ||loginCredo->hasPermission(EDIT_TIMESHEETS)
-            ||loginCredo->hasPermission(VIEW_TIMESHEETS)){
+    if(loginCredo->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            ||loginCredo->hasPermission(PermissionDef::EDIT_TIMESHEETS)
+            ||loginCredo->hasPermission(PermissionDef::VIEW_TIMESHEETS)){
 
         tabs->addTab(new writerTimesheetWidget(), "Writer Timesheet");
     }
 
 
-    if(loginCredo->hasPermission(ADMIN_PTOKEN)
-            ||loginCredo->hasPermission(EDIT_TIMESHEETS)
-            ||loginCredo->hasPermission(VIEW_TIMESHEETS)){
+    if(loginCredo->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            ||loginCredo->hasPermission(PermissionDef::EDIT_TIMESHEETS)
+            ||loginCredo->hasPermission(PermissionDef::VIEW_TIMESHEETS)){
 
         tabs->addTab(new writerTimesheetWidget(), "Writer Timesheet");
     }
 
-
-    if(loginCredo->hasPermission(ADMIN_PTOKEN)
-            ||loginCredo->hasPermission(EDIT_SUBSCRIPTIONS)
-            ||loginCredo->hasPermission(VIEW_SUBSCRIPTIONS)){
-
-        tabs->addTab(new subscriptionsWidget(), "Subscriptions");
-    }
-
-    if(loginCredo->hasPermission(ADMIN_PTOKEN)
-            ||loginCredo->hasPermission(EDIT_CIRCULATIONS)
-            ||loginCredo->hasPermission(VIEW_CIRCULATIONS)){
+    if(loginCredo->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            ||loginCredo->hasPermission(PermissionDef::EDIT_CIRCULATIONS)
+            ||loginCredo->hasPermission(PermissionDef::VIEW_CIRCULATIONS)){
 
         tabs->addTab(new circulationWidget(), "Circulation");
-    }
-
-    if(loginCredo->hasPermission(ADMIN_PTOKEN)
-            ||loginCredo->hasPermission(EDIT_ADS)
-            ||loginCredo->hasPermission(VIEW_ADS)){
-
-        tabs->addTab(new adWidget(), "Ads");
     }
 
 }
@@ -125,7 +112,7 @@ void MainWindow::logOut(){
 
 void MainWindow::initDB(Client* c){
     client = c;
-    //Store this, and pass it to controllers upon construction.....
+    dbController = new MainWindowDBC(c);
 }
 
 

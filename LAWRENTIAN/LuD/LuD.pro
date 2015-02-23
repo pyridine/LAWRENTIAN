@@ -48,12 +48,14 @@ SOURCES += main.cpp\
     registrationwindowdbc.cpp \
     loginwindowdbc.cpp \
     employeetabledbc.cpp \
-    databasecontroller.cpp
+    databasecontroller.cpp \
+    permissiondef.cpp \
+    mainwindowdbc.cpp \
+    titledef.cpp
 
 HEADERS  += registrationwindow.h \
     employee.h \
     checkemployeeswindow.h \
-    PermissionDefinitions.h \
     permissions.h \
     circulation.h \
     remotedbconnection.h \
@@ -69,7 +71,6 @@ HEADERS  += registrationwindow.h \
     registrationdialog.h \
     subscription.h \
     writertimesheet.h \
-    titledefinitions.h \
     adwidget.h \
     articleworkspace.h \
     circulationwidget.h \
@@ -86,7 +87,10 @@ HEADERS  += registrationwindow.h \
     registrationwindowdbc.h \
     loginwindowdbc.h \
     employeetabledbc.h \
-    databasecontroller.h
+    databasecontroller.h \
+    permissiondef.h \
+    mainwindowdbc.h \
+    titledef.h
 
 
 FORMS    += registrationwindow.ui \

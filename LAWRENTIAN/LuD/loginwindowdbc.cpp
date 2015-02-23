@@ -1,8 +1,10 @@
-#include "loginwindowdbc.h"
 #include <iostream>
 #include <qsql.h>
 #include "databasecontroller.h"
 #include "client.h"
+#include "permissiondef.h"
+#include "loginwindowdbc.h"
+
 
 using namespace std;
 
@@ -14,6 +16,10 @@ namespace LWDBCcommands {
     const string GET_EMPLOYEE_EXCEPTION_PERMISSIONS = "SELECT token FROM lawrentian.employee_permission WHERE luid = :luid";
     const string GET_TITLE_PERMISSIONS = "SELECT token FROM lawrentian.title_permission WHERE title = :title";
     const string INSERT_TITLE_PERMISSION = "INSERT INTO lawrentian.title_permission (title,token) VALUES (:ti,:to)";
+
+    const string _GET_PERMISSION_ID = "SELECT idtoken from lawrentian.permissiontokens WHERE variablename = :var";
+    const string _GET_TITLE_ID = "SELECT idtitle from lawrentian.titledefinitions WHERE variablename = :var";
+
 }
 using namespace LWDBCcommands;
 using namespace std;
@@ -78,7 +84,7 @@ string LoginWindowDBC::getEmployeeName(int luid){
 
 }
 
-vector<PToken>* LoginWindowDBC::getEmployeePermissions(int LUID){
+vector<int>* LoginWindowDBC::getEmployeePermissions(int LUID){
     QSqlQuery* query = new QSqlQuery();
     query->prepare(QString::fromStdString(LWDBCcommands::GET_EMPLOYEE_EXCEPTION_PERMISSIONS));
     query->bindValue(":luid",LUID);
@@ -86,12 +92,12 @@ vector<PToken>* LoginWindowDBC::getEmployeePermissions(int LUID){
     QSqlQuery* result = client->execute(query);
     QSqlError err = result->lastError();
 
-    vector<PToken>* permz = new vector<PToken>();
+    vector<int>* permz = new vector<int>();
 
     if(!err.isValid()){
         while(result->next()){
-            int nextPTokenID = result->value(0).toString().toInt();
-            PToken nextToken = static_cast<PToken>(nextPTokenID);
+            int nextintID = result->value(0).toString().toInt();
+            int nextToken = nextintID;
             permz->push_back(nextToken);
         }
         return permz;
@@ -104,7 +110,7 @@ vector<PToken>* LoginWindowDBC::getEmployeePermissions(int LUID){
 
 }
 
-int LoginWindowDBC::getEmployeetitle(int LUID){
+int LoginWindowDBC::getEmployeeTitle(int LUID){
     QSqlQuery* query = new QSqlQuery();
     query->prepare(QString::fromStdString(LWDBCcommands::GET_TITLE));
 
@@ -123,8 +129,8 @@ int LoginWindowDBC::getEmployeetitle(int LUID){
 }
 
 
-vector<PToken>* LoginWindowDBC::getEmployeeTitlePermissions(int LUID){
-    int title = getEmployeetitle(LUID);
+vector<int>* LoginWindowDBC::getEmployeeTitlePermissions(int LUID){
+    int title = getEmployeeTitle(LUID);
 
     QSqlQuery* query = new QSqlQuery();
     query->prepare(QString::fromStdString(LWDBCcommands::GET_TITLE_PERMISSIONS));
@@ -135,12 +141,12 @@ vector<PToken>* LoginWindowDBC::getEmployeeTitlePermissions(int LUID){
     QSqlQuery* result = client->execute(query);
     QSqlError err = result->lastError();
 
-    vector<PToken>* permz = new vector<PToken>();
+    vector<int>* permz = new vector<int>();
 
     if(!err.isValid()){
         while(result->next()){
-            int nextPTokenID = result->value(0).toString().toInt();
-            PToken nextToken = static_cast<PToken>(nextPTokenID);
+            int nextintID = result->value(0).toString().toInt();
+            int nextToken = static_cast<int>(nextintID);
             permz->push_back(nextToken);
         }
         return permz;
@@ -156,27 +162,62 @@ vector<PToken>* LoginWindowDBC::getEmployeeTitlePermissions(int LUID){
 void LoginWindowDBC::__DEBUG__POPULATE_TITLE_PERMISSIONS(){
 
     //from admin to photographer
-    for(int nextTitleID = 0; nextTitleID <= 19; nextTitleID++ ){
-        vector<PToken>* allTitleTokens = Permissions::__DEBUG_GET_PERMISSION_LIST_FOR_TITLE(static_cast<Title>(nextTitleID));
+    for(int nextintID = 0; nextintID <= 19; nextintID++ ){
+        vector<int>* allintTokens = Permissions::__DEBUG_GET_PERMISSION_LIST_FOR_TITLE(static_cast<int>(nextintID));
 
-        vector<PToken>::iterator titleTokens = allTitleTokens->begin();
-        while(titleTokens != allTitleTokens->end()){
-            cout << "inserting title " << nextTitleID << " token " << *titleTokens << endl;
-            LoginWindowDBC::__DEBUG__insertTitlePermission(nextTitleID,*titleTokens);
-            ++titleTokens;
+        vector<int>::iterator intTokens = allintTokens->begin();
+        while(intTokens != allintTokens->end()){
+            cout << "inserting title " << nextintID << " token " << *intTokens << endl;
+            LoginWindowDBC::__DEBUG__insertTitlePermission(nextintID,*intTokens);
+            ++intTokens;
         }
 
     }
 }
 
-void LoginWindowDBC::__DEBUG__insertTitlePermission(int titleID, int tokenID){
+void LoginWindowDBC::__DEBUG__insertTitlePermission(int intID, int tokenID){
     QSqlQuery* query = new QSqlQuery();
     query->prepare(QString::fromStdString(LWDBCcommands::INSERT_TITLE_PERMISSION));
 
-    query->bindValue(":ti",titleID);
+    query->bindValue(":ti",intID);
     query->bindValue(":to",tokenID);
 
     client->execute(query);
+}
+
+int LoginWindowDBC::__getPermissionID(string permission){
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(LWDBCcommands::_GET_PERMISSION_ID));
+
+    query->bindValue(":var",QString::fromStdString(permission));
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    if(!err.isValid()){
+        result->next();
+        return result->value(0).toInt();
+    }else{
+        cout << "error: " << result->lastError().text().toStdString() << endl;
+    }
+
+}
+
+int LoginWindowDBC::__getTitleID(string title){
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(LWDBCcommands::_GET_TITLE_ID));
+
+    query->bindValue(":var",QString::fromStdString(title));
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    if(!err.isValid()){
+        result->next();
+        return result->value(0).toInt();
+    }else{
+        cout << "error: " << result->lastError().text().toStdString() << endl;
+    }
 }
 
 LoginWindowDBC::~LoginWindowDBC()

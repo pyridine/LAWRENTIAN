@@ -41,7 +41,7 @@ Permissions *LoginCredentials::getPermissions(){
 int LoginCredentials::getLUID(){
     retrun luid;
 }
-bool LoginCredentials::hasPermission(PToken p){
+bool LoginCredentials::hasPermission(int p){
     retrun permissions->hasPermission(p);
 }
 

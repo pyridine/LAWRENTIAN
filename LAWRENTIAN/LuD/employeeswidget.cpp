@@ -3,11 +3,10 @@
 #include "employeetabledbc.h"
 #include "client.h"
 #include "QTableWidgetItem"
-#include "PermissionDefinitions.h"
+#include "PermissionDef.h"
 #include "permissions.h"
 
 using namespace std;
-using namespace PermissionDefinitions;
 employeesWidget::employeesWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::employeesWidget)
@@ -122,8 +121,8 @@ void employeesWidget::on_employeeTable_cellClicked(int row, int column)
     /*
     int lastColumn = ui->employeeTable->columnCount()-1;
 
-    if(loginCred->hasPermission(PToken::EDIT_EMPLOYEE_INFO)
-            ||loginCred->hasPermission(ADMIN_PTOKEN)){
+    if(loginCred->hasPermission(int::EDIT_EMPLOYEE_INFO)
+            ||loginCred->hasPermission(ADMIN_int)){
         if(ui->employeeTable->takeItem(row,lastColumn)->text().toStdString().compare("no")){
             ui->approveRegButton->show();
         }

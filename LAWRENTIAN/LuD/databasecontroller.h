@@ -2,18 +2,17 @@
 #define DATABASECONTROLLER
 #include "client.h"
 
-
-/*
-
-  willkommen au DatabaseController. I must be publicly inherited.
-
-*/
-
+using namespace std;
 
 class DatabaseController{
 public:
     DatabaseController(Client* c);
     Client* getClient();
+
+    string translateTitle(int titleID);
+    string translatePermission(int permID);
+    string translateLocation(int locID);
+
 
 protected:
     Client* client;

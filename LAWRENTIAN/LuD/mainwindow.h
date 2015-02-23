@@ -5,6 +5,7 @@
 #include "logincredentials.h"
 #include "client.h"
 #include "loginwindow.h"
+#include "mainwindowdbc.h"
 
 namespace Ui {
 class MainWindow;
@@ -26,6 +27,8 @@ private:
     Ui::MainWindow* ui;
     LoginCredentials* loginCredo;
     Client* client;
+
+    MainWindowDBC* dbController;
 
     LoginWindow* parentWindow;
 };

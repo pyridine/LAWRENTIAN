@@ -2,13 +2,13 @@
 
 Article::Article(string issueDate, string title, string description, string section, string writer, string photographer, string filePath)
 {
-Article::issueDate = issueDate;
-Article::title = title;
-Article::description = description;
-Article::section = section;
-Article::writer = writer;
-Article::photographer = photographer;
-Article::filePath = filePath;
+issueDate = issueDate;
+title = title;
+description = description;
+section = section;
+writer = writer;
+photographer = photographer;
+filePath = filePath;
 }
 
 Article::~Article()

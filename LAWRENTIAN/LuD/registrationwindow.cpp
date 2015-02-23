@@ -11,6 +11,8 @@
 #include <string>
 #include <iostream>
 #include "alert.h"
+#include "titledef.h"
+#include "titledef.h"
 
 using namespace std;
 
@@ -101,7 +103,7 @@ void RegistrationWindow::on_submitButton_clicked()
 
     if(fieldsAreSatisfied){
         Employee employee(stringName, std::stoi(stringLuId) /*string to int. If this gives problems, make sure you're using c++11 (see the .pro file)*/,
-                          stringEmail, "NONE", stringPhone, stringUsername, stringPassword, 0);
+                          stringEmail, dbController->translateTitle(TitleDef::NO_TITLE), stringPhone, stringUsername, stringPassword, 0);
 
         //Insert the new employee info to the DB.
         dbController->addEmployee(&employee);

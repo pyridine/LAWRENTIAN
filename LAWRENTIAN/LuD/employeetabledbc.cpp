@@ -1,12 +1,11 @@
 #include "employeetabledbc.h"
-
 #include <QtSql>
 #include <string>
 #include <iostream>
 #include <qvariant.h>
 #include <QTableWidgetItem>
-#include "client.h"
 
+#include "client.h"
 namespace ETDBCCommands {
     /*5 (including luid)*/const string GET_REGULAR_EMPLOYEE_DATA = "SELECT luid,name,title,phone,email FROM lawrentian.employee";
     /*6 (including luid)*/const string GET_PRIVILEGED_EMPLOYEE_DATA = "SELECT luid,name,title,phone,email,approved FROM lawrentian.employee";
@@ -48,7 +47,7 @@ vector<vector<string>>* EmployeeTableDBC::getRegularEmployeeView(){
                 nextRow->push_back(result->value(i).toString().toStdString());
                 break;
             case 2: //translate title int.
-                nextRow->push_back(Permissions::translateTitle(static_cast<Title>(result->value(i).toInt())));
+                nextRow->push_back(this->translateTitle(result->value(i).toInt()));
                 break;
             }
         }
@@ -82,7 +81,7 @@ vector<vector<string>>* EmployeeTableDBC::getPrivilegedEmployeeView(){
                 nextRow->push_back(result->value(i).toString().toStdString());
                 break;
             case 2: //translate title int.
-                nextRow->push_back(Permissions::translateTitle(static_cast<Title>(result->value(i).toInt())));
+                nextRow->push_back(this->translateTitle(result->value(i).toInt()));
                 break;
             case 5:
                 int val = result->value(i).toInt();
@@ -127,7 +126,7 @@ vector<vector<string>>* EmployeeTableDBC::getFullEmployeeView(){
                 nextRow->push_back(result->value(i).toString().toStdString());
                 break;
             case 2: //translate title int.
-                nextRow->push_back(Permissions::translateTitle(static_cast<Title>(result->value(i).toInt())));
+                nextRow->push_back(this->translateTitle(result->value(i).toInt()));
                 break;
             case 7:
                 int val = result->value(i).toInt();

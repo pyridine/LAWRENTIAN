@@ -6,11 +6,10 @@
 #include "loginwindowdbc.h"
 #include "qmessagebox.h"
 #include "alert.h"
-#include "PermissionDefinitions.h"
+#include "permissiondef.h"
 #include "logincredentials.h"
 #include "mainwindow.h"
-
-using namespace PermissionDefinitions;
+#include "titledef.h"
 
 using namespace std;
 
@@ -25,6 +24,17 @@ LoginWindow::LoginWindow(QWidget *parent) :
 
 void LoginWindow::initDB(Client* cp){
     dbController = new LoginWindowDBC(cp);
+
+    cout << "Populating Permissions ids..." << endl;
+
+    PermissionDef::__populateValues(dbController);
+
+    cout << "Done. Permission for view_circ is " << PermissionDef::VIEW_CIRCULATIONS << endl;
+    cout << "Populating Title ids..." << endl;
+
+    TitleDef::__populateValues(dbController);
+
+    cout << "Done. Permission for assoc_news_editor is " << TitleDef::ASSOCIATE_NEWS_EDITOR << endl;
 }
 
 LoginWindow::~LoginWindow()
@@ -58,16 +68,17 @@ void LoginWindow::on_pushButton_clicked()
                 if(dbController->isApproved(luid))
                 {
 
+
                     LoginCredentials* loginCred = new LoginCredentials();
 
                     int loginLUID = luid;
                     string realName = dbController->getEmployeeName(loginLUID);
-                    vector<PToken>* employeePermissions = dbController->getEmployeePermissions(loginLUID);
-                    vector<PToken>* titlePermissions = dbController->getEmployeeTitlePermissions(loginLUID);
-                    int title = dbController->getEmployeetitle(loginLUID);
+                    vector<int>* employeePermissions = dbController->getEmployeePermissions(loginLUID);
+                    vector<int>* titlePermissions = dbController->getEmployeeTitlePermissions(loginLUID);
+                    int title = dbController->getEmployeeTitle(loginLUID);
 
                     //combine the two vectors.
-                    for(vector<PToken>::iterator it = titlePermissions->begin(); it != titlePermissions->end(); it++){
+                    for(vector<int>::iterator it = titlePermissions->begin(); it != titlePermissions->end(); it++){
                         employeePermissions->push_back(*it);
                     }
                     Permissions* finalPermissions = new Permissions(employeePermissions);
@@ -79,17 +90,17 @@ void LoginWindow::on_pushButton_clicked()
 
                     cout << "< NEW LOGIN." << endl;
                     cout << "Permissions: " << endl;
-                    vector<PToken>::iterator pit = employeePermissions->begin();
+                    vector<int>::iterator pit = employeePermissions->begin();
 
                     while(pit != employeePermissions->end()){
-                        cout << Permissions::translatePermission(static_cast<PToken>(*pit)) << ", ";
+                        cout << dbController->translatePermission(static_cast<int>(*pit)) << ", ";
                         ++pit;
                     }
 
                     cout << endl;
                     cout << "Real name: " << loginCred->getName().toStdString() << endl;
                     cout << "Lawrence ID: " << loginCred->getLUID() << endl;
-                    cout << "Title: " << Permissions::translateTitle(static_cast<Title>(loginCred->getTitle())) << endl;
+                    cout << "Title: " << dbController->translateTitle(loginCred->getTitle()) << endl;
 
                     cout << ">" << endl;
                     MainWindow* m = new MainWindow();

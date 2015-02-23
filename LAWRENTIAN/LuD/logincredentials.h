@@ -1,5 +1,6 @@
 #ifndef LOGINCREDENTIALS_H
 #define LOGINCREDENTIALS_H
+
 #include "permissions.h"
 #include <utility>
 #include <qstring.h>
@@ -18,7 +19,7 @@ public:
     QString getName();
     Permissions* getPermissions();
     int getLUID();
-    bool hasPermission(PToken p);
+    bool hasPermission(int p);
 
 private:
     QString realName;
