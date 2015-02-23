@@ -10,6 +10,7 @@
 #include <QCheckBox>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include "copyhistorywindow.h"
 
 using namespace std;
 
@@ -24,7 +25,6 @@ newArticleWorkspaceWindow::newArticleWorkspaceWindow(QWidget *parent) :
     list.sort();
     ui->sectionComboBox->addItems(list);
     ui->delete_pushButton->setVisible(false);
-
 }
 
 newArticleWorkspaceWindow::~newArticleWorkspaceWindow()
@@ -175,4 +175,10 @@ void newArticleWorkspaceWindow::on_delete_pushButton_pressed()
 
     bool isVisible = img_paths.isEmpty() ? false : true;
     ui->delete_pushButton->setVisible(isVisible);
+}
+
+void newArticleWorkspaceWindow::on_copyHistory_pushButton_clicked()
+{
+    CopyHistoryWindow *chw = new CopyHistoryWindow;
+    chw->show();
 }

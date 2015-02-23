@@ -34,6 +34,8 @@ private slots:
 
     void on_delete_pushButton_pressed();
 
+    void on_copyHistory_pushButton_clicked();
+
 private:
     Article *newArticle;
     Ui::newArticleWorkspaceWindow *ui;
