@@ -265,7 +265,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Delete</string>
+    <string>Delete Image</string>
    </property>
   </widget>
  </widget>

@@ -23,6 +23,8 @@ newArticleWorkspaceWindow::newArticleWorkspaceWindow(QWidget *parent) :
                         <<"Sports"<<"Variety";
     list.sort();
     ui->sectionComboBox->addItems(list);
+    ui->delete_pushButton->setVisible(false);
+
 }
 
 newArticleWorkspaceWindow::~newArticleWorkspaceWindow()
@@ -99,6 +101,7 @@ void newArticleWorkspaceWindow::on_addImage_pushButton_clicked()
 
     if(img_paths.isEmpty())
         return;
+    ui->delete_pushButton->setVisible(true);
 
     QStringList::const_iterator iter = img_paths.begin();
     vert_layout = new QVBoxLayout;
@@ -150,23 +153,26 @@ void newArticleWorkspaceWindow::on_delete_pushButton_pressed()
 {
 
     QVector<QCheckBox*>::iterator iter = cb_vec.begin();
-    cout<<"Pressed:"<<endl;
     for(iter; iter != cb_vec.end(); iter++)
     {
         QCheckBox *c_box = *iter;
         if(c_box->isChecked())
         {
-            cout << vert_layout->count() << endl;
+            cout << iter - cb_vec.begin() << " " << cb_vec.length() << endl;
             vert_layout->removeItem(vert_layout->itemAt(iter - cb_vec.begin()));
-            cout << vert_layout->count() << endl;
             img_paths.removeAt(iter - cb_vec.begin());
             cb_vec.erase(iter,iter+1);
+
+            iter--;
         }
+        if (iter == cb_vec.end())
+            break;
     }
 
     QWidget *widget = new QWidget;
     widget->setLayout(vert_layout);
+    ui->img_scrollArea->setWidget(widget);
 
-    if(!vert_layout->isEmpty())
-        ui->img_scrollArea->setWidget(widget);
+    bool isVisible = img_paths.isEmpty() ? false : true;
+    ui->delete_pushButton->setVisible(isVisible);
 }
