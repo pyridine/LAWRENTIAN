@@ -13,6 +13,7 @@ namespace ETDBCCommands {
     const string GET_NUMBER_OF_EMPLOYEES = "SELECT luid FROM lawrentian.employee";
     const string APPROVE_LUID = "UPDATE lawrentian.employee SET approved=1 WHERE luid=:id";
     const string UNPROVE_LUID = "UPDATE lawrentian.employee SET approved=0 WHERE luid=:id";
+    const string GET_NUM_UNREGI = "SELECT luid FROM lawrentian.employee WHERE approved = 0";
 }
 using namespace ETDBCCommands;
 using namespace std;
@@ -190,6 +191,25 @@ void EmployeeTableDBC::approveEmployee(int luid){
 
     if(!err.isValid()){
         return;
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+
+}
+
+int EmployeeTableDBC::getNumUnregistered(){
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(ETDBCCommands::GET_NUM_UNREGI));
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    if(!err.isValid()){
+        int NoMatterHowILookAtItItsYouGuysFaultImNotPopular = 0;
+        while(result->next()){
+            ++NoMatterHowILookAtItItsYouGuysFaultImNotPopular;
+        }
+        return NoMatterHowILookAtItItsYouGuysFaultImNotPopular;
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }

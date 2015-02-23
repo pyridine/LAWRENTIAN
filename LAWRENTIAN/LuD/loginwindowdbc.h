@@ -25,6 +25,7 @@ public:
     /*For populating permissions*/
     int __getPermissionID(string permission);
     int __getTitleID(string title);
+    int __getLocationID(string loc);
 
 
     /*Debug*/

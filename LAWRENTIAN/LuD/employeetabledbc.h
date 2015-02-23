@@ -21,6 +21,7 @@ public:
     vector<vector<string>>* getPrivilegedEmployeeView();
     vector<vector<string>>* getFullEmployeeView();
     int getNumberOfEmployees();
+    int getNumUnregistered();
     void unnaproveEmployee(int luid);
     void approveEmployee(int luid);
 };

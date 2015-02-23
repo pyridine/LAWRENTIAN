@@ -51,7 +51,8 @@ SOURCES += main.cpp\
     databasecontroller.cpp \
     permissiondef.cpp \
     mainwindowdbc.cpp \
-    titledef.cpp
+    titledef.cpp \
+    locationdef.cpp
 
 HEADERS  += registrationwindow.h \
     employee.h \
@@ -90,7 +91,8 @@ HEADERS  += registrationwindow.h \
     databasecontroller.h \
     permissiondef.h \
     mainwindowdbc.h \
-    titledef.h
+    titledef.h \
+    locationdef.h
 
 
 FORMS    += registrationwindow.ui \

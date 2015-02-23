@@ -10,7 +10,7 @@
 #include "circulationwidget.h"
 #include "permissiondef.h"
 #include "mainwindowdbc.h"
-
+#include <qstring.h>
 #include <QTabWidget>
 
 using namespace std;
@@ -46,15 +46,30 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
     empWidget->init(loginCredo);
     empWidget->initDB(client);
 
-    if(loginCredo->hasPermission(PermissionDef::VIEW_ALL_EMPLOYEE_INFO)){
-        empWidget->initTotalView();
-    } else if(loginCredo->hasPermission(PermissionDef::VIEW_PRIVILEGED_EMPLOYEE_INFO)){
-        empWidget->initPrivilegedView();
-    } else{
+
+
+    QString employeeTabTitle = QString::fromStdString("Employees");
+    if(loginCredo->hasPermission(PermissionDef::VIEW_ALL_EMPLOYEE_INFO)
+            || loginCredo->hasPermission(PermissionDef::VIEW_PRIVILEGED_EMPLOYEE_INFO)){
+
+        int numUnregistered = empWidget->getNumUnregistered();
+
+        if(numUnregistered > 0){
+            employeeTabTitle= "Employees (" + QString::number(empWidget->getNumUnregistered()) + " unapproved)";
+        }
+        if(loginCredo->hasPermission(PermissionDef::VIEW_PRIVILEGED_EMPLOYEE_INFO)){
+            empWidget->initPrivilegedView();
+        } else{
+            empWidget->initTotalView();
+
+        }
+    }  else{
         empWidget->initNormalView();
     }
 
-    tabs->addTab(empWidget, "Employees");
+
+    tabs->addTab(empWidget, employeeTabTitle);
+
     //TODO: Submenues in employees depending on can see all employee info, can edit permissions,
     //probations, etc.
 

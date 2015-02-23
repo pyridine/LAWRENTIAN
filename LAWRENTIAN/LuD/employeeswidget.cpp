@@ -5,6 +5,7 @@
 #include "QTableWidgetItem"
 #include "PermissionDef.h"
 #include "permissions.h"
+#include <iostream>
 
 using namespace std;
 employeesWidget::employeesWidget(QWidget *parent) :
@@ -20,6 +21,8 @@ void employeesWidget::init(LoginCredentials* l){
 }
 void employeesWidget::initDB(Client *c){
     dbController = new EmployeeTableDBC(c);
+
+    cout << "Num unregistered : " << dbController->getNumUnregistered() << endl;
 }
 
 void employeesWidget::initNormalView(){
@@ -129,4 +132,8 @@ void employeesWidget::on_employeeTable_cellClicked(int row, int column)
     } else{
         ui->approveRegButton->hide();
     }*/
+}
+
+int employeesWidget::getNumUnregistered(){
+    return dbController->getNumUnregistered();
 }

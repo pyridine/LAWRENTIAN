@@ -10,6 +10,7 @@
 #include "logincredentials.h"
 #include "mainwindow.h"
 #include "titledef.h"
+#include "locationdef.h"
 
 using namespace std;
 
@@ -35,6 +36,11 @@ void LoginWindow::initDB(Client* cp){
     TitleDef::__populateValues(dbController);
 
     cout << "Done. Permission for assoc_news_editor is " << TitleDef::ASSOCIATE_NEWS_EDITOR << endl;
+    cout << "Populating Location ids..." << endl;
+
+    LocationDef::__populateValues(dbController);
+
+    cout << "Done. id for DELTA is " << LocationDef::DELT << endl;
 }
 
 LoginWindow::~LoginWindow()

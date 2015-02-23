@@ -26,6 +26,8 @@ public:
     void initPrivilegedView();
     void initTotalView();
 
+    int getNumUnregistered();
+
 private slots:
     void on_employeeTable_cellClicked(int row, int column);
 
