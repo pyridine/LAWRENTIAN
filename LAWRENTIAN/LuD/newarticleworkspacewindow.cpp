@@ -7,6 +7,9 @@
 #include <QDate>
 #include <string>
 #include "Sender.h"
+#include <QCheckBox>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
 using namespace std;
 
@@ -27,13 +30,13 @@ newArticleWorkspaceWindow::~newArticleWorkspaceWindow()
     delete ui;
 }
 
-void newArticleWorkspaceWindow::on_pushButton_clicked()
+void newArticleWorkspaceWindow::on_chooseFile_pushButton_clicked()
 {
     QString articlePath = QFileDialog::getOpenFileName(this, tr("Select"), "/home", tr("Text Files (*.txt *.rtf *.docx)"));
     ui->articleFileTextField->setText(articlePath);
 }
 
-void newArticleWorkspaceWindow::on_pushButton_2_clicked()
+void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
 {
     Sender sndr = Sender();
 
@@ -87,3 +90,83 @@ void newArticleWorkspaceWindow::setupFields(Article *article)
     ui->issueDateEdit->setDate(issueDate);
 }
 
+
+void newArticleWorkspaceWindow::on_addImage_pushButton_clicked()
+{
+    using namespace std;
+
+    img_paths = QFileDialog::getOpenFileNames(this, "Select", "/home", "Images (*.png *.jpg)");
+
+    if(img_paths.isEmpty())
+        return;
+
+    QStringList::const_iterator iter = img_paths.begin();
+    vert_layout = new QVBoxLayout;
+    while (iter != img_paths.end())
+    {
+        QLabel *text = new QLabel;
+        text->setText(getfName(*iter));
+
+        QCheckBox *check_box = new QCheckBox;
+        cb_vec.push_back(check_box);
+
+        QHBoxLayout *horz_layout = new QHBoxLayout;
+        horz_layout->addWidget(check_box);
+        horz_layout->addWidget(text);
+
+        QWidget *temp_widget = new QWidget;
+        temp_widget->setLayout(horz_layout);
+        vert_layout->addWidget(temp_widget);
+
+        iter++;
+    }
+
+    QWidget *widget = new QWidget;
+    widget->setLayout(vert_layout);
+
+    ui->img_scrollArea->setWidget(widget);
+}
+
+QString newArticleWorkspaceWindow::getfName(QString s)
+{
+    using namespace std;
+
+    string str = s.toStdString();
+    string::const_iterator iter = str.end() - 1;
+
+    while(*iter != '/' && *iter != '\\')
+    {
+        iter--;
+        if(iter == str.begin())
+        {
+            break; //throw exception.
+        }
+    }
+    string ret = str.substr(iter - str.begin() + 1,str.end() - iter - 1);
+    return QString::fromStdString(ret);
+}
+
+void newArticleWorkspaceWindow::on_delete_pushButton_pressed()
+{
+
+    QVector<QCheckBox*>::iterator iter = cb_vec.begin();
+    cout<<"Pressed:"<<endl;
+    for(iter; iter != cb_vec.end(); iter++)
+    {
+        QCheckBox *c_box = *iter;
+        if(c_box->isChecked())
+        {
+            cout << vert_layout->count() << endl;
+            vert_layout->removeItem(vert_layout->itemAt(iter - cb_vec.begin()));
+            cout << vert_layout->count() << endl;
+            img_paths.removeAt(iter - cb_vec.begin());
+            cb_vec.erase(iter,iter+1);
+        }
+    }
+
+    QWidget *widget = new QWidget;
+    widget->setLayout(vert_layout);
+
+    if(!vert_layout->isEmpty())
+        ui->img_scrollArea->setWidget(widget);
+}

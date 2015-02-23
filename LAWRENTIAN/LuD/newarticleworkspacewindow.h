@@ -5,6 +5,9 @@
 #include "articleworkspace.h"
 
 #include <QDialog>
+#include <QVBoxLayout>
+#include <QCheckBox>
+#include <QVector>
 
 namespace Ui {
 class newArticleWorkspaceWindow;
@@ -23,14 +26,24 @@ public:
     void setupFields(Article *article);
 
 private slots:
-    void on_pushButton_clicked();
+    void on_chooseFile_pushButton_clicked();
 
-    void on_pushButton_2_clicked();
+    void on_submit_pushButton_clicked();
+
+    void on_addImage_pushButton_clicked();
+
+    void on_delete_pushButton_pressed();
 
 private:
-    Ui::newArticleWorkspaceWindow *ui;
     Article *newArticle;
+    Ui::newArticleWorkspaceWindow *ui;
     articleWorkspace *parentArticleWorkspaceWidget;
+    QVector<QCheckBox*> cb_vec;
+    QStringList img_paths;
+    QVBoxLayout *vert_layout;
+    QString getfName(QString str);
+
+
 
 };
 
