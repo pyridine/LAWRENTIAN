@@ -5,6 +5,7 @@
 #include "QTableWidgetItem"
 #include "PermissionDef.h"
 #include "permissions.h"
+#include "editemployeeinfo.h"
 #include <iostream>
 
 using namespace std;
@@ -13,15 +14,14 @@ employeesWidget::employeesWidget(QWidget *parent) :
     ui(new Ui::employeesWidget)
 {
     ui->setupUi(this);
-    ui->approveRegButton->hide();
 }
 
 void employeesWidget::init(LoginCredentials* l){
     loginCred = l;
 }
 void employeesWidget::initDB(Client *c){
-    dbController = new EmployeeTableDBC(c);
-
+    this->client = c;
+    dbController = new EmployeeTableDBC(client);
 }
 
 void employeesWidget::initNormalView(){
@@ -136,3 +136,15 @@ void employeesWidget::on_employeeTable_cellClicked(int row, int column)
 int employeesWidget::getNumUnregistered(){
     return dbController->getNumUnregistered();
 }
+
+void employeesWidget::on_approveRegButton_clicked()
+{
+    EditEmployeeInfo* employeeInfo = new EditEmployeeInfo;
+    employeeInfo->initDB(this->client);
+    employeeInfo->myParent = this;
+    employeeInfo->populateNameComboBox();
+    employeeInfo->populateAllFields();
+    employeeInfo->show();
+}
+
+

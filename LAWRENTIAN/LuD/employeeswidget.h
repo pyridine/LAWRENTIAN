@@ -31,10 +31,13 @@ public:
 private slots:
     void on_employeeTable_cellClicked(int row, int column);
 
+    void on_approveRegButton_clicked();
+
 private:
     Ui::employeesWidget *ui;
     LoginCredentials* loginCred;
     EmployeeTableDBC* dbController;
+    Client *client;
 
 };
 

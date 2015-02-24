@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>1036</width>
     <height>600</height>
    </rect>
   </property>
@@ -22,6 +22,12 @@
      <height>550</height>
     </rect>
    </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+    <bool>true</bool>
+   </attribute>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
@@ -49,14 +55,14 @@
   <widget class="QPushButton" name="approveRegButton">
    <property name="geometry">
     <rect>
-     <x>650</x>
+     <x>820</x>
      <y>40</y>
-     <width>141</width>
+     <width>201</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>Approve Registration</string>
+    <string>Approve/Edit Employee</string>
    </property>
   </widget>
  </widget>
