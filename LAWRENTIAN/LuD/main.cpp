@@ -7,6 +7,7 @@
 #include "alert.h"
 #include "mainwindow.h"
 #include "Sender.h"
+#include "newarticleworkspacewindow.h"
 
 using namespace std;
 
@@ -49,7 +50,6 @@ int main(int argc, char *argv[])
         Alert::showAlert("!!FATAL ERROR!!","I couldn't connect to the database. \n This program will now terminate.");
         return 1337;
     }
-
 
     return a.exec();
 }

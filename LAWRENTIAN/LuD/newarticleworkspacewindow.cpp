@@ -20,7 +20,15 @@ newArticleWorkspaceWindow::newArticleWorkspaceWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::newArticleWorkspaceWindow)
 {
+    COPY = "Copy";
+    IMAGE = "Image";
+
     ui->setupUi(this);
+    QStringList list;
+    list <<"Associate News"<<"Features"<<"Opinions & Editorials"<<"Arts & Entertainment"
+        <<"Sports"<<"Variety";
+    list.sort();
+    ui->sectionComboBox->addItems(list);
     ui->delete_pushButton->setVisible(false);
 }
 
@@ -70,9 +78,10 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
     string filePath = ui->articleFileTextField->text().toStdString();
 
     if(filePath.size())
-        sndr.sendFile(ui->sectionComboBox->currentText().toStdString(), title, "Copy", "new.dox", filePath);
+        sndr.sendFile(section, title, COPY, getNameExt(filePath), filePath);
 
     QDate issueDate = ui->issueDateEdit->date();
+
     string issueDateString = issueDate.toString().toStdString();
     newArticle = new Article(issueDateString, title, description, section, writer, photographer);
 
@@ -81,6 +90,12 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
     parentArticleWorkspaceWidget->initArticle(newArticle);
     parentArticleWorkspaceWidget->addArticleButton(newArticle);
 
+    QStringList::const_iterator iter = img_paths.begin();
+
+    for(iter; iter!=img_paths.end(); iter++)
+        sndr.sendFile(section,title,IMAGE,getNameExt(iter->toStdString()),
+                      iter->toStdString());
+					  
     dbController->addArticle(newArticle);
 
     }
@@ -193,13 +208,12 @@ QString newArticleWorkspaceWindow::getfName(QString s)
 void newArticleWorkspaceWindow::on_delete_pushButton_pressed()
 {
 
-    QVector<QCheckBox*>::iterator iter = cb_vec.begin();
+    cb_vec_t::iterator iter = cb_vec.begin();
     for(iter; iter != cb_vec.end(); iter++)
     {
         QCheckBox *c_box = *iter;
         if(c_box->isChecked())
         {
-            cout << iter - cb_vec.begin() << " " << cb_vec.length() << endl;
             vert_layout->removeItem(vert_layout->itemAt(iter - cb_vec.begin()));
             img_paths.removeAt(iter - cb_vec.begin());
             cb_vec.erase(iter,iter+1);
@@ -209,6 +223,7 @@ void newArticleWorkspaceWindow::on_delete_pushButton_pressed()
         if (iter == cb_vec.end())
             break;
     }
+
 
     QWidget *widget = new QWidget;
     widget->setLayout(vert_layout);
@@ -227,7 +242,7 @@ void newArticleWorkspaceWindow::initDB(Client* c){
 
 void newArticleWorkspaceWindow::on_copyHistory_pushButton_clicked()
 {
-    CopyHistoryWindow *chw = new CopyHistoryWindow;
+    CopyHistoryWindow *chw = new CopyHistoryWindow(0,"News","Not Really","Copy","Yo");
     chw->show();
 }
 
@@ -301,5 +316,21 @@ void newArticleWorkspaceWindow::on_sectionComboBox_currentIndexChanged(const QSt
         this->updateWriterList(PermissionDef::SEC_VARIETY);
     }
 
+}
 
+std::string newArticleWorkspaceWindow::getNameExt(const std::string& s)
+{
+    using namespace std;
+    string str = s;
+    string::const_iterator iter = str.end() - 1;
+    while(*iter != '/' && *iter != '\\')
+    {
+        iter--;
+        if(iter == str.begin())
+        {
+            break; //throw exception.
+            cout << "broken" << endl;
+        }
+    }
+    return str.substr(iter - str.begin() + 1,str.end() - iter - 1);
 }

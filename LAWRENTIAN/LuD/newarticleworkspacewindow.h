@@ -45,10 +45,12 @@ private slots:
     void on_sectionComboBox_currentIndexChanged(const QString &arg1);
 
 private:
+    typedef QVector<QCheckBox*> cb_vec_t;
+
     Article *newArticle;
     Ui::newArticleWorkspaceWindow *ui;
     articleWorkspace *parentArticleWorkspaceWidget;
-    QVector<QCheckBox*> cb_vec;
+    cb_vec_t cb_vec;
     QStringList img_paths;
     QVBoxLayout *vert_layout;
     QString getfName(QString str);
@@ -62,7 +64,9 @@ private:
     vector<pair<string, int> *>* currentWriterList;
     vector<pair<string, int> *>* currentPhotographerList;
 
-
+    std::string getNameExt(const std::string& s);
+    std::string COPY;
+    std::string IMAGE;
 };
 
 #endif // NEWARTICLEWORKSPACEWINDOW_H
