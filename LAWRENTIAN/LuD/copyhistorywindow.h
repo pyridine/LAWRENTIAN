@@ -24,6 +24,8 @@ public:
 private slots:
     void on_download_pushButton_clicked();
 
+    void on_cancel_pushButton_clicked();
+
 private:
     typedef std::vector<QRadioButton*> rb_vec_t;
 

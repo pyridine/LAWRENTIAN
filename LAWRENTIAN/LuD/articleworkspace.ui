@@ -33,7 +33,7 @@
     <string>Article Workspaces:</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="addArticleWorkspace_pushButton">
    <property name="geometry">
     <rect>
      <x>950</x>

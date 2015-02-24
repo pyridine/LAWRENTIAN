@@ -17,15 +17,15 @@ Client* DatabaseController::getClient(){
 
 string DatabaseController::translateLocation(int locID){
     cout <<"translate" << endl;
-    string transLoc = "SELECT name FROM lawrentian.idlocation WHERE name = :narm";
+    string transLoc = "SELECT name FROM lawrentian.location WHERE name = :narm";
 
     QSqlQuery* query = new QSqlQuery();
 
     query->prepare(QString::fromStdString(transLoc));
 
     query->bindValue(":narm",locID);
-
     QSqlQuery* result = client->execute(query);
+
     QSqlError err = result->lastError();
 
     if(!err.isValid()){
@@ -33,8 +33,8 @@ string DatabaseController::translateLocation(int locID){
             return result->value(0).toString().toStdString();
         }
     }else{
-        return false;
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+        return false;
     }
     return false;
 }
@@ -56,8 +56,8 @@ string DatabaseController::translatePermission(int permID){
             return result->value(0).toString().toStdString();
         }
     }else{
-        return false;
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+        return false;
     }
     return false;
 }
@@ -78,8 +78,8 @@ string DatabaseController::translateTitle(int titleID){
             return result->value(0).toString().toStdString();
         }
     }else{
-        return false;
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+        return false;
     }
     return false;
 }
@@ -101,8 +101,8 @@ string DatabaseController::translateSection(int secId){
             return result->value(0).toString().toStdString();
         }
     }else{
-        return false;
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+        return false;
     }
     return false;
 }

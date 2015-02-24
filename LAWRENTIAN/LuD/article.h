@@ -2,6 +2,7 @@
 #define ARTICLE_H
 
 #include <string>
+#include <QString>
 
 using namespace std;
 
@@ -12,14 +13,18 @@ public:
     ~Article();
 
     string getIssueDate();
+    QString QGetIssueDate();
     void setIssueDate(string issueDate);
     string getTitle();
+    QString QGetTitle();
     void setTitle(string title);
     int getWriter();
     void setWriter(int writerLUID);
     int getPhotographer();
     void setPhotographer(int photographerLUID);
-
+    int getId();
+    void setId(int id);
+    QString QGetDescription();
     string getDescription() const;
     void setDescription(const string &value);
 

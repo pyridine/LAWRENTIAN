@@ -31,13 +31,14 @@ void articleWorkspace::initDB(Client* c){
     dbController = new ArticleWorkspaceDBC(c);
 }
 
-void articleWorkspace::on_pushButton_clicked()
+void articleWorkspace::on_addArticleWorkspace_pushButton_clicked()
 {
     newArticleWorkspaceWindow *createArticleWorkspaceWindow = new newArticleWorkspaceWindow();
     createArticleWorkspaceWindow->initDB(dbController->getClient());
 
     createArticleWorkspaceWindow->setParentArticleWorkspaceWidget(this);
     createArticleWorkspaceWindow->setWindowModality(Qt::ApplicationModal);
+    createArticleWorkspaceWindow->setupFields();
     createArticleWorkspaceWindow->window()->show();
 }
 
@@ -76,11 +77,9 @@ void articleWorkspace::__insertArticles(int section, int secPerf, LoginCredentia
     }
 }
 
-
-
 void articleWorkspace::addArticleButton(Article *article)
 {
-    QString title = QString::fromStdString(article->getTitle());
+    QString title = article->QGetTitle();
     QString section = QString::fromStdString(dbController->translateSection(article->getSection()));
     QString buttonTitle = section+": "+title;
     QPushButton *newArticleButton = new QPushButton(buttonTitle, this);
@@ -100,7 +99,7 @@ void articleWorkspace::handleButton()
     int size = articleVector.size();
     while (count != size){
         Article* send = articleVector[count];
-        QString sendTitle = QString::fromStdString(send->getTitle());
+        QString sendTitle = send->QGetTitle();
         if(sendTitle == senderObjName){
             newArticleWorkspaceWindow *editArticleWorkspaceWindow = new newArticleWorkspaceWindow();
             editArticleWorkspaceWindow->initDB(dbController->getClient());

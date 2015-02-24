@@ -24,6 +24,10 @@ newArticleWorkspaceWindow::newArticleWorkspaceWindow(QWidget *parent) :
     IMAGE = "Image";
 
     ui->setupUi(this);
+
+
+
+    ui->delete_pushButton->setVisible(false);
 }
 
 newArticleWorkspaceWindow::~newArticleWorkspaceWindow()
@@ -46,7 +50,7 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
 
     int section = 0;
     switch(ui->sectionComboBox->currentIndex()){
-        case 0:
+    case 0:
         section = SectionDef::NEWS_SECTION;
         break;
     case 1:
@@ -66,32 +70,34 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
         break;
     }
 
-
     int writer = (*((*currentWriterList)[ui->writerComboBox->currentIndex()])).second;
     int photographer = (*((*currentPhotographerList)[ui->photographerComboBox->currentIndex()])).second;
     string filePath = ui->articleFileTextField->text().toStdString();
 
     if(filePath.size())
-        sndr.sendFile(dbController->translateSection(section), title, COPY, getNameExt(filePath), filePath);
+        sndr.sendFile(dbController->translateSection(section), title, COPY, title + ".docx", filePath);
 
     QDate issueDate = ui->issueDateEdit->date();
 
     string issueDateString = issueDate.toString().toStdString();
     newArticle = new Article(issueDateString, title, description, section, writer, photographer);
 
-    // Check if article already exists in articleWorkspace (widget)
-    if(!parentArticleWorkspaceWidget->workspaceExists(title)){
-    parentArticleWorkspaceWidget->initArticle(newArticle);
-    parentArticleWorkspaceWidget->addArticleButton(newArticle);
-
     QStringList::const_iterator iter = img_paths.begin();
 
     for(iter; iter!=img_paths.end(); iter++)
         sndr.sendFile(dbController->translateSection(section),title,IMAGE,getNameExt(iter->toStdString()),
                       iter->toStdString());
-					  
-    dbController->addArticle(newArticle);
 
+    // Check if article already exists in articleWorkspace (widget)
+    if(!parentArticleWorkspaceWidget->workspaceExists(title)){
+        cout << "new article" << endl;
+        parentArticleWorkspaceWidget->initArticle(newArticle);
+        cout << "1" << endl;
+        parentArticleWorkspaceWidget->addArticleButton(newArticle);
+        cout << "2" << endl;
+
+        dbController->addArticle(newArticle);
+        cout << "3" << endl;
     }
     this->close();
 }
@@ -116,16 +122,18 @@ void newArticleWorkspaceWindow::setupFields(Article *article)
     list->append(QString("Variety"));
     ui->sectionComboBox->addItems(*list);
 
-
     this->updatePhotographerList();
 
     int fuckingKludge = 0;
-    while(fuckingKludge < 10 && (0 != QString::compare(ui->sectionComboBox->currentText(),QString::fromStdString(article->getTitle()),Qt::CaseInsensitive))){
-          ui->sectionComboBox->setCurrentIndex(fuckingKludge);
-          ++fuckingKludge;
+    while(fuckingKludge < 10 && (0 != QString::compare(ui->sectionComboBox->currentText(),
+                                                       article->QGetTitle(),
+                                                       Qt::CaseInsensitive)))
+    {
+        ui->sectionComboBox->setCurrentIndex(fuckingKludge);
+        ++fuckingKludge;
     }
 
-    QString title = QString::fromStdString(article->getTitle());
+    QString title = article->QGetTitle();
     QString description = QString::fromStdString(article->getDescription());
     QString section = QString::fromStdString(dbController->translateSection(article->getSection()));
     int writer = article->getWriter();
@@ -141,6 +149,21 @@ void newArticleWorkspaceWindow::setupFields(Article *article)
     ui->issueDateEdit->setDate(issueDate);
 }
 
+void newArticleWorkspaceWindow::setupFields()
+{
+    cout << "========" << endl;
+
+    QStringList* list = new QStringList();
+    list->append(QString("News"));
+    list->append(QString("Features"));
+    list->append(QString("Opinions & Editorials"));
+    list->append(QString("Arts & Entertainment"));
+    list->append(QString("Sports"));
+    list->append(QString("Variety"));
+    ui->sectionComboBox->addItems(*list);
+
+    this->updatePhotographerList();
+}
 
 
 void newArticleWorkspaceWindow::on_addImage_pushButton_clicked()
@@ -236,7 +259,41 @@ void newArticleWorkspaceWindow::initDB(Client* c){
 
 void newArticleWorkspaceWindow::on_copyHistory_pushButton_clicked()
 {
-    CopyHistoryWindow *chw = new CopyHistoryWindow(0,"News","Not Really","Copy","Yo");
+    int section = 0;
+    switch(ui->sectionComboBox->currentIndex()){
+    case 0:
+        section = SectionDef::NEWS_SECTION;
+        cout << 0 << endl;
+        break;
+    case 1:
+        section = SectionDef::FEATURES_SECTION;
+        cout << 1 << endl;
+        break;
+    case 2:
+        section = SectionDef::OPED_SECTION;
+        cout << 2 << endl;
+        break;
+    case 3:
+        section = SectionDef::ARTSENT_SECTION;
+        cout << 3 << endl;
+        break;
+    case 4:
+        section = SectionDef::SPORTS_SECTION;
+        cout << 4 << endl;
+
+        break;
+    case 5:
+        section = SectionDef::VARIETY_SECTION;
+        cout << 5 << endl;
+        break;
+    }
+    cout << "ok" << endl;
+    string sec = dbController->translateSection(section);
+    string art = ui->articleTitleTextField->text().toStdString();
+    cout << sec << endl;
+    cout << art << endl;
+
+    CopyHistoryWindow *chw = new CopyHistoryWindow(0,sec,art,COPY,art);
     chw->show();
 }
 
@@ -279,15 +336,13 @@ void newArticleWorkspaceWindow::updatePhotographerList(){
 }
 int newArticleWorkspaceWindow::getSelectedWriterLuid(){
     //writerComboBox
-      //      currentWriterList
+    //      currentWriterList
     return 0;
 }
 
 void newArticleWorkspaceWindow::on_sectionComboBox_currentIndexChanged(const QString &arg1)
 {
-    cout << "UH OH!!" << endl;
     cout << arg1.toStdString() << endl;
-    cout << "comp1" << endl;
     cout<< "dbc is " << dbController << endl;
 
     if(0 == QString::compare(QString("News"),arg1,Qt::CaseInsensitive)){
@@ -327,4 +382,23 @@ std::string newArticleWorkspaceWindow::getNameExt(const std::string& s)
         }
     }
     return str.substr(iter - str.begin() + 1,str.end() - iter - 1);
+}
+
+std::string newArticleWorkspaceWindow::getNameColon(const std::string& s)
+{
+    using namespace std;
+    string str = s;
+    cout << str << endl;
+    string::const_iterator iter = str.begin();
+    for (iter; iter != str.end(); iter++)
+    {
+        if(*iter == ':')
+        {
+            iter++;
+            break;
+        }
+    }
+    string ret= str.substr(iter - str.begin(),str.length());
+    cout << ret << "!!!!!!" << endl;
+    return ret;
 }

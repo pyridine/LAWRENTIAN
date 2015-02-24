@@ -28,6 +28,7 @@ public:
     articleWorkspace *getParentArticleWorkspaceWidget() const;
     void setParentArticleWorkspaceWidget(articleWorkspace *value);
     void setupFields(Article *article);
+    void setupFields();
 
     void initDB(Client* c);
 
@@ -63,7 +64,7 @@ private:
 
     vector<pair<string, int> *>* currentWriterList;
     vector<pair<string, int> *>* currentPhotographerList;
-
+    std::string getNameColon(const std::string& s);
     std::string getNameExt(const std::string& s);
     std::string COPY;
     std::string IMAGE;

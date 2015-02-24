@@ -144,3 +144,8 @@ std::string CopyHistoryWindow::getfName(const std::string& str)
 }
 
 
+
+void CopyHistoryWindow::on_cancel_pushButton_clicked()
+{
+    this->close();
+}

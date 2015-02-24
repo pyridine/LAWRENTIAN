@@ -5,11 +5,11 @@
 
 using namespace std;
 namespace NAWWDBCCommands {
-    const string GET_WRITERS_FROM_SECTION = "SELECT lawrentian.employee.name,lawrentian.employee.luid FROM lawrentian.employee JOIN lawrentian.employee_permission ON lawrentian.employee.luid = lawrentian.employee_permission.luid WHERE title = :wri AND token = :sec";
+const string GET_WRITERS_FROM_SECTION = "SELECT lawrentian.employee.name,lawrentian.employee.luid FROM lawrentian.employee JOIN lawrentian.employee_permission ON lawrentian.employee.luid = lawrentian.employee_permission.luid WHERE title = :wri AND token = :sec";
 
-    const string DEL_ART = "DELETE FROM lawrentian.currentissue_article WHERE idarticle = :id";
+const string DEL_ART = "DELETE FROM lawrentian.currentissue_article WHERE idarticle = :id";
 
-    const string GET_PHOTOGRAPHERS = "SELECT lawrentian.employee.name,lawrentian.employee.luid FROM lawrentian.employee WHERE title = :photi";
+const string GET_PHOTOGRAPHERS = "SELECT lawrentian.employee.name,lawrentian.employee.luid FROM lawrentian.employee WHERE title = :photi";
 }
 using namespace NAWWDBCCommands;
 NewArticleWorkspaceWindowDBC::NewArticleWorkspaceWindowDBC(Client *c):DatabaseController(c)
@@ -22,8 +22,28 @@ NewArticleWorkspaceWindowDBC::~NewArticleWorkspaceWindowDBC()
 
 }
 
-void NewArticleWorkspaceWindowDBC::addArticle(Article* newArticle){
-    deleteArticle(newArticle);
+void NewArticleWorkspaceWindowDBC::addArticle(Article* art)
+{
+    QSqlQuery *query = new QSqlQuery;
+    query->prepare("SELECT MAX(articleid) FROM lawrentian.currentissue_article");
+    query->exec();
+    if(query->next())
+        art->setId(query->value(0).toInt() + 1);
+    else
+        art->setId(0);
+    query->prepare("INSERT INTO lawrentian.currentissue_article"
+                  "(idarticle,title,description,section,writer,"
+                  "photographer,issueDate) "
+                  "VALUES (:idarticle, :title, :description, :section, :writer,"
+                  ":photographer, issueDate)");
+    query->bindValue(":idarticle",art->getId());
+    query->bindValue(":title", art->QGetTitle());
+    query->bindValue(":description", art->QGetDescription());
+    query->bindValue(":section", art->getSection());
+    query->bindValue(":writer", art->getWriter());
+    query->bindValue(":photographer", art->getPhotographer());
+    query->bindValue(":issueDate", art->QGetIssueDate());
+    query->exec();
 }
 void NewArticleWorkspaceWindowDBC::deleteArticle(Article* newArticle){
     deleteArticle(newArticle);

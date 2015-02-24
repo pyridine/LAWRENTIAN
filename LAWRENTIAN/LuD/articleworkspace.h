@@ -38,7 +38,7 @@ public:
     bool workspaceExists(string articleTitle);
 
 private slots:
-    void on_pushButton_clicked();
+    void on_addArticleWorkspace_pushButton_clicked();
     void handleButton();
 
 private:
