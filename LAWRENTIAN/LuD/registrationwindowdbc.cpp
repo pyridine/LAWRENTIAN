@@ -12,7 +12,6 @@ using namespace RWDBCcommands;
 
 RegistrationWindowDBC::RegistrationWindowDBC(Client* c):DatabaseController(c)
 {
-    cout << "[Created] RWDBC." << endl;
 }
 
 

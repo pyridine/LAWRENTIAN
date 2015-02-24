@@ -20,7 +20,7 @@ using namespace std;
 
 EmployeeTableDBC::EmployeeTableDBC(Client* c):DatabaseController(c)
 {
-    cout << "[Created] ETDBC" << endl;
+
 }
 
 vector<vector<string>>* EmployeeTableDBC::getRegularEmployeeView(){
@@ -30,7 +30,6 @@ vector<vector<string>>* EmployeeTableDBC::getRegularEmployeeView(){
     query->prepare(QString::fromStdString(ETDBCCommands::GET_REGULAR_EMPLOYEE_DATA));
 
     QSqlQuery* result = client->execute(query);
-    cout << "client executed without segfault!!!! :)))";
     QSqlError err = result->lastError();
 
     vector<vector<string>>* matrix = new vector<vector<string>>();
@@ -64,7 +63,6 @@ vector<vector<string>>* EmployeeTableDBC::getPrivilegedEmployeeView(){
     query->prepare(QString::fromStdString(ETDBCCommands::GET_PRIVILEGED_EMPLOYEE_DATA));
 
     QSqlQuery* result = client->execute(query);
-    cout << "client executed without segfault!!!! :)))";
     QSqlError err = result->lastError();
 
     vector<vector<string>>* matrix = new vector<vector<string>>();
@@ -107,7 +105,6 @@ vector<vector<string>>* EmployeeTableDBC::getFullEmployeeView(){
     query->prepare(QString::fromStdString(ETDBCCommands::GET_FULL_EMPLOYEE_DATA));
 
     QSqlQuery* result = client->execute(query);
-    cout << "client executed without segfault!!!! :)))";
     QSqlError err = result->lastError();
 
     vector<vector<string>>* matrix = new vector<vector<string>>();
@@ -158,7 +155,6 @@ int EmployeeTableDBC::getNumberOfEmployees(){
         while(result->next()){
             ++numEmployees;
         }
-        cout << "numEmp: " << numEmployees << endl;
         return numEmployees;
 
     }else{

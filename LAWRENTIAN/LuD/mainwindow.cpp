@@ -114,7 +114,15 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
             ||loginCredo->hasPermission(PermissionDef::EDIT_CIRCULATIONS)
             ||loginCredo->hasPermission(PermissionDef::VIEW_CIRCULATIONS)){
 
-        tabs->addTab(new circulationWidget(), "Circulation");
+        circulationWidget* circWidg = new circulationWidget();
+
+        if(loginCredo->hasPermission(PermissionDef::EDIT_CIRCULATIONS)){
+            circWidg->init_ViewAndEditPrivileges(client);
+        } else{
+            circWidg->init_ViewPrivileges(client);
+        }
+
+        tabs->addTab(circWidg, "Circulation");
     }
 
 }

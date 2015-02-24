@@ -22,7 +22,6 @@ void employeesWidget::init(LoginCredentials* l){
 void employeesWidget::initDB(Client *c){
     dbController = new EmployeeTableDBC(c);
 
-    cout << "Num unregistered : " << dbController->getNumUnregistered() << endl;
 }
 
 void employeesWidget::initNormalView(){

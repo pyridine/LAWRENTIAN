@@ -19,7 +19,6 @@ SOURCES += main.cpp\
     employee.cpp \
     checkemployeeswindow.cpp \
     permissions.cpp \
-    circulation.cpp \
     remotedbconnection.cpp \
     client.cpp \
     loginwindow.cpp \
@@ -52,13 +51,16 @@ SOURCES += main.cpp\
     permissiondef.cpp \
     mainwindowdbc.cpp \
     titledef.cpp \
-    locationdef.cpp
+    locationdef.cpp \
+    copyhistorywindow.cpp \
+    editroutewindow.cpp \
+    circulationwindowdbc.cpp \
+    route.cpp
 
 HEADERS  += registrationwindow.h \
     employee.h \
     checkemployeeswindow.h \
     permissions.h \
-    circulation.h \
     remotedbconnection.h \
     client.h \
     loginwindow.h \
@@ -92,7 +94,11 @@ HEADERS  += registrationwindow.h \
     permissiondef.h \
     mainwindowdbc.h \
     titledef.h \
-    locationdef.h
+    locationdef.h \
+    copyhistorywindow.h \
+    editroutewindow.h \
+    circulationwindowdbc.h \
+    route.h
 
 
 FORMS    += registrationwindow.ui \
@@ -108,7 +114,9 @@ FORMS    += registrationwindow.ui \
     newarticleworkspacewindow.ui \
     profilewidget.ui \
     subscriptionswidget.ui \
-    writertimesheetwidget.ui
+    writertimesheetwidget.ui \
+    copyhistorywindow.ui \
+    editroutewindow.ui
 
 DISTFILES += \
     libmysql.dll \
@@ -116,7 +124,8 @@ DISTFILES += \
     FileSystem.ice \
     LuD.pro.user.0f8f2c1 \
     LuD.pro.user.ee9f765 \
-    LuD.pro.user.47f9476
+    LuD.pro.user.47f9476 \
+    LuD.pro.user.83fecab
 
 win32{
 

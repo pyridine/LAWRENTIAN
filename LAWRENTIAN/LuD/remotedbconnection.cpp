@@ -12,7 +12,6 @@
 using namespace std;
 
 RemoteDBConnection::RemoteDBConnection(){
-    cout << "[created] Remote DB Connection" << endl;
 }
 
 RemoteDBConnection::~RemoteDBConnection(){

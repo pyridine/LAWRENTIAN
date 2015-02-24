@@ -28,7 +28,6 @@ using namespace std;
 
 LoginWindowDBC::LoginWindowDBC(Client* c):DatabaseController(c)
 {
-    cout << "[Created] LWDBC" << endl;
 }
 
 int LoginWindowDBC::getLUID(string usname, string passw){

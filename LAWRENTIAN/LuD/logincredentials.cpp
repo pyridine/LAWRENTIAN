@@ -7,7 +7,6 @@ using namespace std;
 
 LoginCredentials::LoginCredentials()
 {
-    cout << "[created] LoginCredo" << endl;
 }
 
 

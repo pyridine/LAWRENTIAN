@@ -5,7 +5,6 @@
 using namespace std;
 
 Client::Client(){
-    cout << "[Created] Client." << endl;
     RemoteDBConnection* acon = new RemoteDBConnection();
     connection = acon;
 }

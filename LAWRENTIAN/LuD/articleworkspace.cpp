@@ -29,6 +29,7 @@ void articleWorkspace::on_pushButton_clicked()
 {
     newArticleWorkspaceWindow *createArticleWorkspaceWindow = new newArticleWorkspaceWindow();
     createArticleWorkspaceWindow->setParentArticleWorkspaceWidget(this);
+    createArticleWorkspaceWindow->setWindowModality(Qt::ApplicationModal);
     createArticleWorkspaceWindow->window()->show();
 }
 

@@ -26,21 +26,21 @@ LoginWindow::LoginWindow(QWidget *parent) :
 void LoginWindow::initDB(Client* cp){
     dbController = new LoginWindowDBC(cp);
 
-    cout << "Populating Permissions ids..." << endl;
+    cout << "Populating Permissions ids... ";
 
     PermissionDef::__populateValues(dbController);
 
-    cout << "Done. Permission for view_circ is " << PermissionDef::VIEW_CIRCULATIONS << endl;
-    cout << "Populating Title ids..." << endl;
+    cout << "Done. " << endl;
+    cout << "Populating Title ids... ";
 
     TitleDef::__populateValues(dbController);
 
-    cout << "Done. Permission for assoc_news_editor is " << TitleDef::ASSOCIATE_NEWS_EDITOR << endl;
-    cout << "Populating Location ids..." << endl;
+    cout << "Done." << endl;
+    cout << "Populating Location ids... ";
 
     LocationDef::__populateValues(dbController);
 
-    cout << "Done. id for DELTA is " << LocationDef::DELT << endl;
+    cout << "Done."<< endl;
 }
 
 LoginWindow::~LoginWindow()
@@ -94,8 +94,8 @@ void LoginWindow::on_pushButton_clicked()
                     loginCred->setPermissions(finalPermissions);
                     loginCred->setTitle(title);
 
-                    cout << "< NEW LOGIN." << endl;
-                    cout << "Permissions: " << endl;
+                    cout << "< LOGIN." << endl;
+                    cout << "#Permissions: ";
                     vector<int>::iterator pit = employeePermissions->begin();
 
                     while(pit != employeePermissions->end()){
@@ -104,11 +104,11 @@ void LoginWindow::on_pushButton_clicked()
                     }
 
                     cout << endl;
-                    cout << "Real name: " << loginCred->getName().toStdString() << endl;
-                    cout << "Lawrence ID: " << loginCred->getLUID() << endl;
-                    cout << "Title: " << dbController->translateTitle(loginCred->getTitle()) << endl;
+                    cout << "#Real name: " << loginCred->getName().toStdString() << endl;
+                    cout << "#Lawrence ID: " << loginCred->getLUID() << endl;
+                    cout << "#Title: " << dbController->translateTitle(loginCred->getTitle()) << endl;
 
-                    cout << ">" << endl;
+                    cout << "> LOGIN " << endl;
                     MainWindow* m = new MainWindow();
                     //initDB and THEN init. it MUST be in this order!!!!
                     m->initDB(dbController->getClient());
