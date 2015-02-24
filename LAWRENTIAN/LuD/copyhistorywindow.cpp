@@ -5,6 +5,7 @@
 #include <QTableWidget>
 #include "FileSystem.h"
 #include "Sender.h"
+#include <QFileDialog>
 
 CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& sec,
                                      const std::string& art, const std::string& type,
@@ -23,6 +24,14 @@ CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& sec,
 
     ui->setupUi(this);
     ui->copyHistory_tableWidget->setColumnCount(3);
+
+    QTableWidgetItem* h1 = new QTableWidgetItem(QString(""),QTableWidgetItem::Type);
+    QTableWidgetItem* h2 = new QTableWidgetItem(QString("Version"),QTableWidgetItem::Type);
+    QTableWidgetItem* h3 = new QTableWidgetItem(QString("Date"),QTableWidgetItem::Type);
+
+    ui->copyHistory_tableWidget->setHorizontalHeaderItem(0,h1);
+    ui->copyHistory_tableWidget->setHorizontalHeaderItem(1,h2);
+    ui->copyHistory_tableWidget->setHorizontalHeaderItem(2,h3);
 
     ver_seq = sndr.getHistory(sec,art,type,fName);
     // VerSeq ver_seq = sndr.getHistory("News","Not Really","Copy","Yo");
@@ -74,10 +83,43 @@ void CopyHistoryWindow::on_download_pushButton_clicked()
     if(!ver.verName.size())
         return;
 
-    string down_dir = "C:/Programs/OMG.docx";
-    string fName = ver.verName;
+    QString Qdown_dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+                                                        "/home",
+                                                        QFileDialog::ShowDirsOnly
+                                                        | QFileDialog::DontResolveSymlinks);
+    if (Qdown_dir.isEmpty())
+        return;
+
     int ver_num = ver.verNum;
+    string temp = getfName(ver.verName) + std::to_string((long long)ver_num) +
+            ".docx";
+    string down_dir = Qdown_dir.toStdString() + "/" + temp ;
+    string fName = ver.verName;
+
+//    int ver_num = 1;
+//    string fName = "getfName(ver.verName) + std::to_string((long long)ver_num)";
+//    string down_dir = getfName(" Qdown_dir.toStdString() fName") ;
+
+
     cout << down_dir << endl << fName << endl << ver_num << endl;
     Sender sndr = Sender();
     sndr.requestFile(sec,art,type,fName,down_dir,ver_num);
 }
+
+std::string CopyHistoryWindow::getfName(const std::string& str)
+{
+    using namespace std;
+
+    string s = str;
+    string::const_iterator iter = str.begin();
+    for (iter; iter!= str.end(); iter++)
+    {
+        if(*iter == '*')
+            break;
+    }
+
+    s.resize(iter - str.begin());
+    return s;
+}
+
+
