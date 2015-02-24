@@ -35,6 +35,7 @@ void articleWorkspace::on_pushButton_clicked()
 {
     newArticleWorkspaceWindow *createArticleWorkspaceWindow = new newArticleWorkspaceWindow();
     createArticleWorkspaceWindow->initDB(dbController->getClient());
+
     createArticleWorkspaceWindow->setParentArticleWorkspaceWidget(this);
     createArticleWorkspaceWindow->setWindowModality(Qt::ApplicationModal);
     createArticleWorkspaceWindow->window()->show();
@@ -103,6 +104,7 @@ void articleWorkspace::handleButton()
         if(sendTitle == senderObjName){
             newArticleWorkspaceWindow *editArticleWorkspaceWindow = new newArticleWorkspaceWindow();
             editArticleWorkspaceWindow->initDB(dbController->getClient());
+
             editArticleWorkspaceWindow->setParentArticleWorkspaceWidget(this);
             editArticleWorkspaceWindow->setupFields(send);
             editArticleWorkspaceWindow->window()->show();

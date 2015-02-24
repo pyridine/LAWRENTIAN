@@ -24,12 +24,6 @@ newArticleWorkspaceWindow::newArticleWorkspaceWindow(QWidget *parent) :
     IMAGE = "Image";
 
     ui->setupUi(this);
-    QStringList list;
-    list <<"Associate News"<<"Features"<<"Opinions & Editorials"<<"Arts & Entertainment"
-        <<"Sports"<<"Variety";
-    list.sort();
-    ui->sectionComboBox->addItems(list);
-    ui->delete_pushButton->setVisible(false);
 }
 
 newArticleWorkspaceWindow::~newArticleWorkspaceWindow()
@@ -78,7 +72,7 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
     string filePath = ui->articleFileTextField->text().toStdString();
 
     if(filePath.size())
-        sndr.sendFile(section, title, COPY, getNameExt(filePath), filePath);
+        sndr.sendFile(dbController->translateSection(section), title, COPY, getNameExt(filePath), filePath);
 
     QDate issueDate = ui->issueDateEdit->date();
 
@@ -93,7 +87,7 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
     QStringList::const_iterator iter = img_paths.begin();
 
     for(iter; iter!=img_paths.end(); iter++)
-        sndr.sendFile(section,title,IMAGE,getNameExt(iter->toStdString()),
+        sndr.sendFile(dbController->translateSection(section),title,IMAGE,getNameExt(iter->toStdString()),
                       iter->toStdString());
 					  
     dbController->addArticle(newArticle);

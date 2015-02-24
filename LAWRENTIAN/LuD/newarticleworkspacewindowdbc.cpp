@@ -30,7 +30,7 @@ void NewArticleWorkspaceWindowDBC::deleteArticle(Article* newArticle){
 }
 
 vector<pair<string,int>*>* NewArticleWorkspaceWindowDBC::getListOfWritersForSection(int sec){
-
+    cout << "hi" << endl;
     QSqlQuery* query = new QSqlQuery();
     query->prepare(QString::fromStdString(NAWWDBCCommands::GET_WRITERS_FROM_SECTION));
     query->bindValue(":wri",TitleDef::WRITER);
@@ -41,7 +41,10 @@ vector<pair<string,int>*>* NewArticleWorkspaceWindowDBC::getListOfWritersForSect
 
     vector<pair<string,int>*>* writers = new vector<pair<string,int>*>;
 
+    cout << "hi" << endl;
+    cout << client << endl;
     QSqlQuery* result = client->execute(query);
+    cout << "bi" << endl;
     QSqlError err = result->lastError();
 
     if(!err.isValid()){

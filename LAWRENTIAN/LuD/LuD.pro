@@ -58,7 +58,9 @@ SOURCES += main.cpp\
     route.cpp \
     newarticleworkspacewindowdbc.cpp \
     articleworkspacedbc.cpp \
-    sectiondef.cpp
+    sectiondef.cpp \
+    editemployeeinfo.cpp \
+    editemployeeinfodbc.cpp
 
 HEADERS  += registrationwindow.h \
     employee.h \
@@ -104,7 +106,9 @@ HEADERS  += registrationwindow.h \
     route.h \
     newarticleworkspacewindowdbc.h \
     articleworkspacedbc.h \
-    sectiondef.h
+    sectiondef.h \
+    editemployeeinfo.h \
+    editemployeeinfodbc.h
 
 
 FORMS    += registrationwindow.ui \
@@ -122,7 +126,8 @@ FORMS    += registrationwindow.ui \
     subscriptionswidget.ui \
     writertimesheetwidget.ui \
     copyhistorywindow.ui \
-    editroutewindow.ui
+    editroutewindow.ui \
+    editemployeeinfo.ui
 
 DISTFILES += \
     libmysql.dll \
