@@ -158,7 +158,6 @@ void newArticleWorkspaceWindow::on_delete_pushButton_pressed()
         QCheckBox *c_box = *iter;
         if(c_box->isChecked())
         {
-            cout << iter - cb_vec.begin() << " " << cb_vec.length() << endl;
             vert_layout->removeItem(vert_layout->itemAt(iter - cb_vec.begin()));
             img_paths.removeAt(iter - cb_vec.begin());
             cb_vec.erase(iter,iter+1);
@@ -168,6 +167,7 @@ void newArticleWorkspaceWindow::on_delete_pushButton_pressed()
         if (iter == cb_vec.end())
             break;
     }
+
 
     QWidget *widget = new QWidget;
     widget->setLayout(vert_layout);
@@ -179,6 +179,6 @@ void newArticleWorkspaceWindow::on_delete_pushButton_pressed()
 
 void newArticleWorkspaceWindow::on_copyHistory_pushButton_clicked()
 {
-    CopyHistoryWindow *chw = new CopyHistoryWindow;
+    CopyHistoryWindow *chw = new CopyHistoryWindow(0,"News","Not Really","Copy","Yo");
     chw->show();
 }
