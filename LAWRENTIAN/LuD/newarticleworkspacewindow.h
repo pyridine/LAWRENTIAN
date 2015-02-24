@@ -37,16 +37,18 @@ private slots:
     void on_copyHistory_pushButton_clicked();
 
 private:
+    typedef QVector<QCheckBox*> cb_vec_t;
+
     Article *newArticle;
     Ui::newArticleWorkspaceWindow *ui;
     articleWorkspace *parentArticleWorkspaceWidget;
-    QVector<QCheckBox*> cb_vec;
+    cb_vec_t cb_vec;
     QStringList img_paths;
     QVBoxLayout *vert_layout;
     QString getfName(QString str);
-
-
-
+    std::string getNameExt(const std::string& s);
+    std::string COPY;
+    std::string IMAGE;
 };
 
 #endif // NEWARTICLEWORKSPACEWINDOW_H

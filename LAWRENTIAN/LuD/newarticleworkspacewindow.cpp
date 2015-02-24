@@ -18,10 +18,13 @@ newArticleWorkspaceWindow::newArticleWorkspaceWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::newArticleWorkspaceWindow)
 {
+    COPY = "Copy";
+    IMAGE = "Image";
+
     ui->setupUi(this);
     QStringList list;
     list <<"Associate News"<<"Features"<<"Opinions & Editorials"<<"Arts & Entertainment"
-                        <<"Sports"<<"Variety";
+        <<"Sports"<<"Variety";
     list.sort();
     ui->sectionComboBox->addItems(list);
     ui->delete_pushButton->setVisible(false);
@@ -49,17 +52,26 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
     string photographer = ui->photographerComboBox->currentText().toStdString();
     string filePath = ui->articleFileTextField->text().toStdString();
     if(filePath.size())
-        sndr.sendFile(section, title, "Copy", "new.dox", filePath);
+        sndr.sendFile(section, title, COPY, getNameExt(filePath), filePath);
 
     QDate issueDate = ui->issueDateEdit->date();
+
     string issueDateString = issueDate.toString().toStdString();
-    newArticle = new Article(issueDateString, title, description, section, writer, photographer, filePath);
+    newArticle = new Article(issueDateString, title, description,
+                             section, writer, photographer, filePath);
 
     // Check if article already exists in articleWorkspace (widget)
-    if(!parentArticleWorkspaceWidget->workspaceExists(title)){
-    parentArticleWorkspaceWidget->initArticle(newArticle);
-    parentArticleWorkspaceWidget->addArticleButton(newArticle);
-    }
+    //    if(!parentArticleWorkspaceWidget->workspaceExists(title)){
+    //        parentArticleWorkspaceWidget->initArticle(newArticle);
+    //        parentArticleWorkspaceWidget->addArticleButton(newArticle);
+    //    }
+
+    QStringList::const_iterator iter = img_paths.begin();
+
+    for(iter; iter!=img_paths.end(); iter++)
+        sndr.sendFile(section,title,IMAGE,getNameExt(iter->toStdString()),
+                      iter->toStdString());
+
     this->close();
 }
 articleWorkspace *newArticleWorkspaceWindow::getParentArticleWorkspaceWidget() const
@@ -152,7 +164,7 @@ QString newArticleWorkspaceWindow::getfName(QString s)
 void newArticleWorkspaceWindow::on_delete_pushButton_pressed()
 {
 
-    QVector<QCheckBox*>::iterator iter = cb_vec.begin();
+    cb_vec_t::iterator iter = cb_vec.begin();
     for(iter; iter != cb_vec.end(); iter++)
     {
         QCheckBox *c_box = *iter;
@@ -181,4 +193,21 @@ void newArticleWorkspaceWindow::on_copyHistory_pushButton_clicked()
 {
     CopyHistoryWindow *chw = new CopyHistoryWindow(0,"News","Not Really","Copy","Yo");
     chw->show();
+}
+
+std::string newArticleWorkspaceWindow::getNameExt(const std::string& s)
+{
+    using namespace std;
+    string str = s;
+    string::const_iterator iter = str.end() - 1;
+    while(*iter != '/' && *iter != '\\')
+    {
+        iter--;
+        if(iter == str.begin())
+        {
+            break; //throw exception.
+            cout << "broken" << endl;
+        }
+    }
+    return str.substr(iter - str.begin() + 1,str.end() - iter - 1);
 }

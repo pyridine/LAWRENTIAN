@@ -6,6 +6,7 @@
 #include "FileSystem.h"
 #include "Sender.h"
 #include <QFileDialog>
+#include <QHBoxLayout>
 
 CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& sec,
                                      const std::string& art, const std::string& type,
@@ -24,37 +25,55 @@ CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& sec,
 
     ui->setupUi(this);
     ui->copyHistory_tableWidget->setColumnCount(3);
+    ui->copyHistory_tableWidget->setColumnWidth(0,30);
 
     QTableWidgetItem* h1 = new QTableWidgetItem(QString(""),QTableWidgetItem::Type);
+    h1->setTextAlignment(Qt::AlignCenter);
     QTableWidgetItem* h2 = new QTableWidgetItem(QString("Version"),QTableWidgetItem::Type);
+    h1->setTextAlignment(Qt::AlignCenter);
     QTableWidgetItem* h3 = new QTableWidgetItem(QString("Date"),QTableWidgetItem::Type);
+    h3->setTextAlignment(Qt::AlignCenter);
 
     ui->copyHistory_tableWidget->setHorizontalHeaderItem(0,h1);
     ui->copyHistory_tableWidget->setHorizontalHeaderItem(1,h2);
     ui->copyHistory_tableWidget->setHorizontalHeaderItem(2,h3);
 
     ver_seq = sndr.getHistory(sec,art,type,fName);
-    // VerSeq ver_seq = sndr.getHistory("News","Not Really","Copy","Yo");
     cout << ver_seq.size() << endl;
     VerSeq::const_iterator iter = ver_seq.begin();
     for(iter; iter != ver_seq.end(); iter++)
     {
+        int index = iter - ver_seq.begin();
         int row_count = ui->copyHistory_tableWidget->rowCount();
         ui->copyHistory_tableWidget->insertRow(row_count);
-        int index = iter - ver_seq.begin();
+
+        QTableWidgetItem* h4 = new QTableWidgetItem(QString(""),QTableWidgetItem::Type);
+        h4->setTextAlignment(Qt::AlignCenter);
+        ui->copyHistory_tableWidget->setVerticalHeaderItem(row_count,h4);
 
         QRadioButton *radio_button = new QRadioButton;
         rb_vec.push_back(radio_button);
-        ui->copyHistory_tableWidget->setCellWidget(index,0,radio_button);
+
+        QWidget *pWidget = new QWidget();
+        QHBoxLayout *pLayout = new QHBoxLayout();
+        pLayout->addWidget(radio_button);
+        pLayout->setAlignment(Qt::AlignCenter);
+        pLayout->setContentsMargins(0,0,0,0);
+        pWidget->setLayout(pLayout);
+
+        ui->copyHistory_tableWidget->setCellWidget(index,0,pWidget);
 
         string s2 = iter->verName;
-        ui->copyHistory_tableWidget->setItem(index,1,new QTableWidgetItem(s2.c_str()));
+        QTableWidgetItem* h5 = new QTableWidgetItem(s2.c_str());
+        h5->setTextAlignment(Qt::AlignCenter);
+        ui->copyHistory_tableWidget->setItem(index,1,h5);
 
         string s3 = std::to_string((long long)iter->verNum);
-        ui->copyHistory_tableWidget->setItem(index,2,new QTableWidgetItem(s3.c_str()));
+        QTableWidgetItem* h6 = new QTableWidgetItem(s3.c_str());
+        h6->setTextAlignment(Qt::AlignCenter);
+        ui->copyHistory_tableWidget->setItem(index,2,h6);
     }
 
-   // ui->copyHistory_tableWidget->setItem(1,1,radio_button);
 }
 
 CopyHistoryWindow::~CopyHistoryWindow()
@@ -104,6 +123,8 @@ void CopyHistoryWindow::on_download_pushButton_clicked()
     cout << down_dir << endl << fName << endl << ver_num << endl;
     Sender sndr = Sender();
     sndr.requestFile(sec,art,type,fName,down_dir,ver_num);
+
+    this->close();
 }
 
 std::string CopyHistoryWindow::getfName(const std::string& str)
