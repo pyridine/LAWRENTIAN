@@ -2,6 +2,9 @@
 #define ARTICLEWORKSPACE_H
 
 #include "article.h"
+#include "client.h"
+#include "articleworkspacedbc.h"
+#include "logincredentials.h"
 
 #include <QWidget>
 #include <QString>
@@ -22,8 +25,13 @@ public:
     ~articleWorkspace();
     void initArticle(Article *article);
     void addArticleButton(Article *article);
+    void initDB(Client* c);
     int x;
     int y;
+
+    void updateArticleList(LoginCredentials* c);
+
+    void resetArticleButtons();
 
     Article *getNewArticle() const;
     void setNewArticle(Article *value);
@@ -36,6 +44,8 @@ private slots:
 private:
     Ui::articleWorkspace *ui;
     vector<Article *> articleVector;
+    void __insertArticles(int section, int secPerf, LoginCredentials *c);
+    ArticleWorkspaceDBC* dbController;
 };
 
 #endif // ARTICLEWORKSPACE_H

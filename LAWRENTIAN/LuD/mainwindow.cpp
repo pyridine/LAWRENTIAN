@@ -12,7 +12,7 @@
 #include "mainwindowdbc.h"
 #include <qstring.h>
 #include <QTabWidget>
-
+#include <iostream>
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -74,6 +74,8 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
     //probations, etc.
 
 
+    cout << "about to create article wksps" << endl;
+
     if(loginCredo->hasPermission(PermissionDef::ADMIN_PTOKEN)
             ||loginCredo->hasPermission(PermissionDef::SUBMIT_COPY)
             ||loginCredo->hasPermission(PermissionDef::EDIT_COPY)
@@ -84,7 +86,12 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
             ||loginCredo->hasPermission(PermissionDef::EDIT_ARTICLE_WORKSPACE)
             ||loginCredo->hasPermission(PermissionDef::APPROVE_ARTICLE)){
 
-        tabs->addTab(new articleWorkspace(), "Article Workspace");
+        articleWorkspace* awk = new articleWorkspace();
+        awk->initDB(client);
+        awk->updateArticleList(loginCredo);
+
+        tabs->addTab(awk, "Article Workspace");
+
         //TODO: Display submenus of categories (News, Feat, A&E, etc) by permission.
     }
 
@@ -116,15 +123,14 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
 
         circulationWidget* circWidg = new circulationWidget();
 
-        if(loginCredo->hasPermission(PermissionDef::EDIT_CIRCULATIONS)){
+        if(loginCredo->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            ||loginCredo->hasPermission(PermissionDef::EDIT_CIRCULATIONS)){
             circWidg->init_ViewAndEditPrivileges(client);
         } else{
             circWidg->init_ViewPrivileges(client);
         }
-
         tabs->addTab(circWidg, "Circulation");
     }
-
 }
 
 void MainWindow::logOut(){
@@ -137,7 +143,6 @@ void MainWindow::initDB(Client* c){
     client = c;
     dbController = new MainWindowDBC(c);
 }
-
 
 MainWindow::~MainWindow()
 {

@@ -10,6 +10,7 @@ public:
     bool connect();
     QSqlQuery* execute(string s) const;
     QSqlQuery* execute(QSqlQuery* q) const;
+    void sampleQuery();
     ~Client();
 private:
     RemoteDBConnection* connection;

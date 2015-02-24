@@ -13,6 +13,11 @@ bool Client::connect(){
     return connection->Connect();
 }
 
+void Client::sampleQuery(){
+    connection->execute("sample");
+}
+
+
 QSqlQuery* Client::execute(string s) const
 {
     QSqlQuery* returned = connection->execute(s);

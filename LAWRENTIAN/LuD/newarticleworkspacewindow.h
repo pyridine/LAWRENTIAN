@@ -3,11 +3,15 @@
 
 #include "article.h"
 #include "articleworkspace.h"
+#include "newarticleworkspacewindowdbc.h"
+#include "client.h"
 
 #include <QDialog>
 #include <QVBoxLayout>
 #include <QCheckBox>
 #include <QVector>
+
+
 
 namespace Ui {
 class newArticleWorkspaceWindow;
@@ -25,6 +29,8 @@ public:
     void setParentArticleWorkspaceWidget(articleWorkspace *value);
     void setupFields(Article *article);
 
+    void initDB(Client* c);
+
 private slots:
     void on_chooseFile_pushButton_clicked();
 
@@ -36,6 +42,8 @@ private slots:
 
     void on_copyHistory_pushButton_clicked();
 
+    void on_sectionComboBox_currentIndexChanged(const QString &arg1);
+
 private:
     Article *newArticle;
     Ui::newArticleWorkspaceWindow *ui;
@@ -45,6 +53,14 @@ private:
     QVBoxLayout *vert_layout;
     QString getfName(QString str);
 
+    void updateWriterList(int section);
+    void updatePhotographerList();
+    int getSelectedWriterLuid();
+
+    NewArticleWorkspaceWindowDBC* dbController;
+
+    vector<pair<string, int> *>* currentWriterList;
+    vector<pair<string, int> *>* currentPhotographerList;
 
 
 };

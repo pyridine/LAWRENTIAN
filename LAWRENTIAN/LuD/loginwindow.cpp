@@ -11,6 +11,7 @@
 #include "mainwindow.h"
 #include "titledef.h"
 #include "locationdef.h"
+#include "sectiondef.h"
 
 using namespace std;
 
@@ -41,6 +42,11 @@ void LoginWindow::initDB(Client* cp){
     LocationDef::__populateValues(dbController);
 
     cout << "Done."<< endl;
+    cout << "Populating Section ids... ";
+
+    SectionDef::__populateValues(dbController);
+
+    cout << "Done. oped is " << SectionDef::OPED_SECTION<< endl;
 }
 
 LoginWindow::~LoginWindow()

@@ -20,6 +20,7 @@ namespace LWDBCcommands {
     const string _GET_PERMISSION_ID = "SELECT idtoken from lawrentian.permissiontokens WHERE variablename = :var";
     const string _GET_TITLE_ID = "SELECT idtitle from lawrentian.titledefinitions WHERE variablename = :var";
     const string _GET_LOCATION_ID = "SELECT idlocation from lawrentian.location WHERE variablename = :var";
+    const string _GET_SECTION_ID = "SELECT idsection from lawrentian.section WHERE variablename = :var";
 
 }
 using namespace LWDBCcommands;
@@ -225,6 +226,23 @@ int LoginWindowDBC::__getLocationID(string loc){
     query->prepare(QString::fromStdString(LWDBCcommands::_GET_LOCATION_ID));
 
     query->bindValue(":var",QString::fromStdString(loc));
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    if(!err.isValid()){
+        result->next();
+        return result->value(0).toInt();
+    }else{
+        cout << "error: " << result->lastError().text().toStdString() << endl;
+    }
+}
+
+int LoginWindowDBC::__getSectionID(string sec){
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(LWDBCcommands::_GET_SECTION_ID));
+
+    query->bindValue(":var",QString::fromStdString(sec));
 
     QSqlQuery* result = client->execute(query);
     QSqlError err = result->lastError();

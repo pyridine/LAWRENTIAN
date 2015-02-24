@@ -16,6 +16,7 @@ Client* DatabaseController::getClient(){
 }
 
 string DatabaseController::translateLocation(int locID){
+    cout <<"translate" << endl;
     string transLoc = "SELECT name FROM lawrentian.idlocation WHERE name = :narm";
 
     QSqlQuery* query = new QSqlQuery();
@@ -68,6 +69,29 @@ string DatabaseController::translateTitle(int titleID){
     query->prepare(QString::fromStdString(transLoc));
 
     query->bindValue(":id",titleID);
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    if(!err.isValid()){
+        if(result->next()){
+            return result->value(0).toString().toStdString();
+        }
+    }else{
+        return false;
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+    return false;
+}
+
+string DatabaseController::translateSection(int secId){
+    string transLoc = "SELECT sectionName FROM lawrentian.section WHERE idsection = :id";
+
+    QSqlQuery* query = new QSqlQuery();
+
+    query->prepare(QString::fromStdString(transLoc));
+
+    query->bindValue(":id",secId);
 
     QSqlQuery* result = client->execute(query);
     QSqlError err = result->lastError();

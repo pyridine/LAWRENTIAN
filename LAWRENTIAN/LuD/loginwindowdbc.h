@@ -26,6 +26,8 @@ public:
     int __getPermissionID(string permission);
     int __getTitleID(string title);
     int __getLocationID(string loc);
+    int __getSectionID(string sec);
+
 
 
     /*Debug*/

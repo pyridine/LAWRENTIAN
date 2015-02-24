@@ -8,36 +8,32 @@ using namespace std;
 class Article
 {
 public:
-    Article(string issueDate, string title, string description, string section, string writer, string photographer, string filePath);
+    Article(string issueDate, string title, string description, int section, int writerLUID, int photographerLUID);
     ~Article();
 
     string getIssueDate();
     void setIssueDate(string issueDate);
     string getTitle();
     void setTitle(string title);
-    string getWriter();
-    void setWriter(string writer);
-    string getPhotographer();
-    void setPhotographer(string photographer);
+    int getWriter();
+    void setWriter(int writerLUID);
+    int getPhotographer();
+    void setPhotographer(int photographerLUID);
 
     string getDescription() const;
     void setDescription(const string &value);
 
-    string getSection() const;
-    void setSection(const string &value);
-
-    string getFilePath() const;
-    void setFilePath(const string &value);
+    int getSection() const;
+    void setSection(int value);
 
 private:
-    int id; // Necessary?
+    int id;
     string issueDate;
     string title;
     string description;
-    string section;
-    string writer; //int?
-    string photographer; //int?
-    string filePath;
+    int section;
+    int writerLUID;
+    int photographerLUID;
 };
 
 #endif // ARTICLE_H

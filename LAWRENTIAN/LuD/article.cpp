@@ -1,14 +1,13 @@
 #include "article.h"
 
-Article::Article(string issueDate, string title, string description, string section, string writer, string photographer, string filePath)
+Article::Article(string issueDate, string title, string description, int section, int writerLUID, int photographerLUID)
 {
-issueDate = issueDate;
-title = title;
-description = description;
-section = section;
-writer = writer;
-photographer = photographer;
-filePath = filePath;
+Article::issueDate = issueDate;
+Article::title = title;
+Article::description = description;
+Article::section = section;
+Article::writerLUID = writerLUID;
+Article::photographerLUID = photographerLUID;
 }
 
 Article::~Article()
@@ -36,24 +35,24 @@ void Article::setTitle(string title)
     Article::title = title;
 }
 
-string Article::getWriter()
+int Article::getWriter()
 {
-    return Article::writer;
+    return Article::writerLUID;
 }
 
-void Article::setWriter(string writer)
+void Article::setWriter(int writer)
 {
-    Article::writer = writer;
+    Article::writerLUID = writer;
 }
 
-string Article::getPhotographer()
+int Article::getPhotographer()
 {
-    return Article::photographer;
+    return Article::photographerLUID;
 }
 
-void Article::setPhotographer(string photographer)
+void Article::setPhotographer(int photographer)
 {
-    Article::photographer = photographer;
+    Article::photographerLUID = photographer;
 }
 string Article::getDescription() const
 {
@@ -64,24 +63,12 @@ void Article::setDescription(const string &value)
 {
     description = value;
 }
-string Article::getSection() const
+int Article::getSection() const
 {
     return section;
 }
 
-void Article::setSection(const string &value)
+void Article::setSection(int value)
 {
     section = value;
 }
-string Article::getFilePath() const
-{
-    return filePath;
-}
-
-void Article::setFilePath(const string &value)
-{
-    filePath = value;
-}
-
-
-

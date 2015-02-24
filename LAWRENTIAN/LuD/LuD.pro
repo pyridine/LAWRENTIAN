@@ -55,7 +55,10 @@ SOURCES += main.cpp\
     copyhistorywindow.cpp \
     editroutewindow.cpp \
     circulationwindowdbc.cpp \
-    route.cpp
+    route.cpp \
+    newarticleworkspacewindowdbc.cpp \
+    articleworkspacedbc.cpp \
+    sectiondef.cpp
 
 HEADERS  += registrationwindow.h \
     employee.h \
@@ -98,7 +101,10 @@ HEADERS  += registrationwindow.h \
     copyhistorywindow.h \
     editroutewindow.h \
     circulationwindowdbc.h \
-    route.h
+    route.h \
+    newarticleworkspacewindowdbc.h \
+    articleworkspacedbc.h \
+    sectiondef.h
 
 
 FORMS    += registrationwindow.ui \
