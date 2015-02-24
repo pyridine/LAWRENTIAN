@@ -34,8 +34,6 @@ private:
     std::string sec;
     std::string art;
     std::string type;
-
-    std::string getfName(const std::string& str);
 };
 
 #endif // COPYHISTORYWINDOW_H
