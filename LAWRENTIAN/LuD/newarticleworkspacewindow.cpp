@@ -75,10 +75,10 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
     s << year << monthstream.str() << daystream.str();
     string issueDateString = s.str();
     //2. everything else
-            //TODO:
-            //string pastTitle = myArticle->getTitle();
-            //TODO: Keep it for updating the article workspace widget.
-            //TODO: Update the article workspace widget :P
+    //TODO:
+    //string pastTitle = myArticle->getTitle();
+    //TODO: Keep it for updating the article workspace widget.
+    //TODO: Update the article workspace widget :P
     string title = ui->articleTitleTextField->text().toStdString();
     string description = ui->descriptionTextField->toPlainText().toStdString();
     int section = this->getSelectedSectionID();
@@ -89,27 +89,18 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
     myArticle->setId(id);
     //done.
 
+    //Do sender things...
+    Sender sndr = Sender();
 
+    string filePath = ui->articleFileTextField->text().toStdString();
+    if(filePath.size())
+        sndr.sendFile(dbController->translateSection(section), title, COPY, title + getExt(filePath), filePath);
 
-    cout << "Sending the data to the dropbox." << endl;
-    cout << "ERROR: NOT DOING THIS BECAUSE THE FUNCTIONALITY IS BROKEN." << endl;
-
-//    //Do sender things...
-//    Sender sndr = Sender();
-
-//    string filePath = ui->articleFileTextField->text().toStdString();
-
-//    if(filePath.size())
-//        sndr.sendFile(dbController->translateSection(section), title, COPY, title +/*WHY DOCX??????*/ ".docx", filePath);
-
-//    QStringList::const_iterator iter = img_paths.begin();
-
-//    for(iter; iter!=img_paths.end(); iter++)
-//        sndr.sendFile(dbController->translateSection(section),title,IMAGE,getNameExt(iter->toStdString()),
-//                      iter->toStdString());
-//    //done.
-
-
+    QStringList::const_iterator iter = img_paths.begin();
+    for(iter; iter!=img_paths.end(); iter++)
+        sndr.sendFile(dbController->translateSection(section),title,IMAGE,getNameExt(iter->toStdString()),
+                      iter->toStdString());
+    //done.
 
     cout << "Updating the parent window." << endl;
     //Update the article workspace widget...
@@ -120,30 +111,21 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
     }
     //Done.
 
-
-
     cout << "Adding the article to the DB." << endl;
     //Add the new article to the DB...
     dbController->addArticle(myArticle);
     //Done!
 
-
-
     //We're done.
     closeMe();
     //Bye bye :(
-
-
 }
 
 void newArticleWorkspaceWindow::closeMe(){
     this->parentArticleWorkspaceWidget->updateArticleList();
     this->close();
     delete(this);
-
 }
-
-
 
 
 articleWorkspace* newArticleWorkspaceWindow::getParentArticleWorkspaceWidget() const
@@ -334,6 +316,7 @@ void newArticleWorkspaceWindow::on_copyHistory_pushButton_clicked()
     cout << art << endl;
 
     CopyHistoryWindow *chw = new CopyHistoryWindow(0,sec,art,COPY,art);
+    chw->activateWindow();
     chw->show();
 }
 
@@ -399,6 +382,20 @@ std::string newArticleWorkspaceWindow::getNameExt(const std::string& s)
         }
     }
     return str.substr(iter - str.begin() + 1,str.end() - iter - 1);
+}
+
+std::string newArticleWorkspaceWindow::getExt(const string &s)
+{
+    using namespace std;
+
+    string::const_iterator iter = s.end() - 1;
+    while(*iter != '.')
+    {
+        if(iter == s.begin())
+            return "";
+        iter--;
+    }
+    return s.substr(iter - s.begin(), s.end() - s.begin());
 }
 
 std::string newArticleWorkspaceWindow::getNameColon(const std::string& s)

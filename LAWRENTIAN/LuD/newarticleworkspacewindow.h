@@ -72,6 +72,7 @@ private:
     QString getfName(QString str);
     std::string getNameColon(const std::string& s);
     std::string getNameExt(const std::string& s);
+    std::string getExt(const std::string& s);
     //What are these for?
     std::string COPY;
     std::string IMAGE;
