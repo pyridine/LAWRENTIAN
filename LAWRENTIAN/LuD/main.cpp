@@ -13,22 +13,23 @@ using namespace std;
 
 //int main(int argc, char *argv[])
 //{
-//    Sender sndr = Sender(); // sends to server computer
+//    Sender sndr = Sender(0); // sends to server computer
 //    // Sender sndr = Sender(0); // send to current computer. Needs Receiver rcvr = Receiver(0); in LuDServer main.
 
-//    sndr.sendFile("News","Not Really","Copy","Yo.docx",
-//                "C:/Users/Briggs 419 Server/Dropbox/TwoComps.docx");
+//    sndr.sendFile("First","Second","Copy","Sleep.txt",
+//                "C:/Users/lenovo/Documents/soil analysis.docx");
 
-//    sndr.requestFile("Article","Document","Copy","Works","C:/Programs/doesit.docx");
+//    sndr.requestFile("First","Second","Copy","Sleep","C:/Programs/t1.txt");
 
-//    sndr.requestFile("Article","Document","Copy","Works","C:/Programs/doesit3.docx",3);
+//    sndr.requestFile("First","Second","Copy","Sleep","C:/Programs/t2.txt",1);
 
-//    FileSystem::VerSeq v_seq = sndr.getHistory("Article","Document","Copy","Works");
+//    FileSystem::VerSeq v_seq = sndr.getHistory("First","Second","Copy","Sleep");
 
 //    for (int i = 0; i != v_seq.size(); i++)
 //    {
 //        FileSystem::Version vr = v_seq.at(i);
 //        cout << "Name: " << vr.verName << " Num: " << vr.verNum << endl;
+//        cout << vr.time.hour << ":" << vr.time.minute << ":" << vr.time.second << " " << vr.time.dayOfTheWeek << endl;
 //    }
 
 //    return 0;

@@ -1,21 +1,11 @@
 #include "Receiver.h"
-#include <direct.h>
-#include <string>
-
+#include "FileSystem.h"
 using namespace std;
+using namespace FileSystem;
 
 int main()
 {
-    Receiver rcvr = Receiver();
-    // Receiver rcvr = Receiver(0,"C:/Programs"); // "C:Programs is root directory of server"
+    Receiver rcver = Receiver();
+    // Receiver rcvr = Receiver(0,"C:/Programs/Test");
     return 0;
 }
-
-// For same computer communication.
-
-//int main(int argc, char *argv[])
-//{
-//    Receiver rcvr = Receiver("default -p 10000");
-//    return 0;
-//}
-
