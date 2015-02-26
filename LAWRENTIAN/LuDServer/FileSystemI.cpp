@@ -9,8 +9,8 @@ FileSystemI::FileSystemI()
 {
     using namespace std;
 
-    COPY = "COPY";
-    IMAGE = "IMAGE";
+    COPY = "Copy";
+    IMAGE = "Image";
 
     main_dir = "C:/Users/Briggs 419 Server/Dropbox/Issue";
 }
@@ -19,8 +19,8 @@ FileSystemI::FileSystemI(std::string main_node)
 {
     using namespace std;
 
-    COPY = "COPY";
-    IMAGE = "IMAGE";
+    COPY = "Copy";
+    IMAGE = "Image";
 
     main_dir = main_node;
 }
@@ -44,13 +44,13 @@ FileSystemI::receiveLatest(const std::string& sec, const std::string& art,
             + "/" + fName;
 
     string fn;
+
     if(!type.compare(COPY))
         fn = fName + ".docx";
-    if(!type.compare(IMAGE))
+    else if(!type.compare(IMAGE))
         fn = fName + ".jpg";
     else
         return seq;
-
     long long i = 1;
     string dir;
     if (dirExists(path))
@@ -69,7 +69,6 @@ FileSystemI::receiveLatest(const std::string& sec, const std::string& art,
             else
                 return seq;
             check.close();
-
         }
     }
     else
@@ -77,6 +76,7 @@ FileSystemI::receiveLatest(const std::string& sec, const std::string& art,
         cout << path << endl << "Path does not exist" << endl; // throw exception in the future.
         return seq;
     }
+
     consolePrint("request path: " + path);
     consolePrint("request: " + dir);
     ifstream source(dir,ios::binary);
@@ -125,9 +125,9 @@ FileSystemI::receiveVersion(const std::string& sec, const std::string& art,
         if(!type.compare(COPY))
             fn = (ver) ? fName + std::to_string(ver_num) + ".docx"
                        : fName + ".docx";
-        if(!type.compare(IMAGE))
-            fn = (ver) ? fName + std::to_string(ver_num) + ".docx"
-                       : fName + ".jpeg";
+        else if(!type.compare(IMAGE))
+            fn = (ver) ? fName + std::to_string(ver_num) + ".jpg"
+                       : fName + ".jpg";
         else
             return seq;
 
@@ -195,7 +195,7 @@ FileSystemI::sendFile(const std::string& sec, const std::string& art,
 
     string temp = dir + "/" + fNameExt;
     string fn = fNameExt;
-    ifstream file(temp,ios::binary);
+    ifstream file(fixExtension(temp,type),ios::binary);
     while(true){
         if (!file)
             break;
@@ -203,7 +203,7 @@ FileSystemI::sendFile(const std::string& sec, const std::string& art,
         {
             insertCorrectly(fn,std::to_string(num).c_str());
             temp = dir + "/" + fn;
-            file = ifstream(temp, ios::binary);
+            file = ifstream(fixExtension(temp,type), ios::binary);
             if(file)
                 fn = fNameExt;
         }
@@ -214,7 +214,7 @@ FileSystemI::sendFile(const std::string& sec, const std::string& art,
     consolePrint("send name: " + fNameExt);
     consolePrint("send: " + dir);
 
-    ofstream dest(dir, ios::binary);
+    ofstream dest(fixExtension(dir,type), ios::binary);
     dest.write(reinterpret_cast<const char*>(&seq[0]),seq.size());
 
     bool status = dest ? true : false;
@@ -238,7 +238,14 @@ FileSystemI::getHistory(const std::string& sec, const std::string& art,
 
     string path = main_dir + "/" + sec + "/" + art + "/" + type
             + "/" + fName;
-    string fn = fName + ".docx";
+
+    string fn;
+    if (!type.compare(COPY))
+        fn = fName + ".docx";
+    else if (!type.compare(IMAGE))
+        fn = fName + ".jpg";
+    else
+        return v_seq;
 
     long long i = 0;
     if (dirExists(path))
@@ -247,24 +254,17 @@ FileSystemI::getHistory(const std::string& sec, const std::string& art,
         while(true)
         {
             string dir = path + "/" + fn;
+
             ifstream check(dir, ios::binary);
+
             if(check)
             {
                 Version vr;
                 vr.verNum = (int)i;
-                vr.verName = i ? fName + "*" + std::to_string(i)
-                               : fName;
-                Time_t t = getCreationTime(dir);
-                vr.time.year = t.year;
-                vr.time.month = t.month;
-                vr.time.day = t.day;
-                vr.time.hour = t.hour;
-                vr.time.minute = t.minute;
-                vr.time.second = t.second;
-                vr.time.milliseconds = t.milliseconds;
+                vr.verName = i ? fName + "*" + std::to_string(i) : fName;
+                getCreationTime(dir,vr.time);
 
                 v_seq.push_back(vr);
-
                 i++;
             }
             else if (i)
@@ -274,7 +274,8 @@ FileSystemI::getHistory(const std::string& sec, const std::string& art,
                 Version vr;
                 vr.verNum = 0;
                 vr.verName = "No Version";
-
+                TimeIce t;
+                vr.time = t;
                 v_seq.push_back(vr);
 
                 return v_seq;
@@ -289,22 +290,19 @@ FileSystemI::getHistory(const std::string& sec, const std::string& art,
         cout << path << endl << "Path does not exist" << endl; // throw exception in the future.
         return v_seq;
     }
-    consolePrint("number of versions " + fName + ": "
+    consolePrint("number of versions of " + fName + ": "
                  + std::to_string((long long)v_seq.size() - 1));
     return v_seq;
 }
 
-
-
 // got from StackExchange
-Time_t FileSystemI::getCreationTime(const std::string &path)
+bool FileSystemI::getCreationTime(const std::string &path, FileSystem::TimeIce& t)
 {
     using namespace std;
 
     FILETIME ftCreate, ftAccess, ftWrite;
     SYSTEMTIME stUTC, stLocal;
     HANDLE hFile;
-    Time_t t;
 
     wstring stemp = wstring(path.begin(), path.end());
     LPCWSTR name = stemp.c_str();
@@ -315,12 +313,12 @@ Time_t FileSystemI::getCreationTime(const std::string &path)
     if(hFile == INVALID_HANDLE_VALUE)
     {
         printf("CreateFile failed with %d\n", GetLastError());
-        return t;
+        return false;
     }
 
     // Retrieve the file times for the file.
     if (!GetFileTime(hFile, &ftCreate, &ftAccess, &ftWrite))
-        return t;
+        return false;
 
     // Convert the last-write time to local time.
     FileTimeToSystemTime(&ftCreate, &stUTC);
@@ -352,15 +350,15 @@ Time_t FileSystemI::getCreationTime(const std::string &path)
         break;
     }
 
-    t.day = std::to_string((long long) stLocal.wDay);
-    t.month = std::to_string((long long) stLocal.wMonth);
-    t.year = std::to_string((long long) stLocal.wYear);
-    t.hour = std::to_string((long long) stLocal.wHour);
-    t.minute = std::to_string((long long) stLocal.wMinute);
-    t.second = std::to_string((long long) stLocal.wSecond);
-    t.milliseconds = std::to_string((long long) stLocal.wMilliseconds);
+    t.day = (int)stLocal.wDay;
+    t.month = (int)stLocal.wMonth;
+    t.year = (int)stLocal.wYear;
+    t.hour = (int)stLocal.wHour;
+    t.minute = (int)stLocal.wMinute;
+    t.second = (int)stLocal.wSecond;
+    t.milliseconds = (int)stLocal.wMilliseconds;
 
-    return t;
+    return true;
 
 }
 
@@ -484,8 +482,30 @@ std::string FileSystemI::getfName(const std::string& s)
     }
 
     str.resize(iter - str.begin());
-    cout << str << endl;
     return str;
+}
+
+std::string FileSystemI::fixExtension(const std::string &s, const std::string &type)
+{
+    using namespace std;
+
+    string ext;
+    if(!type.compare(COPY))
+        ext = ".docx";
+    else if(!type.compare(IMAGE))
+        ext = ".jpg";
+    else
+        return NULL;
+
+    string::const_iterator iter = s.end() - 1;
+    for(iter; iter!=s.begin(); iter--)
+    {
+        if(*iter == '.')
+            break;
+    }
+
+    return s.substr(0,iter - s.begin()) + ext;
+
 }
 
 /* FOR SOME REASON ICE DOES NOT ALLOW ME TO USE find().

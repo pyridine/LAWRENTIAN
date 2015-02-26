@@ -20,7 +20,7 @@ class FileSystemI : public FileSystem::File
 private:
     std::string COPY;
     std::string IMAGE;
-    Time_t getCreationTime(const std::string& path);
+    bool getCreationTime(const std::string& path, FileSystem::TimeIce& time);
     std::string main_dir;
     bool dirExists(const std::string& dirName_in);
     std::string extractFileName(const std::string& str);
@@ -29,7 +29,8 @@ private:
     std::string getIP(const Ice::Current& c);
     void consolePrint(const std::string& str);
     std::string getName(const std::string& ip_address);
-    std::string FileSystemI::getfName(const std::string& s);
+    std::string getfName(const std::string& s);
+    std::string fixExtension(const std::string& s, const std::string& type);
 public:
     FileSystemI(std::string main_node);
     FileSystemI();

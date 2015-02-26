@@ -81,10 +81,154 @@ namespace FileSystem
 
 typedef ::std::vector< ::Ice::Byte> ByteSeq;
 
+struct TimeIce
+{
+    ::std::string dayOfTheWeek;
+    ::Ice::Int year;
+    ::Ice::Int month;
+    ::Ice::Int day;
+    ::Ice::Int hour;
+    ::Ice::Int minute;
+    ::Ice::Int second;
+    ::Ice::Int milliseconds;
+
+    bool operator==(const TimeIce& __rhs) const
+    {
+        if(this == &__rhs)
+        {
+            return true;
+        }
+        if(dayOfTheWeek != __rhs.dayOfTheWeek)
+        {
+            return false;
+        }
+        if(year != __rhs.year)
+        {
+            return false;
+        }
+        if(month != __rhs.month)
+        {
+            return false;
+        }
+        if(day != __rhs.day)
+        {
+            return false;
+        }
+        if(hour != __rhs.hour)
+        {
+            return false;
+        }
+        if(minute != __rhs.minute)
+        {
+            return false;
+        }
+        if(second != __rhs.second)
+        {
+            return false;
+        }
+        if(milliseconds != __rhs.milliseconds)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    bool operator<(const TimeIce& __rhs) const
+    {
+        if(this == &__rhs)
+        {
+            return false;
+        }
+        if(dayOfTheWeek < __rhs.dayOfTheWeek)
+        {
+            return true;
+        }
+        else if(__rhs.dayOfTheWeek < dayOfTheWeek)
+        {
+            return false;
+        }
+        if(year < __rhs.year)
+        {
+            return true;
+        }
+        else if(__rhs.year < year)
+        {
+            return false;
+        }
+        if(month < __rhs.month)
+        {
+            return true;
+        }
+        else if(__rhs.month < month)
+        {
+            return false;
+        }
+        if(day < __rhs.day)
+        {
+            return true;
+        }
+        else if(__rhs.day < day)
+        {
+            return false;
+        }
+        if(hour < __rhs.hour)
+        {
+            return true;
+        }
+        else if(__rhs.hour < hour)
+        {
+            return false;
+        }
+        if(minute < __rhs.minute)
+        {
+            return true;
+        }
+        else if(__rhs.minute < minute)
+        {
+            return false;
+        }
+        if(second < __rhs.second)
+        {
+            return true;
+        }
+        else if(__rhs.second < second)
+        {
+            return false;
+        }
+        if(milliseconds < __rhs.milliseconds)
+        {
+            return true;
+        }
+        else if(__rhs.milliseconds < milliseconds)
+        {
+            return false;
+        }
+        return false;
+    }
+
+    bool operator!=(const TimeIce& __rhs) const
+    {
+        return !operator==(__rhs);
+    }
+    bool operator<=(const TimeIce& __rhs) const
+    {
+        return operator<(__rhs) || operator==(__rhs);
+    }
+    bool operator>(const TimeIce& __rhs) const
+    {
+        return !operator<(__rhs) && !operator==(__rhs);
+    }
+    bool operator>=(const TimeIce& __rhs) const
+    {
+        return !operator<(__rhs);
+    }
+};
+
 struct Version
 {
     ::Ice::Int verNum;
     ::std::string verName;
+    ::FileSystem::TimeIce time;
 
     bool operator==(const Version& __rhs) const
     {
@@ -97,6 +241,10 @@ struct Version
             return false;
         }
         if(verName != __rhs.verName)
+        {
+            return false;
+        }
+        if(time != __rhs.time)
         {
             return false;
         }
@@ -122,6 +270,14 @@ struct Version
             return true;
         }
         else if(__rhs.verName < verName)
+        {
+            return false;
+        }
+        if(time < __rhs.time)
+        {
+            return true;
+        }
+        else if(__rhs.time < time)
         {
             return false;
         }
@@ -153,10 +309,50 @@ typedef ::std::vector< ::FileSystem::Version> VerSeq;
 namespace Ice
 {
 template<>
+struct StreamableTraits< ::FileSystem::TimeIce>
+{
+    static const StreamHelperCategory helper = StreamHelperCategoryStruct;
+    static const int minWireSize = 29;
+    static const bool fixedLength = false;
+};
+
+template<class S>
+struct StreamWriter< ::FileSystem::TimeIce, S>
+{
+    static void write(S* __os, const ::FileSystem::TimeIce& v)
+    {
+        __os->write(v.dayOfTheWeek);
+        __os->write(v.year);
+        __os->write(v.month);
+        __os->write(v.day);
+        __os->write(v.hour);
+        __os->write(v.minute);
+        __os->write(v.second);
+        __os->write(v.milliseconds);
+    }
+};
+
+template<class S>
+struct StreamReader< ::FileSystem::TimeIce, S>
+{
+    static void read(S* __is, ::FileSystem::TimeIce& v)
+    {
+        __is->read(v.dayOfTheWeek);
+        __is->read(v.year);
+        __is->read(v.month);
+        __is->read(v.day);
+        __is->read(v.hour);
+        __is->read(v.minute);
+        __is->read(v.second);
+        __is->read(v.milliseconds);
+    }
+};
+
+template<>
 struct StreamableTraits< ::FileSystem::Version>
 {
     static const StreamHelperCategory helper = StreamHelperCategoryStruct;
-    static const int minWireSize = 5;
+    static const int minWireSize = 34;
     static const bool fixedLength = false;
 };
 
@@ -167,6 +363,7 @@ struct StreamWriter< ::FileSystem::Version, S>
     {
         __os->write(v.verNum);
         __os->write(v.verName);
+        __os->write(v.time);
     }
 };
 
@@ -177,6 +374,7 @@ struct StreamReader< ::FileSystem::Version, S>
     {
         __is->read(v.verNum);
         __is->read(v.verName);
+        __is->read(v.time);
     }
 };
 

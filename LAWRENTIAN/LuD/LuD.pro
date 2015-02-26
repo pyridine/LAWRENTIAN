@@ -136,7 +136,8 @@ DISTFILES += \
     LuD.pro.user.0f8f2c1 \
     LuD.pro.user.ee9f765 \
     LuD.pro.user.47f9476 \
-    LuD.pro.user.83fecab
+    LuD.pro.user.83fecab \
+    LuD.pro.user.IX7944
 
 win32{
 

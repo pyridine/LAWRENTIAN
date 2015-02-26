@@ -23,7 +23,9 @@ SOURCES += main.cpp \
 DISTFILES += \
     FileSystem.ice \
     LuDServer.pro.user \
-    Sections.txt
+    Sections.txt \
+    LuDServer.pro.user.47f9476 \
+    LuDServer.pro.user.83fecab
 
 HEADERS += \
     FileSystem.h \
