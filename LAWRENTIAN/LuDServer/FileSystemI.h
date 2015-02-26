@@ -4,9 +4,23 @@
 #include <Ice/Ice.h>
 #include "FileSystem.h"
 
+struct Time_t{
+    std::string dayOfTheWeek;
+    std::string day;
+    std::string month;
+    std::string year;
+    std::string hour;
+    std::string minute;
+    std::string second;
+    std::string milliseconds;
+};
+
 class FileSystemI : public FileSystem::File
 {
 private:
+    std::string COPY;
+    std::string IMAGE;
+    Time_t getCreationTime(const std::string& path);
     std::string main_dir;
     bool dirExists(const std::string& dirName_in);
     std::string extractFileName(const std::string& str);
@@ -15,6 +29,7 @@ private:
     std::string getIP(const Ice::Current& c);
     void consolePrint(const std::string& str);
     std::string getName(const std::string& ip_address);
+    std::string FileSystemI::getfName(const std::string& s);
 public:
     FileSystemI(std::string main_node);
     FileSystemI();

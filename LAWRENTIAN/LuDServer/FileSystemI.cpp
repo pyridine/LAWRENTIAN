@@ -8,18 +8,26 @@
 FileSystemI::FileSystemI()
 {
     using namespace std;
+
+    COPY = "COPY";
+    IMAGE = "IMAGE";
+
     main_dir = "C:/Users/Briggs 419 Server/Dropbox/Issue";
 }
 
 FileSystemI::FileSystemI(std::string main_node)
 {
     using namespace std;
+
+    COPY = "COPY";
+    IMAGE = "IMAGE";
+
     main_dir = main_node;
 }
 
 FileSystem::ByteSeq
 FileSystemI::receiveLatest(const std::string& sec, const std::string& art,
-                           const std::string& type, const std::string& fName,
+                           const std::string& type, const std::string& fName_p,
                            const Ice::Current& c)
 {
     using namespace std;
@@ -31,9 +39,17 @@ FileSystemI::receiveLatest(const std::string& sec, const std::string& art,
 
     cout << "===" + caller_info + "===" << endl;
 
+    string fName = getfName(fName_p);
     string path = main_dir + "/" + sec + "/" + art + "/" + type
             + "/" + fName;
-    string fn = fName + ".docx";
+
+    string fn;
+    if(!type.compare(COPY))
+        fn = fName + ".docx";
+    if(!type.compare(IMAGE))
+        fn = fName + ".jpg";
+    else
+        return seq;
 
     long long i = 1;
     string dir;
@@ -81,16 +97,17 @@ FileSystemI::receiveLatest(const std::string& sec, const std::string& art,
 
 FileSystem::ByteSeq
 FileSystemI::receiveVersion(const std::string& sec, const std::string& art,
-                           const std::string& type, const std::string& fName,
+                           const std::string& type, const std::string& fName_p,
                            const int ver, const Ice::Current& c)
 {
     using namespace std;
     using namespace FileSystem;
 
     ByteSeq seq;
+    string fName = getfName(fName_p);
 
     if (ver == -1)
-        return receiveLatest(sec, art, type, fName, c);
+        return receiveLatest(sec, art, type, fName, c);   
 
     string caller_info = getName(getIP(c));
 
@@ -100,9 +117,20 @@ FileSystemI::receiveVersion(const std::string& sec, const std::string& art,
             + "/" + fName;
 
     string dir;
-    if (dirExists(path)) {
+    if (dirExists(path))
+    {
         long long ver_num = ver;
-        string fn = fName + std::to_string(ver_num) + ".docx";
+
+        string fn;
+        if(!type.compare(COPY))
+            fn = (ver) ? fName + std::to_string(ver_num) + ".docx"
+                       : fName + ".docx";
+        if(!type.compare(IMAGE))
+            fn = (ver) ? fName + std::to_string(ver_num) + ".docx"
+                       : fName + ".jpeg";
+        else
+            return seq;
+
         dir = path + "/" + fn;
         ifstream check(dir, ios::binary);
         if (!check)
@@ -224,8 +252,16 @@ FileSystemI::getHistory(const std::string& sec, const std::string& art,
             {
                 Version vr;
                 vr.verNum = (int)i;
-                vr.verName = i ? fName + std::to_string(i)
+                vr.verName = i ? fName + "*" + std::to_string(i)
                                : fName;
+                Time_t t = getCreationTime(dir);
+                vr.time.year = t.year;
+                vr.time.month = t.month;
+                vr.time.day = t.day;
+                vr.time.hour = t.hour;
+                vr.time.minute = t.minute;
+                vr.time.second = t.second;
+                vr.time.milliseconds = t.milliseconds;
 
                 v_seq.push_back(vr);
 
@@ -259,7 +295,75 @@ FileSystemI::getHistory(const std::string& sec, const std::string& art,
 }
 
 
+
 // got from StackExchange
+Time_t FileSystemI::getCreationTime(const std::string &path)
+{
+    using namespace std;
+
+    FILETIME ftCreate, ftAccess, ftWrite;
+    SYSTEMTIME stUTC, stLocal;
+    HANDLE hFile;
+    Time_t t;
+
+    wstring stemp = wstring(path.begin(), path.end());
+    LPCWSTR name = stemp.c_str();
+
+    hFile = CreateFile(name, GENERIC_READ, FILE_SHARE_READ, NULL,
+                       OPEN_EXISTING, 0, NULL);
+
+    if(hFile == INVALID_HANDLE_VALUE)
+    {
+        printf("CreateFile failed with %d\n", GetLastError());
+        return t;
+    }
+
+    // Retrieve the file times for the file.
+    if (!GetFileTime(hFile, &ftCreate, &ftAccess, &ftWrite))
+        return t;
+
+    // Convert the last-write time to local time.
+    FileTimeToSystemTime(&ftCreate, &stUTC);
+    SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
+
+    int num = stLocal.wDayOfWeek;
+    switch(num)
+    {
+    case 1:
+        t.dayOfTheWeek = "Monday";
+        break;
+    case 2:
+        t.dayOfTheWeek = "Tuesday";
+        break;
+    case 3:
+        t.dayOfTheWeek = "Wednesday";
+        break;
+    case 4:
+        t.dayOfTheWeek = "Thursday";
+        break;
+    case 5:
+        t.dayOfTheWeek = "Friday";
+        break;
+    case 6:
+        t.dayOfTheWeek = "Saturday";
+        break;
+    case 7:
+        t.dayOfTheWeek = "Sunday";
+        break;
+    }
+
+    t.day = std::to_string((long long) stLocal.wDay);
+    t.month = std::to_string((long long) stLocal.wMonth);
+    t.year = std::to_string((long long) stLocal.wYear);
+    t.hour = std::to_string((long long) stLocal.wHour);
+    t.minute = std::to_string((long long) stLocal.wMinute);
+    t.second = std::to_string((long long) stLocal.wSecond);
+    t.milliseconds = std::to_string((long long) stLocal.wMilliseconds);
+
+    return t;
+
+}
+
 bool FileSystemI::dirExists(const std::string& dir)
 {
     DWORD ftyp = GetFileAttributesA(dir.c_str());
@@ -364,6 +468,24 @@ std::string FileSystemI::getName(const std::string& ip_address)
 
     map_str::const_iterator iter = names.find(ip_address);
     return iter == names.end() ? "UNIDENTIFIED: " + ip_address : iter->second;
+}
+
+std::string FileSystemI::getfName(const std::string& s)
+{
+    using namespace std;
+
+    string str = s;
+
+    string::const_iterator iter = str.begin();
+    for (iter; iter != str.end(); iter++)
+    {
+        if(*iter == '*')
+            break;
+    }
+
+    str.resize(iter - str.begin());
+    cout << str << endl;
+    return str;
 }
 
 /* FOR SOME REASON ICE DOES NOT ALLOW ME TO USE find().
