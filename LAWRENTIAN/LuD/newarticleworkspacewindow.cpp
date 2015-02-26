@@ -16,17 +16,25 @@
 
 using namespace std;
 
+/*Used to display section names.*/
+
 newArticleWorkspaceWindow::newArticleWorkspaceWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::newArticleWorkspaceWindow)
 {
+    //Set up static strings.
     COPY = "Copy";
     IMAGE = "Image";
+    NEWZ = "News";
+    FEATZ = "Features";
+    OPEDZ = "Opinions & Editorials";
+    ARTSENTZ = "Arts & Entertainment";
+    VARIEZ = "Sports";
+    SPORTZ = "Variety";
 
     ui->setupUi(this);
 
-
-
+    //TODO: permissions.......
     ui->delete_pushButton->setVisible(false);
 }
 
@@ -43,65 +51,102 @@ void newArticleWorkspaceWindow::on_chooseFile_pushButton_clicked()
 
 void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
 {
-    Sender sndr = Sender();
+    cout << "Submit article called!!" << endl;
 
+    cout << "Creating article obj." << endl;
+    //Populate the new article object....
+    //1.date
+    stringstream s;
+    int year = ui->issueDateEdit->date().year();
+    stringstream monthstream;
+    int month = ui->issueDateEdit->date().month();
+    if(month >= 10){
+        monthstream << month;
+    } else{
+        monthstream << "0" << month;
+    }
+    stringstream daystream;
+    int day = ui->issueDateEdit->date().day();
+    if(day >= 10){
+        daystream << day;
+    } else{
+        daystream << "0" << day;
+    }
+    s << year << monthstream.str() << daystream.str();
+    string issueDateString = s.str();
+    //2. everything else
+            //TODO:
+            //string pastTitle = myArticle->getTitle();
+            //TODO: Keep it for updating the article workspace widget.
+            //TODO: Update the article workspace widget :P
     string title = ui->articleTitleTextField->text().toStdString();
     string description = ui->descriptionTextField->toPlainText().toStdString();
+    int section = this->getSelectedSectionID();
+    int writer = this->getSelectedWriterLuid();
+    int photographer = this->getSelectedPhotographerLuid();
+    int id = myArticle->getId();
+    myArticle = new Article(issueDateString, title, description, section, writer, photographer);
+    myArticle->setId(id);
+    //done.
 
-    int section = 0;
-    switch(ui->sectionComboBox->currentIndex()){
-    case 0:
-        section = SectionDef::NEWS_SECTION;
-        break;
-    case 1:
-        section = SectionDef::FEATURES_SECTION;
-        break;
-    case 2:
-        section = SectionDef::OPED_SECTION;
-        break;
-    case 3:
-        section = SectionDef::ARTSENT_SECTION;
-        break;
-    case 4:
-        section = SectionDef::SPORTS_SECTION;
-        break;
-    case 5:
-        section = SectionDef::VARIETY_SECTION;
-        break;
-    }
 
-    int writer = (*((*currentWriterList)[ui->writerComboBox->currentIndex()])).second;
-    int photographer = (*((*currentPhotographerList)[ui->photographerComboBox->currentIndex()])).second;
-    string filePath = ui->articleFileTextField->text().toStdString();
 
-    if(filePath.size())
-        sndr.sendFile(dbController->translateSection(section), title, COPY, title + ".docx", filePath);
+    cout << "Sending the data to the dropbox." << endl;
+    cout << "ERROR: NOT DOING THIS BECAUSE THE FUNCTIONALITY IS BROKEN." << endl;
 
-    QDate issueDate = ui->issueDateEdit->date();
+//    //Do sender things...
+//    Sender sndr = Sender();
 
-    string issueDateString = issueDate.toString().toStdString();
-    newArticle = new Article(issueDateString, title, description, section, writer, photographer);
+//    string filePath = ui->articleFileTextField->text().toStdString();
 
-    QStringList::const_iterator iter = img_paths.begin();
+//    if(filePath.size())
+//        sndr.sendFile(dbController->translateSection(section), title, COPY, title +/*WHY DOCX??????*/ ".docx", filePath);
 
-    for(iter; iter!=img_paths.end(); iter++)
-        sndr.sendFile(dbController->translateSection(section),title,IMAGE,getNameExt(iter->toStdString()),
-                      iter->toStdString());
+//    QStringList::const_iterator iter = img_paths.begin();
 
-    // Check if article already exists in articleWorkspace (widget)
+//    for(iter; iter!=img_paths.end(); iter++)
+//        sndr.sendFile(dbController->translateSection(section),title,IMAGE,getNameExt(iter->toStdString()),
+//                      iter->toStdString());
+//    //done.
+
+
+
+    cout << "Updating the parent window." << endl;
+    //Update the article workspace widget...
     if(!parentArticleWorkspaceWidget->workspaceExists(title)){
-        cout << "new article" << endl;
-        parentArticleWorkspaceWidget->initArticle(newArticle);
-        cout << "1" << endl;
-        parentArticleWorkspaceWidget->addArticleButton(newArticle);
-        cout << "2" << endl;
-
-        dbController->addArticle(newArticle);
-        cout << "3" << endl;
+        parentArticleWorkspaceWidget->initArticle(myArticle);
+        parentArticleWorkspaceWidget->addArticleButton(myArticle);
+        dbController->addArticle(myArticle);
     }
-    this->close();
+    //Done.
+
+
+
+    cout << "Adding the article to the DB." << endl;
+    //Add the new article to the DB...
+    dbController->addArticle(myArticle);
+    //Done!
+
+
+
+    //We're done.
+    closeMe();
+    //Bye bye :(
+
+
 }
-articleWorkspace *newArticleWorkspaceWindow::getParentArticleWorkspaceWidget() const
+
+void newArticleWorkspaceWindow::closeMe(){
+    this->parentArticleWorkspaceWidget->updateArticleList();
+    this->close();
+    delete(this);
+
+}
+
+
+
+
+articleWorkspace* newArticleWorkspaceWindow::getParentArticleWorkspaceWidget() const
 {
     return parentArticleWorkspaceWidget;
 }
@@ -113,56 +158,51 @@ void newArticleWorkspaceWindow::setParentArticleWorkspaceWidget(articleWorkspace
 
 void newArticleWorkspaceWindow::setupFields(Article *article)
 {
-    QStringList* list = new QStringList();
-    list->append(QString("News"));
-    list->append(QString("Features"));
-    list->append(QString("Opinions & Editorials"));
-    list->append(QString("Arts & Entertainment"));
-    list->append(QString("Sports"));
-    list->append(QString("Variety"));
-    ui->sectionComboBox->addItems(*list);
+    myArticle = article;
+    ui->articleTitleTextField->setText(article->QGetTitle());
+    ui->descriptionTextField->setText(QString::fromStdString(article->getDescription()));
 
-    this->updatePhotographerList();
-
-    int fuckingKludge = 0;
-    while(fuckingKludge < 10 && (0 != QString::compare(ui->sectionComboBox->currentText(),
-                                                       article->QGetTitle(),
-                                                       Qt::CaseInsensitive)))
-    {
-        ui->sectionComboBox->setCurrentIndex(fuckingKludge);
-        ++fuckingKludge;
-    }
-
-    QString title = article->QGetTitle();
-    QString description = QString::fromStdString(article->getDescription());
-    QString section = QString::fromStdString(dbController->translateSection(article->getSection()));
-    int writer = article->getWriter();
-    int photographer = (article->getPhotographer());
     QString issueDateString = QString::fromStdString(article->getIssueDate());
-    QDate issueDate = QDate::fromString(issueDateString);
-
-    ui->articleTitleTextField->setText(title);
-    ui->descriptionTextField->setText(description);
-    ui->sectionComboBox->setCurrentText(section);
-    ui->writerComboBox->setCurrentText(QString::number(writer));
-    ui->photographerComboBox->setCurrentText(QString::number(photographer));
+    QString dateFormat("yyyy-MM-dd");
+    QDate issueDate = QDate::fromString(issueDateString,dateFormat);
     ui->issueDateEdit->setDate(issueDate);
+    setupSectionComboBox(article->getSection());
+    this->updatePhotographerList(article->getPhotographer());
+    this->updateWriterList(article->getSection(),article->getWriter());
+    this->on_sectionComboBox_currentIndexChanged(QString("a")); //argument does nothing
 }
 
-void newArticleWorkspaceWindow::setupFields()
+void newArticleWorkspaceWindow::setupSectionComboBox(int section)
 {
-    cout << "========" << endl;
+    //Put them all in a list, and then bubble (cf. bubblesort) the one
+    //that is supposed to be first.
 
-    QStringList* list = new QStringList();
-    list->append(QString("News"));
-    list->append(QString("Features"));
-    list->append(QString("Opinions & Editorials"));
-    list->append(QString("Arts & Entertainment"));
-    list->append(QString("Sports"));
-    list->append(QString("Variety"));
-    ui->sectionComboBox->addItems(*list);
+    vector<pair<string,int>>* sections = new vector<pair<string,int>>();
+    sections->push_back(std::make_pair(NEWZ,SectionDef::NEWS_SECTION));
+    sections->push_back(std::make_pair(FEATZ,SectionDef::FEATURES_SECTION));
+    sections->push_back(std::make_pair(OPEDZ,SectionDef::OPED_SECTION));
+    sections->push_back(std::make_pair(ARTSENTZ,SectionDef::ARTSENT_SECTION));
+    sections->push_back(std::make_pair(VARIEZ,SectionDef::VARIETY_SECTION));
+    sections->push_back(std::make_pair(SPORTZ,SectionDef::SPORTS_SECTION));
 
-    this->updatePhotographerList();
+    vector<pair<string,int>>::iterator secPairs = sections->begin();
+    if(section > 0){
+        //Now find the index of the assigned section...
+        while((*secPairs).second != section){
+            secPairs++;
+        }
+
+        //...And bubble it up to the top.
+        while(secPairs != (sections->begin())){
+            std::iter_swap(secPairs,secPairs-1);
+            --secPairs;
+        }
+        secPairs= sections->begin();
+    }
+    while(secPairs != sections->end()){
+        ui->sectionComboBox->addItem(QString::fromStdString((*secPairs).first),QVariant((*secPairs).second));
+        secPairs++;
+    }
 }
 
 
@@ -224,7 +264,7 @@ QString newArticleWorkspaceWindow::getfName(QString s)
 
 void newArticleWorkspaceWindow::on_delete_pushButton_pressed()
 {
-
+    cout << "del" << endl;
     cb_vec_t::iterator iter = cb_vec.begin();
     for(iter; iter != cb_vec.end(); iter++)
     {
@@ -246,50 +286,50 @@ void newArticleWorkspaceWindow::on_delete_pushButton_pressed()
     widget->setLayout(vert_layout);
     ui->img_scrollArea->setWidget(widget);
 
-    bool isVisible = img_paths.isEmpty() ? false : true;
+    bool isVisible = !img_paths.isEmpty();
     ui->delete_pushButton->setVisible(isVisible);
 }
 
 void newArticleWorkspaceWindow::initDB(Client* c){
     dbController = new NewArticleWorkspaceWindowDBC(c);
-
-    //It has to be done now because we need the dbController for it :P
-
 }
+
+
+int newArticleWorkspaceWindow::getSelectedSectionID(){
+    return ui->sectionComboBox->itemData(ui->sectionComboBox->currentIndex()).toInt();
+}
+
+int newArticleWorkspaceWindow::getSelectedSectionPermissionToken(){
+    //Note: unfortunately, you can't do switch statements with non-constant values (the SectionDefs),
+    //So I had to to this ugly if sequence.
+
+    int section = getSelectedSectionID();
+
+    if (section == SectionDef::NEWS_SECTION)
+        return PermissionDef::SEC_NEWS;
+    if (section ==  SectionDef::ARTSENT_SECTION)
+        return PermissionDef::SEC_ARTS;
+    if (section ==  SectionDef::FEATURES_SECTION)
+        return PermissionDef::SEC_FEATURES;
+    if (section ==  SectionDef::OPED_SECTION)
+        return PermissionDef::SEC_OPED;
+    if (section ==  SectionDef::SPORTS_SECTION)
+        return PermissionDef::SEC_SPORTS;
+    if (section ==  SectionDef::VARIETY_SECTION)
+        return PermissionDef::SEC_VARIETY;
+    return -1;
+}
+
+
 
 void newArticleWorkspaceWindow::on_copyHistory_pushButton_clicked()
 {
-    int section = 0;
-    switch(ui->sectionComboBox->currentIndex()){
-    case 0:
-        section = SectionDef::NEWS_SECTION;
-        cout << 0 << endl;
-        break;
-    case 1:
-        section = SectionDef::FEATURES_SECTION;
-        cout << 1 << endl;
-        break;
-    case 2:
-        section = SectionDef::OPED_SECTION;
-        cout << 2 << endl;
-        break;
-    case 3:
-        section = SectionDef::ARTSENT_SECTION;
-        cout << 3 << endl;
-        break;
-    case 4:
-        section = SectionDef::SPORTS_SECTION;
-        cout << 4 << endl;
+    int section = this->getSelectedSectionID();
 
-        break;
-    case 5:
-        section = SectionDef::VARIETY_SECTION;
-        cout << 5 << endl;
-        break;
-    }
-    cout << "ok" << endl;
+
     string sec = dbController->translateSection(section);
     string art = ui->articleTitleTextField->text().toStdString();
+
     cout << sec << endl;
     cout << art << endl;
 
@@ -297,74 +337,51 @@ void newArticleWorkspaceWindow::on_copyHistory_pushButton_clicked()
     chw->show();
 }
 
-void newArticleWorkspaceWindow::updateWriterList(int section){
+void newArticleWorkspaceWindow::updateWriterList(int section, int currentWriter){
 
-    currentWriterList = dbController->getListOfWritersForSection(section);
-
-    //clear the combobox.
-    for(int i = 0; i < ui->writerComboBox->count(); i++){
-        ui->writerComboBox->removeItem(i);
-    }
+    vector<pair<string, int> *>* newWriterList = dbController->getListOfWritersForSection(section,currentWriter);
 
     //rewrite the combobox.
-    vector<pair<string, int> *>::iterator it =  currentWriterList->begin();
-
-    while(it != currentWriterList->end()){
+    ui->writerComboBox->clear();
+    vector<pair<string, int> *>::iterator it =  newWriterList->begin();
+    while(it != newWriterList->end()){
         pair<string,int>* next = *it;
-        ui->writerComboBox->addItem(QString::fromStdString(next->first));
+        //Adds both the displayed name (first) and the associated LUID (second)
+        ui->writerComboBox->addItem(QString::fromStdString(next->first),QVariant(next->second));
         ++it;
     }
+    ui->writerComboBox->setCurrentIndex(0);
 }
 
-void newArticleWorkspaceWindow::updatePhotographerList(){
+void newArticleWorkspaceWindow::updatePhotographerList(int currentPhotographer){
 
-    currentPhotographerList = dbController->getListOfPhotographers();
+    vector<pair<string, int> *>* newPhotographerList = dbController->getListOfPhotographers(currentPhotographer);
 
-    //clear the combobox.
-    for(int i = 0; i < ui->photographerComboBox->count(); i++){
-        ui->photographerComboBox->removeItem(i);
-    }
-
-    //rewrite the combobox.
-    vector<pair<string, int> *>::iterator it =  currentPhotographerList->begin();
-
-    while(it != currentPhotographerList->end()){
+    ui->photographerComboBox->clear();
+    vector<pair<string, int> *>::iterator it =  newPhotographerList->begin();
+    while(it != newPhotographerList->end()){
         pair<string,int>* next = *it;
-        ui->photographerComboBox->addItem(QString::fromStdString(next->first));
+        //Adds both the displayed name (first) and the associated LUID (second)
+        ui->photographerComboBox->addItem(QString::fromStdString(next->first),QVariant(next->second));
         ++it;
     }
+
+    ui->photographerComboBox->setCurrentIndex(0);
 }
 int newArticleWorkspaceWindow::getSelectedWriterLuid(){
-    //writerComboBox
-    //      currentWriterList
-    return 0;
+    return ui->writerComboBox->itemData(ui->writerComboBox->currentIndex()).toInt();
+}
+int newArticleWorkspaceWindow::getSelectedPhotographerLuid(){
+    return ui->photographerComboBox->itemData(ui->photographerComboBox->currentIndex()).toInt();
 }
 
 void newArticleWorkspaceWindow::on_sectionComboBox_currentIndexChanged(const QString &arg1)
 {
-    cout << arg1.toStdString() << endl;
-    cout<< "dbc is " << dbController << endl;
-
-    if(0 == QString::compare(QString("News"),arg1,Qt::CaseInsensitive)){
-        cout << "yesnews" << PermissionDef::SEC_NEWS << endl;
-        this->updateWriterList(30);
-    }
-    if(0 == QString::compare(QString("Features"),arg1,Qt::CaseInsensitive)){
-        this->updateWriterList(PermissionDef::SEC_FEATURES);
-    }
-    if(0 == QString::compare(QString("Opinions & Editorials"),arg1,Qt::CaseInsensitive)){
-        this->updateWriterList(PermissionDef::SEC_OPED);
-    }
-    if(0 == QString::compare(QString("Arts & Entertainment"),arg1,Qt::CaseInsensitive)){
-        this->updateWriterList(PermissionDef::SEC_ARTS);
-    }
-    if(0 == QString::compare(QString("Sports"),arg1),Qt::CaseInsensitive){
-        this->updateWriterList(PermissionDef::SEC_SPORTS);
-    }
-    if(0 == QString::compare(QString("Variety"),arg1,Qt::CaseInsensitive)){
-        this->updateWriterList(PermissionDef::SEC_VARIETY);
-    }
-
+    //This will in fact work if there is already a writer assigned.
+    //The update checks to see if the assigned writer has permissions for the
+    //newly selected section.
+    this->updateWriterList(this->getSelectedSectionPermissionToken(),
+                           myArticle->getWriter());
 }
 
 std::string newArticleWorkspaceWindow::getNameExt(const std::string& s)
@@ -401,4 +418,10 @@ std::string newArticleWorkspaceWindow::getNameColon(const std::string& s)
     string ret= str.substr(iter - str.begin(),str.length());
     cout << ret << "!!!!!!" << endl;
     return ret;
+}
+
+void newArticleWorkspaceWindow::on_deleteAWS_pushButton_clicked()
+{
+    dbController->deleteArticle(myArticle->getId());
+    closeMe();
 }

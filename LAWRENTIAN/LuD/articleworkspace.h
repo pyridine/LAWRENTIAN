@@ -25,11 +25,11 @@ public:
     ~articleWorkspace();
     void initArticle(Article *article);
     void addArticleButton(Article *article);
-    void initDB(Client* c);
+    void initDB(Client* c,LoginCredentials* cred);
     int x;
     int y;
 
-    void updateArticleList(LoginCredentials* c);
+    void updateArticleList();
 
     void resetArticleButtons();
 
@@ -41,10 +41,13 @@ private slots:
     void on_addArticleWorkspace_pushButton_clicked();
     void handleButton();
 
+    void openArticleWorkspace(Article* a);
+
 private:
+    LoginCredentials* credentials;
     Ui::articleWorkspace *ui;
-    vector<Article *> articleVector;
-    void __insertArticles(int section, int secPerf, LoginCredentials *c);
+    vector<Article*> articleVector;
+    void __insertArticles(int section, int secPerf);
     ArticleWorkspaceDBC* dbController;
 };
 

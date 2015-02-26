@@ -13,9 +13,10 @@ public:
     ArticleWorkspaceDBC(Client *c);
     ~ArticleWorkspaceDBC();
     vector<Article*>* getSectionArticles(int section);
+    int getNextAvailableArticleID();
 
-
-
+private:
+    vector<int> *getAllArticleIDs();
 
 
 };

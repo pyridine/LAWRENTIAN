@@ -87,8 +87,8 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
             ||loginCredo->hasPermission(PermissionDef::APPROVE_ARTICLE)){
 
         articleWorkspace* awk = new articleWorkspace();
-        awk->initDB(client);
-        awk->updateArticleList(loginCredo);
+        awk->initDB(client,loginCredo);
+        awk->updateArticleList();
 
         tabs->addTab(awk, "Article Workspace");
 

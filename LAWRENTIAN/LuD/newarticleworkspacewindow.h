@@ -27,10 +27,9 @@ public:
 
     articleWorkspace *getParentArticleWorkspaceWidget() const;
     void setParentArticleWorkspaceWidget(articleWorkspace *value);
-    void setupFields(Article *article);
-    void setupFields();
-
     void initDB(Client* c);
+    void setupFields(Article *article);
+
 
 private slots:
     void on_chooseFile_pushButton_clicked();
@@ -45,29 +44,44 @@ private slots:
 
     void on_sectionComboBox_currentIndexChanged(const QString &arg1);
 
+    void on_deleteAWS_pushButton_clicked();
+
 private:
     typedef QVector<QCheckBox*> cb_vec_t;
 
-    Article *newArticle;
+    void updateWriterList(int section, int currentWriter);
+    void updatePhotographerList(int currentPhotographer);
+    void setupSectionComboBox(int section);
+    void closeMe(); //closes window, updates parent.
+
+
+    int getSelectedWriterLuid();
+    int getSelectedPhotographerLuid();
+    int getSelectedSectionID();
+    int getSelectedSectionPermissionToken();
+
+    NewArticleWorkspaceWindowDBC* dbController;
+
+
+    Article* myArticle;
     Ui::newArticleWorkspaceWindow *ui;
     articleWorkspace *parentArticleWorkspaceWidget;
     cb_vec_t cb_vec;
     QStringList img_paths;
     QVBoxLayout *vert_layout;
     QString getfName(QString str);
-
-    void updateWriterList(int section);
-    void updatePhotographerList();
-    int getSelectedWriterLuid();
-
-    NewArticleWorkspaceWindowDBC* dbController;
-
-    vector<pair<string, int> *>* currentWriterList;
-    vector<pair<string, int> *>* currentPhotographerList;
     std::string getNameColon(const std::string& s);
     std::string getNameExt(const std::string& s);
+    //What are these for?
     std::string COPY;
     std::string IMAGE;
+    //Used to display section names in combobox.
+    std::string NEWZ;
+    std::string FEATZ;
+    std::string OPEDZ;
+    std::string ARTSENTZ;
+    std::string VARIEZ;
+    std::string SPORTZ;
 };
 
 #endif // NEWARTICLEWORKSPACEWINDOW_H

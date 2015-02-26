@@ -27,19 +27,36 @@ articleWorkspace::~articleWorkspace()
     delete ui;
 }
 
-void articleWorkspace::initDB(Client* c){
+void articleWorkspace::initDB(Client* c,LoginCredentials* cred){
     dbController = new ArticleWorkspaceDBC(c);
+    credentials = cred;
+
+}
+
+
+void articleWorkspace::openArticleWorkspace(Article* a){
+    //Init data
+    newArticleWorkspaceWindow *createArticleWorkspaceWindow = new newArticleWorkspaceWindow();
+    createArticleWorkspaceWindow->initDB(dbController->getClient());
+    createArticleWorkspaceWindow->setupFields(a);
+
+    //Init window
+    createArticleWorkspaceWindow->setParentArticleWorkspaceWidget(this);
+    createArticleWorkspaceWindow->setWindowModality(Qt::ApplicationModal);
+    createArticleWorkspaceWindow->window()->show();
+
+
 }
 
 void articleWorkspace::on_addArticleWorkspace_pushButton_clicked()
 {
-    newArticleWorkspaceWindow *createArticleWorkspaceWindow = new newArticleWorkspaceWindow();
-    createArticleWorkspaceWindow->initDB(dbController->getClient());
 
-    createArticleWorkspaceWindow->setParentArticleWorkspaceWidget(this);
-    createArticleWorkspaceWindow->setWindowModality(Qt::ApplicationModal);
-    createArticleWorkspaceWindow->setupFields();
-    createArticleWorkspaceWindow->window()->show();
+    Article* newArticle = new Article("2015-06-06","Article Title","Article Description",
+                                      0 /*Default to first section*/,
+                                      -1 /*Nobody assigned*/,
+                                      -1 /*Nobody assigned*/);
+    newArticle->setId(dbController->getNextAvailableArticleID());
+    openArticleWorkspace(newArticle);
 }
 
 void articleWorkspace::initArticle(Article *article)
@@ -47,15 +64,18 @@ void articleWorkspace::initArticle(Article *article)
     articleVector.push_back(article);
 }
 
-void articleWorkspace::updateArticleList(LoginCredentials* c){
+void articleWorkspace::updateArticleList(){
+    vector<Article*> newArtVect;
+    articleVector = newArtVect;
+
 
     //Didn't I need to initialize articlevector? :TODO :DEBUG :HEY_SEGFAULT
-    __insertArticles(SectionDef::ARTSENT_SECTION,PermissionDef::SEC_ARTS,c);
-    __insertArticles(SectionDef::FEATURES_SECTION,PermissionDef::SEC_FEATURES,c);
-    __insertArticles(SectionDef::NEWS_SECTION,PermissionDef::SEC_NEWS,c);
-    __insertArticles(SectionDef::OPED_SECTION,PermissionDef::SEC_OPED,c);
-    __insertArticles(SectionDef::SPORTS_SECTION,PermissionDef::SEC_SPORTS,c);
-    __insertArticles(SectionDef::VARIETY_SECTION,PermissionDef::SEC_VARIETY,c);
+    __insertArticles(SectionDef::ARTSENT_SECTION,PermissionDef::SEC_ARTS);
+    __insertArticles(SectionDef::FEATURES_SECTION,PermissionDef::SEC_FEATURES);
+    __insertArticles(SectionDef::NEWS_SECTION,PermissionDef::SEC_NEWS);
+    __insertArticles(SectionDef::OPED_SECTION,PermissionDef::SEC_OPED);
+    __insertArticles(SectionDef::SPORTS_SECTION,PermissionDef::SEC_SPORTS);
+    __insertArticles(SectionDef::VARIETY_SECTION,PermissionDef::SEC_VARIETY);
 
     resetArticleButtons();
 }
@@ -68,10 +88,11 @@ void articleWorkspace::resetArticleButtons(){
     }
 }
 
-void articleWorkspace::__insertArticles(int section, int secPerf, LoginCredentials* c){
-    if(c->hasPermission(PermissionDef::ADMIN_PTOKEN)
-            ||c->hasPermission(PermissionDef::SEC_ALL)
-            ||c->hasPermission(secPerf)){
+void articleWorkspace::__insertArticles(int section, int secPerf){
+
+    if(credentials->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            ||credentials->hasPermission(PermissionDef::SEC_ALL)
+            ||credentials->hasPermission(secPerf)){
         vector<Article*>* newvit = dbController->getSectionArticles(section);
         articleVector.insert(articleVector.end(),newvit->begin(),newvit->end());
     }
@@ -101,12 +122,7 @@ void articleWorkspace::handleButton()
         Article* send = articleVector[count];
         QString sendTitle = send->QGetTitle();
         if(sendTitle == senderObjName){
-            newArticleWorkspaceWindow *editArticleWorkspaceWindow = new newArticleWorkspaceWindow();
-            editArticleWorkspaceWindow->initDB(dbController->getClient());
-
-            editArticleWorkspaceWindow->setParentArticleWorkspaceWidget(this);
-            editArticleWorkspaceWindow->setupFields(send);
-            editArticleWorkspaceWindow->window()->show();
+            openArticleWorkspace(send);
         }
         count++;
     }
