@@ -4,7 +4,13 @@
 #include <string.h>
 #include <direct.h>
 #include <cctype>
+#include <iomanip>
+#include <ctime>
 
+#include <iostream>
+#include <string>
+#include <stdio.h>
+#include <time.h>
 FileSystemI::FileSystemI()
 {
     using namespace std;
@@ -37,7 +43,7 @@ FileSystemI::receiveLatest(const std::string& sec, const std::string& art,
 
     string caller_info = getName(getIP(c));
 
-    cout << "===" + caller_info + "===" << endl;
+    consolePrint("===" + caller_info + "===" );
 
     string fName = getfName(fName_p);
     string path = main_dir + "/" + sec + "/" + art + "/" + type
@@ -97,8 +103,8 @@ FileSystemI::receiveLatest(const std::string& sec, const std::string& art,
 
 FileSystem::ByteSeq
 FileSystemI::receiveVersion(const std::string& sec, const std::string& art,
-                           const std::string& type, const std::string& fName_p,
-                           const int ver, const Ice::Current& c)
+                            const std::string& type, const std::string& fName_p,
+                            const int ver, const Ice::Current& c)
 {
     using namespace std;
     using namespace FileSystem;
@@ -107,11 +113,11 @@ FileSystemI::receiveVersion(const std::string& sec, const std::string& art,
     string fName = getfName(fName_p);
 
     if (ver == -1)
-        return receiveLatest(sec, art, type, fName, c);   
+        return receiveLatest(sec, art, type, fName, c);
 
     string caller_info = getName(getIP(c));
 
-    cout << "===" + caller_info + "===" << endl;
+    consolePrint("===" + caller_info + "===" );
 
     string path = main_dir + "/" + sec + "/" + art + "/" + type
             + "/" + fName;
@@ -165,7 +171,7 @@ FileSystemI::sendFile(const std::string& sec, const std::string& art,
     using namespace FileSystem;
 
     string caller_info = getName(getIP(c));
-    cout << "===" + caller_info + "===" << endl;
+    consolePrint("===" + caller_info + "===" );
 
     string sec_dir = sec;
     string article_dir = art;
@@ -225,8 +231,8 @@ FileSystemI::sendFile(const std::string& sec, const std::string& art,
 
 FileSystem::VerSeq
 FileSystemI::getHistory(const std::string& sec, const std::string& art,
-         const std::string& type, const std::string& fName,
-         const Ice::Current& c)
+                        const std::string& type, const std::string& fName,
+                        const Ice::Current& c)
 {
     using namespace std;
     using namespace FileSystem;
@@ -234,7 +240,7 @@ FileSystemI::getHistory(const std::string& sec, const std::string& art,
     VerSeq v_seq;
 
     string caller_info = getName(getIP(c));
-    cout << "===" + caller_info + "===" << endl;
+    consolePrint("===" + caller_info + "===" );
 
     string path = main_dir + "/" + sec + "/" + art + "/" + type
             + "/" + fName;
@@ -445,9 +451,29 @@ void FileSystemI::consolePrint(const std::string& str)
 {
     using namespace std;
 
-    cout << str;
-    if(str.size() != 80)
-        cout << endl;
+    time_t     now = time(0);
+    struct tm  tstruct;
+    char       buf[80];
+    tstruct = *localtime(&now);
+
+    strftime(buf, sizeof(buf), "%m-%d-%Y %X", &tstruct);
+
+    if(str[1] == '=')
+    {
+        string temp(buf);
+        string t = "[" + temp + "]: ";
+        cout << t << str;
+
+        if(str.size() != 80 - t.size())
+            cout << endl;
+    }
+    else
+    {
+        std::cout << str;
+
+        if(str.size() != 80)
+            cout << endl;
+    }
 }
 
 std::string FileSystemI::getName(const std::string& ip_address)
