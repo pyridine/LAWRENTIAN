@@ -1,4 +1,5 @@
 #include "FileSystemI.h"
+#include <QString>
 #include <fstream>
 #include <Windows.h>
 #include <string.h>
@@ -6,11 +7,14 @@
 #include <cctype>
 #include <iomanip>
 #include <ctime>
-
+#include <tchar.h>
+#include <shellapi.h>
 #include <iostream>
 #include <string>
 #include <stdio.h>
 #include <time.h>
+
+
 FileSystemI::FileSystemI()
 {
     using namespace std;
@@ -301,7 +305,83 @@ FileSystemI::getHistory(const std::string& sec, const std::string& art,
     return v_seq;
 }
 
-// got from StackExchange
+bool FileSystemI::changeDir(const std::string &sec, const std::string &art_old,
+                            const std::string &art_new, const Ice::Current& c)
+{
+    using namespace std;
+
+    string caller_info = getName(getIP(c));
+    consolePrint("===" + caller_info + "===" );
+
+    string f_old = main_dir + "/" + sec + "/" + art_old;
+    string f_new = main_dir + "/" + sec + "/" + art_new;
+
+    if(dirExists(f_old))
+        rename( f_old.c_str() , f_new.c_str() );
+    else
+    {
+        consolePrint("changeDir: " + art_old + " does not exist!");
+        return false;
+    }
+
+    f_old = f_new + "/" + COPY + "/" + art_old;
+    f_new = f_new + "/" + COPY + "/" + art_new;
+
+    if(dirExists(f_old))
+        rename( f_old.c_str(), f_new.c_str());
+    else
+    {
+        consolePrint("changeDir: no files to change!");
+        return false;
+    }
+
+    string fNameExt_old = f_new + "/" + art_old + ".docx";
+    string fNameExt_new = f_new + "/" + art_old + ".docx";
+
+    long long i = 0;
+    while(true)
+    {
+        string file_old = i ? insertCorrectly(fNameExt_old, std::to_string(i).c_str())
+                            : fNameExt_old;
+        string file_new = i ? insertCorrectly(fNameExt_new, std::to_string(i).c_str())
+                            : fNameExt_new;
+
+        ifstream check(file_old, ios::binary);
+        if(check)
+            rename(file_old.c_str(), file_new.c_str());
+        else
+            break;
+        i++;
+    }
+
+    consolePrint("changeDir: successfully changed name to " + art_new);
+    return true;
+}
+
+bool FileSystemI::deleteArt(const std::string &sec, const std::string &art,
+                            const Ice::Current& c)
+{
+    using namespace std;
+
+
+    string caller_info = getName(getIP(c));
+    consolePrint("===" + caller_info + "===" );
+
+    string dir = main_dir + "/" + sec + "/" + art;
+    //    wchar_t temp = *d.c_str();
+    //    LPWSTR dir = &temp;
+    if(dirExists(dir))
+        deleteDirectory(dir,dir.length(),false);
+    else
+    {
+        consolePrint("deleteArt: " + dir + " does not exist");
+        return false;
+    }
+
+    consolePrint("deleteArt: successfully deleted " + dir );
+    return true;
+}
+
 bool FileSystemI::getCreationTime(const std::string &path, FileSystem::TimeIce& t)
 {
     using namespace std;
@@ -368,6 +448,7 @@ bool FileSystemI::getCreationTime(const std::string &path, FileSystem::TimeIce& 
 
 }
 
+// got from StackExchange
 bool FileSystemI::dirExists(const std::string& dir)
 {
     DWORD ftyp = GetFileAttributesA(dir.c_str());
@@ -400,7 +481,7 @@ std::string FileSystemI::extractFileName(const std::string& str)
     return name;
 }
 
-std::string FileSystemI::insertCorrectly(std::string& str, const char* num)
+std::string FileSystemI::insertCorrectly(const std::string& str, const char* num)
 {
     using namespace std;
 
@@ -414,9 +495,10 @@ std::string FileSystemI::insertCorrectly(std::string& str, const char* num)
             cout << "broken" << endl;
         }
     }
-    str.insert(iter - str.begin(), num);
+    string ret = str;
+    ret.insert(iter - str.begin(), num);
 
-    return str;
+    return ret;
 }
 
 std::string FileSystemI::extractNodeName(const std::string str)
@@ -533,6 +615,41 @@ std::string FileSystemI::fixExtension(const std::string &s, const std::string &t
     return s.substr(0,iter - s.begin()) + ext;
 
 }
+
+// got from codeguru.com
+bool FileSystemI::deleteDirectory(const std::string& dir, int len, bool noRecycleBin)
+{
+    using namespace std;
+
+    wchar_t temp = *dir.c_str();
+    LPWSTR lpszDir = &temp;
+
+    TCHAR *pszFrom = new TCHAR[len+2];
+    *pszFrom = *lpszDir;
+    pszFrom[len] = 0;
+    pszFrom[len+1] = 0;
+
+    SHFILEOPSTRUCT fileop;
+    fileop.hwnd   = NULL;    // no status display
+    fileop.wFunc  = FO_DELETE;  // delete operation
+    fileop.pFrom  = pszFrom;  // source file name as double null terminated string
+    fileop.pTo    = NULL;    // no destination needed
+    fileop.fFlags = FOF_NOCONFIRMATION|FOF_SILENT;  // do not prompt the user
+
+    if(!noRecycleBin)
+        fileop.fFlags |= FOF_ALLOWUNDO;
+
+    fileop.fAnyOperationsAborted = FALSE;
+    fileop.lpszProgressTitle     = NULL;
+    fileop.hNameMappings         = NULL;
+
+    int ret = SHFileOperation(&fileop);
+//    delete [] pszFrom;
+//    bool b = (ret == 0) ? true : false;
+//    return b;
+    return true;
+}
+
 
 /* FOR SOME REASON ICE DOES NOT ALLOW ME TO USE find().
 std::string FileSystemI::extractFileName(const std::string& str)
