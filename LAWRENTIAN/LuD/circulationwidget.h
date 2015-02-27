@@ -27,10 +27,12 @@ public:
 private slots:
     void on_editRouteButton_clicked();
 
+    void on_routeSelectorWidget_currentRowChanged(int currentRow);
+
 private:
     void initDB(Client* c);
     void populateRouteList();
-
+    vector<pair<Route*,int>>* myRoutes;
     Ui::circulationWidget *ui;
     vector<Route> routes;
     CirculationWindowDBC* dbController;

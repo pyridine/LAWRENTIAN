@@ -14,7 +14,7 @@ public:
     CirculationWindowDBC(); //Or else QT gets mad
     ~CirculationWindowDBC();
 
-    vector<pair<Route *, int> *> *getAllRoutes();
+    vector<pair<Route *, int> > *getAllRoutes();
     void insertRoute(Route* r, int routeID); //Deletes before insering for simplicity. So you use this for add and edit.
     void dropRoute(int routeID);
 
@@ -23,7 +23,7 @@ private:
     vector<int> *getAllRouteNums();
     void insertRoutePoint(Route::RoutePoint p, int routeId, int pointOrder);
     Route* getRoute(int routeId);
-    int findMissingNumber(vector<int>* v);
+    int findMissingNumber(vector<int>* nums);
 
 };
 

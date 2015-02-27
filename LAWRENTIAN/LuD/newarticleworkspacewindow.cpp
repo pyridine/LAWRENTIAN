@@ -13,6 +13,7 @@
 #include "copyhistorywindow.h"
 #include "sectiondef.h"
 #include "permissiondef.h"
+#include "alert.h"
 
 using namespace std;
 
@@ -51,9 +52,6 @@ void newArticleWorkspaceWindow::on_chooseFile_pushButton_clicked()
 
 void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
 {
-    cout << "Submit article called!!" << endl;
-
-    cout << "Creating article obj." << endl;
     //Populate the new article object....
     //1.date
     stringstream s;
@@ -85,46 +83,57 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
     int writer = this->getSelectedWriterLuid();
     int photographer = this->getSelectedPhotographerLuid();
     int id = myArticle->getId();
-    myArticle = new Article(issueDateString, title, description, section, writer, photographer);
-    myArticle->setId(id);
-    //done.
 
-    //Do sender things...
-    Sender sndr = Sender();
+    if(!dbController->isArticleTitleAlreadyInUse(title,id)){
+        if(0 != title.compare("Krebsbach is the best CS teacher in the world")){
+            cout << "adding art." << endl;
+            myArticle = new Article(issueDateString, title, description, section, writer, photographer);
 
-    string filePath = ui->articleFileTextField->text().toStdString();
-    if(filePath.size())
-        sndr.sendFile(dbController->translateSection(section), title, COPY, title + getExt(filePath), filePath);
+            myArticle->setId(id);
+            //done.
 
-    QStringList::const_iterator iter = img_paths.begin();
-    for(iter; iter!=img_paths.end(); iter++)
-        sndr.sendFile(dbController->translateSection(section),title,IMAGE,getNameExt(iter->toStdString()),
-                      iter->toStdString());
-    //done.
+            //Do sender things...
+            Sender sndr = Sender();
 
-    cout << "Updating the parent window." << endl;
-    //Update the article workspace widget...
-    if(!parentArticleWorkspaceWidget->workspaceExists(title)){
-        parentArticleWorkspaceWidget->initArticle(myArticle);
-        parentArticleWorkspaceWidget->addArticleButton(myArticle);
-        dbController->addArticle(myArticle);
+            string filePath = ui->articleFileTextField->text().toStdString();
+            if(filePath.size())
+                sndr.sendFile(dbController->translateSection(section), title, COPY, title + getExt(filePath), filePath);
+
+            QStringList::const_iterator iter = img_paths.begin();
+            for(iter; iter!=img_paths.end(); iter++)
+                sndr.sendFile(dbController->translateSection(section),title,IMAGE,getNameExt(iter->toStdString()),
+                              iter->toStdString());
+            //done.
+
+            cout << "Updating the parent window." << endl;
+            //Update the article workspace widget...
+            if(!parentArticleWorkspaceWidget->workspaceExists(title)){
+                parentArticleWorkspaceWidget->initArticle(myArticle);
+                parentArticleWorkspaceWidget->addArticleButton(myArticle);
+                dbController->addArticle(myArticle);
+            }
+            //Done.
+
+            cout << "Adding the article to the DB." << endl;
+            //Add the new article to the DB...
+            dbController->addArticle(myArticle);
+            //Done!
+
+            //We're done.
+            closeMe();
+            return;
+            //Bye bye :(
+        } else{
+            Alert::showAlert("Error","Article title is a commonly known fact, and is therefore not newsworthy.");
+        }
+    } else{
+        Alert::showAlert("Error","Article title is already in use.");
     }
-    //Done.
-
-    cout << "Adding the article to the DB." << endl;
-    //Add the new article to the DB...
-    dbController->addArticle(myArticle);
-    //Done!
-
-    //We're done.
-    closeMe();
-    //Bye bye :(
 }
 
 void newArticleWorkspaceWindow::closeMe(){
     this->parentArticleWorkspaceWidget->updateArticleList();
     this->close();
-    delete(this);
 }
 
 
@@ -317,6 +326,7 @@ void newArticleWorkspaceWindow::on_copyHistory_pushButton_clicked()
 
     CopyHistoryWindow *chw = new CopyHistoryWindow(0,sec,art,COPY,art);
     chw->activateWindow();
+    chw->setWindowModality(Qt::ApplicationModal);
     chw->show();
 }
 

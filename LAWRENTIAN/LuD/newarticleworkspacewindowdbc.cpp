@@ -50,6 +50,16 @@ const string GET_PHOTOGRAPHERS_EXCLUSION =
         "FROM lawrentian.employee "
         "WHERE title = :photi AND lawrentian.employee.luid != :exclusion";
 
+const string SELECT_ARTICLE_BY_TITLE =
+        "SELECT * "
+        "FROM lawrentian.currentissue_article "
+        "WHERE title = :ti";
+
+const string SELECT_ARTICLE_BY_TITLE_AND_NOT_ID =
+        "SELECT * "
+        "FROM lawrentian.currentissue_article "
+        "WHERE title = :ti AND idarticle != :id";
+
 
 }
 using namespace NAWWDBCCommands;
@@ -69,13 +79,13 @@ void NewArticleWorkspaceWindowDBC::addArticle(Article* art)
 
     QSqlQuery *query = new QSqlQuery;
     query->prepare(QString::fromStdString(NAWWDBCCommands::SUBMIT_ARTICLE));
-    query->bindValue(":idarticle",art->getId()); cout << "articleid" << art->getId() << endl;
-    query->bindValue(":title", art->QGetTitle()); cout << "tittl" << art->getTitle() << endl;
-    query->bindValue(":description", art->QGetDescription()); cout << "desc" << art->getDescription() << endl;
-    query->bindValue(":section", art->getSection()); cout << "sec" << art->getSection() << endl;
-    query->bindValue(":writer", art->getWriter()); cout << "writ" << art->getWriter() << endl;
-    query->bindValue(":photographer", art->getPhotographer()); cout << "pho" << art->getPhotographer() << endl;
-    query->bindValue(":issueDate", art->QGetIssueDate()); cout << "date" << art->getIssueDate() << endl;
+    query->bindValue(":idarticle",art->getId());
+    query->bindValue(":title", art->QGetTitle());
+    query->bindValue(":description", art->QGetDescription());
+    query->bindValue(":section", art->getSection());
+    query->bindValue(":writer", art->getWriter());
+    query->bindValue(":photographer", art->getPhotographer());
+    query->bindValue(":issueDate", art->QGetIssueDate());
     QSqlQuery* result = client->execute(query);
     QSqlError err = query->lastError();
     if(err.isValid()){
@@ -98,6 +108,37 @@ void NewArticleWorkspaceWindowDBC::deleteArticle(int articleID){
     return;
 }
 
+bool NewArticleWorkspaceWindowDBC::isArticleTitleExistent(string title){
+
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(NAWWDBCCommands::SELECT_ARTICLE_BY_TITLE));
+    query->bindValue(":ti",QString::fromStdString(title));
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    if(!err.isValid()){
+        return result->next();
+    }
+    else{
+        cout << "!SQL ERROR: " << result->lastError().databaseText().toStdString() << endl;
+    }
+}
+bool NewArticleWorkspaceWindowDBC::isArticleTitleAlreadyInUse(string title,int id){
+
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(NAWWDBCCommands::SELECT_ARTICLE_BY_TITLE_AND_NOT_ID));
+    query->bindValue(":ti",QString::fromStdString(title));
+    query->bindValue(":id",id);
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    if(!err.isValid()){
+        return result->next();
+    }
+    else{
+        cout << "!SQL ERROR: " << result->lastError().databaseText().toStdString() << endl;
+    }
+}
 /**
  *
  * Set currentWriter to -1 if there is no currentWriter for the article.
@@ -126,7 +167,7 @@ vector<pair<string,int>*>* NewArticleWorkspaceWindowDBC::getListOfWritersForSect
             pair<string,int>* nextWriter = new pair<string,int>;
             nextWriter->first = result->value(0).toString().toStdString();
             nextWriter->second = currentWriter;
-            writers->push_back(nextWriter); cout << "assigned writer pushed: " << nextWriter->first << "," << nextWriter->second << endl;
+            writers->push_back(nextWriter);
         }
     }else{
         cout << "!SQL ERROR: " << result->lastError().databaseText().toStdString() << endl;
@@ -147,7 +188,7 @@ vector<pair<string,int>*>* NewArticleWorkspaceWindowDBC::getListOfWritersForSect
             pair<string,int>* nextWriter = new pair<string,int>;
             nextWriter->first = result->value(0).toString().toStdString();
             nextWriter->second = result->value(1).toInt();
-            writers->push_back(nextWriter); cout << "available writer pushed: " << nextWriter->first << "," << nextWriter->second << endl;
+            writers->push_back(nextWriter);
         }
     }else{
         cout << "!SQL ERROR: " << result->lastError().databaseText().toStdString() << endl;
@@ -180,7 +221,7 @@ vector<pair<string,int>*>* NewArticleWorkspaceWindowDBC::getListOfPhotographers(
             pair<string,int>* nextPho = new pair<string,int>;
             nextPho->first = result->value(0).toString().toStdString();
             nextPho->second = curentPhotographer;
-            phographers->push_back(nextPho); cout << "assigned pho pushed: " << nextPho->first << "," << nextPho->second << endl;
+            phographers->push_back(nextPho);
         }
     }else{
         cout << "!SQL ERROR: " << result->lastError().databaseText().toStdString() << endl;
@@ -201,7 +242,7 @@ vector<pair<string,int>*>* NewArticleWorkspaceWindowDBC::getListOfPhotographers(
             pair<string,int>* nextPho = new pair<string,int>;
             nextPho->first = result->value(0).toString().toStdString();
             nextPho->second = result->value(1).toInt();
-            phographers->push_back(nextPho); cout << "available pho pushed: " << nextPho->first << "," << nextPho->second << endl;
+            phographers->push_back(nextPho);
         }
     }else{
         cout << "!SQL ERROR: " << result->lastError().databaseText().toStdString() << endl;
