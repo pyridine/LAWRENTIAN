@@ -15,6 +15,8 @@ public:
 
     void addArticle(Article *newArticle);
     void deleteArticle(int articleID);
+    bool isArticleTitleExistent(string title);
+    bool isArticleTitleAlreadyInUse(string title, int id);
 
     vector<pair<string, int> *>* getListOfWritersForSection(int section, int currentWriter); //See documentation
     vector<pair<string, int> *>* getListOfPhotographers(int curentPhotographer); //See documentation
