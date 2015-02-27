@@ -16,9 +16,11 @@ struct Time_t{
     std::string milliseconds;
 };
 
+
 class FileSystemI : public FileSystem::File
 {
 private:
+
     std::string COPY;
     std::string IMAGE;
     bool getCreationTime(const std::string& path, FileSystem::TimeIce& time);
@@ -32,11 +34,19 @@ private:
     std::string getName(const std::string& ip_address);
     std::string getfName(const std::string& s);
     std::string fixExtension(const std::string& s, const std::string& type);
-    bool deleteDirectory(const std::string& dir, int len, bool noRecycleBin);
+    void getFolders(const std::vector<std::wstring> vec, std::vector<std::string>& out,
+               const std::string& m_p);
+    bool listFiles(std::wstring path, std::wstring mask, std::vector<std::wstring>& files);
+    std::string fixPath(const std::string& p);
+    std::string fixPath(const std::wstring& p);
+    bool deleteDirectory(const std::string &dir);
+    bool listFiles(std::string path, std::string mask, std::vector<std::string>& files);
+    std::string extractFolderName(const std::string& s);
 
 public:
     FileSystemI(std::string main_node);
     FileSystemI();
+    typedef std::vector<std::string> StrSeq;
 
     virtual FileSystem::ByteSeq
     receiveLatest(const std::string& sec, const std::string& art,
@@ -58,12 +68,33 @@ public:
              const std::string& type, const std::string& fName,
              const Ice::Current& c);
 
+    virtual /*FileSystem::*/std::vector<std::string>
+    getImageList(const std::string& sec, const std::string& art/*,
+                 const Ice::Current& c*/);
+
     virtual bool
     changeDir(const std::string& sec, const std::string& art_old,
               const std::string& art_new, const Ice::Current& c);
 
     virtual bool
-    deleteArt(const std::string& sec, const std::string& art, const Ice::Current& c);
+    deleteArt(const std::string& sec, const std::string& art,
+              const Ice::Current& c);
+
+    virtual bool
+    deleteAllImages(const std::string& sec, const std::string& art,
+                    const Ice::Current& c);
+
+    virtual bool
+    deleteImage(const std::string& sec, const std::string& art,
+                const std::string& name, const Ice::Current& c);
+
+    virtual bool
+    deleteAllCopies(const std::string& sec, const std::string& art,
+                    const Ice::Current& c);
+
+    virtual bool
+    deleteCopyVer(const std::string& sec, const std::string& art,
+                  const int ver, const Ice::Current& c);
 
 };
 

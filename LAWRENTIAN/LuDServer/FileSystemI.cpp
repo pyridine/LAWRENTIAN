@@ -1,19 +1,14 @@
 #include "FileSystemI.h"
-#include <QString>
 #include <fstream>
-#include <Windows.h>
-#include <string.h>
 #include <direct.h>
-#include <cctype>
-#include <iomanip>
-#include <ctime>
-#include <tchar.h>
-#include <shellapi.h>
 #include <iostream>
 #include <string>
-#include <stdio.h>
 #include <time.h>
-
+#include <windows.h>
+#include <vector>
+#include <stack>
+#include <stdio.h>
+#include <algorithm>
 
 FileSystemI::FileSystemI()
 {
@@ -87,8 +82,8 @@ FileSystemI::receiveLatest(const std::string& sec, const std::string& art,
         return seq;
     }
 
-    consolePrint("request path: " + path);
-    consolePrint("request: " + dir);
+    consolePrint("receiveLatest: " + dir);
+
     ifstream source(dir,ios::binary);
 
     if(dir.size() != 0)
@@ -152,8 +147,8 @@ FileSystemI::receiveVersion(const std::string& sec, const std::string& art,
         cout << path << endl << "Path does not exist" << endl; // throw exception in the future.
         return seq;
     }
-    consolePrint("request path: " + path);
-    consolePrint("request: " + dir);
+    consolePrint("receiveVersion: " + dir);
+
     ifstream source(dir,ios::binary);
 
     source.seekg(0, ios::end);
@@ -221,8 +216,7 @@ FileSystemI::sendFile(const std::string& sec, const std::string& art,
     }
     dir = dir + "/" + fn;
     file.close();
-    consolePrint("send name: " + fNameExt);
-    consolePrint("send: " + dir);
+    consolePrint("sendFile: " + dir);
 
     ofstream dest(fixExtension(dir,type), ios::binary);
     dest.write(reinterpret_cast<const char*>(&seq[0]),seq.size());
@@ -300,9 +294,40 @@ FileSystemI::getHistory(const std::string& sec, const std::string& art,
         cout << path << endl << "Path does not exist" << endl; // throw exception in the future.
         return v_seq;
     }
-    consolePrint("number of versions of " + fName + ": "
-                 + std::to_string((long long)v_seq.size() - 1));
+    consolePrint("getHistory: " + fName + " has "
+                 + std::to_string((long long)v_seq.size() - 1) + " version(s).");
     return v_seq;
+}
+
+/*FileSystem::*/
+std::vector<std::string> FileSystemI::getImageList(const std::string &sec, const std::string &art/*,
+                                             const Ice::Current &c*/)
+{
+    using namespace std;
+    using namespace FileSystem;
+
+    std::vector<std::string> seq;
+    vector<string> list;
+    string dir = main_dir + "/" + sec + "/" + art + "/" + IMAGE;
+    if(!listFiles(dir,"*",list))
+        return seq;
+    cout << 12 << endl;
+    vector<string>::const_iterator iter = list.begin();
+    cout << 2 << endl;
+    string prev_folder = "";
+    cout << 3 << endl;
+    while(iter != list.end())
+    {
+        string folder = extractFolderName(*iter);
+        cout << 4 << endl;
+        if(!prev_folder.compare(folder))
+            seq.push_back(folder);
+        cout << 5 << endl;
+        prev_folder = folder;
+        iter++;
+
+    }
+    return seq;
 }
 
 bool FileSystemI::changeDir(const std::string &sec, const std::string &art_old,
@@ -355,30 +380,6 @@ bool FileSystemI::changeDir(const std::string &sec, const std::string &art_old,
     }
 
     consolePrint("changeDir: successfully changed name to " + art_new);
-    return true;
-}
-
-bool FileSystemI::deleteArt(const std::string &sec, const std::string &art,
-                            const Ice::Current& c)
-{
-    using namespace std;
-
-
-    string caller_info = getName(getIP(c));
-    consolePrint("===" + caller_info + "===" );
-
-    string dir = main_dir + "/" + sec + "/" + art;
-    //    wchar_t temp = *d.c_str();
-    //    LPWSTR dir = &temp;
-    if(dirExists(dir))
-        deleteDirectory(dir,dir.length(),false);
-    else
-    {
-        consolePrint("deleteArt: " + dir + " does not exist");
-        return false;
-    }
-
-    consolePrint("deleteArt: successfully deleted " + dir );
     return true;
 }
 
@@ -616,40 +617,293 @@ std::string FileSystemI::fixExtension(const std::string &s, const std::string &t
 
 }
 
-// got from codeguru.com
-bool FileSystemI::deleteDirectory(const std::string& dir, int len, bool noRecycleBin)
+bool FileSystemI::deleteDirectory(const std::string &dir)
 {
     using namespace std;
 
-    wchar_t temp = *dir.c_str();
-    LPWSTR lpszDir = &temp;
+    vector<wstring> files;
+    vector<string> folders;
 
-    TCHAR *pszFrom = new TCHAR[len+2];
-    *pszFrom = *lpszDir;
-    pszFrom[len] = 0;
-    pszFrom[len+1] = 0;
+    string path = dir;
+    wstring wPath(path.begin(), path.end());
 
-    SHFILEOPSTRUCT fileop;
-    fileop.hwnd   = NULL;    // no status display
-    fileop.wFunc  = FO_DELETE;  // delete operation
-    fileop.pFrom  = pszFrom;  // source file name as double null terminated string
-    fileop.pTo    = NULL;    // no destination needed
-    fileop.fFlags = FOF_NOCONFIRMATION|FOF_SILENT;  // do not prompt the user
+    if (listFiles(wPath, L"*", files))
+    {
+        vector<wstring>::const_iterator it = files.begin();
 
-    if(!noRecycleBin)
-        fileop.fFlags |= FOF_ALLOWUNDO;
+        for (it; it != files.end(); it++)
+        {
+            if(!remove(fixPath(it->c_str()).c_str()));
+                return false;
+        }
 
-    fileop.fAnyOperationsAborted = FALSE;
-    fileop.lpszProgressTitle     = NULL;
-    fileop.hNameMappings         = NULL;
+        getFolders(files,folders,path);
+        vector<string>::iterator iter = folders.begin();
+        for (iter; iter != folders.end(); iter++)
+        {
+            string str = fixPath(*iter);
+            wstring temp(str.begin(),str.end());
+            const wchar_t *fn = temp.c_str();
+            LPCTSTR folder_name = fn;
+            if(!RemoveDirectory( folder_name ))
+                return false;
+        }
 
-    int ret = SHFileOperation(&fileop);
-//    delete [] pszFrom;
-//    bool b = (ret == 0) ? true : false;
-//    return b;
+    }
     return true;
 }
 
+
+bool FileSystemI::deleteArt(const std::string &sec, const std::string &art,
+                            const Ice::Current& c)
+{
+    using namespace std;
+
+    string caller_info = getName(getIP(c));
+    consolePrint("===" + caller_info + "===" );
+
+    string path = main_dir + "/" + sec + "/" + art;
+
+    if(deleteDirectory(path))
+    {
+        consolePrint("deleteArt: " + path);
+        return true;
+    }
+    return false;
+}
+
+bool FileSystemI::deleteAllImages(const std::string &sec, const std::string &art, const Ice::Current &c)
+{
+    using namespace std;
+
+    string caller_info = getName(getIP(c));
+    consolePrint("===" + caller_info + "===" );
+
+    string path = main_dir + "/" + sec + "/" + art + "/" + IMAGE;
+
+    if(deleteDirectory(path))
+    {
+        consolePrint("deleteAllImages: " + path);
+        return true;
+    }
+    return false;
+}
+
+bool FileSystemI::deleteImage(const std::string &sec, const std::string &art, const std::string &name, const Ice::Current &c)
+{
+    using namespace std;
+
+    string caller_info = getName(getIP(c));
+    consolePrint("===" + caller_info + "===" );
+
+    string path = main_dir + "/" + sec + "/" + art + "/" + IMAGE + "/" + name;
+
+    if(deleteDirectory(path))
+    {
+        consolePrint("deleteImage: " + path);
+        return true;
+    }
+    return false;
+}
+
+bool FileSystemI::deleteAllCopies(const std::string &sec, const std::string &art, const Ice::Current &c)
+{
+    using namespace std;
+
+    string caller_info = getName(getIP(c));
+    consolePrint("===" + caller_info + "===" );
+
+    string path = main_dir + "/" + sec + "/" + art + "/" + COPY;
+
+    if(deleteDirectory(path))
+    {
+        consolePrint("deleteAllCopies: " + path);
+        return true;
+    }
+    return false;
+
+}
+
+bool FileSystemI::deleteCopyVer(const std::string &sec, const std::string &art, const int ver, const Ice::Current &c)
+{
+    using namespace std;
+
+    string caller_info = getName(getIP(c));
+    consolePrint("===" + caller_info + "===" );
+
+    string path = main_dir + "/" + sec + "/" + art + "/" + COPY + "/" + art + ".docx";
+    path = ver ? insertCorrectly(path,std::to_string((long long)ver).c_str()) : path;
+
+    if(!remove(path.c_str()))
+    {
+        consolePrint("deleteCopyVer: " + path);
+        return true;
+    }
+    return false;
+}
+
+std::string FileSystemI::fixPath(const std::wstring& p)
+{
+    using namespace std;
+
+    string path( p.begin(), p.end() );
+    string::iterator iter = path.begin();
+    for(iter; iter != path.end(); iter++)
+    {
+        if(*iter == '\\')
+            *iter = '/';
+    }
+    return path;
+}
+
+std::string FileSystemI::fixPath(const std::string& p)
+{
+    using namespace std;
+
+    string path = p;
+    string::iterator iter = path.begin();
+    for(iter; iter != path.end(); iter++)
+    {
+        if(*iter == '\\')
+            *iter = '/';
+    }
+    return path;
+}
+
+bool FileSystemI::listFiles(std::string path, std::string mask, std::vector<std::string>& files)
+{
+    using namespace std;
+
+    vector<wstring> out;
+    wstring p(path.begin(), path.end());
+    wstring m(mask.begin(), mask.end());
+
+    if(!listFiles(p,m,out))
+        return false;
+
+    vector<wstring>::const_iterator iter;
+    while(iter != out.end())
+    {
+        wstring ws = *iter;
+        string s(ws.begin(), ws.end());
+        files.push_back(s);
+        iter++;
+    }
+    return true;
+
+}
+
+std::string FileSystemI::extractFolderName(const std::string &s)
+{
+    using namespace std;
+
+    string::const_iterator it, iter = s.end() - 1;
+    while(*iter != '/')
+    {
+        if(iter == s.begin())
+            return "";
+        iter--;
+    }
+    iter--;
+    it = iter;
+    while(*it != '/')
+    {
+        if(it == s.begin())
+            return "";
+        it--;
+    }
+    it++;
+    return s.substr(it-s.begin(),iter-it +1);}
+
+
+bool FileSystemI::listFiles(std::wstring path, std::wstring mask, std::vector<std::wstring>& files)
+{
+    using namespace std;
+
+    HANDLE hFind = INVALID_HANDLE_VALUE;
+    WIN32_FIND_DATA ffd;
+    wstring spec;
+    stack<wstring> directories;
+
+    directories.push(path);
+    files.clear();
+
+    while (!directories.empty()) {
+        path = directories.top();
+        spec = path + L"\\" + mask;
+        directories.pop();
+
+        hFind = FindFirstFile(spec.c_str(), &ffd);
+        if (hFind == INVALID_HANDLE_VALUE)  {
+            return false;
+        }
+
+        do {
+            if (wcscmp(ffd.cFileName, L".") != 0 &&
+                    wcscmp(ffd.cFileName, L"..") != 0) {
+                if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+                    directories.push(path + L"\\" + ffd.cFileName);
+                }
+                else {
+                    files.push_back(path + L"\\" + ffd.cFileName);
+                }
+            }
+        } while (FindNextFile(hFind, &ffd) != 0);
+
+        if (GetLastError() != ERROR_NO_MORE_FILES) {
+            FindClose(hFind);
+            return false;
+        }
+
+        FindClose(hFind);
+        hFind = INVALID_HANDLE_VALUE;
+    }
+
+    return true;
+}
+
+void FileSystemI::getFolders(const std::vector<std::wstring> vec, std::vector<std::string>& out,
+           const std::string& m_p)
+{
+    using namespace std;
+
+    string main_path = fixPath(m_p);
+    vector<wstring>::const_iterator iter = vec.begin();
+    while(iter != vec.end())
+    {
+        wstring temp = *iter;
+
+        string dir(temp.begin(), temp.end());
+
+        while(main_path.compare(dir))
+        {
+            if(!dir.size())
+                return;
+
+            dir = fixPath(dir);
+
+            string::const_iterator it = dir.end() - 1;
+            for(it; it != dir.begin(); it--)
+            {
+                if (*it == '/')
+                    break;
+            }
+            if(it == dir.begin())
+                return;
+
+            dir.resize(it - dir.begin());
+            vector<string>::const_iterator i = std::find(out.begin(),out.end(),dir);
+            if(main_path.compare(dir) && i == out.end())
+                out.push_back(dir);
+        }
+
+        iter++;
+    }
+
+    sort(out.begin(), out.end(), greater<string>());
+    out.push_back(fixPath(main_path));
+    return;
+}
 
 /* FOR SOME REASON ICE DOES NOT ALLOW ME TO USE find().
 std::string FileSystemI::extractFileName(const std::string& str)
