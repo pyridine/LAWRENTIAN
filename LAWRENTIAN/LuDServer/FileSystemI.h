@@ -35,11 +35,10 @@ private:
     std::string fixExtension(const std::string& s, const std::string& type);
     void getFolders(const std::vector<std::string> vec, std::vector<std::string>& out,
                const std::string& m_p);
-    bool listFiles(std::wstring path, std::wstring mask, std::vector<std::wstring>& files);
     std::string fixPath(const std::string& p);
     std::string fixPath(const std::wstring& p);
     bool deleteDirectory(const std::string &dir);
-    bool listFiles(std::string path, std::string mask, std::vector<std::string>& files);
+    bool listFiles(std::string path, std::string mask, std::vector<std::string>& files, std::vector<std::string>& folders);
     std::string extractFolderName(const std::string& s);
     std::wstring wFixPath(const std::wstring& p);
     bool FileSystemI::removeFolder(const std::string& folder);

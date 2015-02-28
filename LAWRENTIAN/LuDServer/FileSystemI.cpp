@@ -328,9 +328,10 @@ FileSystemI::getImageList(const std::string& issue_date,const std::string& sec, 
     consolePrint("===" + caller_info + "===" );
 
     std::vector<std::string> seq;
-    vector<string> list;
+    vector<string> files;
+    vector<string> folders;
     string dir =  main_dir + "/" + issue_date + "/" + sec + "/" + art + "/" + fs::IMAGE;
-    if(!listFiles(dir,"*",list))
+    if(!listFiles(dir,"*",files,folders))
     {
         if(dirExists(dir))
             consolePrint("getImageList: no image found in " + dir);
@@ -346,9 +347,10 @@ FileSystemI::getImageList(const std::string& issue_date,const std::string& sec, 
         return seq;
     }
 
-    vector<string>::const_iterator iter = list.begin();
+    // Use files and then extract folder because return folders only with files.
+    vector<string>::const_iterator iter = files.begin();
     string prev_folder = "";
-    while(iter != list.end())
+    while(iter != files.end())
     {
         string folder = extractFolderName(*iter);
         if(prev_folder.compare(folder))
@@ -360,6 +362,7 @@ FileSystemI::getImageList(const std::string& issue_date,const std::string& sec, 
     consolePrint("getImageList: " + dir + " has "
                  + std::to_string((long long)seq.size() - 1) + " image folders.");
 
+    sort(seq.begin(), seq.end());
     return seq;
 }
 
@@ -678,30 +681,28 @@ bool FileSystemI::deleteDirectory(const std::string &dir)
     vector<string> files;
     vector<string> folders;
 
-    if (listFiles(dir, "*", files))
+    if (listFiles(dir, "*", files, folders))
     {
         vector<string>::const_iterator it = files.begin();
         for (it; it != files.end(); it++)
         {
-            if(remove(fixPath(*it).c_str()) )
+            if(remove(it->c_str()) )
             {
-                cout << fixPath(*it) << endl;
+                //cout << fixPath(*it) << endl;
                 return false;
             }
         }
 
-        getFolders(files,folders,dir);
         vector<string>::iterator iter = folders.begin();
         for (iter; iter != folders.end(); iter++)
         {
-            string str = fixPath(*iter);
-            wstring temp(str.begin(),str.end());
-            const wchar_t *fn = temp.c_str();
-            LPCTSTR folder_name = fn;
+            string folderPath = *iter;
+            wstring wFolderPath(folderPath.begin(),folderPath.end());
+            LPCTSTR lpFolderPath = wFolderPath.c_str();
 
-            if(!RemoveDirectory( folder_name ))
+            if(!RemoveDirectory( lpFolderPath ))
             {
-                wcout << folder_name << endl;
+                // wcout << lpFolderPath << endl;
                 return false;
             }
         }
@@ -956,29 +957,6 @@ FileSystemI::fixPath(const std::string& p)
     return path;
 }
 
-bool
-FileSystemI::listFiles(std::string path, std::string mask, std::vector<std::string>& files)
-{
-    using namespace std;
-
-    vector<wstring> wout;
-    wstring p(path.begin(), path.end());
-    wstring m(mask.begin(), mask.end());
-
-    if(!listFiles(p,m,wout))
-        return false;
-    vector<wstring>::const_iterator witer = wout.begin();
-    while(witer != wout.end())
-    {
-        wstring ws = *witer;
-        string s(ws.begin(), ws.end());
-        files.push_back(s);
-        witer++;
-    }
-    return true;
-
-}
-
 std::string
 FileSystemI::extractFolderName(const std::string &s)
 {
@@ -1005,41 +983,57 @@ FileSystemI::extractFolderName(const std::string &s)
 
 
 bool
-FileSystemI::listFiles(std::wstring path, std::wstring mask, std::vector<std::wstring>& files)
+FileSystemI::listFiles(std::string path, std::string mask, std::vector<std::string>& files,
+                       std::vector<std::string>& folders)
 {
     using namespace std;
 
+    wstring wPath(path.begin(), path.end());
+    wstring wMask(mask.begin(), mask.end());
+
     HANDLE hFind = INVALID_HANDLE_VALUE;
     WIN32_FIND_DATA ffd;
-    wstring spec;
+    wstring wSpec;
     stack<wstring> directories;
 
-    directories.push(path);
+    directories.push(wPath);
     files.clear();
+    folders.clear();
 
-    while (!directories.empty()) {
-        path = directories.top();
-        spec = path + L"\\" + mask;
+    while (!directories.empty())
+    {
+        wPath = directories.top();
+        wSpec = wPath + L"\\" + wMask;
         directories.pop();
 
-        hFind = FindFirstFile(spec.c_str(), &ffd);
+        hFind = FindFirstFile(wSpec.c_str(), &ffd);
         if (hFind == INVALID_HANDLE_VALUE)  {
             return false;
         }
 
-        do {
+        do
+        {
             if (wcscmp(ffd.cFileName, L".") != 0 &&
-                    wcscmp(ffd.cFileName, L"..") != 0) {
-                if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-                    directories.push(path + L"\\" + ffd.cFileName);
+                    wcscmp(ffd.cFileName, L"..") != 0)
+            {
+                if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+                {
+                    wstring wFolderPath = wPath + L"\\" + ffd.cFileName;
+                    directories.push(wFolderPath);
+                    folders.push_back(fixPath(wFolderPath));
+                    cout << folders[folders.size() - 1] << endl;
                 }
-                else {
-                    files.push_back(wFixPath(path + L"\\" + ffd.cFileName));
+                else
+                {
+                    wstring wFilePath = wPath + L"\\" + ffd.cFileName;
+                    files.push_back(fixPath(wFilePath));
+                    cout << files[files.size() - 1] << endl;
                 }
             }
         } while (FindNextFile(hFind, &ffd) != 0);
 
-        if (GetLastError() != ERROR_NO_MORE_FILES) {
+        if (GetLastError() != ERROR_NO_MORE_FILES)
+        {
             FindClose(hFind);
             return false;
         }
@@ -1048,6 +1042,8 @@ FileSystemI::listFiles(std::wstring path, std::wstring mask, std::vector<std::ws
         hFind = INVALID_HANDLE_VALUE;
     }
 
+    sort(files.begin(), files.end(), greater<string>());
+    sort(folders.begin(), folders.end(), greater<string>());
     return true;
 }
 
