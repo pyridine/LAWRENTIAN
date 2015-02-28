@@ -18,12 +18,12 @@ FileSystemI::FileSystemI()
     arc_dir = "C:/Users/Briggs 419 Server/Dropbox/Archive";
 }
 
-FileSystemI::FileSystemI(std::string main_node)
+FileSystemI::FileSystemI(const std::string& main_dir, const std::string& arc_dir)
 {
     using namespace std;
 
-    main_dir = main_node;
-    arc_dir = "C:/Users/Briggs 419 Server/Dropbox/Archive";
+    this->main_dir = main_dir;
+    this->arc_dir = arc_dir;
 }
 
 FileSystem::ByteSeq
@@ -368,7 +368,7 @@ FileSystemI::getImageList(const std::string& issue_date,const std::string& sec, 
 
 bool
 FileSystemI::changeDir(const std::string& issue_date, const std::string &sec,
-                       const std::string &artOld, const std::string &art_new, const Ice::Current& c)
+                       const std::string &artOld, const std::string &artNew, const Ice::Current& c)
 {
     using namespace std;
 
@@ -376,7 +376,7 @@ FileSystemI::changeDir(const std::string& issue_date, const std::string &sec,
     consolePrint("===" + caller_info + "===" );
 
     string f_old =  main_dir + "/" + issue_date + "/" + sec + "/" + artOld;
-    string f_new =  main_dir + "/" + issue_date + "/" + sec + "/" + art_new;
+    string f_new =  main_dir + "/" + issue_date + "/" + sec + "/" + artNew;
 
     if(dirExists(f_old))
         rename( f_old.c_str() , f_new.c_str() );
@@ -387,19 +387,21 @@ FileSystemI::changeDir(const std::string& issue_date, const std::string &sec,
     }
 
     f_old = f_new + "/" + fs::COPY + "/" + artOld;
-    f_new = f_new + "/" + fs::COPY + "/" + art_new;
+    f_new = f_new + "/" + fs::COPY + "/" + artNew;
 
     if(dirExists(f_old))
         rename( f_old.c_str(), f_new.c_str());
     else
     {
-        consolePrint("changeDir: no files to change!");
-        return false;
+        consolePrint("changeDir: no files to change! But change successful.");
+        return true;
     }
 
     string fNameExt_old = f_new + "/" + artOld + fs::extCOPY;
-    string fNameExt_new = f_new + "/" + artOld + fs::extCOPY;
+    string fNameExt_new = f_new + "/" + artNew + fs::extCOPY;
 
+    /* Can run algorithm without 'break' but looks nicer this way.
+     */
     int ver = 0;
     while(true)
     {
@@ -407,17 +409,19 @@ FileSystemI::changeDir(const std::string& issue_date, const std::string &sec,
                               : fNameExt_old;
         string file_new = ver ? insertCorrectly(fNameExt_new, ver)
                               : fNameExt_new;
-
         ifstream check;
         check.open(file_old, ios::binary);
-        if(check)
+        if(check.is_open())
+        {
+            check.close();
             rename(file_old.c_str(), file_new.c_str());
+        }
         else
             break;
         ver++;
     }
 
-    consolePrint("changeDir: successfully changed name to " + art_new + ".");
+    consolePrint("changeDir: successfully changed name to " + artNew + ".");
     return true;
 }
 
@@ -688,11 +692,10 @@ bool FileSystemI::deleteDirectory(const std::string &dir)
         {
             if(remove(it->c_str()) )
             {
-                //cout << fixPath(*it) << endl;
                 return false;
             }
         }
-
+        folders.push_back(dir);
         vector<string>::iterator iter = folders.begin();
         for (iter; iter != folders.end(); iter++)
         {
@@ -702,7 +705,6 @@ bool FileSystemI::deleteDirectory(const std::string &dir)
 
             if(!RemoveDirectory( lpFolderPath ))
             {
-                // wcout << lpFolderPath << endl;
                 return false;
             }
         }
@@ -727,7 +729,7 @@ FileSystemI::deleteArt(const std::string& issue_date,const std::string &sec,
 
     if(deleteDirectory(path))
     {
-        consolePrint("deleteArt: " + path + "successfully deleted!");
+        consolePrint("deleteArt: " + path + " successfully deleted!");
         return true;
     }
     else
@@ -735,7 +737,7 @@ FileSystemI::deleteArt(const std::string& issue_date,const std::string &sec,
         if(dirExists(path))
             consolePrint("deleteArt: deletion of " + path + " unsuccessful. Manual deletion requied.");
         else
-            consolePrint("deleteArt: " + path + "does not exist.");
+            consolePrint("deleteArt: " + path + " does not exist.");
     }
     return false;
 }
@@ -761,7 +763,7 @@ FileSystemI::deleteAllImages(const std::string& issue_date, const std::string &s
         if(dirExists(path))
             consolePrint("deleteAllImages: deletion of " + path + " unsuccessful. Manual deletion requied.");
         else
-            consolePrint("deleteAllImages: " + path + "does not exist.");
+            consolePrint("deleteAllImages: " + path + " does not exist.");
     }
 
     return false;
@@ -780,7 +782,7 @@ FileSystemI::deleteImage(const std::string& issue_date, const std::string &sec,
 
     if(deleteDirectory(path))
     {
-        consolePrint("deleteImage: " + path + "successfully deleted!");
+        consolePrint("deleteImage: " + path + " successfully deleted!");
         return true;
     }
     else
@@ -788,7 +790,7 @@ FileSystemI::deleteImage(const std::string& issue_date, const std::string &sec,
         if(dirExists(path))
             consolePrint("deleteImage: deletion of " + path + " unsuccessful. Manual deletion requied.");
         else
-            consolePrint("deleteImage: " + path + "does not exist.");
+            consolePrint("deleteImage: " + path + " does not exist.");
     }
 
     return false;
@@ -815,7 +817,7 @@ FileSystemI::deleteAllCopies(const std::string& issue_date, const std::string &s
         if(dirExists(path))
             consolePrint("deleteAllCopies: deletion of " + path + " unsuccessful. Manual deletion requied.");
         else
-            consolePrint("deleteAllCopies: " + path + "does not exist.");
+            consolePrint("deleteAllCopies: " + path + " does not exist.");
     }
 
     return false;
@@ -830,20 +832,51 @@ FileSystemI::deleteCopyVer(const std::string& issue_date, const std::string &sec
     string caller_info = getName(getIP(c));
     consolePrint("===" + caller_info + "===" );
 
-    string path = addExtension( main_dir + "/" + issue_date + "/" + sec + "/" + art + "/" + fs::COPY + "/" + art, fs::COPY);
-    path = ver ? insertCorrectly(path,ver) : path;
+    string dir = main_dir + "/" + issue_date + "/" + sec + "/" + art + "/" + fs::COPY + "/" + art;
+    string path_clean = addExtension( dir + "/" + art, fs::COPY);
+
+    vector<string> files,folders;
+    listFiles(dir,"*",files,folders);
+    cout << files.size() << endl;
+    int ver_num;
+    if(ver == -1)
+    {
+        ver_num = files.size() - 1;
+    }
+    else
+        ver_num = ver;
+
+
+    string path = ver_num ? insertCorrectly(path_clean,ver_num) : path_clean;
+
 
     if(!remove(path.c_str()))
     {
+        for(int index = ver_num + 1; index != files.size(); index++)
+        {
+            string oldFilePath = insertCorrectly(path_clean,index);
+            string newFilePath = index - 1 ? insertCorrectly(path_clean,index - 1) : path_clean;
+            rename(oldFilePath.c_str(), newFilePath.c_str()); // assume that if removal is permitted then rename is permitted as well.
+        }
         consolePrint("deleteCopyVer: " + path + " successfully deleted.");
         return true;
     }
     else
     {
-        if(dirExists(path))
-            consolePrint("deleteCopyVer: deletion of " + path + " unsuccessful. Manual deletion requied.");
+        if(dirExists(dir))
+        {
+            if(deleteDirectory(dir))
+            {
+                consolePrint("deleteCopyVer: " + dir + " is empty. Folder deleted.");
+
+            }
+            else
+            {
+                consolePrint("deleteCopyVer: deletion of " + path + " unsuccessful. Manual deletion requied.");
+            }
+        }
         else
-            consolePrint("deleteCopyVer: " + path + "does not exist.");
+            consolePrint("deleteCopyVer: " + dir + " does not exist.");
     }
 
     return false;
@@ -890,12 +923,12 @@ bool FileSystemI::archiveIssue(const std::string &issue_date, const Ice::Current
     consolePrint("===" + caller_info + "===" );
 
     string oldPath =  main_dir + "/" + issue_date;
-    string newPath = arc_dir;
+    string newPath = arc_dir + "/" + issue_date;
 
     wstring wOldPath(oldPath.begin(), oldPath.end());
     LPCTSTR lpOldPath(wOldPath.c_str());
 
-    wstring wNewPath(newPath.begin(), newPath.begin());
+    wstring wNewPath(newPath.begin(), newPath.end());
     LPCTSTR lpNewPath(wNewPath.c_str());
 
     bool b = MoveFile(lpOldPath, lpNewPath);
@@ -1021,13 +1054,11 @@ FileSystemI::listFiles(std::string path, std::string mask, std::vector<std::stri
                     wstring wFolderPath = wPath + L"\\" + ffd.cFileName;
                     directories.push(wFolderPath);
                     folders.push_back(fixPath(wFolderPath));
-                    cout << folders[folders.size() - 1] << endl;
                 }
                 else
                 {
                     wstring wFilePath = wPath + L"\\" + ffd.cFileName;
                     files.push_back(fixPath(wFilePath));
-                    cout << files[files.size() - 1] << endl;
                 }
             }
         } while (FindNextFile(hFind, &ffd) != 0);

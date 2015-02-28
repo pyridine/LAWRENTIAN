@@ -44,7 +44,7 @@ private:
     bool FileSystemI::removeFolder(const std::string& folder);
 
 public:
-    FileSystemI(std::string main_node);
+    FileSystemI(const std::string& main_dir, const std::string& arc_dir);
     FileSystemI();
 
     virtual FileSystem::ByteSeq
