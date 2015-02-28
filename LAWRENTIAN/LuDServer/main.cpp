@@ -1,11 +1,10 @@
 #include "Receiver.h"
-#include "FileSystem.h"
-using namespace std;
-using namespace FileSystem;
+#include <Windows.h>
+#include <stack>
 
 int main()
 {
-    Receiver rcver = Receiver();
-    // Receiver rcvr = Receiver(0,"C:/Programs/Test");
-    return 0;
+    using namespace std;
+
+    Receiver rcvr = Receiver(0,"C:/Programs/Issue");
 }

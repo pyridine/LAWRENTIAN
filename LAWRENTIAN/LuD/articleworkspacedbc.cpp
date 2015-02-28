@@ -56,28 +56,24 @@ int ArticleWorkspaceDBC::getNextAvailableArticleID(){
     cout << "getting next available article ID." << endl;
     vector<int>* nums = this->getAllArticleIDs();
 
-    cout << "this might fuck up.1" << endl;
+
     for(vector<int>::iterator it = nums->begin(); it != nums->end(); it++){
         cout << *it << ",";
     }
-    cout << endl;
-    cout <<"but it did not :)1" << endl;
 
     //if empty ret 1
     if(nums->end() == nums->begin()){
         return 1;
     }
 
-    cout << "this might fuck up.2" << endl;
     //else iterate
     vector<int>::iterator it = nums->begin();
-    while(it != (nums->end()-1) && *(it+1) == *(it)+1){ //TODO: TESTING: I'M NOT SURE THAT *(it+1) WORKS
+    while(it != (nums->end()-1) && *(it+1) == *(it)+1){
         ++it;
     }
     nextInt = (*it)+1;
 
 
-    cout <<"but it did not :). Next:" << nextInt << endl;
     return nextInt;
 }
 

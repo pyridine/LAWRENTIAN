@@ -79,6 +79,14 @@ void __patch(FilePtr&, const ::Ice::ObjectPtr&);
 namespace FileSystem
 {
 
+const ::std::string COPY = "Copy";
+
+const ::std::string IMAGE = "Image";
+
+const ::std::string extCOPY = ".docx";
+
+const ::std::string extIMAGE = ".jpg";
+
 typedef ::std::vector< ::Ice::Byte> ByteSeq;
 
 struct TimeIce
@@ -304,6 +312,21 @@ struct Version
 
 typedef ::std::vector< ::FileSystem::Version> VerSeq;
 
+typedef ::std::vector< ::std::string> StrSeq;
+
+}
+
+namespace fs
+{
+
+const ::std::string COPY = "Copy";
+
+const ::std::string IMAGE = "Image";
+
+const ::std::string extCOPY = ".docx";
+
+const ::std::string extIMAGE = ".jpg";
+
 }
 
 namespace Ice
@@ -395,6 +418,33 @@ typedef ::IceUtil::Handle< Callback_File_sendFile_Base> Callback_File_sendFilePt
 class Callback_File_getHistory_Base : virtual public ::IceInternal::CallbackBase { };
 typedef ::IceUtil::Handle< Callback_File_getHistory_Base> Callback_File_getHistoryPtr;
 
+class Callback_File_getImageList_Base : virtual public ::IceInternal::CallbackBase { };
+typedef ::IceUtil::Handle< Callback_File_getImageList_Base> Callback_File_getImageListPtr;
+
+class Callback_File_changeDir_Base : virtual public ::IceInternal::CallbackBase { };
+typedef ::IceUtil::Handle< Callback_File_changeDir_Base> Callback_File_changeDirPtr;
+
+class Callback_File_moveArtToSection_Base : virtual public ::IceInternal::CallbackBase { };
+typedef ::IceUtil::Handle< Callback_File_moveArtToSection_Base> Callback_File_moveArtToSectionPtr;
+
+class Callback_File_archiveIssue_Base : virtual public ::IceInternal::CallbackBase { };
+typedef ::IceUtil::Handle< Callback_File_archiveIssue_Base> Callback_File_archiveIssuePtr;
+
+class Callback_File_deleteArt_Base : virtual public ::IceInternal::CallbackBase { };
+typedef ::IceUtil::Handle< Callback_File_deleteArt_Base> Callback_File_deleteArtPtr;
+
+class Callback_File_deleteAllImages_Base : virtual public ::IceInternal::CallbackBase { };
+typedef ::IceUtil::Handle< Callback_File_deleteAllImages_Base> Callback_File_deleteAllImagesPtr;
+
+class Callback_File_deleteImage_Base : virtual public ::IceInternal::CallbackBase { };
+typedef ::IceUtil::Handle< Callback_File_deleteImage_Base> Callback_File_deleteImagePtr;
+
+class Callback_File_deleteAllCopies_Base : virtual public ::IceInternal::CallbackBase { };
+typedef ::IceUtil::Handle< Callback_File_deleteAllCopies_Base> Callback_File_deleteAllCopiesPtr;
+
+class Callback_File_deleteCopyVer_Base : virtual public ::IceInternal::CallbackBase { };
+typedef ::IceUtil::Handle< Callback_File_deleteCopyVer_Base> Callback_File_deleteCopyVerPtr;
+
 }
 
 namespace IceProxy
@@ -407,39 +457,39 @@ class File : virtual public ::IceProxy::Ice::Object
 {
 public:
 
-    ::FileSystem::ByteSeq receiveLatest(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName)
+    ::FileSystem::ByteSeq receiveLatest(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName)
     {
-        return receiveLatest(sec, art, type, fName, 0);
+        return receiveLatest(issueDate, sec, art, type, fName, 0);
     }
-    ::FileSystem::ByteSeq receiveLatest(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx)
+    ::FileSystem::ByteSeq receiveLatest(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx)
     {
-        return receiveLatest(sec, art, type, fName, &__ctx);
+        return receiveLatest(issueDate, sec, art, type, fName, &__ctx);
     }
 #ifdef ICE_CPP11
     ::Ice::AsyncResultPtr
-    begin_receiveLatest(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::IceInternal::Function<void (const ::FileSystem::ByteSeq&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_receiveLatest(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::IceInternal::Function<void (const ::FileSystem::ByteSeq&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return __begin_receiveLatest(sec, art, type, fName, 0, __response, __exception, __sent);
+        return __begin_receiveLatest(issueDate, sec, art, type, fName, 0, __response, __exception, __sent);
     }
     ::Ice::AsyncResultPtr
-    begin_receiveLatest(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_receiveLatest(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_receiveLatest(sec, art, type, fName, 0, ::Ice::newCallback(__completed, __sent), 0);
+        return begin_receiveLatest(issueDate, sec, art, type, fName, 0, ::Ice::newCallback(__completed, __sent), 0);
     }
     ::Ice::AsyncResultPtr
-    begin_receiveLatest(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::FileSystem::ByteSeq&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_receiveLatest(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::FileSystem::ByteSeq&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return __begin_receiveLatest(sec, art, type, fName, &__ctx, __response, __exception, __sent);
+        return __begin_receiveLatest(issueDate, sec, art, type, fName, &__ctx, __response, __exception, __sent);
     }
     ::Ice::AsyncResultPtr
-    begin_receiveLatest(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_receiveLatest(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_receiveLatest(sec, art, type, fName, &__ctx, ::Ice::newCallback(__completed, __sent));
+        return begin_receiveLatest(issueDate, sec, art, type, fName, &__ctx, ::Ice::newCallback(__completed, __sent));
     }
     
 private:
 
-    ::Ice::AsyncResultPtr __begin_receiveLatest(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (const ::FileSystem::ByteSeq&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
+    ::Ice::AsyncResultPtr __begin_receiveLatest(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (const ::FileSystem::ByteSeq&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
     {
         class Cpp11CB : public ::IceInternal::Cpp11FnCallbackNC
         {
@@ -475,84 +525,84 @@ private:
             
             ::std::function<void (const ::FileSystem::ByteSeq&)> _response;
         };
-        return begin_receiveLatest(sec, art, type, fName, __ctx, new Cpp11CB(__response, __exception, __sent));
+        return begin_receiveLatest(issueDate, sec, art, type, fName, __ctx, new Cpp11CB(__response, __exception, __sent));
     }
     
 public:
 #endif
 
-    ::Ice::AsyncResultPtr begin_receiveLatest(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName)
+    ::Ice::AsyncResultPtr begin_receiveLatest(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName)
     {
-        return begin_receiveLatest(sec, art, type, fName, 0, ::IceInternal::__dummyCallback, 0);
+        return begin_receiveLatest(issueDate, sec, art, type, fName, 0, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_receiveLatest(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx)
+    ::Ice::AsyncResultPtr begin_receiveLatest(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx)
     {
-        return begin_receiveLatest(sec, art, type, fName, &__ctx, ::IceInternal::__dummyCallback, 0);
+        return begin_receiveLatest(issueDate, sec, art, type, fName, &__ctx, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_receiveLatest(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_receiveLatest(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_receiveLatest(sec, art, type, fName, 0, __del, __cookie);
+        return begin_receiveLatest(issueDate, sec, art, type, fName, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_receiveLatest(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_receiveLatest(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_receiveLatest(sec, art, type, fName, &__ctx, __del, __cookie);
+        return begin_receiveLatest(issueDate, sec, art, type, fName, &__ctx, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_receiveLatest(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::FileSystem::Callback_File_receiveLatestPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_receiveLatest(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::FileSystem::Callback_File_receiveLatestPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_receiveLatest(sec, art, type, fName, 0, __del, __cookie);
+        return begin_receiveLatest(issueDate, sec, art, type, fName, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_receiveLatest(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_receiveLatestPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_receiveLatest(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_receiveLatestPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_receiveLatest(sec, art, type, fName, &__ctx, __del, __cookie);
+        return begin_receiveLatest(issueDate, sec, art, type, fName, &__ctx, __del, __cookie);
     }
 
     ::FileSystem::ByteSeq end_receiveLatest(const ::Ice::AsyncResultPtr&);
     
 private:
 
-    ::FileSystem::ByteSeq receiveLatest(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*);
-    ::Ice::AsyncResultPtr begin_receiveLatest(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    ::FileSystem::ByteSeq receiveLatest(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_receiveLatest(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
     
 public:
 
-    ::FileSystem::ByteSeq receiveVersion(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver)
+    ::FileSystem::ByteSeq receiveVersion(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver)
     {
-        return receiveVersion(sec, art, type, fName, ver, 0);
+        return receiveVersion(issueDate, sec, art, type, fName, ver, 0);
     }
-    ::FileSystem::ByteSeq receiveVersion(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::Ice::Context& __ctx)
+    ::FileSystem::ByteSeq receiveVersion(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::Ice::Context& __ctx)
     {
-        return receiveVersion(sec, art, type, fName, ver, &__ctx);
+        return receiveVersion(issueDate, sec, art, type, fName, ver, &__ctx);
     }
 #ifdef ICE_CPP11
     ::Ice::AsyncResultPtr
-    begin_receiveVersion(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::IceInternal::Function<void (const ::FileSystem::ByteSeq&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_receiveVersion(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::IceInternal::Function<void (const ::FileSystem::ByteSeq&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return __begin_receiveVersion(sec, art, type, fName, ver, 0, __response, __exception, __sent);
+        return __begin_receiveVersion(issueDate, sec, art, type, fName, ver, 0, __response, __exception, __sent);
     }
     ::Ice::AsyncResultPtr
-    begin_receiveVersion(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_receiveVersion(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_receiveVersion(sec, art, type, fName, ver, 0, ::Ice::newCallback(__completed, __sent), 0);
+        return begin_receiveVersion(issueDate, sec, art, type, fName, ver, 0, ::Ice::newCallback(__completed, __sent), 0);
     }
     ::Ice::AsyncResultPtr
-    begin_receiveVersion(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::FileSystem::ByteSeq&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_receiveVersion(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::FileSystem::ByteSeq&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return __begin_receiveVersion(sec, art, type, fName, ver, &__ctx, __response, __exception, __sent);
+        return __begin_receiveVersion(issueDate, sec, art, type, fName, ver, &__ctx, __response, __exception, __sent);
     }
     ::Ice::AsyncResultPtr
-    begin_receiveVersion(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_receiveVersion(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_receiveVersion(sec, art, type, fName, ver, &__ctx, ::Ice::newCallback(__completed, __sent));
+        return begin_receiveVersion(issueDate, sec, art, type, fName, ver, &__ctx, ::Ice::newCallback(__completed, __sent));
     }
     
 private:
 
-    ::Ice::AsyncResultPtr __begin_receiveVersion(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (const ::FileSystem::ByteSeq&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
+    ::Ice::AsyncResultPtr __begin_receiveVersion(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (const ::FileSystem::ByteSeq&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
     {
         class Cpp11CB : public ::IceInternal::Cpp11FnCallbackNC
         {
@@ -588,84 +638,84 @@ private:
             
             ::std::function<void (const ::FileSystem::ByteSeq&)> _response;
         };
-        return begin_receiveVersion(sec, art, type, fName, ver, __ctx, new Cpp11CB(__response, __exception, __sent));
+        return begin_receiveVersion(issueDate, sec, art, type, fName, ver, __ctx, new Cpp11CB(__response, __exception, __sent));
     }
     
 public:
 #endif
 
-    ::Ice::AsyncResultPtr begin_receiveVersion(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver)
+    ::Ice::AsyncResultPtr begin_receiveVersion(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver)
     {
-        return begin_receiveVersion(sec, art, type, fName, ver, 0, ::IceInternal::__dummyCallback, 0);
+        return begin_receiveVersion(issueDate, sec, art, type, fName, ver, 0, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_receiveVersion(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::Ice::Context& __ctx)
+    ::Ice::AsyncResultPtr begin_receiveVersion(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::Ice::Context& __ctx)
     {
-        return begin_receiveVersion(sec, art, type, fName, ver, &__ctx, ::IceInternal::__dummyCallback, 0);
+        return begin_receiveVersion(issueDate, sec, art, type, fName, ver, &__ctx, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_receiveVersion(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_receiveVersion(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_receiveVersion(sec, art, type, fName, ver, 0, __del, __cookie);
+        return begin_receiveVersion(issueDate, sec, art, type, fName, ver, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_receiveVersion(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_receiveVersion(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_receiveVersion(sec, art, type, fName, ver, &__ctx, __del, __cookie);
+        return begin_receiveVersion(issueDate, sec, art, type, fName, ver, &__ctx, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_receiveVersion(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::FileSystem::Callback_File_receiveVersionPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_receiveVersion(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::FileSystem::Callback_File_receiveVersionPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_receiveVersion(sec, art, type, fName, ver, 0, __del, __cookie);
+        return begin_receiveVersion(issueDate, sec, art, type, fName, ver, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_receiveVersion(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_receiveVersionPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_receiveVersion(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, ::Ice::Int ver, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_receiveVersionPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_receiveVersion(sec, art, type, fName, ver, &__ctx, __del, __cookie);
+        return begin_receiveVersion(issueDate, sec, art, type, fName, ver, &__ctx, __del, __cookie);
     }
 
     ::FileSystem::ByteSeq end_receiveVersion(const ::Ice::AsyncResultPtr&);
     
 private:
 
-    ::FileSystem::ByteSeq receiveVersion(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*);
-    ::Ice::AsyncResultPtr begin_receiveVersion(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    ::FileSystem::ByteSeq receiveVersion(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_receiveVersion(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
     
 public:
 
-    bool sendFile(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq)
+    bool sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq)
     {
-        return sendFile(sec, art, type, fNameExt, seq, 0);
+        return sendFile(issueDate, sec, art, type, fNameExt, seq, 0);
     }
-    bool sendFile(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx)
+    bool sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx)
     {
-        return sendFile(sec, art, type, fNameExt, seq, &__ctx);
+        return sendFile(issueDate, sec, art, type, fNameExt, seq, &__ctx);
     }
 #ifdef ICE_CPP11
     ::Ice::AsyncResultPtr
-    begin_sendFile(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return __begin_sendFile(sec, art, type, fNameExt, seq, 0, __response, __exception, __sent);
+        return __begin_sendFile(issueDate, sec, art, type, fNameExt, seq, 0, __response, __exception, __sent);
     }
     ::Ice::AsyncResultPtr
-    begin_sendFile(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_sendFile(sec, art, type, fNameExt, seq, 0, ::Ice::newCallback(__completed, __sent), 0);
+        return begin_sendFile(issueDate, sec, art, type, fNameExt, seq, 0, ::Ice::newCallback(__completed, __sent), 0);
     }
     ::Ice::AsyncResultPtr
-    begin_sendFile(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return __begin_sendFile(sec, art, type, fNameExt, seq, &__ctx, __response, __exception, __sent);
+        return __begin_sendFile(issueDate, sec, art, type, fNameExt, seq, &__ctx, __response, __exception, __sent);
     }
     ::Ice::AsyncResultPtr
-    begin_sendFile(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_sendFile(sec, art, type, fNameExt, seq, &__ctx, ::Ice::newCallback(__completed, __sent));
+        return begin_sendFile(issueDate, sec, art, type, fNameExt, seq, &__ctx, ::Ice::newCallback(__completed, __sent));
     }
     
 private:
 
-    ::Ice::AsyncResultPtr __begin_sendFile(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
+    ::Ice::AsyncResultPtr __begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
     {
         class Cpp11CB : public ::IceInternal::Cpp11FnCallbackNC
         {
@@ -701,84 +751,84 @@ private:
             
             ::std::function<void (bool)> _response;
         };
-        return begin_sendFile(sec, art, type, fNameExt, seq, __ctx, new Cpp11CB(__response, __exception, __sent));
+        return begin_sendFile(issueDate, sec, art, type, fNameExt, seq, __ctx, new Cpp11CB(__response, __exception, __sent));
     }
     
 public:
 #endif
 
-    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq)
+    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq)
     {
-        return begin_sendFile(sec, art, type, fNameExt, seq, 0, ::IceInternal::__dummyCallback, 0);
+        return begin_sendFile(issueDate, sec, art, type, fNameExt, seq, 0, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx)
+    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx)
     {
-        return begin_sendFile(sec, art, type, fNameExt, seq, &__ctx, ::IceInternal::__dummyCallback, 0);
+        return begin_sendFile(issueDate, sec, art, type, fNameExt, seq, &__ctx, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_sendFile(sec, art, type, fNameExt, seq, 0, __del, __cookie);
+        return begin_sendFile(issueDate, sec, art, type, fNameExt, seq, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_sendFile(sec, art, type, fNameExt, seq, &__ctx, __del, __cookie);
+        return begin_sendFile(issueDate, sec, art, type, fNameExt, seq, &__ctx, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::FileSystem::Callback_File_sendFilePtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::FileSystem::Callback_File_sendFilePtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_sendFile(sec, art, type, fNameExt, seq, 0, __del, __cookie);
+        return begin_sendFile(issueDate, sec, art, type, fNameExt, seq, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_sendFilePtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_sendFilePtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_sendFile(sec, art, type, fNameExt, seq, &__ctx, __del, __cookie);
+        return begin_sendFile(issueDate, sec, art, type, fNameExt, seq, &__ctx, __del, __cookie);
     }
 
     bool end_sendFile(const ::Ice::AsyncResultPtr&);
     
 private:
 
-    bool sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Context*);
-    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    bool sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
     
 public:
 
-    ::FileSystem::VerSeq getHistory(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName)
+    ::FileSystem::VerSeq getHistory(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName)
     {
-        return getHistory(sec, art, type, fName, 0);
+        return getHistory(issueDate, sec, art, type, fName, 0);
     }
-    ::FileSystem::VerSeq getHistory(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx)
+    ::FileSystem::VerSeq getHistory(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx)
     {
-        return getHistory(sec, art, type, fName, &__ctx);
+        return getHistory(issueDate, sec, art, type, fName, &__ctx);
     }
 #ifdef ICE_CPP11
     ::Ice::AsyncResultPtr
-    begin_getHistory(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::IceInternal::Function<void (const ::FileSystem::VerSeq&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_getHistory(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::IceInternal::Function<void (const ::FileSystem::VerSeq&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return __begin_getHistory(sec, art, type, fName, 0, __response, __exception, __sent);
+        return __begin_getHistory(issueDate, sec, art, type, fName, 0, __response, __exception, __sent);
     }
     ::Ice::AsyncResultPtr
-    begin_getHistory(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_getHistory(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_getHistory(sec, art, type, fName, 0, ::Ice::newCallback(__completed, __sent), 0);
+        return begin_getHistory(issueDate, sec, art, type, fName, 0, ::Ice::newCallback(__completed, __sent), 0);
     }
     ::Ice::AsyncResultPtr
-    begin_getHistory(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::FileSystem::VerSeq&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_getHistory(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::FileSystem::VerSeq&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return __begin_getHistory(sec, art, type, fName, &__ctx, __response, __exception, __sent);
+        return __begin_getHistory(issueDate, sec, art, type, fName, &__ctx, __response, __exception, __sent);
     }
     ::Ice::AsyncResultPtr
-    begin_getHistory(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_getHistory(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_getHistory(sec, art, type, fName, &__ctx, ::Ice::newCallback(__completed, __sent));
+        return begin_getHistory(issueDate, sec, art, type, fName, &__ctx, ::Ice::newCallback(__completed, __sent));
     }
     
 private:
 
-    ::Ice::AsyncResultPtr __begin_getHistory(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (const ::FileSystem::VerSeq&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
+    ::Ice::AsyncResultPtr __begin_getHistory(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (const ::FileSystem::VerSeq&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
     {
         class Cpp11CB : public ::IceInternal::Cpp11FnCallbackNC
         {
@@ -814,48 +864,1065 @@ private:
             
             ::std::function<void (const ::FileSystem::VerSeq&)> _response;
         };
-        return begin_getHistory(sec, art, type, fName, __ctx, new Cpp11CB(__response, __exception, __sent));
+        return begin_getHistory(issueDate, sec, art, type, fName, __ctx, new Cpp11CB(__response, __exception, __sent));
     }
     
 public:
 #endif
 
-    ::Ice::AsyncResultPtr begin_getHistory(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName)
+    ::Ice::AsyncResultPtr begin_getHistory(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName)
     {
-        return begin_getHistory(sec, art, type, fName, 0, ::IceInternal::__dummyCallback, 0);
+        return begin_getHistory(issueDate, sec, art, type, fName, 0, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_getHistory(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx)
+    ::Ice::AsyncResultPtr begin_getHistory(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx)
     {
-        return begin_getHistory(sec, art, type, fName, &__ctx, ::IceInternal::__dummyCallback, 0);
+        return begin_getHistory(issueDate, sec, art, type, fName, &__ctx, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_getHistory(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_getHistory(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_getHistory(sec, art, type, fName, 0, __del, __cookie);
+        return begin_getHistory(issueDate, sec, art, type, fName, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_getHistory(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_getHistory(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_getHistory(sec, art, type, fName, &__ctx, __del, __cookie);
+        return begin_getHistory(issueDate, sec, art, type, fName, &__ctx, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_getHistory(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::FileSystem::Callback_File_getHistoryPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_getHistory(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::FileSystem::Callback_File_getHistoryPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_getHistory(sec, art, type, fName, 0, __del, __cookie);
+        return begin_getHistory(issueDate, sec, art, type, fName, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_getHistory(const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_getHistoryPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_getHistory(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fName, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_getHistoryPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_getHistory(sec, art, type, fName, &__ctx, __del, __cookie);
+        return begin_getHistory(issueDate, sec, art, type, fName, &__ctx, __del, __cookie);
     }
 
     ::FileSystem::VerSeq end_getHistory(const ::Ice::AsyncResultPtr&);
     
 private:
 
-    ::FileSystem::VerSeq getHistory(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*);
-    ::Ice::AsyncResultPtr begin_getHistory(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    ::FileSystem::VerSeq getHistory(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_getHistory(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    
+public:
+
+    ::FileSystem::StrSeq getImageList(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art)
+    {
+        return getImageList(issueDate, sec, art, 0);
+    }
+    ::FileSystem::StrSeq getImageList(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx)
+    {
+        return getImageList(issueDate, sec, art, &__ctx);
+    }
+#ifdef ICE_CPP11
+    ::Ice::AsyncResultPtr
+    begin_getImageList(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::IceInternal::Function<void (const ::FileSystem::StrSeq&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_getImageList(issueDate, sec, art, 0, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_getImageList(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_getImageList(issueDate, sec, art, 0, ::Ice::newCallback(__completed, __sent), 0);
+    }
+    ::Ice::AsyncResultPtr
+    begin_getImageList(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::FileSystem::StrSeq&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_getImageList(issueDate, sec, art, &__ctx, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_getImageList(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_getImageList(issueDate, sec, art, &__ctx, ::Ice::newCallback(__completed, __sent));
+    }
+    
+private:
+
+    ::Ice::AsyncResultPtr __begin_getImageList(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (const ::FileSystem::StrSeq&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
+    {
+        class Cpp11CB : public ::IceInternal::Cpp11FnCallbackNC
+        {
+        public:
+
+            Cpp11CB(const ::std::function<void (const ::FileSystem::StrSeq&)>& responseFunc, const ::std::function<void (const ::Ice::Exception&)>& exceptionFunc, const ::std::function<void (bool)>& sentFunc) :
+                ::IceInternal::Cpp11FnCallbackNC(exceptionFunc, sentFunc),
+                _response(responseFunc)
+            {
+                CallbackBase::checkCallback(true, responseFunc || exceptionFunc != nullptr);
+            }
+
+            virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+            {
+                ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+                ::FileSystem::StrSeq __ret;
+                try
+                {
+                    __ret = __proxy->end_getImageList(__result);
+                }
+                catch(::Ice::Exception& ex)
+                {
+                    Cpp11FnCallbackNC::__exception(__result, ex);
+                    return;
+                }
+                if(_response != nullptr)
+                {
+                    _response(__ret);
+                }
+            }
+        
+        private:
+            
+            ::std::function<void (const ::FileSystem::StrSeq&)> _response;
+        };
+        return begin_getImageList(issueDate, sec, art, __ctx, new Cpp11CB(__response, __exception, __sent));
+    }
+    
+public:
+#endif
+
+    ::Ice::AsyncResultPtr begin_getImageList(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art)
+    {
+        return begin_getImageList(issueDate, sec, art, 0, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_getImageList(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx)
+    {
+        return begin_getImageList(issueDate, sec, art, &__ctx, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_getImageList(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_getImageList(issueDate, sec, art, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_getImageList(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_getImageList(issueDate, sec, art, &__ctx, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_getImageList(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::FileSystem::Callback_File_getImageListPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_getImageList(issueDate, sec, art, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_getImageList(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_getImageListPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_getImageList(issueDate, sec, art, &__ctx, __del, __cookie);
+    }
+
+    ::FileSystem::StrSeq end_getImageList(const ::Ice::AsyncResultPtr&);
+    
+private:
+
+    ::FileSystem::StrSeq getImageList(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_getImageList(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    
+public:
+
+    bool changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew)
+    {
+        return changeDir(issueDate, sec, artOld, artNew, 0);
+    }
+    bool changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context& __ctx)
+    {
+        return changeDir(issueDate, sec, artOld, artNew, &__ctx);
+    }
+#ifdef ICE_CPP11
+    ::Ice::AsyncResultPtr
+    begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_changeDir(issueDate, sec, artOld, artNew, 0, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_changeDir(issueDate, sec, artOld, artNew, 0, ::Ice::newCallback(__completed, __sent), 0);
+    }
+    ::Ice::AsyncResultPtr
+    begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_changeDir(issueDate, sec, artOld, artNew, &__ctx, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_changeDir(issueDate, sec, artOld, artNew, &__ctx, ::Ice::newCallback(__completed, __sent));
+    }
+    
+private:
+
+    ::Ice::AsyncResultPtr __begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
+    {
+        class Cpp11CB : public ::IceInternal::Cpp11FnCallbackNC
+        {
+        public:
+
+            Cpp11CB(const ::std::function<void (bool)>& responseFunc, const ::std::function<void (const ::Ice::Exception&)>& exceptionFunc, const ::std::function<void (bool)>& sentFunc) :
+                ::IceInternal::Cpp11FnCallbackNC(exceptionFunc, sentFunc),
+                _response(responseFunc)
+            {
+                CallbackBase::checkCallback(true, responseFunc || exceptionFunc != nullptr);
+            }
+
+            virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+            {
+                ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+                bool __ret;
+                try
+                {
+                    __ret = __proxy->end_changeDir(__result);
+                }
+                catch(::Ice::Exception& ex)
+                {
+                    Cpp11FnCallbackNC::__exception(__result, ex);
+                    return;
+                }
+                if(_response != nullptr)
+                {
+                    _response(__ret);
+                }
+            }
+        
+        private:
+            
+            ::std::function<void (bool)> _response;
+        };
+        return begin_changeDir(issueDate, sec, artOld, artNew, __ctx, new Cpp11CB(__response, __exception, __sent));
+    }
+    
+public:
+#endif
+
+    ::Ice::AsyncResultPtr begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew)
+    {
+        return begin_changeDir(issueDate, sec, artOld, artNew, 0, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context& __ctx)
+    {
+        return begin_changeDir(issueDate, sec, artOld, artNew, &__ctx, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_changeDir(issueDate, sec, artOld, artNew, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_changeDir(issueDate, sec, artOld, artNew, &__ctx, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::FileSystem::Callback_File_changeDirPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_changeDir(issueDate, sec, artOld, artNew, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_changeDirPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_changeDir(issueDate, sec, artOld, artNew, &__ctx, __del, __cookie);
+    }
+
+    bool end_changeDir(const ::Ice::AsyncResultPtr&);
+    
+private:
+
+    bool changeDir(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_changeDir(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    
+public:
+
+    bool moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art)
+    {
+        return moveArtToSection(issueDate, secOld, secNew, art, 0);
+    }
+    bool moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context& __ctx)
+    {
+        return moveArtToSection(issueDate, secOld, secNew, art, &__ctx);
+    }
+#ifdef ICE_CPP11
+    ::Ice::AsyncResultPtr
+    begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_moveArtToSection(issueDate, secOld, secNew, art, 0, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_moveArtToSection(issueDate, secOld, secNew, art, 0, ::Ice::newCallback(__completed, __sent), 0);
+    }
+    ::Ice::AsyncResultPtr
+    begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_moveArtToSection(issueDate, secOld, secNew, art, &__ctx, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_moveArtToSection(issueDate, secOld, secNew, art, &__ctx, ::Ice::newCallback(__completed, __sent));
+    }
+    
+private:
+
+    ::Ice::AsyncResultPtr __begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
+    {
+        class Cpp11CB : public ::IceInternal::Cpp11FnCallbackNC
+        {
+        public:
+
+            Cpp11CB(const ::std::function<void (bool)>& responseFunc, const ::std::function<void (const ::Ice::Exception&)>& exceptionFunc, const ::std::function<void (bool)>& sentFunc) :
+                ::IceInternal::Cpp11FnCallbackNC(exceptionFunc, sentFunc),
+                _response(responseFunc)
+            {
+                CallbackBase::checkCallback(true, responseFunc || exceptionFunc != nullptr);
+            }
+
+            virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+            {
+                ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+                bool __ret;
+                try
+                {
+                    __ret = __proxy->end_moveArtToSection(__result);
+                }
+                catch(::Ice::Exception& ex)
+                {
+                    Cpp11FnCallbackNC::__exception(__result, ex);
+                    return;
+                }
+                if(_response != nullptr)
+                {
+                    _response(__ret);
+                }
+            }
+        
+        private:
+            
+            ::std::function<void (bool)> _response;
+        };
+        return begin_moveArtToSection(issueDate, secOld, secNew, art, __ctx, new Cpp11CB(__response, __exception, __sent));
+    }
+    
+public:
+#endif
+
+    ::Ice::AsyncResultPtr begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art)
+    {
+        return begin_moveArtToSection(issueDate, secOld, secNew, art, 0, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context& __ctx)
+    {
+        return begin_moveArtToSection(issueDate, secOld, secNew, art, &__ctx, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_moveArtToSection(issueDate, secOld, secNew, art, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_moveArtToSection(issueDate, secOld, secNew, art, &__ctx, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::FileSystem::Callback_File_moveArtToSectionPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_moveArtToSection(issueDate, secOld, secNew, art, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_moveArtToSectionPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_moveArtToSection(issueDate, secOld, secNew, art, &__ctx, __del, __cookie);
+    }
+
+    bool end_moveArtToSection(const ::Ice::AsyncResultPtr&);
+    
+private:
+
+    bool moveArtToSection(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_moveArtToSection(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    
+public:
+
+    bool archiveIssue(const ::std::string& issueDate)
+    {
+        return archiveIssue(issueDate, 0);
+    }
+    bool archiveIssue(const ::std::string& issueDate, const ::Ice::Context& __ctx)
+    {
+        return archiveIssue(issueDate, &__ctx);
+    }
+#ifdef ICE_CPP11
+    ::Ice::AsyncResultPtr
+    begin_archiveIssue(const ::std::string& issueDate, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_archiveIssue(issueDate, 0, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_archiveIssue(const ::std::string& issueDate, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_archiveIssue(issueDate, 0, ::Ice::newCallback(__completed, __sent), 0);
+    }
+    ::Ice::AsyncResultPtr
+    begin_archiveIssue(const ::std::string& issueDate, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_archiveIssue(issueDate, &__ctx, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_archiveIssue(const ::std::string& issueDate, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_archiveIssue(issueDate, &__ctx, ::Ice::newCallback(__completed, __sent));
+    }
+    
+private:
+
+    ::Ice::AsyncResultPtr __begin_archiveIssue(const ::std::string& issueDate, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
+    {
+        class Cpp11CB : public ::IceInternal::Cpp11FnCallbackNC
+        {
+        public:
+
+            Cpp11CB(const ::std::function<void (bool)>& responseFunc, const ::std::function<void (const ::Ice::Exception&)>& exceptionFunc, const ::std::function<void (bool)>& sentFunc) :
+                ::IceInternal::Cpp11FnCallbackNC(exceptionFunc, sentFunc),
+                _response(responseFunc)
+            {
+                CallbackBase::checkCallback(true, responseFunc || exceptionFunc != nullptr);
+            }
+
+            virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+            {
+                ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+                bool __ret;
+                try
+                {
+                    __ret = __proxy->end_archiveIssue(__result);
+                }
+                catch(::Ice::Exception& ex)
+                {
+                    Cpp11FnCallbackNC::__exception(__result, ex);
+                    return;
+                }
+                if(_response != nullptr)
+                {
+                    _response(__ret);
+                }
+            }
+        
+        private:
+            
+            ::std::function<void (bool)> _response;
+        };
+        return begin_archiveIssue(issueDate, __ctx, new Cpp11CB(__response, __exception, __sent));
+    }
+    
+public:
+#endif
+
+    ::Ice::AsyncResultPtr begin_archiveIssue(const ::std::string& issueDate)
+    {
+        return begin_archiveIssue(issueDate, 0, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_archiveIssue(const ::std::string& issueDate, const ::Ice::Context& __ctx)
+    {
+        return begin_archiveIssue(issueDate, &__ctx, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_archiveIssue(const ::std::string& issueDate, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_archiveIssue(issueDate, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_archiveIssue(const ::std::string& issueDate, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_archiveIssue(issueDate, &__ctx, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_archiveIssue(const ::std::string& issueDate, const ::FileSystem::Callback_File_archiveIssuePtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_archiveIssue(issueDate, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_archiveIssue(const ::std::string& issueDate, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_archiveIssuePtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_archiveIssue(issueDate, &__ctx, __del, __cookie);
+    }
+
+    bool end_archiveIssue(const ::Ice::AsyncResultPtr&);
+    
+private:
+
+    bool archiveIssue(const ::std::string&, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_archiveIssue(const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    
+public:
+
+    bool deleteArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art)
+    {
+        return deleteArt(issueDate, sec, art, 0);
+    }
+    bool deleteArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx)
+    {
+        return deleteArt(issueDate, sec, art, &__ctx);
+    }
+#ifdef ICE_CPP11
+    ::Ice::AsyncResultPtr
+    begin_deleteArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_deleteArt(issueDate, sec, art, 0, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_deleteArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_deleteArt(issueDate, sec, art, 0, ::Ice::newCallback(__completed, __sent), 0);
+    }
+    ::Ice::AsyncResultPtr
+    begin_deleteArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_deleteArt(issueDate, sec, art, &__ctx, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_deleteArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_deleteArt(issueDate, sec, art, &__ctx, ::Ice::newCallback(__completed, __sent));
+    }
+    
+private:
+
+    ::Ice::AsyncResultPtr __begin_deleteArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
+    {
+        class Cpp11CB : public ::IceInternal::Cpp11FnCallbackNC
+        {
+        public:
+
+            Cpp11CB(const ::std::function<void (bool)>& responseFunc, const ::std::function<void (const ::Ice::Exception&)>& exceptionFunc, const ::std::function<void (bool)>& sentFunc) :
+                ::IceInternal::Cpp11FnCallbackNC(exceptionFunc, sentFunc),
+                _response(responseFunc)
+            {
+                CallbackBase::checkCallback(true, responseFunc || exceptionFunc != nullptr);
+            }
+
+            virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+            {
+                ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+                bool __ret;
+                try
+                {
+                    __ret = __proxy->end_deleteArt(__result);
+                }
+                catch(::Ice::Exception& ex)
+                {
+                    Cpp11FnCallbackNC::__exception(__result, ex);
+                    return;
+                }
+                if(_response != nullptr)
+                {
+                    _response(__ret);
+                }
+            }
+        
+        private:
+            
+            ::std::function<void (bool)> _response;
+        };
+        return begin_deleteArt(issueDate, sec, art, __ctx, new Cpp11CB(__response, __exception, __sent));
+    }
+    
+public:
+#endif
+
+    ::Ice::AsyncResultPtr begin_deleteArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art)
+    {
+        return begin_deleteArt(issueDate, sec, art, 0, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx)
+    {
+        return begin_deleteArt(issueDate, sec, art, &__ctx, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_deleteArt(issueDate, sec, art, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_deleteArt(issueDate, sec, art, &__ctx, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::FileSystem::Callback_File_deleteArtPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_deleteArt(issueDate, sec, art, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_deleteArtPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_deleteArt(issueDate, sec, art, &__ctx, __del, __cookie);
+    }
+
+    bool end_deleteArt(const ::Ice::AsyncResultPtr&);
+    
+private:
+
+    bool deleteArt(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_deleteArt(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    
+public:
+
+    bool deleteAllImages(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art)
+    {
+        return deleteAllImages(issueDate, sec, art, 0);
+    }
+    bool deleteAllImages(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx)
+    {
+        return deleteAllImages(issueDate, sec, art, &__ctx);
+    }
+#ifdef ICE_CPP11
+    ::Ice::AsyncResultPtr
+    begin_deleteAllImages(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_deleteAllImages(issueDate, sec, art, 0, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_deleteAllImages(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_deleteAllImages(issueDate, sec, art, 0, ::Ice::newCallback(__completed, __sent), 0);
+    }
+    ::Ice::AsyncResultPtr
+    begin_deleteAllImages(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_deleteAllImages(issueDate, sec, art, &__ctx, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_deleteAllImages(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_deleteAllImages(issueDate, sec, art, &__ctx, ::Ice::newCallback(__completed, __sent));
+    }
+    
+private:
+
+    ::Ice::AsyncResultPtr __begin_deleteAllImages(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
+    {
+        class Cpp11CB : public ::IceInternal::Cpp11FnCallbackNC
+        {
+        public:
+
+            Cpp11CB(const ::std::function<void (bool)>& responseFunc, const ::std::function<void (const ::Ice::Exception&)>& exceptionFunc, const ::std::function<void (bool)>& sentFunc) :
+                ::IceInternal::Cpp11FnCallbackNC(exceptionFunc, sentFunc),
+                _response(responseFunc)
+            {
+                CallbackBase::checkCallback(true, responseFunc || exceptionFunc != nullptr);
+            }
+
+            virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+            {
+                ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+                bool __ret;
+                try
+                {
+                    __ret = __proxy->end_deleteAllImages(__result);
+                }
+                catch(::Ice::Exception& ex)
+                {
+                    Cpp11FnCallbackNC::__exception(__result, ex);
+                    return;
+                }
+                if(_response != nullptr)
+                {
+                    _response(__ret);
+                }
+            }
+        
+        private:
+            
+            ::std::function<void (bool)> _response;
+        };
+        return begin_deleteAllImages(issueDate, sec, art, __ctx, new Cpp11CB(__response, __exception, __sent));
+    }
+    
+public:
+#endif
+
+    ::Ice::AsyncResultPtr begin_deleteAllImages(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art)
+    {
+        return begin_deleteAllImages(issueDate, sec, art, 0, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteAllImages(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx)
+    {
+        return begin_deleteAllImages(issueDate, sec, art, &__ctx, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteAllImages(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_deleteAllImages(issueDate, sec, art, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteAllImages(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_deleteAllImages(issueDate, sec, art, &__ctx, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteAllImages(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::FileSystem::Callback_File_deleteAllImagesPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_deleteAllImages(issueDate, sec, art, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteAllImages(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_deleteAllImagesPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_deleteAllImages(issueDate, sec, art, &__ctx, __del, __cookie);
+    }
+
+    bool end_deleteAllImages(const ::Ice::AsyncResultPtr&);
+    
+private:
+
+    bool deleteAllImages(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_deleteAllImages(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    
+public:
+
+    bool deleteImage(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& name)
+    {
+        return deleteImage(issueDate, sec, art, name, 0);
+    }
+    bool deleteImage(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& name, const ::Ice::Context& __ctx)
+    {
+        return deleteImage(issueDate, sec, art, name, &__ctx);
+    }
+#ifdef ICE_CPP11
+    ::Ice::AsyncResultPtr
+    begin_deleteImage(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& name, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_deleteImage(issueDate, sec, art, name, 0, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_deleteImage(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& name, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_deleteImage(issueDate, sec, art, name, 0, ::Ice::newCallback(__completed, __sent), 0);
+    }
+    ::Ice::AsyncResultPtr
+    begin_deleteImage(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& name, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_deleteImage(issueDate, sec, art, name, &__ctx, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_deleteImage(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& name, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_deleteImage(issueDate, sec, art, name, &__ctx, ::Ice::newCallback(__completed, __sent));
+    }
+    
+private:
+
+    ::Ice::AsyncResultPtr __begin_deleteImage(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& name, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
+    {
+        class Cpp11CB : public ::IceInternal::Cpp11FnCallbackNC
+        {
+        public:
+
+            Cpp11CB(const ::std::function<void (bool)>& responseFunc, const ::std::function<void (const ::Ice::Exception&)>& exceptionFunc, const ::std::function<void (bool)>& sentFunc) :
+                ::IceInternal::Cpp11FnCallbackNC(exceptionFunc, sentFunc),
+                _response(responseFunc)
+            {
+                CallbackBase::checkCallback(true, responseFunc || exceptionFunc != nullptr);
+            }
+
+            virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+            {
+                ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+                bool __ret;
+                try
+                {
+                    __ret = __proxy->end_deleteImage(__result);
+                }
+                catch(::Ice::Exception& ex)
+                {
+                    Cpp11FnCallbackNC::__exception(__result, ex);
+                    return;
+                }
+                if(_response != nullptr)
+                {
+                    _response(__ret);
+                }
+            }
+        
+        private:
+            
+            ::std::function<void (bool)> _response;
+        };
+        return begin_deleteImage(issueDate, sec, art, name, __ctx, new Cpp11CB(__response, __exception, __sent));
+    }
+    
+public:
+#endif
+
+    ::Ice::AsyncResultPtr begin_deleteImage(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& name)
+    {
+        return begin_deleteImage(issueDate, sec, art, name, 0, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteImage(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& name, const ::Ice::Context& __ctx)
+    {
+        return begin_deleteImage(issueDate, sec, art, name, &__ctx, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteImage(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& name, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_deleteImage(issueDate, sec, art, name, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteImage(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& name, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_deleteImage(issueDate, sec, art, name, &__ctx, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteImage(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& name, const ::FileSystem::Callback_File_deleteImagePtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_deleteImage(issueDate, sec, art, name, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteImage(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& name, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_deleteImagePtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_deleteImage(issueDate, sec, art, name, &__ctx, __del, __cookie);
+    }
+
+    bool end_deleteImage(const ::Ice::AsyncResultPtr&);
+    
+private:
+
+    bool deleteImage(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_deleteImage(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    
+public:
+
+    bool deleteAllCopies(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art)
+    {
+        return deleteAllCopies(issueDate, sec, art, 0);
+    }
+    bool deleteAllCopies(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx)
+    {
+        return deleteAllCopies(issueDate, sec, art, &__ctx);
+    }
+#ifdef ICE_CPP11
+    ::Ice::AsyncResultPtr
+    begin_deleteAllCopies(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_deleteAllCopies(issueDate, sec, art, 0, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_deleteAllCopies(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_deleteAllCopies(issueDate, sec, art, 0, ::Ice::newCallback(__completed, __sent), 0);
+    }
+    ::Ice::AsyncResultPtr
+    begin_deleteAllCopies(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_deleteAllCopies(issueDate, sec, art, &__ctx, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_deleteAllCopies(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_deleteAllCopies(issueDate, sec, art, &__ctx, ::Ice::newCallback(__completed, __sent));
+    }
+    
+private:
+
+    ::Ice::AsyncResultPtr __begin_deleteAllCopies(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
+    {
+        class Cpp11CB : public ::IceInternal::Cpp11FnCallbackNC
+        {
+        public:
+
+            Cpp11CB(const ::std::function<void (bool)>& responseFunc, const ::std::function<void (const ::Ice::Exception&)>& exceptionFunc, const ::std::function<void (bool)>& sentFunc) :
+                ::IceInternal::Cpp11FnCallbackNC(exceptionFunc, sentFunc),
+                _response(responseFunc)
+            {
+                CallbackBase::checkCallback(true, responseFunc || exceptionFunc != nullptr);
+            }
+
+            virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+            {
+                ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+                bool __ret;
+                try
+                {
+                    __ret = __proxy->end_deleteAllCopies(__result);
+                }
+                catch(::Ice::Exception& ex)
+                {
+                    Cpp11FnCallbackNC::__exception(__result, ex);
+                    return;
+                }
+                if(_response != nullptr)
+                {
+                    _response(__ret);
+                }
+            }
+        
+        private:
+            
+            ::std::function<void (bool)> _response;
+        };
+        return begin_deleteAllCopies(issueDate, sec, art, __ctx, new Cpp11CB(__response, __exception, __sent));
+    }
+    
+public:
+#endif
+
+    ::Ice::AsyncResultPtr begin_deleteAllCopies(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art)
+    {
+        return begin_deleteAllCopies(issueDate, sec, art, 0, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteAllCopies(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx)
+    {
+        return begin_deleteAllCopies(issueDate, sec, art, &__ctx, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteAllCopies(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_deleteAllCopies(issueDate, sec, art, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteAllCopies(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_deleteAllCopies(issueDate, sec, art, &__ctx, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteAllCopies(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::FileSystem::Callback_File_deleteAllCopiesPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_deleteAllCopies(issueDate, sec, art, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteAllCopies(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_deleteAllCopiesPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_deleteAllCopies(issueDate, sec, art, &__ctx, __del, __cookie);
+    }
+
+    bool end_deleteAllCopies(const ::Ice::AsyncResultPtr&);
+    
+private:
+
+    bool deleteAllCopies(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_deleteAllCopies(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    
+public:
+
+    bool deleteCopyVer(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver)
+    {
+        return deleteCopyVer(issueDate, sec, art, ver, 0);
+    }
+    bool deleteCopyVer(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::Ice::Context& __ctx)
+    {
+        return deleteCopyVer(issueDate, sec, art, ver, &__ctx);
+    }
+#ifdef ICE_CPP11
+    ::Ice::AsyncResultPtr
+    begin_deleteCopyVer(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_deleteCopyVer(issueDate, sec, art, ver, 0, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_deleteCopyVer(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_deleteCopyVer(issueDate, sec, art, ver, 0, ::Ice::newCallback(__completed, __sent), 0);
+    }
+    ::Ice::AsyncResultPtr
+    begin_deleteCopyVer(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_deleteCopyVer(issueDate, sec, art, ver, &__ctx, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_deleteCopyVer(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_deleteCopyVer(issueDate, sec, art, ver, &__ctx, ::Ice::newCallback(__completed, __sent));
+    }
+    
+private:
+
+    ::Ice::AsyncResultPtr __begin_deleteCopyVer(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
+    {
+        class Cpp11CB : public ::IceInternal::Cpp11FnCallbackNC
+        {
+        public:
+
+            Cpp11CB(const ::std::function<void (bool)>& responseFunc, const ::std::function<void (const ::Ice::Exception&)>& exceptionFunc, const ::std::function<void (bool)>& sentFunc) :
+                ::IceInternal::Cpp11FnCallbackNC(exceptionFunc, sentFunc),
+                _response(responseFunc)
+            {
+                CallbackBase::checkCallback(true, responseFunc || exceptionFunc != nullptr);
+            }
+
+            virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+            {
+                ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+                bool __ret;
+                try
+                {
+                    __ret = __proxy->end_deleteCopyVer(__result);
+                }
+                catch(::Ice::Exception& ex)
+                {
+                    Cpp11FnCallbackNC::__exception(__result, ex);
+                    return;
+                }
+                if(_response != nullptr)
+                {
+                    _response(__ret);
+                }
+            }
+        
+        private:
+            
+            ::std::function<void (bool)> _response;
+        };
+        return begin_deleteCopyVer(issueDate, sec, art, ver, __ctx, new Cpp11CB(__response, __exception, __sent));
+    }
+    
+public:
+#endif
+
+    ::Ice::AsyncResultPtr begin_deleteCopyVer(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver)
+    {
+        return begin_deleteCopyVer(issueDate, sec, art, ver, 0, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteCopyVer(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::Ice::Context& __ctx)
+    {
+        return begin_deleteCopyVer(issueDate, sec, art, ver, &__ctx, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteCopyVer(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_deleteCopyVer(issueDate, sec, art, ver, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteCopyVer(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_deleteCopyVer(issueDate, sec, art, ver, &__ctx, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteCopyVer(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::FileSystem::Callback_File_deleteCopyVerPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_deleteCopyVer(issueDate, sec, art, ver, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_deleteCopyVer(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_deleteCopyVerPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_deleteCopyVer(issueDate, sec, art, ver, &__ctx, __del, __cookie);
+    }
+
+    bool end_deleteCopyVer(const ::Ice::AsyncResultPtr&);
+    
+private:
+
+    bool deleteCopyVer(const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_deleteCopyVer(const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
     
 public:
     
@@ -982,13 +2049,31 @@ class File : virtual public ::IceDelegate::Ice::Object
 {
 public:
 
-    virtual ::FileSystem::ByteSeq receiveLatest(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+    virtual ::FileSystem::ByteSeq receiveLatest(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 
-    virtual ::FileSystem::ByteSeq receiveVersion(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+    virtual ::FileSystem::ByteSeq receiveVersion(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 
-    virtual bool sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+    virtual bool sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 
-    virtual ::FileSystem::VerSeq getHistory(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+    virtual ::FileSystem::VerSeq getHistory(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+
+    virtual ::FileSystem::StrSeq getImageList(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+
+    virtual bool changeDir(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+
+    virtual bool moveArtToSection(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+
+    virtual bool archiveIssue(const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+
+    virtual bool deleteArt(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+
+    virtual bool deleteAllImages(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+
+    virtual bool deleteImage(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+
+    virtual bool deleteAllCopies(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+
+    virtual bool deleteCopyVer(const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 };
 
 }
@@ -1006,13 +2091,31 @@ class File : virtual public ::IceDelegate::FileSystem::File,
 {
 public:
 
-    virtual ::FileSystem::ByteSeq receiveLatest(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual ::FileSystem::ByteSeq receiveLatest(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
-    virtual ::FileSystem::ByteSeq receiveVersion(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual ::FileSystem::ByteSeq receiveVersion(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
-    virtual bool sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual bool sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
-    virtual ::FileSystem::VerSeq getHistory(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual ::FileSystem::VerSeq getHistory(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual ::FileSystem::StrSeq getImageList(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual bool changeDir(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual bool moveArtToSection(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual bool archiveIssue(const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual bool deleteArt(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual bool deleteAllImages(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual bool deleteImage(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual bool deleteAllCopies(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual bool deleteCopyVer(const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 };
 
 }
@@ -1030,13 +2133,31 @@ class File : virtual public ::IceDelegate::FileSystem::File,
 {
 public:
 
-    virtual ::FileSystem::ByteSeq receiveLatest(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual ::FileSystem::ByteSeq receiveLatest(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
-    virtual ::FileSystem::ByteSeq receiveVersion(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual ::FileSystem::ByteSeq receiveVersion(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
-    virtual bool sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual bool sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
-    virtual ::FileSystem::VerSeq getHistory(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual ::FileSystem::VerSeq getHistory(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual ::FileSystem::StrSeq getImageList(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual bool changeDir(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual bool moveArtToSection(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual bool archiveIssue(const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual bool deleteArt(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual bool deleteAllImages(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual bool deleteImage(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual bool deleteAllCopies(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual bool deleteCopyVer(const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 };
 
 }
@@ -1058,17 +2179,44 @@ public:
     virtual const ::std::string& ice_id(const ::Ice::Current& = ::Ice::Current()) const;
     static const ::std::string& ice_staticId();
 
-    virtual ::FileSystem::ByteSeq receiveLatest(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
+    virtual ::FileSystem::ByteSeq receiveLatest(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
     ::Ice::DispatchStatus ___receiveLatest(::IceInternal::Incoming&, const ::Ice::Current&);
 
-    virtual ::FileSystem::ByteSeq receiveVersion(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Current& = ::Ice::Current()) = 0;
+    virtual ::FileSystem::ByteSeq receiveVersion(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Current& = ::Ice::Current()) = 0;
     ::Ice::DispatchStatus ___receiveVersion(::IceInternal::Incoming&, const ::Ice::Current&);
 
-    virtual bool sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Current& = ::Ice::Current()) = 0;
+    virtual bool sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Current& = ::Ice::Current()) = 0;
     ::Ice::DispatchStatus ___sendFile(::IceInternal::Incoming&, const ::Ice::Current&);
 
-    virtual ::FileSystem::VerSeq getHistory(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
+    virtual ::FileSystem::VerSeq getHistory(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
     ::Ice::DispatchStatus ___getHistory(::IceInternal::Incoming&, const ::Ice::Current&);
+
+    virtual ::FileSystem::StrSeq getImageList(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
+    ::Ice::DispatchStatus ___getImageList(::IceInternal::Incoming&, const ::Ice::Current&);
+
+    virtual bool changeDir(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
+    ::Ice::DispatchStatus ___changeDir(::IceInternal::Incoming&, const ::Ice::Current&);
+
+    virtual bool moveArtToSection(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
+    ::Ice::DispatchStatus ___moveArtToSection(::IceInternal::Incoming&, const ::Ice::Current&);
+
+    virtual bool archiveIssue(const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
+    ::Ice::DispatchStatus ___archiveIssue(::IceInternal::Incoming&, const ::Ice::Current&);
+
+    virtual bool deleteArt(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
+    ::Ice::DispatchStatus ___deleteArt(::IceInternal::Incoming&, const ::Ice::Current&);
+
+    virtual bool deleteAllImages(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
+    ::Ice::DispatchStatus ___deleteAllImages(::IceInternal::Incoming&, const ::Ice::Current&);
+
+    virtual bool deleteImage(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
+    ::Ice::DispatchStatus ___deleteImage(::IceInternal::Incoming&, const ::Ice::Current&);
+
+    virtual bool deleteAllCopies(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
+    ::Ice::DispatchStatus ___deleteAllCopies(::IceInternal::Incoming&, const ::Ice::Current&);
+
+    virtual bool deleteCopyVer(const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Current& = ::Ice::Current()) = 0;
+    ::Ice::DispatchStatus ___deleteCopyVer(::IceInternal::Incoming&, const ::Ice::Current&);
 
     virtual ::Ice::DispatchStatus __dispatch(::IceInternal::Incoming&, const ::Ice::Current&);
 
@@ -1494,6 +2642,906 @@ template<class T, typename CT> Callback_File_getHistoryPtr
 newCallback_File_getHistory(T* instance, void (T::*cb)(const ::FileSystem::VerSeq&, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
 {
     return new Callback_File_getHistory<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T>
+class CallbackNC_File_getImageList : public Callback_File_getImageList_Base, public ::IceInternal::TwowayCallbackNC<T>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception&);
+    typedef void (T::*Sent)(bool);
+    typedef void (T::*Response)(const ::FileSystem::StrSeq&);
+
+    CallbackNC_File_getImageList(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallbackNC<T>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        ::FileSystem::StrSeq __ret;
+        try
+        {
+            __ret = __proxy->end_getImageList(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::CallbackNC<T>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::CallbackNC<T>::callback.get()->*response)(__ret);
+        }
+    }
+
+    Response response;
+};
+
+template<class T> Callback_File_getImageListPtr
+newCallback_File_getImageList(const IceUtil::Handle<T>& instance, void (T::*cb)(const ::FileSystem::StrSeq&), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_getImageList<T>(instance, cb, excb, sentcb);
+}
+
+template<class T> Callback_File_getImageListPtr
+newCallback_File_getImageList(T* instance, void (T::*cb)(const ::FileSystem::StrSeq&), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_getImageList<T>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT>
+class Callback_File_getImageList : public Callback_File_getImageList_Base, public ::IceInternal::TwowayCallback<T, CT>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception& , const CT&);
+    typedef void (T::*Sent)(bool , const CT&);
+    typedef void (T::*Response)(const ::FileSystem::StrSeq&, const CT&);
+
+    Callback_File_getImageList(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallback<T, CT>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        ::FileSystem::StrSeq __ret;
+        try
+        {
+            __ret = __proxy->end_getImageList(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::Callback<T, CT>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::Callback<T, CT>::callback.get()->*response)(__ret, CT::dynamicCast(__result->getCookie()));
+        }
+    }
+
+    Response response;
+};
+
+template<class T, typename CT> Callback_File_getImageListPtr
+newCallback_File_getImageList(const IceUtil::Handle<T>& instance, void (T::*cb)(const ::FileSystem::StrSeq&, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_getImageList<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT> Callback_File_getImageListPtr
+newCallback_File_getImageList(T* instance, void (T::*cb)(const ::FileSystem::StrSeq&, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_getImageList<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T>
+class CallbackNC_File_changeDir : public Callback_File_changeDir_Base, public ::IceInternal::TwowayCallbackNC<T>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception&);
+    typedef void (T::*Sent)(bool);
+    typedef void (T::*Response)(bool);
+
+    CallbackNC_File_changeDir(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallbackNC<T>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        bool __ret;
+        try
+        {
+            __ret = __proxy->end_changeDir(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::CallbackNC<T>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::CallbackNC<T>::callback.get()->*response)(__ret);
+        }
+    }
+
+    Response response;
+};
+
+template<class T> Callback_File_changeDirPtr
+newCallback_File_changeDir(const IceUtil::Handle<T>& instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_changeDir<T>(instance, cb, excb, sentcb);
+}
+
+template<class T> Callback_File_changeDirPtr
+newCallback_File_changeDir(T* instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_changeDir<T>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT>
+class Callback_File_changeDir : public Callback_File_changeDir_Base, public ::IceInternal::TwowayCallback<T, CT>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception& , const CT&);
+    typedef void (T::*Sent)(bool , const CT&);
+    typedef void (T::*Response)(bool, const CT&);
+
+    Callback_File_changeDir(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallback<T, CT>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        bool __ret;
+        try
+        {
+            __ret = __proxy->end_changeDir(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::Callback<T, CT>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::Callback<T, CT>::callback.get()->*response)(__ret, CT::dynamicCast(__result->getCookie()));
+        }
+    }
+
+    Response response;
+};
+
+template<class T, typename CT> Callback_File_changeDirPtr
+newCallback_File_changeDir(const IceUtil::Handle<T>& instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_changeDir<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT> Callback_File_changeDirPtr
+newCallback_File_changeDir(T* instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_changeDir<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T>
+class CallbackNC_File_moveArtToSection : public Callback_File_moveArtToSection_Base, public ::IceInternal::TwowayCallbackNC<T>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception&);
+    typedef void (T::*Sent)(bool);
+    typedef void (T::*Response)(bool);
+
+    CallbackNC_File_moveArtToSection(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallbackNC<T>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        bool __ret;
+        try
+        {
+            __ret = __proxy->end_moveArtToSection(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::CallbackNC<T>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::CallbackNC<T>::callback.get()->*response)(__ret);
+        }
+    }
+
+    Response response;
+};
+
+template<class T> Callback_File_moveArtToSectionPtr
+newCallback_File_moveArtToSection(const IceUtil::Handle<T>& instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_moveArtToSection<T>(instance, cb, excb, sentcb);
+}
+
+template<class T> Callback_File_moveArtToSectionPtr
+newCallback_File_moveArtToSection(T* instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_moveArtToSection<T>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT>
+class Callback_File_moveArtToSection : public Callback_File_moveArtToSection_Base, public ::IceInternal::TwowayCallback<T, CT>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception& , const CT&);
+    typedef void (T::*Sent)(bool , const CT&);
+    typedef void (T::*Response)(bool, const CT&);
+
+    Callback_File_moveArtToSection(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallback<T, CT>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        bool __ret;
+        try
+        {
+            __ret = __proxy->end_moveArtToSection(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::Callback<T, CT>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::Callback<T, CT>::callback.get()->*response)(__ret, CT::dynamicCast(__result->getCookie()));
+        }
+    }
+
+    Response response;
+};
+
+template<class T, typename CT> Callback_File_moveArtToSectionPtr
+newCallback_File_moveArtToSection(const IceUtil::Handle<T>& instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_moveArtToSection<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT> Callback_File_moveArtToSectionPtr
+newCallback_File_moveArtToSection(T* instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_moveArtToSection<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T>
+class CallbackNC_File_archiveIssue : public Callback_File_archiveIssue_Base, public ::IceInternal::TwowayCallbackNC<T>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception&);
+    typedef void (T::*Sent)(bool);
+    typedef void (T::*Response)(bool);
+
+    CallbackNC_File_archiveIssue(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallbackNC<T>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        bool __ret;
+        try
+        {
+            __ret = __proxy->end_archiveIssue(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::CallbackNC<T>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::CallbackNC<T>::callback.get()->*response)(__ret);
+        }
+    }
+
+    Response response;
+};
+
+template<class T> Callback_File_archiveIssuePtr
+newCallback_File_archiveIssue(const IceUtil::Handle<T>& instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_archiveIssue<T>(instance, cb, excb, sentcb);
+}
+
+template<class T> Callback_File_archiveIssuePtr
+newCallback_File_archiveIssue(T* instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_archiveIssue<T>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT>
+class Callback_File_archiveIssue : public Callback_File_archiveIssue_Base, public ::IceInternal::TwowayCallback<T, CT>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception& , const CT&);
+    typedef void (T::*Sent)(bool , const CT&);
+    typedef void (T::*Response)(bool, const CT&);
+
+    Callback_File_archiveIssue(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallback<T, CT>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        bool __ret;
+        try
+        {
+            __ret = __proxy->end_archiveIssue(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::Callback<T, CT>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::Callback<T, CT>::callback.get()->*response)(__ret, CT::dynamicCast(__result->getCookie()));
+        }
+    }
+
+    Response response;
+};
+
+template<class T, typename CT> Callback_File_archiveIssuePtr
+newCallback_File_archiveIssue(const IceUtil::Handle<T>& instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_archiveIssue<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT> Callback_File_archiveIssuePtr
+newCallback_File_archiveIssue(T* instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_archiveIssue<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T>
+class CallbackNC_File_deleteArt : public Callback_File_deleteArt_Base, public ::IceInternal::TwowayCallbackNC<T>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception&);
+    typedef void (T::*Sent)(bool);
+    typedef void (T::*Response)(bool);
+
+    CallbackNC_File_deleteArt(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallbackNC<T>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        bool __ret;
+        try
+        {
+            __ret = __proxy->end_deleteArt(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::CallbackNC<T>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::CallbackNC<T>::callback.get()->*response)(__ret);
+        }
+    }
+
+    Response response;
+};
+
+template<class T> Callback_File_deleteArtPtr
+newCallback_File_deleteArt(const IceUtil::Handle<T>& instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_deleteArt<T>(instance, cb, excb, sentcb);
+}
+
+template<class T> Callback_File_deleteArtPtr
+newCallback_File_deleteArt(T* instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_deleteArt<T>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT>
+class Callback_File_deleteArt : public Callback_File_deleteArt_Base, public ::IceInternal::TwowayCallback<T, CT>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception& , const CT&);
+    typedef void (T::*Sent)(bool , const CT&);
+    typedef void (T::*Response)(bool, const CT&);
+
+    Callback_File_deleteArt(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallback<T, CT>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        bool __ret;
+        try
+        {
+            __ret = __proxy->end_deleteArt(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::Callback<T, CT>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::Callback<T, CT>::callback.get()->*response)(__ret, CT::dynamicCast(__result->getCookie()));
+        }
+    }
+
+    Response response;
+};
+
+template<class T, typename CT> Callback_File_deleteArtPtr
+newCallback_File_deleteArt(const IceUtil::Handle<T>& instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_deleteArt<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT> Callback_File_deleteArtPtr
+newCallback_File_deleteArt(T* instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_deleteArt<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T>
+class CallbackNC_File_deleteAllImages : public Callback_File_deleteAllImages_Base, public ::IceInternal::TwowayCallbackNC<T>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception&);
+    typedef void (T::*Sent)(bool);
+    typedef void (T::*Response)(bool);
+
+    CallbackNC_File_deleteAllImages(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallbackNC<T>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        bool __ret;
+        try
+        {
+            __ret = __proxy->end_deleteAllImages(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::CallbackNC<T>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::CallbackNC<T>::callback.get()->*response)(__ret);
+        }
+    }
+
+    Response response;
+};
+
+template<class T> Callback_File_deleteAllImagesPtr
+newCallback_File_deleteAllImages(const IceUtil::Handle<T>& instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_deleteAllImages<T>(instance, cb, excb, sentcb);
+}
+
+template<class T> Callback_File_deleteAllImagesPtr
+newCallback_File_deleteAllImages(T* instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_deleteAllImages<T>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT>
+class Callback_File_deleteAllImages : public Callback_File_deleteAllImages_Base, public ::IceInternal::TwowayCallback<T, CT>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception& , const CT&);
+    typedef void (T::*Sent)(bool , const CT&);
+    typedef void (T::*Response)(bool, const CT&);
+
+    Callback_File_deleteAllImages(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallback<T, CT>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        bool __ret;
+        try
+        {
+            __ret = __proxy->end_deleteAllImages(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::Callback<T, CT>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::Callback<T, CT>::callback.get()->*response)(__ret, CT::dynamicCast(__result->getCookie()));
+        }
+    }
+
+    Response response;
+};
+
+template<class T, typename CT> Callback_File_deleteAllImagesPtr
+newCallback_File_deleteAllImages(const IceUtil::Handle<T>& instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_deleteAllImages<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT> Callback_File_deleteAllImagesPtr
+newCallback_File_deleteAllImages(T* instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_deleteAllImages<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T>
+class CallbackNC_File_deleteImage : public Callback_File_deleteImage_Base, public ::IceInternal::TwowayCallbackNC<T>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception&);
+    typedef void (T::*Sent)(bool);
+    typedef void (T::*Response)(bool);
+
+    CallbackNC_File_deleteImage(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallbackNC<T>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        bool __ret;
+        try
+        {
+            __ret = __proxy->end_deleteImage(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::CallbackNC<T>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::CallbackNC<T>::callback.get()->*response)(__ret);
+        }
+    }
+
+    Response response;
+};
+
+template<class T> Callback_File_deleteImagePtr
+newCallback_File_deleteImage(const IceUtil::Handle<T>& instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_deleteImage<T>(instance, cb, excb, sentcb);
+}
+
+template<class T> Callback_File_deleteImagePtr
+newCallback_File_deleteImage(T* instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_deleteImage<T>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT>
+class Callback_File_deleteImage : public Callback_File_deleteImage_Base, public ::IceInternal::TwowayCallback<T, CT>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception& , const CT&);
+    typedef void (T::*Sent)(bool , const CT&);
+    typedef void (T::*Response)(bool, const CT&);
+
+    Callback_File_deleteImage(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallback<T, CT>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        bool __ret;
+        try
+        {
+            __ret = __proxy->end_deleteImage(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::Callback<T, CT>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::Callback<T, CT>::callback.get()->*response)(__ret, CT::dynamicCast(__result->getCookie()));
+        }
+    }
+
+    Response response;
+};
+
+template<class T, typename CT> Callback_File_deleteImagePtr
+newCallback_File_deleteImage(const IceUtil::Handle<T>& instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_deleteImage<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT> Callback_File_deleteImagePtr
+newCallback_File_deleteImage(T* instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_deleteImage<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T>
+class CallbackNC_File_deleteAllCopies : public Callback_File_deleteAllCopies_Base, public ::IceInternal::TwowayCallbackNC<T>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception&);
+    typedef void (T::*Sent)(bool);
+    typedef void (T::*Response)(bool);
+
+    CallbackNC_File_deleteAllCopies(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallbackNC<T>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        bool __ret;
+        try
+        {
+            __ret = __proxy->end_deleteAllCopies(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::CallbackNC<T>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::CallbackNC<T>::callback.get()->*response)(__ret);
+        }
+    }
+
+    Response response;
+};
+
+template<class T> Callback_File_deleteAllCopiesPtr
+newCallback_File_deleteAllCopies(const IceUtil::Handle<T>& instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_deleteAllCopies<T>(instance, cb, excb, sentcb);
+}
+
+template<class T> Callback_File_deleteAllCopiesPtr
+newCallback_File_deleteAllCopies(T* instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_deleteAllCopies<T>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT>
+class Callback_File_deleteAllCopies : public Callback_File_deleteAllCopies_Base, public ::IceInternal::TwowayCallback<T, CT>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception& , const CT&);
+    typedef void (T::*Sent)(bool , const CT&);
+    typedef void (T::*Response)(bool, const CT&);
+
+    Callback_File_deleteAllCopies(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallback<T, CT>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        bool __ret;
+        try
+        {
+            __ret = __proxy->end_deleteAllCopies(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::Callback<T, CT>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::Callback<T, CT>::callback.get()->*response)(__ret, CT::dynamicCast(__result->getCookie()));
+        }
+    }
+
+    Response response;
+};
+
+template<class T, typename CT> Callback_File_deleteAllCopiesPtr
+newCallback_File_deleteAllCopies(const IceUtil::Handle<T>& instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_deleteAllCopies<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT> Callback_File_deleteAllCopiesPtr
+newCallback_File_deleteAllCopies(T* instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_deleteAllCopies<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T>
+class CallbackNC_File_deleteCopyVer : public Callback_File_deleteCopyVer_Base, public ::IceInternal::TwowayCallbackNC<T>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception&);
+    typedef void (T::*Sent)(bool);
+    typedef void (T::*Response)(bool);
+
+    CallbackNC_File_deleteCopyVer(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallbackNC<T>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        bool __ret;
+        try
+        {
+            __ret = __proxy->end_deleteCopyVer(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::CallbackNC<T>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::CallbackNC<T>::callback.get()->*response)(__ret);
+        }
+    }
+
+    Response response;
+};
+
+template<class T> Callback_File_deleteCopyVerPtr
+newCallback_File_deleteCopyVer(const IceUtil::Handle<T>& instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_deleteCopyVer<T>(instance, cb, excb, sentcb);
+}
+
+template<class T> Callback_File_deleteCopyVerPtr
+newCallback_File_deleteCopyVer(T* instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_deleteCopyVer<T>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT>
+class Callback_File_deleteCopyVer : public Callback_File_deleteCopyVer_Base, public ::IceInternal::TwowayCallback<T, CT>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception& , const CT&);
+    typedef void (T::*Sent)(bool , const CT&);
+    typedef void (T::*Response)(bool, const CT&);
+
+    Callback_File_deleteCopyVer(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallback<T, CT>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        bool __ret;
+        try
+        {
+            __ret = __proxy->end_deleteCopyVer(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::Callback<T, CT>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::Callback<T, CT>::callback.get()->*response)(__ret, CT::dynamicCast(__result->getCookie()));
+        }
+    }
+
+    Response response;
+};
+
+template<class T, typename CT> Callback_File_deleteCopyVerPtr
+newCallback_File_deleteCopyVer(const IceUtil::Handle<T>& instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_deleteCopyVer<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT> Callback_File_deleteCopyVerPtr
+newCallback_File_deleteCopyVer(T* instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_deleteCopyVer<T, CT>(instance, cb, excb, sentcb);
 }
 
 }

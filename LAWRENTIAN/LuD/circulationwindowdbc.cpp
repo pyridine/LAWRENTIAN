@@ -26,15 +26,15 @@ CirculationWindowDBC::~CirculationWindowDBC()
 
 }
 
-vector<pair<Route*,int>*>* CirculationWindowDBC::getAllRoutes(){
+vector<pair<Route*,int>>* CirculationWindowDBC::getAllRoutes(){
     vector<int>* routeNumbers = this->getAllRouteNums();
-    vector<pair<Route*,int>*>* routes = new vector<pair<Route*,int>*>;
+    vector<pair<Route*,int>>* routes = new vector<pair<Route*,int>>;
 
     vector<int>::iterator nextRouteNum = routeNumbers->begin();
 
     while(nextRouteNum != routeNumbers->begin()){
         Route* nextRoute = this->getRoute(*nextRouteNum);
-        routes->push_back(new pair<Route*,int>(nextRoute,*nextRouteNum));
+        routes->push_back(std::make_pair(nextRoute,*nextRouteNum));
     }
 
     return routes;
@@ -148,25 +148,21 @@ void CirculationWindowDBC::insertRoutePoint(Route::RoutePoint p,int routeId, int
  * @brief findMissingNumber
  * @param v
  */
-int CirculationWindowDBC::findMissingNumber(vector<int>* v){
-    //cout v for testing
-    for(vector<int>::iterator it = v->begin(); it != v->end(); it++){
+int CirculationWindowDBC::findMissingNumber(vector<int>* nums){
+
+    for(vector<int>::iterator it = nums->begin(); it != nums->end(); it++){
         cout << *it << ",";
     }
-    cout << endl;
 
     //if empty ret 1
-    if(v->end() == v->begin()){
+    if(nums->end() == nums->begin()){
         return 1;
     }
 
     //else iterate
-    vector<int>::iterator it = v->begin();
-    int nextInt = *it;
-    ++it;
-    while(it != v->end() && *(it+1) == nextInt+1){ //TODO: TESTING: I'M NOT SURE THAT *(it+1) WORKS
+    vector<int>::iterator it = nums->begin();
+    while(it != (nums->end()-1) && *(it+1) == *(it)+1){
         ++it;
-        nextInt = *it;
     }
-    return nextInt+1;
+    return (*it)+1;
 }
