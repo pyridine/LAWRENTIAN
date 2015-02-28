@@ -39,6 +39,8 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
 
     //Init/Add profile widget.
     profileWidget* w_profile = new profileWidget();
+    w_profile->init(loginCredo, client);
+    w_profile->initDB(client);
     w_profile->init(this,loginCredo->getName(),dbController->translateTitle(loginCredo->getTitle()));
     tabs->addTab(w_profile, "Profile");
 

@@ -81,6 +81,7 @@ void articleWorkspace::updateArticleList(){
 }
 void articleWorkspace::resetArticleButtons(){
     //TODO: delete all buttons.
+   //buttonVector.empty();
     vector<Article*>::iterator it = articleVector.begin();
     while(it != articleVector.end()){
         this->addArticleButton(*it);
@@ -103,12 +104,20 @@ void articleWorkspace::addArticleButton(Article *article)
     QString title = article->QGetTitle();
     QString section = QString::fromStdString(dbController->translateSection(article->getSection()));
     QString buttonTitle = section+": "+title;
-    QPushButton *newArticleButton = new QPushButton(buttonTitle, this);
-    newArticleButton->setObjectName(title);
+    /*QPushButton *newArticleButton;
+    buttonVector.push_back(newArticleButton);
+    buttonVector.back() = new QPushButton(buttonTitle, this);
+    buttonVector.back()->setObjectName(title);
 
-    newArticleButton->setGeometry(x, y, 500, 32);
-    newArticleButton->show();
-    connect(newArticleButton, SIGNAL(clicked()), this, SLOT(handleButton()));
+    buttonVector.back()->setGeometry(x, y, 500, 32);
+    buttonVector.back()->show();
+    connect(buttonVector.back(), SIGNAL(clicked()), this, SLOT(handleButton()));*/
+    QPushButton *newArticleButton = new QPushButton(buttonTitle, this);
+        newArticleButton->setObjectName(title);
+
+        newArticleButton->setGeometry(x, y, 500, 32);
+        newArticleButton->show();
+        connect(newArticleButton, SIGNAL(clicked()), this, SLOT(handleButton()));
     y = y+30;
 }
 
