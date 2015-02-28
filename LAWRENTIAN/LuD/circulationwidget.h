@@ -32,7 +32,7 @@ private slots:
 private:
     void initDB(Client* c);
     void populateRouteList();
-    vector<pair<Route*,int>>* myRoutes;
+    vector<pair<Route*,int>*>* myRoutes;
     Ui::circulationWidget *ui;
     vector<Route> routes;
     CirculationWindowDBC* dbController;

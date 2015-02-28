@@ -14,7 +14,7 @@ public:
     CirculationWindowDBC(); //Or else QT gets mad
     ~CirculationWindowDBC();
 
-    vector<pair<Route *, int> > *getAllRoutes();
+    vector<pair<Route *, int> *> *getAllRoutes();
     void insertRoute(Route* r, int routeID); //Deletes before insering for simplicity. So you use this for add and edit.
     void dropRoute(int routeID);
 

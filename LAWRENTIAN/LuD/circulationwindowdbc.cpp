@@ -8,7 +8,7 @@
 #include <QtSql/qsqlerror.h>
 
 namespace CWDBCCommands {
-    const string GET_ALL_ROUTE_NUMS = "SELECT routeid FROM lawrentian.routes";
+    const string GET_ALL_ROUTE_NUMS = "SELECT routeid FROM lawrentian.routes GROUP BY routeid";
     const string GET_ROUTE_POINTS = "SELECT idlocation,numberOfIssues FROM lawrentian.routes WHERE routeid = :id ORDER BY locationorder ASC";
     const string DROP_ROUTE = "DELETE FROM lawrentian.routes WHERE routeid = :id";
     const string INSERT_ROUTE_POINT = "INSERT INTO lawrentian.routes (routeid,idlocation,numberOfIssues,locationorder) VALUES (:id,:loc,:num,:ord)";
@@ -26,15 +26,16 @@ CirculationWindowDBC::~CirculationWindowDBC()
 
 }
 
-vector<pair<Route*,int>>* CirculationWindowDBC::getAllRoutes(){
+vector<pair<Route*,int>*>* CirculationWindowDBC::getAllRoutes(){
     vector<int>* routeNumbers = this->getAllRouteNums();
-    vector<pair<Route*,int>>* routes = new vector<pair<Route*,int>>;
+    vector<pair<Route*,int>*>* routes = new vector<pair<Route*,int>*>;
 
     vector<int>::iterator nextRouteNum = routeNumbers->begin();
 
-    while(nextRouteNum != routeNumbers->begin()){
+    while(nextRouteNum != routeNumbers->end()){
         Route* nextRoute = this->getRoute(*nextRouteNum);
-        routes->push_back(std::make_pair(nextRoute,*nextRouteNum));
+        routes->push_back(new pair<Route*,int>(nextRoute,*nextRouteNum));
+        nextRouteNum++;
     }
 
     return routes;
@@ -44,8 +45,7 @@ vector<pair<Route*,int>>* CirculationWindowDBC::getAllRoutes(){
 
 Route* CirculationWindowDBC::getRoute(int routeId){
 
-
-    //"SELECT idlocation,numberOfIssues FROM lawrentian.routes WHERE routeid = :id ORDER BY locationorder ASC";
+    cout << "gitting route no " << routeId << endl;
 
     Route* newRoute = new Route();
     QSqlQuery* query = new QSqlQuery();
@@ -114,8 +114,10 @@ vector<int>* CirculationWindowDBC::getAllRouteNums(){
     if(!err.isValid()){
 
         while(result->next()){
+            cout << result->value(0).toInt() << ",";
             numz->push_back(result->value(0).toInt());
         }
+        cout << endl;
 
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;

@@ -9,19 +9,18 @@ using namespace std;
 
 Route::Route(vector<RoutePoint> *r)
 {
-    Route::route = r;
+    route = r;
 }
 
 Route::Route()
 {
-
+    route = new vector<RoutePoint>;
 }
 
 
 void Route::addNode(RoutePoint* node, vector<RoutePoint>::iterator where)
 {
-    vector<RoutePoint>::iterator it = where;
-    route->insert(it,*node);
+    route->insert(where,*node);
 }
 vector<Route::RoutePoint>::iterator Route::begin()
 {
