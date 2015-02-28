@@ -36,8 +36,8 @@
   <widget class="QPushButton" name="logOutButton">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>130</y>
+     <x>10</x>
+     <y>520</y>
      <width>231</width>
      <height>31</height>
     </rect>
@@ -64,6 +64,19 @@
    </property>
    <property name="text">
     <string>You are a ERROR! WHAT THE FUCK WENT WRONG!?!??!</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="editProfileButton">
+   <property name="geometry">
+    <rect>
+     <x>940</x>
+     <y>520</y>
+     <width>141</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>View/Edit Profile</string>
    </property>
   </widget>
  </widget>
