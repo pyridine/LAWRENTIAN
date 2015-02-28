@@ -79,6 +79,7 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
     //TODO: Update the article workspace widget :P
     string title = ui->articleTitleTextField->text().toStdString();
     string description = ui->descriptionTextField->toPlainText().toStdString();
+    string date = ui->issueDateEdit->text().toStdString();
     int section = this->getSelectedSectionID();
     int writer = this->getSelectedWriterLuid();
     int photographer = this->getSelectedPhotographerLuid();
@@ -97,11 +98,11 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
 
             string filePath = ui->articleFileTextField->text().toStdString();
             if(filePath.size())
-                sndr.sendFile(dbController->translateSection(section), title, COPY, title + getExt(filePath), filePath);
+                 sndr.sendFile(date, dbController->translateSection(section), title, COPY, title + getExt(filePath), filePath);
 
             QStringList::const_iterator iter = img_paths.begin();
             for(iter; iter!=img_paths.end(); iter++)
-                sndr.sendFile(dbController->translateSection(section),title,IMAGE,getNameExt(iter->toStdString()),
+                sndr.sendFile(date,dbController->translateSection(section),title,IMAGE,getNameExt(iter->toStdString()),
                               iter->toStdString());
             //done.
 

@@ -77,7 +77,7 @@ FileSystemI::receiveLatest(const std::string& issue_date, const std::string& sec
         {
             dir = temp_dir;
             temp_dir = path + "/" + fNameExt;
-            temp_dir = insertCorrectly(temp_dir, ver_num);
+            insertCorrectly(temp_dir, ver_num);
 
             check.close();
             check.open(temp_dir, ios::binary);
@@ -194,7 +194,7 @@ FileSystemI::sendFile(const std::string& issue_date, const std::string& sec,
             + "/" + type + "/" + fName;
     if(!dirExists(dir))
     {
-        string temp = main_dir + "/" + issue_date;
+        string temp = main_dir;
         _mkdir( (temp + "/" + sec).c_str());
 
         temp = temp + "/" + sec;
@@ -218,9 +218,9 @@ FileSystemI::sendFile(const std::string& issue_date, const std::string& sec,
 
     while(file.is_open())
     {
-        fNameExt = insertCorrectly(fNameExt_clean,ver);
+        fNameExt = fNameExt_clean;
+        insertCorrectly(fNameExt,ver);
         string temp_dir = dir + "/" + fNameExt;
-        cout << temp_dir << endl;
         file.close();
         file.open(temp_dir, ios::binary);
         ver++;
@@ -252,15 +252,16 @@ FileSystemI::getHistory(const std::string& issue_date, const std::string& sec,
 
     string caller_info = getName(getIP(c));
     consolePrint("===" + caller_info + "===" );
+
     VerSeq v_seq;
 
     string path =  main_dir + "/" + issue_date + "/" + sec + "/" + art + "/" + type
             + "/" + fName;
 
     string fNameExt = addExtension(fName, type);
-    if(!fNameExt.size())
+    if(!fNameExt.compare(NULL))
     {
-        consolePrint("getHistory: " + type + " invalid type.");
+        consolePrint("getHistory: " + type + " invalid.");
         return v_seq;
     }
 
@@ -335,13 +336,7 @@ FileSystemI::getImageList(const std::string& issue_date,const std::string& sec, 
         if(dirExists(dir))
             consolePrint("getImageList: no image found in " + dir);
         else
-        {
-            string dir_temp = main_dir + "/" + issue_date + "/" + sec + "/" + art;
-            if (dirExists(dir_temp))
-                consolePrint("getImageList: " + dir_temp + " has no images.");
-            else
-                consolePrint("getImageList: " + dir + " does not exist.");
-        }
+            consolePrint("getImageList: " + dir + "does not exist.");
 
         return seq;
     }
@@ -401,9 +396,9 @@ FileSystemI::changeDir(const std::string& issue_date, const std::string &sec,
     while(true)
     {
         string file_old = ver ? insertCorrectly(fNameExt_old, ver)
-                              : fNameExt_old;
+                            : fNameExt_old;
         string file_new = ver ? insertCorrectly(fNameExt_new, ver)
-                              : fNameExt_new;
+                            : fNameExt_new;
 
         ifstream check;
         check.open(file_old, ios::binary);
@@ -522,7 +517,8 @@ std::string FileSystemI::insertCorrectly(const std::string& str, int n)
 {
     using namespace std;
 
-    string num = std::to_string((long long)n);
+    const char* num = std::to_string((long long)n).c_str();
+
     string::const_iterator iter = str.end() - 1;
     while(*iter != '.')
     {
@@ -707,8 +703,6 @@ bool FileSystemI::deleteDirectory(const std::string &dir)
         }
 
     }
-    else
-        return false;
     return true;
 }
 
@@ -1053,7 +1047,7 @@ FileSystemI::listFiles(std::wstring path, std::wstring mask, std::vector<std::ws
 
 void
 FileSystemI::getFolders(const std::vector<std::string> vec, std::vector<std::string>& out,
-                        const std::string& m_p)
+                             const std::string& m_p)
 {
     using namespace std;
 

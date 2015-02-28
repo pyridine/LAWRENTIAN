@@ -1,4 +1,9 @@
 module FileSystem {
+    const string COPY = "Copy";
+    const string IMAGE = "Image";
+    const string extCOPY = ".docx";
+    const string extIMAGE = ".jpg";
+
     sequence<byte> ByteSeq;
     struct TimeIce {
         string dayOfTheWeek;
@@ -16,10 +21,31 @@ module FileSystem {
         TimeIce time;
     };
     sequence<Version> VerSeq;
+    sequence<string> StrSeq;
     interface File {
-        ByteSeq receiveLatest(string sec, string art, string type, string fName);
-        ByteSeq receiveVersion(string sec, string art, string type, string fName, int ver);
-        bool sendFile(string sec, string art, string type, string fNameExt, ByteSeq seq);
-        VerSeq getHistory(string sec, string art, string type, string fName);
+        ByteSeq receiveLatest(string issueDate, string sec, string art, string type, string fName);
+        ByteSeq receiveVersion(string issueDate,string sec, string art, string type, string fName, int ver);
+
+        bool sendFile(string issueDate,string sec, string art, string type, string fNameExt, ByteSeq seq);
+
+        VerSeq getHistory(string issueDate,string sec, string art, string type, string fName);
+        StrSeq getImageList(string issueDate,string sec, string art);
+
+        bool changeDir(string issueDate,string sec, string artOld, string artNew);
+        bool moveArtToSection(string issueDate,string secOld, string secNew, string art);
+        bool archiveIssue(string issueDate);
+
+        bool deleteArt(string issueDate,string sec, string art);
+        bool deleteAllImages(string issueDate,string sec, string art);
+        bool deleteImage(string issueDate,string sec, string art, string name);
+        bool deleteAllCopies(string issueDate,string sec, string art);
+        bool deleteCopyVer(string issueDate,string sec, string art, int ver);
     };
+};
+
+module fs {
+    const string COPY = "Copy";
+    const string IMAGE = "Image";
+    const string extCOPY = ".docx";
+    const string extIMAGE = ".jpg";
 };
