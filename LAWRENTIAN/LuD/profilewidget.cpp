@@ -3,6 +3,7 @@
 #include <string>
 #include <qstring.h>
 #include <iostream>
+#include "alert.h"
 
 #include "editprofilewidget.h"
 #include "editemployeeinfo.h"
@@ -43,8 +44,10 @@ void profileWidget::updateNotifications()
 {
     ui->systemNotificationsTextBrowser->clear();
     ui->systemNotificationsTextBrowser->setOpenLinks(false);
-    // Checks what writers can be taken off probation
+
     QDate currentDate = QDate::currentDate();
+
+    // Checks what writers can be taken off probation
     vector<string> possibleProbationApprovals = profileWidgetDBC->collectProbationApprovals(currentDate);
     if(possibleProbationApprovals.size()>0){
         QString probationApprovalText = "Writers to be taken off probation: ";
@@ -54,8 +57,26 @@ void profileWidget::updateNotifications()
             QString indexString = QString::fromStdString(to_string((long long)i));
             QString url = "<a href="+indexString+">"+name+"</a>";
             ui->systemNotificationsTextBrowser->append(url);
-            selectedUser = QString::fromStdString(possibleProbationApprovals[i]);
         }
+        ui->systemNotificationsTextBrowser->append("<span>\n</span>");
+    }
+
+    // Checks if timesheet can be and should be generated
+    vector<int> timesheetWriterIds = profileWidgetDBC->collectWriterForTimesheet(currentDate);
+    int alreadyExists = profileWidgetDBC->writerTimesheetExists(currentDate);
+    if(timesheetWriterIds.size()>0 && alreadyExists==0){
+        QString timesheetGenerationText = "Generate/Update Writer Timesheet: ";
+        ui->systemNotificationsTextBrowser->append("<span>"+timesheetGenerationText+"</span>");
+        QString url = "<a href=GenerateWriterTimesheet>Generate</a>";
+        ui->systemNotificationsTextBrowser->append(url);
+    }
+
+    // Checks if timesheet can be updated
+    if(timesheetWriterIds.size()!=alreadyExists && alreadyExists>0){
+        QString timesheetGenerationText = "Generate/Update Writer Timesheet: ";
+        ui->systemNotificationsTextBrowser->append("<span>"+timesheetGenerationText+"</span>");
+        QString url = "<a href=UpdateWriterTimesheet>Update</a>";
+        ui->systemNotificationsTextBrowser->append(url);
     }
 }
 
@@ -82,14 +103,42 @@ void profileWidget::on_editProfileButton_clicked()
 
 void profileWidget::on_systemNotificationsTextBrowser_anchorClicked(const QUrl &arg1)
 {
+    string urlString = arg1.toString().toStdString();
+
     QDate currentDate = QDate::currentDate();
     vector<string> possibleProbationApprovals = profileWidgetDBC->collectProbationApprovals(currentDate);
-    string urlString = arg1.toString().toStdString();
-    int urlInt = stoi(urlString);
-    EditEmployeeInfo *employeeInfo = new EditEmployeeInfo;
-    employeeInfo->initDB(this->client);
-    employeeInfo->initSelectedName(QString::fromStdString(possibleProbationApprovals[urlInt]));
-    employeeInfo->show();
+    vector<int> writerIds = profileWidgetDBC->collectWriterForTimesheet(currentDate);
+
+    //Generate Timesheet
+    if(urlString == "GenerateWriterTimesheet"){
+        for(int i = 0; i<writerIds.size(); i++){
+            int articlesOnTime = profileWidgetDBC->collectArticlesOnTime(writerIds[i], currentDate);
+            int articlesLate = profileWidgetDBC->collectArticlesLate(writerIds[i], currentDate);
+            profileWidgetDBC->generateWriterTimesheet(writerIds[i], articlesOnTime, articlesLate, currentDate);
+        }
+        Alert *alert = new Alert;
+        alert->showInformationAlert("Generated!", "Writer Timesheet successfully generated");
+        updateNotifications();
+        this->parentWindow->tabs->setCurrentIndex(4);
+    } else if(urlString == "UpdateWriterTimesheet"){
+        profileWidgetDBC->deleteWriterTimesheetRecords(currentDate);
+        for(int i = 0; i<writerIds.size(); i++){
+            int articlesOnTime = profileWidgetDBC->collectArticlesOnTime(writerIds[i], currentDate);
+            int articlesLate = profileWidgetDBC->collectArticlesLate(writerIds[i], currentDate);
+            profileWidgetDBC->generateWriterTimesheet(writerIds[i], articlesOnTime, articlesLate, currentDate);
+        }
+        Alert *alert = new Alert;
+        alert->showInformationAlert("Updated!", "Writer Timesheet successfully updated");
+        updateNotifications();
+        this->parentWindow->tabs->setCurrentIndex(4);
+    } else {
+        // Approve Probation
+        int urlInt = stoi(urlString);
+        EditEmployeeInfo *employeeInfo = new EditEmployeeInfo;
+        employeeInfo->initDB(this->client);
+        employeeInfo->initSelectedName(QString::fromStdString(possibleProbationApprovals[urlInt]));
+        employeeInfo->show();
+    }
 }
 
 void profileWidget::on_pushButton_clicked()

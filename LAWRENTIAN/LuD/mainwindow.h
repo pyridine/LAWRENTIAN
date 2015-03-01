@@ -21,12 +21,15 @@ public:
     void initDB(Client* c);
     void logOut();
     Client* getClient();
+    QTabWidget *tabs;
+
     ~MainWindow();
 
 private:
     Ui::MainWindow* ui;
     LoginCredentials* loginCredo;
     Client* client;
+
 
     MainWindowDBC* dbController;
 

@@ -63,7 +63,9 @@ SOURCES += main.cpp\
     editemployeeinfodbc.cpp \
     editprofilewidget.cpp \
     editprofiledbc.cpp \
-    profilewidgetdbc.cpp
+    profilewidgetdbc.cpp \
+    writertimesheetdbc.cpp \
+    editortimesheetdbc.cpp
 
 HEADERS  += registrationwindow.h \
     employee.h \
@@ -114,7 +116,9 @@ HEADERS  += registrationwindow.h \
     editemployeeinfodbc.h \
     editprofilewidget.h \
     editprofiledbc.h \
-    profilewidgetdbc.h
+    profilewidgetdbc.h \
+    writertimesheetdbc.h \
+    editortimesheetdbc.h
 
 
 FORMS    += registrationwindow.ui \
