@@ -14,7 +14,6 @@ public:
     string translateLocation(int locID);
     string translateSection(int secId);
 
-
 protected:
     Client* client;
 };

@@ -34,17 +34,17 @@ string DatabaseController::translateLocation(int locID){
         }
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
-        return false;
+        return "";
     }
-    return false;
+    return "";
 }
 
 string DatabaseController::translatePermission(int permID){
-    string transLoc = "SELECT description FROM lawrentian.permissiontokens WHERE idToken = :id";
+    string transPerm = "SELECT description FROM lawrentian.permissiontokens WHERE idToken = :id";
 
     QSqlQuery* query = new QSqlQuery();
 
-    query->prepare(QString::fromStdString(transLoc));
+    query->prepare(QString::fromStdString(transPerm));
 
     query->bindValue(":id",permID);
 
@@ -57,16 +57,16 @@ string DatabaseController::translatePermission(int permID){
         }
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
-        return false;
+        return "";
     }
-    return false;
+    return "";
 }
 string DatabaseController::translateTitle(int titleID){
-    string transLoc = "SELECT titleName FROM lawrentian.titledefinitions WHERE idTitle = :id";
+    string transTitle = "SELECT titleName FROM lawrentian.titledefinitions WHERE idTitle = :id";
 
     QSqlQuery* query = new QSqlQuery();
 
-    query->prepare(QString::fromStdString(transLoc));
+    query->prepare(QString::fromStdString(transTitle));
 
     query->bindValue(":id",titleID);
 
@@ -79,17 +79,16 @@ string DatabaseController::translateTitle(int titleID){
         }
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
-        return false;
+        return "";
     }
-    return false;
+    return "";
 }
 
 string DatabaseController::translateSection(int secId){
-    string transLoc = "SELECT sectionName FROM lawrentian.section WHERE idsection = :id";
-
+    string transSec = "SELECT sectionName FROM lawrentian.section WHERE idsection = :id";
     QSqlQuery* query = new QSqlQuery();
 
-    query->prepare(QString::fromStdString(transLoc));
+    query->prepare(QString::fromStdString(transSec));
 
     query->bindValue(":id",secId);
 
@@ -97,12 +96,15 @@ string DatabaseController::translateSection(int secId){
     QSqlError err = result->lastError();
 
     if(!err.isValid()){
+
         if(result->next()){
+
             return result->value(0).toString().toStdString();
         }
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
-        return false;
+        return "";
     }
-    return false;
+
+    return "";
 }

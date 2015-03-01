@@ -20,6 +20,8 @@ articleWorkspace::articleWorkspace(QWidget *parent) :
     ui->setupUi(this);
     x = 50;
     y = 50;
+    vert_layout = new QVBoxLayout;
+    //this->updateArticleList();
 }
 
 articleWorkspace::~articleWorkspace()
@@ -27,7 +29,8 @@ articleWorkspace::~articleWorkspace()
     delete ui;
 }
 
-void articleWorkspace::initDB(Client* c,LoginCredentials* cred){
+void articleWorkspace::initDB(Client* c,LoginCredentials* cred)
+{
     dbController = new ArticleWorkspaceDBC(c);
     credentials = cred;
 
@@ -71,10 +74,9 @@ void articleWorkspace::initArticle(Article *article)
     articleVector.push_back(article);
 }
 
-void articleWorkspace::updateArticleList(){
-    vector<Article*> newArtVect;
-    articleVector = newArtVect;
-
+void articleWorkspace::updateArticleList()
+{
+    articleVector.clear();
 
     //Didn't I need to initialize articlevector? :TODO :DEBUG :HEY_SEGFAULT
     __insertArticles(SectionDef::ARTSENT_SECTION,PermissionDef::SEC_ARTS);
@@ -86,21 +88,28 @@ void articleWorkspace::updateArticleList(){
 
     resetArticleButtons();
 }
-void articleWorkspace::resetArticleButtons(){
+void articleWorkspace::resetArticleButtons()
+{
     //TODO: delete all buttons.
    //buttonVector.empty();
+    clearLayout(vert_layout);
     vector<Article*>::iterator it = articleVector.begin();
-    while(it != articleVector.end()){
+    while(it != articleVector.end())
+    {
         this->addArticleButton(*it);
         it++;
     }
+    cout << "number of article buttons" << vert_layout->count() << endl;
 }
 
-void articleWorkspace::__insertArticles(int section, int secPerf){
+void articleWorkspace::__insertArticles(int section, int secPerf)
+{
 
     if(credentials->hasPermission(PermissionDef::ADMIN_PTOKEN)
             ||credentials->hasPermission(PermissionDef::SEC_ALL)
-            ||credentials->hasPermission(secPerf)){
+            ||credentials->hasPermission(secPerf))
+    {
+        // nice.
         vector<Article*>* newvit = dbController->getSectionArticles(section);
         articleVector.insert(articleVector.end(),newvit->begin(),newvit->end());
     }
@@ -119,13 +128,18 @@ void articleWorkspace::addArticleButton(Article *article)
     buttonVector.back()->setGeometry(x, y, 500, 32);
     buttonVector.back()->show();
     connect(buttonVector.back(), SIGNAL(clicked()), this, SLOT(handleButton()));*/
-    QPushButton *newArticleButton = new QPushButton(buttonTitle, this);
+        QPushButton *newArticleButton = new QPushButton(buttonTitle, this);
         newArticleButton->setObjectName(title);
 
         newArticleButton->setGeometry(x, y, 500, 32);
-        newArticleButton->show();
+
+        vert_layout->addWidget(newArticleButton);
+        QWidget *layout_widget = new QWidget;
+        layout_widget->setLayout(vert_layout);
+        ui->buttons_scrollArea->setWidget(layout_widget);
+
         connect(newArticleButton, SIGNAL(clicked()), this, SLOT(handleButton()));
-    y = y+30;
+        y = y+30;
 }
 
 void articleWorkspace::handleButton()
@@ -134,14 +148,26 @@ void articleWorkspace::handleButton()
     QString senderObjName = senderObj->objectName();
     int count = 0;
     int size = articleVector.size();
-    while (count != size){
+    while (count != size)
+    {
         Article* send = articleVector[count];
         QString sendTitle = send->QGetTitle();
-        if(sendTitle == senderObjName){
+        if(sendTitle == senderObjName)
+        {
             openArticleWorkspace(send);
         }
         count++;
     }
+}
+
+void articleWorkspace::clearLayout(QVBoxLayout* vb_layout)
+{
+    while(!vb_layout->isEmpty())
+    {
+        QLayoutItem* item = vb_layout->itemAt(0);
+        vb_layout->removeItem(item);
+    }
+    cout << "layout cleared." << endl;
 }
 
 bool articleWorkspace::workspaceExists(string articleTitle)
@@ -158,3 +184,4 @@ bool articleWorkspace::workspaceExists(string articleTitle)
     }
     return false;
 }
+

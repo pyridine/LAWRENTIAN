@@ -10,6 +10,7 @@
 #include <QString>
 #include <QPushButton>
 #include <string>
+#include <QVBoxLayout>
 
 using namespace std;
 
@@ -29,6 +30,7 @@ public:
     void initDB(Client* c,LoginCredentials* cred);
     int x;
     int y;
+    bool workspaceExists(string articleTitle);
 
     void updateArticleList();
 
@@ -36,7 +38,6 @@ public:
 
     Article *getNewArticle() const;
     void setNewArticle(Article *value);
-    bool workspaceExists(string articleTitle);
 
 private slots:
     void on_addArticleWorkspace_pushButton_clicked();
@@ -45,12 +46,15 @@ private slots:
     void openArticleWorkspace(Article* a);
 
 private:
+    QVBoxLayout * vert_layout;
     LoginCredentials* credentials;
     Ui::articleWorkspace *ui;
     vector<Article*> articleVector;
     void __insertArticles(int section, int secPerf);
     ArticleWorkspaceDBC* dbController;
     vector<QPushButton*> buttonVector;
+    void clearLayout(QVBoxLayout* vb_layout);
+
 };
 
 #endif // ARTICLEWORKSPACE_H
