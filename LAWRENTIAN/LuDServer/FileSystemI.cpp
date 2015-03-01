@@ -42,7 +42,7 @@ FileSystemI::receiveLatest(const std::string& issue_date, const std::string& sec
 
     if(!dirExists(main_dir + "/" + issue_date))
     {
-        consolePrint("receiveLatest: " + issue_date + " is invalid.");
+        consolePrint("receiveLatest: " + issue_date + " is invalid issue date.");
         return seq;
     }
 
@@ -135,7 +135,7 @@ FileSystemI::receiveVersion(const std::string& issue_date, const std::string& se
 
     if(!dirExists(main_dir + "/" + issue_date))
     {
-        consolePrint("reveiveVersion: " + issue_date + " is invalid.");
+        consolePrint("reveiveVersion: " + issue_date + " is invalid issue date.");
         return seq;
     }
 
@@ -207,6 +207,7 @@ FileSystemI::sendFile(const std::string& issue_date, const std::string& sec,
     if(!dirExists(dir))
     {
         string temp = main_dir + "/" + issue_date;
+        _mkdir(temp.c_str());
         _mkdir( (temp + "/" + sec).c_str());
 
         temp = temp + "/" + sec;
@@ -232,7 +233,6 @@ FileSystemI::sendFile(const std::string& issue_date, const std::string& sec,
     {
         fNameExt = insertCorrectly(fNameExt_clean,ver);
         string temp_dir = dir + "/" + fNameExt;
-        cout << temp_dir << endl;
         file.close();
         file.open(temp_dir, ios::binary);
         ver++;
@@ -268,7 +268,7 @@ FileSystemI::getHistory(const std::string& issue_date, const std::string& sec,
 
     if(!dirExists(main_dir + "/" + issue_date))
     {
-        consolePrint("getHistory: " + issue_date + " is invalid.");
+        consolePrint("getHistory: " + issue_date + " is invalid issue date.");
         return v_seq;
     }
 
@@ -349,7 +349,7 @@ FileSystemI::getImageList(const std::string& issue_date,const std::string& sec, 
 
     if(!dirExists(main_dir + "/" + issue_date))
     {
-        consolePrint("getImageList: " + issue_date + " is invalid.");
+        consolePrint("getImageList: " + issue_date + " is invalid issue date.");
         return seq;
     }
 
@@ -393,7 +393,7 @@ FileSystemI::getImageList(const std::string& issue_date,const std::string& sec, 
 }
 
 bool
-FileSystemI::changeDir(const std::string& issue_date, const std::string &sec,
+FileSystemI::renameArt(const std::string& issue_date, const std::string &sec,
                        const std::string &artOld, const std::string &artNew, const Ice::Current& c)
 {
     using namespace std;
@@ -403,7 +403,7 @@ FileSystemI::changeDir(const std::string& issue_date, const std::string &sec,
 
     if(!dirExists(main_dir + "/" + issue_date))
     {
-        consolePrint("changeDir: " + issue_date + " is invalid.");
+        consolePrint("changeDir: " + issue_date + " is invalid issue date.");
         return false;
     }
 
@@ -550,10 +550,7 @@ FileSystemI::extractFileName(const std::string& str)
     {
         iter--;
         if(iter == name.begin())
-        {
             break; // throw exception.
-            cout << "broken" << endl;
-        }
     }
     name.resize(iter - name.begin());
 
@@ -571,10 +568,7 @@ FileSystemI::insertCorrectly(const std::string& str, int n)
     {
         iter--;
         if(iter == str.begin())
-        {
             break; // throw exception.
-            cout << "broken" << endl;
-        }
     }
     string ret = str;
     ret.insert(iter - str.begin(), num);
@@ -592,10 +586,8 @@ FileSystemI::extractNodeName(const std::string str)
     {
         iter--;
         if(iter == str.begin())
-        {
             break; //throw exception.
-            cout << "broken" << endl;
-        }
+
     }
     return str.substr(0,iter - str.begin());
 }
@@ -618,8 +610,8 @@ FileSystemI::consolePrint(const std::string& str)
 {
     using namespace std;
 
-    ofstream file(main_dir + "/ServerOutput.txt",ios::app);
-
+    ofstream file(main_dir + "/../ServerOutput.txt",ios_base::app);
+    file.seekp(0);
     time_t     now = time(0);
     struct tm  tstruct;
     char       buf[80];
@@ -776,7 +768,7 @@ FileSystemI::deleteArt(const std::string& issue_date,const std::string &sec,
 
     if(!dirExists(main_dir + "/" + issue_date))
     {
-        consolePrint("deleteArt: " + issue_date + " is invalid.");
+        consolePrint("deleteArt: " + issue_date + " is invalid issue date.");
         return false;
     }
 
@@ -808,7 +800,7 @@ FileSystemI::deleteAllImages(const std::string& issue_date, const std::string &s
 
     if(!dirExists(main_dir + "/" + issue_date))
     {
-        consolePrint("deleteAllImages: " + issue_date + " is invalid.");
+        consolePrint("deleteAllImages: " + issue_date + " is invalid issue date.");
         return false;
     }
 
@@ -841,7 +833,7 @@ FileSystemI::deleteImage(const std::string& issue_date, const std::string &sec,
 
     if(!dirExists(main_dir + "/" + issue_date))
     {
-        consolePrint("moveArtToSection: " + issue_date + " is invalid.");
+        consolePrint("moveArtToSection: " + issue_date + " is invalid issue date.");
         return false;
     }
 
@@ -874,7 +866,7 @@ FileSystemI::deleteAllCopies(const std::string& issue_date, const std::string &s
 
     if(!dirExists(main_dir + "/" + issue_date))
     {
-        consolePrint("deleteAllCopies: " + issue_date + " is invalid.");
+        consolePrint("deleteAllCopies: " + issue_date + " is invalid issue date.");
         return false;
     }
 
@@ -907,7 +899,7 @@ FileSystemI::deleteCopyVer(const std::string& issue_date, const std::string &sec
 
     if(!dirExists(main_dir + "/" + issue_date))
     {
-        consolePrint("deleteCopyVer: " + issue_date + " is invalid.");
+        consolePrint("deleteCopyVer: " + issue_date + " is invalid issue date.");
         return false;
     }
 
@@ -916,7 +908,6 @@ FileSystemI::deleteCopyVer(const std::string& issue_date, const std::string &sec
 
     vector<string> files,folders;
     listFiles(dir,"*",files,folders);
-    cout << files.size() << endl;
     int ver_num;
     if(ver == -1)
     {
@@ -962,7 +953,7 @@ FileSystemI::deleteCopyVer(const std::string& issue_date, const std::string &sec
 }
 
 bool
-FileSystemI::moveArtToSection(const std::string& issue_date, const std::string &sec_old,
+FileSystemI::changeArtSection(const std::string& issue_date, const std::string &sec_old,
                               const std::string &sec_new, const std::string &art, const Ice::Current& c)
 {
     using namespace std;
@@ -975,7 +966,7 @@ FileSystemI::moveArtToSection(const std::string& issue_date, const std::string &
 
     if(!dirExists(main_dir + "/" + issue_date))
     {
-        consolePrint("moveArtToSection: " + issue_date + " is invalid.");
+        consolePrint("moveArtToSection: " + issue_date + " is invalid issue date.");
         return false;
     }
 
@@ -1033,6 +1024,50 @@ FileSystemI::archiveIssue(const std::string &issue_date, const Ice::Current &c)
     }
 
     return b;
+}
+
+bool FileSystemI::changeArtIssueDate(const std::string &oldIssueDate, const std::string &newIssueDate, const std::string &sec, const std::string &art, const Ice::Current &c)
+{
+    using namespace std;
+    using namespace FileSystem;
+
+    string caller_info = getName(getIP(c));
+    consolePrint("===" + caller_info + "===" );
+
+    string current_dir = main_dir + "/" + oldIssueDate + "/" + sec + "/" + art;
+    string new_dir = main_dir + "/" + newIssueDate + "/" + sec + "/" + art;
+    string oldDateDir = main_dir + "/" + oldIssueDate;
+    string newDateDir = main_dir + "/" + newIssueDate;
+
+    if(!dirExists(oldDateDir))
+    {
+        consolePrint("changeArtIssueDate: " + oldIssueDate + " is incorrect issue date.");
+        return false;
+    }
+
+    if(dirExists(newDateDir))
+        consolePrint("changeArtIssueDate: " + newDateDir + " already exists. Moving article...");
+    else
+        _mkdir((newDateDir.c_str()));
+
+    _mkdir((newDateDir + "/" + sec).c_str());
+    if(!dirExists(newDateDir + "/" + sec))
+    {
+        consolePrint("changeArtIssueDate: unable to create " + newDateDir + "/" + sec);
+        return false;
+    }
+
+    wstring wCurrentDir(current_dir.begin(), current_dir.end());
+    wstring wNewDir(new_dir.begin(), new_dir.end());
+
+    if(!MoveFile(wCurrentDir.c_str(),wNewDir.c_str()))
+    {
+        consolePrint("changeArtIssueDate: failed to move " + current_dir + " to " + new_dir);
+        return false;
+    }
+
+    consolePrint("changeArtIssueDate: successfully moved from " + current_dir + " to " + new_dir);
+    return true;
 }
 
 std::string

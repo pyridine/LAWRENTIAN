@@ -72,7 +72,7 @@ public:
                  const Ice::Current& c);
 
     virtual bool
-    changeDir(const std::string& issueDate,const std::string& sec, const std::string& artOld,
+    renameArt(const std::string& issueDate,const std::string& sec, const std::string& artOld,
               const std::string& art_new, const Ice::Current& c);
 
     virtual bool
@@ -96,11 +96,15 @@ public:
                   const int ver, const Ice::Current& c);
 
     virtual bool
-    moveArtToSection(const std::string& issueDate,const std::string& secOld, const std::string& secNew,
+    changeArtSection(const std::string& issueDate,const std::string& secOld, const std::string& secNew,
                  const std::string& art, const Ice::Current& c);
 
     virtual bool
     archiveIssue(const std::string& issueDate, const Ice::Current& c);
+
+    virtual bool
+    changeArtIssueDate(const std::string& oldIssueDate, const std::string& newIssueDate,
+                       const std::string& sec, const std::string& art, const Ice::Current& c);
 
 };
 
