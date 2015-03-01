@@ -24,15 +24,16 @@ CirculationWindowDBC::~CirculationWindowDBC()
 
 }
 
-vector<pair<Route*,int>*>* CirculationWindowDBC::getAllRoutes(){
+vector<pair<Route*,int>>* CirculationWindowDBC::getAllRoutes(){
     vector<int>* routeNumbers = this->getAllRouteNums();
-    vector<pair<Route*,int>*>* routes = new vector<pair<Route*,int>*>;
+    vector<pair<Route*,int>>* routes = new vector<pair<Route*,int>>;
 
     vector<int>::iterator nextRouteNum = routeNumbers->begin();
 
     while(nextRouteNum != routeNumbers->end()){
         Route* nextRoute = this->getRoute(*nextRouteNum);
-        routes->push_back(new pair<Route*,int>(nextRoute,*nextRouteNum));
+        pair<Route*,int>* nextRP = new pair<Route*,int>(nextRoute,*nextRouteNum);
+        routes->push_back(*nextRP);
         nextRouteNum++;
     }
 

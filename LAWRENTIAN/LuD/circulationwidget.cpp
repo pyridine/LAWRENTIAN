@@ -33,10 +33,10 @@ void circulationWidget::initDB(Client* c){
 void circulationWidget::populateRouteList(){
 
     myRoutes = dbController->getAllRoutes();
-    vector<pair<Route*,int>*>::iterator it = myRoutes->begin();
+    vector<pair<Route*,int>>::iterator it = myRoutes->begin();
 
     while(it != myRoutes->end()){
-        int nextNum = (**it).second;
+        int nextNum = (*it).second;
         ui->routeSelectorWidget->addItem(
             QString::fromStdString("Route #").append(QString::number(nextNum)));
         ++it;
@@ -54,9 +54,9 @@ void circulationWidget::on_editRouteButton_clicked()
 {
     int indexOfRoute = this->ui->routeSelectorWidget->currentRow();
     if(indexOfRoute >= 0){
-        pair<Route*,int>* nextRoutePair = myRoutes->operator[](indexOfRoute); //Only way it works :P
-        Route* nextRoute = nextRoutePair->first;
-        int nextRouteID = nextRoutePair->second;
+        pair<Route*,int> nextRoutePair = myRoutes->operator[](indexOfRoute); //Only way it works :P
+        Route* nextRoute = nextRoutePair.first;
+        int nextRouteID = nextRoutePair.second;
         cout << "making w" << endl;
         EditRouteWindow* e = new EditRouteWindow(this,nextRoute,nextRouteID);
         e->setWindowModality(Qt::ApplicationModal);
@@ -68,9 +68,9 @@ void circulationWidget::on_editRouteButton_clicked()
 void circulationWidget::on_routeSelectorWidget_currentRowChanged(int currentRow)
 {
     ui->routeDisplayWidget->clear();
-    pair<Route*,int>* thisRouteCon = myRoutes->operator [](currentRow); //Yes, it actually has to be done this way :P
+    pair<Route*,int> thisRouteCon = myRoutes->operator [](currentRow); //Yes, it actually has to be done this way :P
 
-    Route* thisRoute = thisRouteCon->first;
+    Route* thisRoute = thisRouteCon.first;
     vector<Route::RoutePoint>::iterator points = thisRoute->begin();
     while(points != thisRoute->end()){
         QString name = QString::fromStdString(dbController->translateLocation(points->first));
