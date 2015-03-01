@@ -421,11 +421,14 @@ typedef ::IceUtil::Handle< Callback_File_getHistory_Base> Callback_File_getHisto
 class Callback_File_getImageList_Base : virtual public ::IceInternal::CallbackBase { };
 typedef ::IceUtil::Handle< Callback_File_getImageList_Base> Callback_File_getImageListPtr;
 
-class Callback_File_changeDir_Base : virtual public ::IceInternal::CallbackBase { };
-typedef ::IceUtil::Handle< Callback_File_changeDir_Base> Callback_File_changeDirPtr;
+class Callback_File_renameArt_Base : virtual public ::IceInternal::CallbackBase { };
+typedef ::IceUtil::Handle< Callback_File_renameArt_Base> Callback_File_renameArtPtr;
 
-class Callback_File_moveArtToSection_Base : virtual public ::IceInternal::CallbackBase { };
-typedef ::IceUtil::Handle< Callback_File_moveArtToSection_Base> Callback_File_moveArtToSectionPtr;
+class Callback_File_changeArtSection_Base : virtual public ::IceInternal::CallbackBase { };
+typedef ::IceUtil::Handle< Callback_File_changeArtSection_Base> Callback_File_changeArtSectionPtr;
+
+class Callback_File_changeArtIssueDate_Base : virtual public ::IceInternal::CallbackBase { };
+typedef ::IceUtil::Handle< Callback_File_changeArtIssueDate_Base> Callback_File_changeArtIssueDatePtr;
 
 class Callback_File_archiveIssue_Base : virtual public ::IceInternal::CallbackBase { };
 typedef ::IceUtil::Handle< Callback_File_archiveIssue_Base> Callback_File_archiveIssuePtr;
@@ -1022,39 +1025,39 @@ private:
     
 public:
 
-    bool changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew)
+    bool renameArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew)
     {
-        return changeDir(issueDate, sec, artOld, artNew, 0);
+        return renameArt(issueDate, sec, artOld, artNew, 0);
     }
-    bool changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context& __ctx)
+    bool renameArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context& __ctx)
     {
-        return changeDir(issueDate, sec, artOld, artNew, &__ctx);
+        return renameArt(issueDate, sec, artOld, artNew, &__ctx);
     }
 #ifdef ICE_CPP11
     ::Ice::AsyncResultPtr
-    begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_renameArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return __begin_changeDir(issueDate, sec, artOld, artNew, 0, __response, __exception, __sent);
+        return __begin_renameArt(issueDate, sec, artOld, artNew, 0, __response, __exception, __sent);
     }
     ::Ice::AsyncResultPtr
-    begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_renameArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_changeDir(issueDate, sec, artOld, artNew, 0, ::Ice::newCallback(__completed, __sent), 0);
+        return begin_renameArt(issueDate, sec, artOld, artNew, 0, ::Ice::newCallback(__completed, __sent), 0);
     }
     ::Ice::AsyncResultPtr
-    begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_renameArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return __begin_changeDir(issueDate, sec, artOld, artNew, &__ctx, __response, __exception, __sent);
+        return __begin_renameArt(issueDate, sec, artOld, artNew, &__ctx, __response, __exception, __sent);
     }
     ::Ice::AsyncResultPtr
-    begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_renameArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_changeDir(issueDate, sec, artOld, artNew, &__ctx, ::Ice::newCallback(__completed, __sent));
+        return begin_renameArt(issueDate, sec, artOld, artNew, &__ctx, ::Ice::newCallback(__completed, __sent));
     }
     
 private:
 
-    ::Ice::AsyncResultPtr __begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
+    ::Ice::AsyncResultPtr __begin_renameArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
     {
         class Cpp11CB : public ::IceInternal::Cpp11FnCallbackNC
         {
@@ -1073,7 +1076,7 @@ private:
                 bool __ret;
                 try
                 {
-                    __ret = __proxy->end_changeDir(__result);
+                    __ret = __proxy->end_renameArt(__result);
                 }
                 catch(::Ice::Exception& ex)
                 {
@@ -1090,84 +1093,84 @@ private:
             
             ::std::function<void (bool)> _response;
         };
-        return begin_changeDir(issueDate, sec, artOld, artNew, __ctx, new Cpp11CB(__response, __exception, __sent));
+        return begin_renameArt(issueDate, sec, artOld, artNew, __ctx, new Cpp11CB(__response, __exception, __sent));
     }
     
 public:
 #endif
 
-    ::Ice::AsyncResultPtr begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew)
+    ::Ice::AsyncResultPtr begin_renameArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew)
     {
-        return begin_changeDir(issueDate, sec, artOld, artNew, 0, ::IceInternal::__dummyCallback, 0);
+        return begin_renameArt(issueDate, sec, artOld, artNew, 0, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context& __ctx)
+    ::Ice::AsyncResultPtr begin_renameArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context& __ctx)
     {
-        return begin_changeDir(issueDate, sec, artOld, artNew, &__ctx, ::IceInternal::__dummyCallback, 0);
+        return begin_renameArt(issueDate, sec, artOld, artNew, &__ctx, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_renameArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_changeDir(issueDate, sec, artOld, artNew, 0, __del, __cookie);
+        return begin_renameArt(issueDate, sec, artOld, artNew, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_renameArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_changeDir(issueDate, sec, artOld, artNew, &__ctx, __del, __cookie);
+        return begin_renameArt(issueDate, sec, artOld, artNew, &__ctx, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::FileSystem::Callback_File_changeDirPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_renameArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::FileSystem::Callback_File_renameArtPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_changeDir(issueDate, sec, artOld, artNew, 0, __del, __cookie);
+        return begin_renameArt(issueDate, sec, artOld, artNew, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_changeDirPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_renameArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_renameArtPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_changeDir(issueDate, sec, artOld, artNew, &__ctx, __del, __cookie);
+        return begin_renameArt(issueDate, sec, artOld, artNew, &__ctx, __del, __cookie);
     }
 
-    bool end_changeDir(const ::Ice::AsyncResultPtr&);
+    bool end_renameArt(const ::Ice::AsyncResultPtr&);
     
 private:
 
-    bool changeDir(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*);
-    ::Ice::AsyncResultPtr begin_changeDir(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    bool renameArt(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_renameArt(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
     
 public:
 
-    bool moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art)
+    bool changeArtSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art)
     {
-        return moveArtToSection(issueDate, secOld, secNew, art, 0);
+        return changeArtSection(issueDate, secOld, secNew, art, 0);
     }
-    bool moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context& __ctx)
+    bool changeArtSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context& __ctx)
     {
-        return moveArtToSection(issueDate, secOld, secNew, art, &__ctx);
+        return changeArtSection(issueDate, secOld, secNew, art, &__ctx);
     }
 #ifdef ICE_CPP11
     ::Ice::AsyncResultPtr
-    begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_changeArtSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return __begin_moveArtToSection(issueDate, secOld, secNew, art, 0, __response, __exception, __sent);
+        return __begin_changeArtSection(issueDate, secOld, secNew, art, 0, __response, __exception, __sent);
     }
     ::Ice::AsyncResultPtr
-    begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_changeArtSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_moveArtToSection(issueDate, secOld, secNew, art, 0, ::Ice::newCallback(__completed, __sent), 0);
+        return begin_changeArtSection(issueDate, secOld, secNew, art, 0, ::Ice::newCallback(__completed, __sent), 0);
     }
     ::Ice::AsyncResultPtr
-    begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_changeArtSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return __begin_moveArtToSection(issueDate, secOld, secNew, art, &__ctx, __response, __exception, __sent);
+        return __begin_changeArtSection(issueDate, secOld, secNew, art, &__ctx, __response, __exception, __sent);
     }
     ::Ice::AsyncResultPtr
-    begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_changeArtSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_moveArtToSection(issueDate, secOld, secNew, art, &__ctx, ::Ice::newCallback(__completed, __sent));
+        return begin_changeArtSection(issueDate, secOld, secNew, art, &__ctx, ::Ice::newCallback(__completed, __sent));
     }
     
 private:
 
-    ::Ice::AsyncResultPtr __begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
+    ::Ice::AsyncResultPtr __begin_changeArtSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
     {
         class Cpp11CB : public ::IceInternal::Cpp11FnCallbackNC
         {
@@ -1186,7 +1189,7 @@ private:
                 bool __ret;
                 try
                 {
-                    __ret = __proxy->end_moveArtToSection(__result);
+                    __ret = __proxy->end_changeArtSection(__result);
                 }
                 catch(::Ice::Exception& ex)
                 {
@@ -1203,48 +1206,161 @@ private:
             
             ::std::function<void (bool)> _response;
         };
-        return begin_moveArtToSection(issueDate, secOld, secNew, art, __ctx, new Cpp11CB(__response, __exception, __sent));
+        return begin_changeArtSection(issueDate, secOld, secNew, art, __ctx, new Cpp11CB(__response, __exception, __sent));
     }
     
 public:
 #endif
 
-    ::Ice::AsyncResultPtr begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art)
+    ::Ice::AsyncResultPtr begin_changeArtSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art)
     {
-        return begin_moveArtToSection(issueDate, secOld, secNew, art, 0, ::IceInternal::__dummyCallback, 0);
+        return begin_changeArtSection(issueDate, secOld, secNew, art, 0, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context& __ctx)
+    ::Ice::AsyncResultPtr begin_changeArtSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context& __ctx)
     {
-        return begin_moveArtToSection(issueDate, secOld, secNew, art, &__ctx, ::IceInternal::__dummyCallback, 0);
+        return begin_changeArtSection(issueDate, secOld, secNew, art, &__ctx, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_changeArtSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_moveArtToSection(issueDate, secOld, secNew, art, 0, __del, __cookie);
+        return begin_changeArtSection(issueDate, secOld, secNew, art, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_changeArtSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_moveArtToSection(issueDate, secOld, secNew, art, &__ctx, __del, __cookie);
+        return begin_changeArtSection(issueDate, secOld, secNew, art, &__ctx, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::FileSystem::Callback_File_moveArtToSectionPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_changeArtSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::FileSystem::Callback_File_changeArtSectionPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_moveArtToSection(issueDate, secOld, secNew, art, 0, __del, __cookie);
+        return begin_changeArtSection(issueDate, secOld, secNew, art, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_moveArtToSectionPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_changeArtSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_changeArtSectionPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_moveArtToSection(issueDate, secOld, secNew, art, &__ctx, __del, __cookie);
+        return begin_changeArtSection(issueDate, secOld, secNew, art, &__ctx, __del, __cookie);
     }
 
-    bool end_moveArtToSection(const ::Ice::AsyncResultPtr&);
+    bool end_changeArtSection(const ::Ice::AsyncResultPtr&);
     
 private:
 
-    bool moveArtToSection(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*);
-    ::Ice::AsyncResultPtr begin_moveArtToSection(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    bool changeArtSection(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_changeArtSection(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    
+public:
+
+    bool changeArtIssueDate(const ::std::string& oldIssueDate, const ::std::string& newIssueDate, const ::std::string& sec, const ::std::string& art)
+    {
+        return changeArtIssueDate(oldIssueDate, newIssueDate, sec, art, 0);
+    }
+    bool changeArtIssueDate(const ::std::string& oldIssueDate, const ::std::string& newIssueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx)
+    {
+        return changeArtIssueDate(oldIssueDate, newIssueDate, sec, art, &__ctx);
+    }
+#ifdef ICE_CPP11
+    ::Ice::AsyncResultPtr
+    begin_changeArtIssueDate(const ::std::string& oldIssueDate, const ::std::string& newIssueDate, const ::std::string& sec, const ::std::string& art, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_changeArtIssueDate(oldIssueDate, newIssueDate, sec, art, 0, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_changeArtIssueDate(const ::std::string& oldIssueDate, const ::std::string& newIssueDate, const ::std::string& sec, const ::std::string& art, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_changeArtIssueDate(oldIssueDate, newIssueDate, sec, art, 0, ::Ice::newCallback(__completed, __sent), 0);
+    }
+    ::Ice::AsyncResultPtr
+    begin_changeArtIssueDate(const ::std::string& oldIssueDate, const ::std::string& newIssueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_changeArtIssueDate(oldIssueDate, newIssueDate, sec, art, &__ctx, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_changeArtIssueDate(const ::std::string& oldIssueDate, const ::std::string& newIssueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_changeArtIssueDate(oldIssueDate, newIssueDate, sec, art, &__ctx, ::Ice::newCallback(__completed, __sent));
+    }
+    
+private:
+
+    ::Ice::AsyncResultPtr __begin_changeArtIssueDate(const ::std::string& oldIssueDate, const ::std::string& newIssueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
+    {
+        class Cpp11CB : public ::IceInternal::Cpp11FnCallbackNC
+        {
+        public:
+
+            Cpp11CB(const ::std::function<void (bool)>& responseFunc, const ::std::function<void (const ::Ice::Exception&)>& exceptionFunc, const ::std::function<void (bool)>& sentFunc) :
+                ::IceInternal::Cpp11FnCallbackNC(exceptionFunc, sentFunc),
+                _response(responseFunc)
+            {
+                CallbackBase::checkCallback(true, responseFunc || exceptionFunc != nullptr);
+            }
+
+            virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+            {
+                ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+                bool __ret;
+                try
+                {
+                    __ret = __proxy->end_changeArtIssueDate(__result);
+                }
+                catch(::Ice::Exception& ex)
+                {
+                    Cpp11FnCallbackNC::__exception(__result, ex);
+                    return;
+                }
+                if(_response != nullptr)
+                {
+                    _response(__ret);
+                }
+            }
+        
+        private:
+            
+            ::std::function<void (bool)> _response;
+        };
+        return begin_changeArtIssueDate(oldIssueDate, newIssueDate, sec, art, __ctx, new Cpp11CB(__response, __exception, __sent));
+    }
+    
+public:
+#endif
+
+    ::Ice::AsyncResultPtr begin_changeArtIssueDate(const ::std::string& oldIssueDate, const ::std::string& newIssueDate, const ::std::string& sec, const ::std::string& art)
+    {
+        return begin_changeArtIssueDate(oldIssueDate, newIssueDate, sec, art, 0, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_changeArtIssueDate(const ::std::string& oldIssueDate, const ::std::string& newIssueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx)
+    {
+        return begin_changeArtIssueDate(oldIssueDate, newIssueDate, sec, art, &__ctx, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_changeArtIssueDate(const ::std::string& oldIssueDate, const ::std::string& newIssueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_changeArtIssueDate(oldIssueDate, newIssueDate, sec, art, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_changeArtIssueDate(const ::std::string& oldIssueDate, const ::std::string& newIssueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_changeArtIssueDate(oldIssueDate, newIssueDate, sec, art, &__ctx, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_changeArtIssueDate(const ::std::string& oldIssueDate, const ::std::string& newIssueDate, const ::std::string& sec, const ::std::string& art, const ::FileSystem::Callback_File_changeArtIssueDatePtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_changeArtIssueDate(oldIssueDate, newIssueDate, sec, art, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_changeArtIssueDate(const ::std::string& oldIssueDate, const ::std::string& newIssueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_changeArtIssueDatePtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_changeArtIssueDate(oldIssueDate, newIssueDate, sec, art, &__ctx, __del, __cookie);
+    }
+
+    bool end_changeArtIssueDate(const ::Ice::AsyncResultPtr&);
+    
+private:
+
+    bool changeArtIssueDate(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_changeArtIssueDate(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
     
 public:
 
@@ -2059,9 +2175,11 @@ public:
 
     virtual ::FileSystem::StrSeq getImageList(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 
-    virtual bool changeDir(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+    virtual bool renameArt(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 
-    virtual bool moveArtToSection(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+    virtual bool changeArtSection(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+
+    virtual bool changeArtIssueDate(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 
     virtual bool archiveIssue(const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 
@@ -2101,9 +2219,11 @@ public:
 
     virtual ::FileSystem::StrSeq getImageList(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
-    virtual bool changeDir(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual bool renameArt(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
-    virtual bool moveArtToSection(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual bool changeArtSection(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual bool changeArtIssueDate(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
     virtual bool archiveIssue(const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
@@ -2143,9 +2263,11 @@ public:
 
     virtual ::FileSystem::StrSeq getImageList(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
-    virtual bool changeDir(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual bool renameArt(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
-    virtual bool moveArtToSection(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual bool changeArtSection(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual bool changeArtIssueDate(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
     virtual bool archiveIssue(const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
@@ -2194,11 +2316,14 @@ public:
     virtual ::FileSystem::StrSeq getImageList(const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
     ::Ice::DispatchStatus ___getImageList(::IceInternal::Incoming&, const ::Ice::Current&);
 
-    virtual bool changeDir(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
-    ::Ice::DispatchStatus ___changeDir(::IceInternal::Incoming&, const ::Ice::Current&);
+    virtual bool renameArt(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
+    ::Ice::DispatchStatus ___renameArt(::IceInternal::Incoming&, const ::Ice::Current&);
 
-    virtual bool moveArtToSection(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
-    ::Ice::DispatchStatus ___moveArtToSection(::IceInternal::Incoming&, const ::Ice::Current&);
+    virtual bool changeArtSection(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
+    ::Ice::DispatchStatus ___changeArtSection(::IceInternal::Incoming&, const ::Ice::Current&);
+
+    virtual bool changeArtIssueDate(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
+    ::Ice::DispatchStatus ___changeArtIssueDate(::IceInternal::Incoming&, const ::Ice::Current&);
 
     virtual bool archiveIssue(const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
     ::Ice::DispatchStatus ___archiveIssue(::IceInternal::Incoming&, const ::Ice::Current&);
@@ -2745,7 +2870,7 @@ newCallback_File_getImageList(T* instance, void (T::*cb)(const ::FileSystem::Str
 }
 
 template<class T>
-class CallbackNC_File_changeDir : public Callback_File_changeDir_Base, public ::IceInternal::TwowayCallbackNC<T>
+class CallbackNC_File_renameArt : public Callback_File_renameArt_Base, public ::IceInternal::TwowayCallbackNC<T>
 {
 public:
 
@@ -2755,7 +2880,7 @@ public:
     typedef void (T::*Sent)(bool);
     typedef void (T::*Response)(bool);
 
-    CallbackNC_File_changeDir(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+    CallbackNC_File_renameArt(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
         : ::IceInternal::TwowayCallbackNC<T>(obj, cb != 0, excb, sentcb), response(cb)
     {
     }
@@ -2766,7 +2891,7 @@ public:
         bool __ret;
         try
         {
-            __ret = __proxy->end_changeDir(__result);
+            __ret = __proxy->end_renameArt(__result);
         }
         catch(::Ice::Exception& ex)
         {
@@ -2782,20 +2907,20 @@ public:
     Response response;
 };
 
-template<class T> Callback_File_changeDirPtr
-newCallback_File_changeDir(const IceUtil::Handle<T>& instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+template<class T> Callback_File_renameArtPtr
+newCallback_File_renameArt(const IceUtil::Handle<T>& instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
 {
-    return new CallbackNC_File_changeDir<T>(instance, cb, excb, sentcb);
+    return new CallbackNC_File_renameArt<T>(instance, cb, excb, sentcb);
 }
 
-template<class T> Callback_File_changeDirPtr
-newCallback_File_changeDir(T* instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+template<class T> Callback_File_renameArtPtr
+newCallback_File_renameArt(T* instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
 {
-    return new CallbackNC_File_changeDir<T>(instance, cb, excb, sentcb);
+    return new CallbackNC_File_renameArt<T>(instance, cb, excb, sentcb);
 }
 
 template<class T, typename CT>
-class Callback_File_changeDir : public Callback_File_changeDir_Base, public ::IceInternal::TwowayCallback<T, CT>
+class Callback_File_renameArt : public Callback_File_renameArt_Base, public ::IceInternal::TwowayCallback<T, CT>
 {
 public:
 
@@ -2805,7 +2930,7 @@ public:
     typedef void (T::*Sent)(bool , const CT&);
     typedef void (T::*Response)(bool, const CT&);
 
-    Callback_File_changeDir(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+    Callback_File_renameArt(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
         : ::IceInternal::TwowayCallback<T, CT>(obj, cb != 0, excb, sentcb), response(cb)
     {
     }
@@ -2816,7 +2941,7 @@ public:
         bool __ret;
         try
         {
-            __ret = __proxy->end_changeDir(__result);
+            __ret = __proxy->end_renameArt(__result);
         }
         catch(::Ice::Exception& ex)
         {
@@ -2832,20 +2957,20 @@ public:
     Response response;
 };
 
-template<class T, typename CT> Callback_File_changeDirPtr
-newCallback_File_changeDir(const IceUtil::Handle<T>& instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+template<class T, typename CT> Callback_File_renameArtPtr
+newCallback_File_renameArt(const IceUtil::Handle<T>& instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
 {
-    return new Callback_File_changeDir<T, CT>(instance, cb, excb, sentcb);
+    return new Callback_File_renameArt<T, CT>(instance, cb, excb, sentcb);
 }
 
-template<class T, typename CT> Callback_File_changeDirPtr
-newCallback_File_changeDir(T* instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+template<class T, typename CT> Callback_File_renameArtPtr
+newCallback_File_renameArt(T* instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
 {
-    return new Callback_File_changeDir<T, CT>(instance, cb, excb, sentcb);
+    return new Callback_File_renameArt<T, CT>(instance, cb, excb, sentcb);
 }
 
 template<class T>
-class CallbackNC_File_moveArtToSection : public Callback_File_moveArtToSection_Base, public ::IceInternal::TwowayCallbackNC<T>
+class CallbackNC_File_changeArtSection : public Callback_File_changeArtSection_Base, public ::IceInternal::TwowayCallbackNC<T>
 {
 public:
 
@@ -2855,7 +2980,7 @@ public:
     typedef void (T::*Sent)(bool);
     typedef void (T::*Response)(bool);
 
-    CallbackNC_File_moveArtToSection(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+    CallbackNC_File_changeArtSection(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
         : ::IceInternal::TwowayCallbackNC<T>(obj, cb != 0, excb, sentcb), response(cb)
     {
     }
@@ -2866,7 +2991,7 @@ public:
         bool __ret;
         try
         {
-            __ret = __proxy->end_moveArtToSection(__result);
+            __ret = __proxy->end_changeArtSection(__result);
         }
         catch(::Ice::Exception& ex)
         {
@@ -2882,20 +3007,20 @@ public:
     Response response;
 };
 
-template<class T> Callback_File_moveArtToSectionPtr
-newCallback_File_moveArtToSection(const IceUtil::Handle<T>& instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+template<class T> Callback_File_changeArtSectionPtr
+newCallback_File_changeArtSection(const IceUtil::Handle<T>& instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
 {
-    return new CallbackNC_File_moveArtToSection<T>(instance, cb, excb, sentcb);
+    return new CallbackNC_File_changeArtSection<T>(instance, cb, excb, sentcb);
 }
 
-template<class T> Callback_File_moveArtToSectionPtr
-newCallback_File_moveArtToSection(T* instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+template<class T> Callback_File_changeArtSectionPtr
+newCallback_File_changeArtSection(T* instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
 {
-    return new CallbackNC_File_moveArtToSection<T>(instance, cb, excb, sentcb);
+    return new CallbackNC_File_changeArtSection<T>(instance, cb, excb, sentcb);
 }
 
 template<class T, typename CT>
-class Callback_File_moveArtToSection : public Callback_File_moveArtToSection_Base, public ::IceInternal::TwowayCallback<T, CT>
+class Callback_File_changeArtSection : public Callback_File_changeArtSection_Base, public ::IceInternal::TwowayCallback<T, CT>
 {
 public:
 
@@ -2905,7 +3030,7 @@ public:
     typedef void (T::*Sent)(bool , const CT&);
     typedef void (T::*Response)(bool, const CT&);
 
-    Callback_File_moveArtToSection(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+    Callback_File_changeArtSection(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
         : ::IceInternal::TwowayCallback<T, CT>(obj, cb != 0, excb, sentcb), response(cb)
     {
     }
@@ -2916,7 +3041,7 @@ public:
         bool __ret;
         try
         {
-            __ret = __proxy->end_moveArtToSection(__result);
+            __ret = __proxy->end_changeArtSection(__result);
         }
         catch(::Ice::Exception& ex)
         {
@@ -2932,16 +3057,116 @@ public:
     Response response;
 };
 
-template<class T, typename CT> Callback_File_moveArtToSectionPtr
-newCallback_File_moveArtToSection(const IceUtil::Handle<T>& instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+template<class T, typename CT> Callback_File_changeArtSectionPtr
+newCallback_File_changeArtSection(const IceUtil::Handle<T>& instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
 {
-    return new Callback_File_moveArtToSection<T, CT>(instance, cb, excb, sentcb);
+    return new Callback_File_changeArtSection<T, CT>(instance, cb, excb, sentcb);
 }
 
-template<class T, typename CT> Callback_File_moveArtToSectionPtr
-newCallback_File_moveArtToSection(T* instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+template<class T, typename CT> Callback_File_changeArtSectionPtr
+newCallback_File_changeArtSection(T* instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
 {
-    return new Callback_File_moveArtToSection<T, CT>(instance, cb, excb, sentcb);
+    return new Callback_File_changeArtSection<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T>
+class CallbackNC_File_changeArtIssueDate : public Callback_File_changeArtIssueDate_Base, public ::IceInternal::TwowayCallbackNC<T>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception&);
+    typedef void (T::*Sent)(bool);
+    typedef void (T::*Response)(bool);
+
+    CallbackNC_File_changeArtIssueDate(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallbackNC<T>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        bool __ret;
+        try
+        {
+            __ret = __proxy->end_changeArtIssueDate(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::CallbackNC<T>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::CallbackNC<T>::callback.get()->*response)(__ret);
+        }
+    }
+
+    Response response;
+};
+
+template<class T> Callback_File_changeArtIssueDatePtr
+newCallback_File_changeArtIssueDate(const IceUtil::Handle<T>& instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_changeArtIssueDate<T>(instance, cb, excb, sentcb);
+}
+
+template<class T> Callback_File_changeArtIssueDatePtr
+newCallback_File_changeArtIssueDate(T* instance, void (T::*cb)(bool), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_changeArtIssueDate<T>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT>
+class Callback_File_changeArtIssueDate : public Callback_File_changeArtIssueDate_Base, public ::IceInternal::TwowayCallback<T, CT>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception& , const CT&);
+    typedef void (T::*Sent)(bool , const CT&);
+    typedef void (T::*Response)(bool, const CT&);
+
+    Callback_File_changeArtIssueDate(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallback<T, CT>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        bool __ret;
+        try
+        {
+            __ret = __proxy->end_changeArtIssueDate(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::Callback<T, CT>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::Callback<T, CT>::callback.get()->*response)(__ret, CT::dynamicCast(__result->getCookie()));
+        }
+    }
+
+    Response response;
+};
+
+template<class T, typename CT> Callback_File_changeArtIssueDatePtr
+newCallback_File_changeArtIssueDate(const IceUtil::Handle<T>& instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_changeArtIssueDate<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT> Callback_File_changeArtIssueDatePtr
+newCallback_File_changeArtIssueDate(T* instance, void (T::*cb)(bool, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_changeArtIssueDate<T, CT>(instance, cb, excb, sentcb);
 }
 
 template<class T>
