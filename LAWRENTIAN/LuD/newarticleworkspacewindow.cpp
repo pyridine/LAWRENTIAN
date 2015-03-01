@@ -91,6 +91,13 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
             Sender sndr = Sender();
             string sec_this =  dbController->translateSection(section);
             string sec_art = dbController->translateSection(myArticle->getSection());
+
+            string date_art = QDate::fromString(myArticle->QGetIssueDate(),"yyyy-MM-dd").toString("dd MMM, yyyy").toStdString();
+
+            if(date_art.compare(date)){}
+                // oops, haven't written server code for this!!!
+
+
             if(section != myArticle->getSection() && sec_art.size())
                 sndr.moveArtToSection(date, sec_art, sec_this, title);
 
@@ -442,8 +449,7 @@ void newArticleWorkspaceWindow::on_deleteAWS_pushButton_clicked()
 
     Sender sndr = Sender();
 
-    QString date = myArticle->QGetIssueDate();
-    string issueDate = QDate::fromString(date,"yyyy-MM-dd").toString("dd MMM, yyyy").toStdString();
+    string issueDate = QDate::fromString(myArticle->QGetIssueDate(),"yyyy-MM-dd").toString("dd MMM, yyyy").toStdString();
     string sec = dbController->translateSection(myArticle->getSection());
     string art = myArticle->getTitle();
 

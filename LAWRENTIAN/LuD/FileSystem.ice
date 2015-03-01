@@ -31,8 +31,9 @@ module FileSystem {
         VerSeq getHistory(string issueDate,string sec, string art, string type, string fName);
         StrSeq getImageList(string issueDate,string sec, string art);
 
-        bool changeDir(string issueDate,string sec, string artOld, string artNew);
-        bool moveArtToSection(string issueDate,string secOld, string secNew, string art);
+        bool renameArt(string issueDate,string sec, string artOld, string artNew);
+        bool changeArtSection(string issueDate,string secOld, string secNew, string art);
+        bool changeArtIssueDate(string oldIssueDate, string newIssueDate, string sec, string art);
         bool archiveIssue(string issueDate);
 
         bool deleteArt(string issueDate,string sec, string art);

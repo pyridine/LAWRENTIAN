@@ -63,7 +63,8 @@ SOURCES += main.cpp\
     editemployeeinfodbc.cpp \
     editprofilewidget.cpp \
     editprofiledbc.cpp \
-    profilewidgetdbc.cpp
+    profilewidgetdbc.cpp \
+    photopoolwindow.cpp
 
 HEADERS  += registrationwindow.h \
     employee.h \
@@ -114,7 +115,8 @@ HEADERS  += registrationwindow.h \
     editemployeeinfodbc.h \
     editprofilewidget.h \
     editprofiledbc.h \
-    profilewidgetdbc.h
+    profilewidgetdbc.h \
+    photopoolwindow.h
 
 
 FORMS    += registrationwindow.ui \
@@ -134,7 +136,8 @@ FORMS    += registrationwindow.ui \
     copyhistorywindow.ui \
     editroutewindow.ui \
     editemployeeinfo.ui \
-    editprofilewidget.ui
+    editprofilewidget.ui \
+    photopoolwindow.ui
 
 DISTFILES += \
     libmysql.dll \
