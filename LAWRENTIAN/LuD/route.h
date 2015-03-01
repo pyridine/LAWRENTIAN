@@ -16,10 +16,13 @@ public:
     Route(vector<RoutePoint>* route);
     Route();
     ~Route();
-    void addNode(RoutePoint* node, vector<RoutePoint>::iterator where);
     vector<RoutePoint>::iterator begin();
+    vector<RoutePoint>::iterator at(int n);
     vector<RoutePoint>::iterator end();
+    //void insert(RoutePoint *r, vector<RoutePoint>::iterator it);
+    void insert(RoutePoint* node, vector<RoutePoint>::iterator where);
     void deleteNode(vector<RoutePoint>::iterator where);
+    void swapPoints(vector<RoutePoint>::iterator first, vector<RoutePoint>::iterator second);
 
 private:
    vector<RoutePoint> *route;

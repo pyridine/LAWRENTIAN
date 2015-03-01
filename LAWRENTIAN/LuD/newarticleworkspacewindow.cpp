@@ -88,21 +88,23 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
         if(0 != title.compare("Krebsbach is the best CS teacher in the world")){
             cout << "adding art." << endl;
             myArticle = new Article(issueDateString, title, description, section, writer, photographer);
-
             myArticle->setId(id);
-            //done.
 
             //Do sender things...
             Sender sndr = Sender();
 
-            string filePath = ui->articleFileTextField->text().toStdString();
-            if(filePath.size())
-                sndr.sendFile(dbController->translateSection(section), title, COPY, title + getExt(filePath), filePath);
+//            string filePath = ui->articleFileTextField->text().toStdString();
+//            if(filePath.size())
+//                sndr.sendFile(dbController->translateSection(section),
+//                              title, COPY, title + getExt(filePath), filePath);
 
-            QStringList::const_iterator iter = img_paths.begin();
-            for(iter; iter!=img_paths.end(); iter++)
-                sndr.sendFile(dbController->translateSection(section),title,IMAGE,getNameExt(iter->toStdString()),
-                              iter->toStdString());
+//            QStringList::const_iterator iter = img_paths.begin();
+//            for(iter; iter!=img_paths.end(); iter++){
+//                //Send the photo
+//                sndr.sendFile(dbController->translateSection(section),
+//                              title,IMAGE,getNameExt(iter->toStdString()),iter->toStdString());
+//                //Update the photo DB
+//            }
             //done.
 
             cout << "Updating the parent window." << endl;
@@ -117,6 +119,7 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
             cout << "Adding the article to the DB." << endl;
             //Add the new article to the DB...
             dbController->addArticle(myArticle);
+            updatePhotoDB(); //Must be done after adding article b/c foreign key constraints.
             //Done!
 
             //We're done.
@@ -394,6 +397,11 @@ std::string newArticleWorkspaceWindow::getNameExt(const std::string& s)
     return str.substr(iter - str.begin() + 1,str.end() - iter - 1);
 }
 
+string newArticleWorkspaceWindow::getfNameNoExt(string s){
+    string yesExt = getfName(QString::fromStdString(s)).toStdString();
+    return yesExt.substr(0,yesExt.find_last_of('.'));
+}
+
 std::string newArticleWorkspaceWindow::getExt(const string &s)
 {
     using namespace std;
@@ -430,5 +438,24 @@ std::string newArticleWorkspaceWindow::getNameColon(const std::string& s)
 void newArticleWorkspaceWindow::on_deleteAWS_pushButton_clicked()
 {
     dbController->deleteArticle(myArticle->getId());
+    dbController->deleteMyPhotos(myArticle->getId());
     closeMe();
+}
+
+void newArticleWorkspaceWindow::updatePhotoDB(){
+    //Yes, I know, I am once again writing a DB update algorithm that
+    //just wipes the database and reinputs the correct data.
+    //How horrible.
+    //However, in this case, I think such an algorithm is best.
+    //since so many things can change about articles, it's useless
+    //to keep track of them all and only update the affected rows in the photo DB.
+    //So, a wipe/redo algorithm is fine.
+
+    QStringList fname_paths;
+    for(int i = 0; i < img_paths.size(); i++){
+        fname_paths << QString::fromStdString(getfNameNoExt(img_paths.at(i).toStdString()));
+    }
+
+    dbController->deleteMyPhotos(myArticle->getId());
+    dbController->addMyPhotos(fname_paths,myArticle->getId(),getSelectedSectionID(),getSelectedPhotographerLuid());
 }

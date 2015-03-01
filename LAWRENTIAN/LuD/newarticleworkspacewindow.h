@@ -53,7 +53,7 @@ private:
     void updatePhotographerList(int currentPhotographer);
     void setupSectionComboBox(int section);
     void closeMe(); //closes window, updates parent.
-
+    void updatePhotoDB(); //This should only be called upon "submit"!!
 
     int getSelectedWriterLuid();
     int getSelectedPhotographerLuid();
@@ -73,6 +73,7 @@ private:
     std::string getNameColon(const std::string& s);
     std::string getNameExt(const std::string& s);
     std::string getExt(const std::string& s);
+    string getfNameNoExt(string s);
     //What are these for?
     std::string COPY;
     std::string IMAGE;
