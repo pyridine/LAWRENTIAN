@@ -203,7 +203,8 @@ FileSystemI::sendFile(const std::string& issue_date, const std::string& sec,
     consolePrint("===" + caller_info + "===" );
 
     string dir =  main_dir + "/" + issue_date + "/" + sec + "/" + art
-            + "/" + type + "/" + fName;
+            + "/" + type;
+    dir = type.compare(fs::COPY) ? dir + "/" + fName : dir;
     if(!dirExists(dir))
     {
         string temp = main_dir + "/" + issue_date;
@@ -222,7 +223,7 @@ FileSystemI::sendFile(const std::string& issue_date, const std::string& sec,
         consolePrint("sendFile: " + dir + " created.");
     }
 
-    int ver = 1; // bug MSV2010.
+    int ver = 1;
 
     string fNameExt = addExtension(fName, type);
     string fNameExt_clean = fNameExt;
@@ -329,7 +330,7 @@ FileSystemI::getHistory(const std::string& issue_date, const std::string& sec,
     }
 
     consolePrint("getHistory: " + fName + " has "
-                 + std::to_string((long long)v_seq.size() - 1) + " version(s).");
+                 + std::to_string((long long)v_seq.size()) + " version(s).");
 
     return v_seq;
 
@@ -521,8 +522,7 @@ FileSystemI::getCreationTime(const std::string &path, FileSystem::TimeIce& t)
     t.second = (int)stLocal.wSecond;
     t.milliseconds = (int)stLocal.wMilliseconds;
 
-    return true;
-
+    return CloseHandle(hFile) ? true : false;
 }
 
 // got from StackExchange
