@@ -79,6 +79,7 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
     //TODO: Update the article workspace widget :P
     string title = ui->articleTitleTextField->text().toStdString();
     string description = ui->descriptionTextField->toPlainText().toStdString();
+    string date = ui->issueDateEdit->text().toStdString();
     int section = this->getSelectedSectionID();
     int writer = this->getSelectedWriterLuid();
     int photographer = this->getSelectedPhotographerLuid();
@@ -93,18 +94,13 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
             //Do sender things...
             Sender sndr = Sender();
 
-//            string filePath = ui->articleFileTextField->text().toStdString();
-//            if(filePath.size())
-//                sndr.sendFile(dbController->translateSection(section),
-//                              title, COPY, title + getExt(filePath), filePath);
+            string filePath = ui->articleFileTextField->text().toStdString();
+            if(filePath.size())
+                 sndr.sendFile(date, dbController->translateSection(section), title, fs::COPY, filePath);
 
-//            QStringList::const_iterator iter = img_paths.begin();
-//            for(iter; iter!=img_paths.end(); iter++){
-//                //Send the photo
-//                sndr.sendFile(dbController->translateSection(section),
-//                              title,IMAGE,getNameExt(iter->toStdString()),iter->toStdString());
-//                //Update the photo DB
-//            }
+            QStringList::const_iterator iter = img_paths.begin();
+            for(iter; iter!=img_paths.end(); iter++)
+                sndr.sendFile(date,dbController->translateSection(section),title,fs::IMAGE,iter->toStdString());
             //done.
 
             cout << "Updating the parent window." << endl;
@@ -327,7 +323,7 @@ void newArticleWorkspaceWindow::on_copyHistory_pushButton_clicked()
     cout << sec << endl;
     cout << art << endl;
 
-    CopyHistoryWindow *chw = new CopyHistoryWindow(0,sec,art,COPY,art);
+    CopyHistoryWindow *chw = new CopyHistoryWindow(0,sec,art);
     chw->activateWindow();
     chw->setWindowModality(Qt::ApplicationModal);
     chw->show();

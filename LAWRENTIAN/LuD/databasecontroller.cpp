@@ -16,7 +16,8 @@ Client* DatabaseController::getClient(){
 }
 
 string DatabaseController::translateLocation(int locID){
-    string transLoc = "SELECT name FROM lawrentian.location WHERE idlocation = :narm";
+    cout <<"translate" << endl;
+    string transLoc = "SELECT name FROM lawrentian.location WHERE name = :narm";
 
     QSqlQuery* query = new QSqlQuery();
 

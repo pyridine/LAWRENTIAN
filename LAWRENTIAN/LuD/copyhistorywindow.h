@@ -16,9 +16,8 @@ class CopyHistoryWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit CopyHistoryWindow(QWidget *parent = 0,const std::string& sec = "",
-                               const std::string& art = "", const std::string& type = "",
-                               const std::string& fName = "");
+    explicit CopyHistoryWindow(QWidget *parent = 0, const std::string& date = "",
+                               const std::string& sec = "", const std::string& art = "");
     ~CopyHistoryWindow();
 
 private slots:
@@ -33,6 +32,7 @@ private:
     rb_vec_t rb_vec;
     FileSystem::VerSeq ver_seq;
 
+    std::string date;
     std::string sec;
     std::string art;
     std::string type;

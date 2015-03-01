@@ -12,6 +12,8 @@ public:
     Alert();
     ~Alert();
     static void showAlert(string title, string msg);
+    static void showInformationAlert(string title, string msg);
+    static int showQuestionAlert(string title, string msg);
 };
 
 #endif // ALERT_H

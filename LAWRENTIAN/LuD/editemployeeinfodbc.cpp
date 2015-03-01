@@ -57,10 +57,10 @@ int EditEmployeeInfoDBC::collectLuid(string username)
 string EditEmployeeInfoDBC::collectTitle(string username)
 {
     const string GET_TITLE = "SELECT lawrentian.titledefinitions.titleName "
-                            "FROM lawrentian.titledefinitions "
-                            "INNER JOIN lawrentian.employee "
-                            "ON lawrentian.titledefinitions.idTitle = lawrentian.employee.title "
-                            "WHERE lawrentian.employee.name = :name";
+                             "FROM lawrentian.titledefinitions "
+                             "INNER JOIN lawrentian.employee "
+                             "ON lawrentian.titledefinitions.idTitle = lawrentian.employee.title "
+                             "WHERE lawrentian.employee.name = :name";
     QSqlQuery* query = new QSqlQuery();
     query->prepare(QString::fromStdString(GET_TITLE));
     query->bindValue(":name", QString::fromStdString(username));
@@ -147,7 +147,29 @@ int EditEmployeeInfoDBC::collectApproved(string username)
     }
 }
 
-void EditEmployeeInfoDBC::saveEmployeeChanges(string oldName, string newName, int luid, string title, string email, string phone, int approved)
+string EditEmployeeInfoDBC::collectProbationDate(string username)
+{
+    const string GET_PROBATION_DATE = "SELECT probationDate FROM lawrentian.employee WHERE name =:name";
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_PROBATION_DATE));
+    query->bindValue(":name", QString::fromStdString(username));
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    string probationDate;
+
+    if(!err.isValid()){
+        while(result->next()){
+            probationDate = result->value(0).toString().toStdString();
+        }
+        return probationDate;
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+}
+
+void EditEmployeeInfoDBC::saveEmployeeChanges(string oldName, string newName, int luid, string title, string email, string phone, int approved, string probationDate)
 {
     const string GET_TITLE_NAME = "SELECT idTitle FROM lawrentian.titledefinitions WHERE titleName =:title";
     QSqlQuery* query1 = new QSqlQuery();
@@ -167,18 +189,18 @@ void EditEmployeeInfoDBC::saveEmployeeChanges(string oldName, string newName, in
         cout << "!SQL ERROR: " << result1->lastError().text().toStdString() << endl;
     }
 
-    cout<<"Computed realTitle: "<<titleInt<<endl;
-    cout<<"Old Name: "<<oldName<<endl;
-    cout<<"New Name: "<<newName<<endl;
-    cout<<"LUID: "<<luid<<endl;
-    cout<<"Title: "<<title<<endl;
-    cout<<"Email: "<<email<<endl;
-    cout<<"Phone: "<<phone<<endl;
-    cout<<"Approved: "<<approved<<endl;
+    string SAVE_EMPLOYEE_INFO;
 
-    const string SAVE_EMPLOYEE_INFO = "UPDATE lawrentian.employee "
-                                      "SET luid=:luid, name=:newName, title=:title, email=:email, phone=:phone, approved=:approved "
-                                      "WHERE lawrentian.employee.luid=:luid";
+    // Checks to see if writer is NOT on probation
+    if(probationDate == ""){
+        SAVE_EMPLOYEE_INFO = "UPDATE lawrentian.employee "
+                                          "SET luid=:luid, name=:newName, title=:title, email=:email, phone=:phone, approved=:approved, probationDate=NULL "
+                                          "WHERE lawrentian.employee.luid=:luid";
+    } else{
+        SAVE_EMPLOYEE_INFO = "UPDATE lawrentian.employee "
+                                          "SET luid=:luid, name=:newName, title=:title, email=:email, phone=:phone, approved=:approved, probationDate=:probationDate "
+                                          "WHERE lawrentian.employee.luid=:luid";
+    }
     QSqlQuery* query2 = new QSqlQuery();
     query2->prepare(QString::fromStdString(SAVE_EMPLOYEE_INFO));
     query2->bindValue(":luid", luid);
@@ -188,6 +210,7 @@ void EditEmployeeInfoDBC::saveEmployeeChanges(string oldName, string newName, in
     query2->bindValue(":email", QString::fromStdString(email));
     query2->bindValue(":phone", QString::fromStdString(phone));
     query2->bindValue(":approved", approved);
+    query2->bindValue(":probationDate", QString::fromStdString(probationDate));
 
     QSqlQuery* result2 = client->execute(query2);
     QSqlError err2 = result2->lastError();

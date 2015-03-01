@@ -8,6 +8,7 @@
 
 #include <QWidget>
 #include <QString>
+#include <QPushButton>
 #include <string>
 
 using namespace std;
@@ -49,6 +50,7 @@ private:
     vector<Article*> articleVector;
     void __insertArticles(int section, int secPerf);
     ArticleWorkspaceDBC* dbController;
+    vector<QPushButton*> buttonVector;
 };
 
 #endif // ARTICLEWORKSPACE_H
