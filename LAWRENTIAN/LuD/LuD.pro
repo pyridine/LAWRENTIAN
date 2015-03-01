@@ -61,12 +61,8 @@ SOURCES += main.cpp\
     sectiondef.cpp \
     editemployeeinfo.cpp \
     editemployeeinfodbc.cpp \
-    editprofilewidget.cpp \
-    editprofiledbc.cpp \
-    profilewidgetdbc.cpp \
-    photopoolwindow.cpp \
-    addlocationdialogue.cpp \
-    editroutewindowdbc.cpp
+    editroutewindowdbc.cpp \
+    addlocationdialogue.cpp
 
 HEADERS  += registrationwindow.h \
     employee.h \
@@ -115,12 +111,8 @@ HEADERS  += registrationwindow.h \
     sectiondef.h \
     editemployeeinfo.h \
     editemployeeinfodbc.h \
-    editprofilewidget.h \
-    editprofiledbc.h \
-    profilewidgetdbc.h \
-    photopoolwindow.h \
-    addlocationdialogue.h \
-    editroutewindowdbc.h
+    editroutewindowdbc.h \
+    addlocationdialogue.h
 
 
 FORMS    += registrationwindow.ui \
@@ -140,8 +132,6 @@ FORMS    += registrationwindow.ui \
     copyhistorywindow.ui \
     editroutewindow.ui \
     editemployeeinfo.ui \
-    editprofilewidget.ui \
-    photopoolwindow.ui \
     addlocationdialogue.ui
 
 DISTFILES += \
