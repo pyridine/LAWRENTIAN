@@ -60,7 +60,7 @@ vector<string> ProfileWidgetDBC::collectProbationApprovals(QDate currentDate)
 {
     QDate possibleApprovalDate = currentDate.addDays(-21);
     QString possibleApprovalDateString = possibleApprovalDate.toString("yyyy-MM-dd");
-    cout<<possibleApprovalDateString.toStdString()<<endl;
+
     const string GET_PROBATION_APPROVALS = "SELECT name FROM lawrentian.employee "
                                            "INNER JOIN lawrentian.writer_timesheet "
                                            "ON lawrentian.employee.luid = lawrentian.writer_timesheet.idwriter "
@@ -76,11 +76,8 @@ vector<string> ProfileWidgetDBC::collectProbationApprovals(QDate currentDate)
     vector<string> names;
 
     if(!err.isValid()){
-        cout<<"About to enter while loop"<<endl;
         while(result->next()){
-            cout<<"There are results found"<<endl;
             string approvedPerson = result->value(0).toString().toStdString();
-            cout<<"An approved person is: "<<approvedPerson<<endl;
             names.push_back(approvedPerson);
         }
         return names;
