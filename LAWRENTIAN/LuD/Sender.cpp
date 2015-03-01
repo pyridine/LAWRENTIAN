@@ -99,7 +99,7 @@ bool Sender::renameArticle(const std::string &issueDate, const std::string &sec,
 
 bool Sender::changeArtSection(const std::string &issueDate, const std::string &secOld, const std::string &secNew, const std::string &art)
 {
-    return fpx->moveArtToSection(issueDate, secOld, secNew, art);
+    return fpx->changeArtSection(issueDate, secOld, secNew, art);
 }
 
 bool Sender::archiveIssue(const std::string &issueDate)

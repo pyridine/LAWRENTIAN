@@ -75,7 +75,6 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
     cout << "issueDateString" << issueDateString << endl;
     // </end date>
 
-    string pastTitle = myArticle->getTitle();
     string title = ui->articleTitleTextField->text().toStdString();
     string description = ui->descriptionTextField->toPlainText().toStdString();
     string date = ui->issueDateEdit->text().toStdString();
@@ -89,19 +88,21 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
         {
             myArticle = new Article(issueDateString, title, description, section, writer, photographer);
             myArticle->setId(id);
-            //Do sender things...
+
             Sender sndr = Sender();
             string sec_this =  dbController->translateSection(section);
             string sec_art = dbController->translateSection(myArticle->getSection());
 
             string date_art = QDate::fromString(myArticle->QGetIssueDate(),"yyyy-MM-dd").toString("dd MMM, yyyy").toStdString();
 
-            if(date_art.compare(date)){}
-                // oops, haven't written server code for this!!!
-
+            if(date.compare(date_art) && date_art.size())
+                sndr.changeArtIssueDate(date_art,date,sec_art,myArticle->getTitle());
 
             if(section != myArticle->getSection() && sec_art.size())
-                sndr.moveArtToSection(date, sec_art, sec_this, title);
+                sndr.changeArtSection(date, sec_art, sec_this, myArticle->getTitle());
+
+            if(title.compare(myArticle->getTitle()))
+                sndr.renameArticle(date, sec_this, myArticle->getTitle(), title);
 
             string filePath = ui->articleFileTextField->text().toStdString();
             if(filePath.size())
@@ -110,10 +111,6 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
             QStringList::const_iterator iter = img_paths.begin();
             for(iter; iter!=img_paths.end(); iter++)
                 sndr.sendFile(date,sec_this,title,fs::IMAGE,iter->toStdString());
-
-            if(pastTitle.compare(title))
-                sndr.renameArticle(date, sec_this, pastTitle, title);
-            //done.
 
             cout << "adding art." << endl;
             myArticle = new Article(issueDateString, title, description, section, writer, photographer);
