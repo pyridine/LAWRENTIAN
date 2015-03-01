@@ -8,8 +8,8 @@
 #include <QFileDialog>
 #include <QHBoxLayout>
 
-CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& sec,
-                                     const std::string& date, const std::string& art) :
+CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& date,
+                                     const std::string& sec, const std::string& art) :
     QDialog(parent),
     ui(new Ui::CopyHistoryWindow)
 {
