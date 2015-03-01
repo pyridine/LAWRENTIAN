@@ -36,9 +36,15 @@ FileSystemI::receiveLatest(const std::string& issue_date, const std::string& sec
 
     ByteSeq seq;
 
-    string caller_info = getName(getIP(c));
 
+    string caller_info = getName(getIP(c));
     consolePrint("===" + caller_info + "===" );
+
+    if(!dirExists(main_dir + "/" + issue_date))
+    {
+        consolePrint("receiveLatest: " + issue_date + " is invalid.");
+        return seq;
+    }
 
     string path =  main_dir + "/" + issue_date + "/" + sec + "/" + art + "/" + type
             + "/" + fName;
@@ -126,7 +132,13 @@ FileSystemI::receiveVersion(const std::string& issue_date, const std::string& se
     consolePrint("===" + caller_info + "===" );
 
     ByteSeq seq;
-    // string fName = fName_p;
+
+    if(!dirExists(main_dir + "/" + issue_date))
+    {
+        consolePrint("reveiveVersion: " + issue_date + " is invalid.");
+        return seq;
+    }
+
 
     string path =  main_dir + "/" + issue_date + "/" + sec + "/" + art + "/" + type
             + "/" + fName;
@@ -254,6 +266,12 @@ FileSystemI::getHistory(const std::string& issue_date, const std::string& sec,
     consolePrint("===" + caller_info + "===" );
     VerSeq v_seq;
 
+    if(!dirExists(main_dir + "/" + issue_date))
+    {
+        consolePrint("getHistory: " + issue_date + " is invalid.");
+        return v_seq;
+    }
+
     string path =  main_dir + "/" + issue_date + "/" + sec + "/" + art + "/" + type
             + "/" + fName;
 
@@ -327,7 +345,15 @@ FileSystemI::getImageList(const std::string& issue_date,const std::string& sec, 
     string caller_info = getName(getIP(c));
     consolePrint("===" + caller_info + "===" );
 
-    std::vector<std::string> seq;
+    StrSeq seq;
+
+    if(!dirExists(main_dir + "/" + issue_date))
+    {
+        consolePrint("getImageList: " + issue_date + " is invalid.");
+        return seq;
+    }
+
+
     vector<string> files;
     vector<string> folders;
     string dir =  main_dir + "/" + issue_date + "/" + sec + "/" + art + "/" + fs::IMAGE;
@@ -374,6 +400,13 @@ FileSystemI::changeDir(const std::string& issue_date, const std::string &sec,
 
     string caller_info = getName(getIP(c));
     consolePrint("===" + caller_info + "===" );
+
+    if(!dirExists(main_dir + "/" + issue_date))
+    {
+        consolePrint("changeDir: " + issue_date + " is invalid.");
+        return false;
+    }
+
 
     string f_old =  main_dir + "/" + issue_date + "/" + sec + "/" + artOld;
     string f_new =  main_dir + "/" + issue_date + "/" + sec + "/" + artNew;
@@ -493,7 +526,8 @@ FileSystemI::getCreationTime(const std::string &path, FileSystem::TimeIce& t)
 }
 
 // got from StackExchange
-bool FileSystemI::dirExists(const std::string& dir)
+bool
+FileSystemI::dirExists(const std::string& dir)
 {
     DWORD ftyp = GetFileAttributesA(dir.c_str());
     if (ftyp == INVALID_FILE_ATTRIBUTES)
@@ -505,7 +539,8 @@ bool FileSystemI::dirExists(const std::string& dir)
     return false;    // this is not a directory!
 }
 
-std::string FileSystemI::extractFileName(const std::string& str)
+std::string
+FileSystemI::extractFileName(const std::string& str)
 {
     using namespace std;
 
@@ -525,7 +560,8 @@ std::string FileSystemI::extractFileName(const std::string& str)
     return name;
 }
 
-std::string FileSystemI::insertCorrectly(const std::string& str, int n)
+std::string
+FileSystemI::insertCorrectly(const std::string& str, int n)
 {
     using namespace std;
 
@@ -546,7 +582,8 @@ std::string FileSystemI::insertCorrectly(const std::string& str, int n)
     return ret;
 }
 
-std::string FileSystemI::extractNodeName(const std::string str)
+std::string
+FileSystemI::extractNodeName(const std::string str)
 {
     using namespace std;
 
@@ -564,7 +601,8 @@ std::string FileSystemI::extractNodeName(const std::string str)
 }
 
 // copied from Ice manual.
-std::string FileSystemI::getIP(const Ice::Current& c)
+std::string
+FileSystemI::getIP(const Ice::Current& c)
 {
     using namespace std;
     using namespace Ice;
@@ -574,9 +612,13 @@ std::string FileSystemI::getIP(const Ice::Current& c)
     return tcpInfo ? tcpInfo->remoteAddress : "UNIDENTIFIED";
 }
 
-void FileSystemI::consolePrint(const std::string& str)
+
+void
+FileSystemI::consolePrint(const std::string& str)
 {
     using namespace std;
+
+    ofstream file(main_dir + "/ServerOutput.txt",ios::app);
 
     time_t     now = time(0);
     struct tm  tstruct;
@@ -590,20 +632,25 @@ void FileSystemI::consolePrint(const std::string& str)
         string temp(buf);
         string t = "[" + temp + "]: ";
         cout << t << str;
+        file << t << str << endl;
 
         if(str.size() != 80 - t.size())
             cout << endl;
     }
     else
     {
-        std::cout << str;
+        cout << str;
+        file << str << endl;
 
         if(str.size() != 80)
             cout << endl;
     }
+
+    file.close();
 }
 
-std::string FileSystemI::getName(const std::string& ip_address)
+std::string
+FileSystemI::getName(const std::string& ip_address)
 {
     using namespace std;
 
@@ -638,7 +685,8 @@ std::string FileSystemI::getName(const std::string& ip_address)
 //    return str;
 //}
 
-std::string FileSystemI::fixExtension(const std::string &s, const std::string &type)
+std::string
+FileSystemI::fixExtension(const std::string &s, const std::string &type)
 {
     using namespace std;
 
@@ -678,7 +726,8 @@ FileSystemI::addExtension(const std::string &s, const std::string &type)
 }
 
 
-bool FileSystemI::deleteDirectory(const std::string &dir)
+bool
+FileSystemI::deleteDirectory(const std::string &dir)
 {
     using namespace std;
 
@@ -725,6 +774,12 @@ FileSystemI::deleteArt(const std::string& issue_date,const std::string &sec,
     string caller_info = getName(getIP(c));
     consolePrint("===" + caller_info + "===" );
 
+    if(!dirExists(main_dir + "/" + issue_date))
+    {
+        consolePrint("deleteArt: " + issue_date + " is invalid.");
+        return false;
+    }
+
     string path =  main_dir + "/" + issue_date + "/" + sec + "/" + art;
 
     if(deleteDirectory(path))
@@ -750,6 +805,12 @@ FileSystemI::deleteAllImages(const std::string& issue_date, const std::string &s
 
     string caller_info = getName(getIP(c));
     consolePrint("===" + caller_info + "===" );
+
+    if(!dirExists(main_dir + "/" + issue_date))
+    {
+        consolePrint("deleteAllImages: " + issue_date + " is invalid.");
+        return false;
+    }
 
     string path =  main_dir + "/" + issue_date + "/" + sec + "/" + art + "/" + fs::IMAGE;
 
@@ -778,6 +839,12 @@ FileSystemI::deleteImage(const std::string& issue_date, const std::string &sec,
     string caller_info = getName(getIP(c));
     consolePrint("===" + caller_info + "===" );
 
+    if(!dirExists(main_dir + "/" + issue_date))
+    {
+        consolePrint("moveArtToSection: " + issue_date + " is invalid.");
+        return false;
+    }
+
     string path =  main_dir + "/" + issue_date + "/" + sec + "/" + art + "/" + fs::IMAGE + "/" + name;
 
     if(deleteDirectory(path))
@@ -805,6 +872,12 @@ FileSystemI::deleteAllCopies(const std::string& issue_date, const std::string &s
     string caller_info = getName(getIP(c));
     consolePrint("===" + caller_info + "===" );
 
+    if(!dirExists(main_dir + "/" + issue_date))
+    {
+        consolePrint("deleteAllCopies: " + issue_date + " is invalid.");
+        return false;
+    }
+
     string path =  main_dir + "/" + issue_date + "/" + sec + "/" + art + "/" + fs::COPY;
 
     if(deleteDirectory(path))
@@ -831,6 +904,12 @@ FileSystemI::deleteCopyVer(const std::string& issue_date, const std::string &sec
 
     string caller_info = getName(getIP(c));
     consolePrint("===" + caller_info + "===" );
+
+    if(!dirExists(main_dir + "/" + issue_date))
+    {
+        consolePrint("deleteCopyVer: " + issue_date + " is invalid.");
+        return false;
+    }
 
     string dir = main_dir + "/" + issue_date + "/" + sec + "/" + art + "/" + fs::COPY + "/" + art;
     string path_clean = addExtension( dir + "/" + art, fs::COPY);
@@ -894,6 +973,15 @@ FileSystemI::moveArtToSection(const std::string& issue_date, const std::string &
     string oldPath =  main_dir + "/" + issue_date + "/" + sec_old + "/" + art;
     string newPath =  main_dir + "/" + issue_date + "/" + sec_new + "/" + art;
 
+    if(!dirExists(main_dir + "/" + issue_date))
+    {
+        consolePrint("moveArtToSection: " + issue_date + " is invalid.");
+        return false;
+    }
+
+    if(!dirExists(main_dir + "/" + issue_date + "/" + sec_new))
+        _mkdir((main_dir + "/" + issue_date + "/" + sec_new).c_str());
+
     wstring wOldPath(oldPath.begin(), oldPath.end());
     LPCTSTR lpOldPath = wOldPath.c_str();
 
@@ -915,7 +1003,8 @@ FileSystemI::moveArtToSection(const std::string& issue_date, const std::string &
     return b;
 }
 
-bool FileSystemI::archiveIssue(const std::string &issue_date, const Ice::Current &c)
+bool
+FileSystemI::archiveIssue(const std::string &issue_date, const Ice::Current &c)
 {
     using namespace std;
 

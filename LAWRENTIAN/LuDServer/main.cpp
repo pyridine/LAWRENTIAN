@@ -2,7 +2,5 @@
 
 int main()
 {
-    using namespace std;
-
     Receiver rcvr = Receiver();
 }

@@ -98,12 +98,11 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
 
             string filePath = ui->articleFileTextField->text().toStdString();
             if(filePath.size())
-                 sndr.sendFile(date, dbController->translateSection(section), title, COPY, title + getExt(filePath), filePath);
+                 sndr.sendFile(date, dbController->translateSection(section), title, fs::COPY, filePath);
 
             QStringList::const_iterator iter = img_paths.begin();
             for(iter; iter!=img_paths.end(); iter++)
-                sndr.sendFile(date,dbController->translateSection(section),title,IMAGE,getNameExt(iter->toStdString()),
-                              iter->toStdString());
+                sndr.sendFile(date,dbController->translateSection(section),title,fs::IMAGE,iter->toStdString());
             //done.
 
             cout << "Updating the parent window." << endl;
@@ -325,7 +324,7 @@ void newArticleWorkspaceWindow::on_copyHistory_pushButton_clicked()
     cout << sec << endl;
     cout << art << endl;
 
-    CopyHistoryWindow *chw = new CopyHistoryWindow(0,sec,art,COPY,art);
+    CopyHistoryWindow *chw = new CopyHistoryWindow(0,sec,art);
     chw->activateWindow();
     chw->setWindowModality(Qt::ApplicationModal);
     chw->show();
