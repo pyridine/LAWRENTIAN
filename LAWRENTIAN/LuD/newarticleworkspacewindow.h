@@ -73,9 +73,6 @@ private:
     std::string getNameColon(const std::string& s);
     std::string getNameExt(const std::string& s);
     std::string getExt(const std::string& s);
-    //What are these for?
-    std::string COPY;
-    std::string IMAGE;
     //Used to display section names in combobox.
     std::string NEWZ;
     std::string FEATZ;

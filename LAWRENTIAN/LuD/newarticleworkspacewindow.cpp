@@ -24,8 +24,6 @@ newArticleWorkspaceWindow::newArticleWorkspaceWindow(QWidget *parent) :
     ui(new Ui::newArticleWorkspaceWindow)
 {
     //Set up static strings.
-    COPY = "Copy";
-    IMAGE = "Image";
     NEWZ = "News";
     FEATZ = "Features";
     OPEDZ = "Opinions & Editorials";
@@ -54,9 +52,8 @@ void newArticleWorkspaceWindow::on_chooseFile_pushButton_clicked()
 
 void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
 {
-    //[Sanfer:]What is this?
     //Populate the new article object....
-    //1.date
+    // </begin date> Maybe put this in an inherited dbcontroller function?
     stringstream s;
     int year = ui->issueDateEdit->date().year();
     stringstream monthstream;
@@ -75,12 +72,10 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
     }
     s << year << monthstream.str() << daystream.str();
     string issueDateString = s.str();
+    cout << "issueDateString" << issueDateString << endl;
+    // </end date>
 
-    //2. everything else
-    //TODO:
     string pastTitle = myArticle->getTitle();
-    //TODO: Keep it for updating the article workspace widget.
-    //TODO: Update the article workspace widget :P
     string title = ui->articleTitleTextField->text().toStdString();
     string description = ui->descriptionTextField->toPlainText().toStdString();
     string date = ui->issueDateEdit->text().toStdString();
@@ -88,15 +83,15 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
     int writer = this->getSelectedWriterLuid();
     int photographer = this->getSelectedPhotographerLuid();
     int id = myArticle->getId();
-
-    if(!dbController->isArticleTitleAlreadyInUse(title,id)){
-        if(0 != title.compare("Krebsbach is the best CS teacher in the world")){
-
+    if(!dbController->isArticleTitleAlreadyInUse(title,id))
+    {
+        if(0 != title.compare("Krebsbach is the best CS teacher in the world"))
+        {
             //Do sender things...
             Sender sndr = Sender();
             string sec_this =  dbController->translateSection(section);
             string sec_art = dbController->translateSection(myArticle->getSection());
-            if(section != myArticle->getSection())
+            if(section != myArticle->getSection() && sec_art.size())
                 sndr.moveArtToSection(date, sec_art, sec_this, title);
 
             string filePath = ui->articleFileTextField->text().toStdString();
@@ -109,8 +104,7 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
 
             if(pastTitle.compare(title))
                 sndr.renameArticle(date, sec_this, pastTitle, title);
-
-                //done.
+            //done.
 
             cout << "adding art." << endl;
             myArticle = new Article(issueDateString, title, description, section, writer, photographer);
@@ -120,7 +114,8 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
 
             cout << "Updating the parent window." << endl;
             //Update the article workspace widget...
-            if(!parentArticleWorkspaceWidget->workspaceExists(title)){
+            if(!parentArticleWorkspaceWidget->workspaceExists(title))
+            {
                 parentArticleWorkspaceWidget->initArticle(myArticle);
                 parentArticleWorkspaceWidget->addArticleButton(myArticle);
                 dbController->addArticle(myArticle);
@@ -136,13 +131,15 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
             //We're done.
             closeMe();
             return;
-            //Bye bye :(
-        } else{
-            Alert::showAlert("Error","Article title is a commonly known fact, and is therefore not newsworthy.");
+            //Bye bye :()
         }
-    } else{
-        Alert::showAlert("Error","Article title is already in use.");
+        else
+            Alert::showAlert("Error","Article title is a commonly known fact, and is therefore not newsworthy.");
+
     }
+    else
+        Alert::showAlert("Error","Article title is already in use.");
+
 }
 
 void newArticleWorkspaceWindow::closeMe(){
@@ -424,7 +421,6 @@ std::string newArticleWorkspaceWindow::getExt(const string &s)
 
 std::string newArticleWorkspaceWindow::getNameColon(const std::string& s)
 {
-    using namespace std;
     string str = s;
     cout << str << endl;
     string::const_iterator iter = str.begin();
@@ -443,6 +439,18 @@ std::string newArticleWorkspaceWindow::getNameColon(const std::string& s)
 
 void newArticleWorkspaceWindow::on_deleteAWS_pushButton_clicked()
 {
+
+    Sender sndr = Sender();
+
+    QString date = myArticle->QGetIssueDate();
+    string issueDate = QDate::fromString(date,"yyyy-MM-dd").toString("dd MMM, yyyy").toStdString();
+    string sec = dbController->translateSection(myArticle->getSection());
+    string art = myArticle->getTitle();
+
+    sndr.deleteArt(issueDate,sec,art);
     dbController->deleteArticle(myArticle->getId());
+
+    cout << issueDate << endl << sec << endl << art << endl;
     closeMe();
 }
+
