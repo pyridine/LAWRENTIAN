@@ -8,8 +8,8 @@
 #include <QFileDialog>
 #include <QHBoxLayout>
 
-CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& sec,
-                                     const std::string& date, const std::string& art) :
+CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& date,
+                                     const std::string& sec, const std::string& art) :
     QDialog(parent),
     ui(new Ui::CopyHistoryWindow)
 {
@@ -138,17 +138,14 @@ void CopyHistoryWindow::on_download_pushButton_clicked()
         return;
 
     int ver_num = ver.verNum;
-    string temp = getfName(ver.verName) + std::to_string((long long)ver_num) +
-            ".docx";
+    string temp = ver.verName + fs::extCOPY;
     string down_dir = Qdown_dir.toStdString() + "/" + temp ;
-    string fName = ver.verName;
 
     //    int ver_num = 1;
     //    string fName = "getfName(ver.verName) + std::to_string((long long)ver_num)";
     //    string down_dir = getfName(" Qdown_dir.toStdString() fName") ;
 
 
-    cout << down_dir << endl << fName << endl << ver_num << endl;
     Sender sndr = Sender();
     sndr.requestFile(date, sec,art,fs::COPY,down_dir,ver_num);
 

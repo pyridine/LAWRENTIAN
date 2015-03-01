@@ -94,7 +94,7 @@ void NewArticleWorkspaceWindowDBC::addArticle(Article* art)
     return;
 }
 void NewArticleWorkspaceWindowDBC::deleteArticle(int articleID){
-    //deleteArticle(newArticle); //RECURSION! FOREVER!
+    //deleteArticle(newArticle); //RECURSION! FOREVER! yo man. chill. There's cntrl + C.
 
     QSqlQuery* query = new QSqlQuery();
     query->prepare(QString::fromStdString(NAWWDBCCommands::DELETE_ARTICLE)); //It's impossible (probably) to assign a non-writer to an article, so this should be fine.
@@ -102,9 +102,10 @@ void NewArticleWorkspaceWindowDBC::deleteArticle(int articleID){
     QSqlQuery* result = client->execute(query);
     QSqlError err = result->lastError();
 
-    if(err.isValid()){
+    if(err.isValid())
         cout << "!SQL ERROR: " << result->lastError().databaseText().toStdString() << endl;
-    }
+    else
+        cout << "successfully deleted!" << endl;
     return;
 }
 
