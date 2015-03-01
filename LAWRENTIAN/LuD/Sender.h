@@ -70,14 +70,14 @@ public:
      */
     bool renameArticle(const std::string& issueDate,const std::string& sec, const std::string& artOld, const std::string& artNew);
     /*!
-     * \brief moveArtToSection: moves specified article from current section to specified section in the server. Useful if section value changes.
+     * \brief changeArtSection: moves specified article from current section to specified section in the server. Useful if section value changes.
      * \param issueDate: the deadline date of the issue which the article belongs to.
      * \param secOld: the section to which the article to be moved belongs to.
      * \param secNew: the section to which the article will be moved to.
      * \param art: name of the article.
-     * \return true if successfully moved and false otherwise.
+     * \return true if successfully renamed and false otherwise.
      */
-    bool moveArtToSection(const std::string& issueDate,const std::string& secOld, const std::string& secNew, const std::string& art);
+    bool changeArtSection(const std::string& issueDate,const std::string& secOld, const std::string& secNew, const std::string& art);
     /*!
      * \brief archiveIssue: archives the specified issue in the server.
      * \param issueDate: the deadline date of the issue which the article belongs to.
@@ -128,6 +128,15 @@ public:
      */
     bool deleteCopyVer(const std::string& issueDate,const std::string& sec, const std::string art, int ver = -1);
 
+    /*!
+     * \brief changeArtIssueDate: puts the article in the oldIssueDate folder to the newIssueDate folder in the server.
+     * \param oldIssueDate: the issue date to which the article currently belongs.
+     * \param newIssueDate: the issue date which the article will change to.
+     * \param sec: the section to which the article belongs to.
+     * \param art: name of the article.
+     * \return true if change was successful and false otherwise.
+     */
+    bool changeArtIssueDate(const std::string& oldIssueDate, const std::string& newIssueDate, const std::string& sec, const std::string& art);
 };
 
 #endif // SENDER_H

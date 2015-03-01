@@ -94,12 +94,12 @@ FileSystem::StrSeq Sender::getImageList(const std::string &issueDate, const std:
 
 bool Sender::renameArticle(const std::string &issueDate, const std::string &sec, const std::string &artOld, const std::string &artNew)
 {
-    return fpx->changeDir(issueDate,sec,artOld,artNew);
+    return fpx->renameArt(issueDate,sec,artOld,artNew);
 }
 
-bool Sender::moveArtToSection(const std::string &issueDate, const std::string &secOld, const std::string &secNew, const std::string &art)
+bool Sender::changeArtSection(const std::string &issueDate, const std::string &secOld, const std::string &secNew, const std::string &art)
 {
-    return fpx->moveArtToSection(issueDate, secOld, secNew, art);
+    return fpx->changeArtSection(issueDate, secOld, secNew, art);
 }
 
 bool Sender::archiveIssue(const std::string &issueDate)
@@ -130,6 +130,11 @@ bool Sender::deleteAllCopies(const std::string &issueDate, const std::string &se
 bool Sender::deleteCopyVer(const std::string &issueDate, const std::string &sec, const std::string art, int ver)
 {
     return fpx->deleteCopyVer(issueDate, sec, art, ver);
+}
+
+bool Sender::changeArtIssueDate(const std::string &oldIssueDate, const std::string &newIssueDate, const std::string &sec, const std::string &art)
+{
+    return fpx->changeArtIssueDate(oldIssueDate, newIssueDate, sec, art);
 }
 
 

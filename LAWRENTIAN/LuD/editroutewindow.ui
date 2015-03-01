@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>446</width>
+    <width>441</width>
     <height>422</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="cancelButton">
    <property name="geometry">
     <rect>
      <x>220</x>
@@ -26,7 +26,7 @@
     <string>Cancel</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="applyButton">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -39,37 +39,17 @@
     <string>Apply</string>
    </property>
   </widget>
-  <widget class="QListView" name="listView">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>40</y>
-     <width>171</width>
-     <height>301</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QListView" name="listView_2">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>40</y>
-     <width>181</width>
-     <height>301</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="routeLabel">
    <property name="geometry">
     <rect>
      <x>20</x>
      <y>12</y>
-     <width>47</width>
+     <width>121</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>Route:</string>
+    <string>Route # </string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
@@ -85,7 +65,7 @@
     <string>Locations</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_3">
+  <widget class="QPushButton" name="upButton">
    <property name="geometry">
     <rect>
      <x>200</x>
@@ -98,7 +78,7 @@
     <string>↑</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_4">
+  <widget class="QPushButton" name="downButton">
    <property name="geometry">
     <rect>
      <x>200</x>
@@ -124,19 +104,6 @@
     <string>Order</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>11</y>
-     <width>113</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>MyRoute</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButton_5">
    <property name="geometry">
     <rect>
@@ -147,7 +114,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Add Location</string>
+    <string>?Add Location?</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_6">
@@ -160,10 +127,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>Edit Location</string>
+    <string>?Edit Location?</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_7">
+  <widget class="QPushButton" name="addPointButton">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -176,7 +143,7 @@
     <string>Add Point</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_8">
+  <widget class="QPushButton" name="removePointButton">
    <property name="geometry">
     <rect>
      <x>110</x>
@@ -187,6 +154,39 @@
    </property>
    <property name="text">
     <string>Remove Point</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="locationList">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>40</y>
+     <width>181</width>
+     <height>301</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="routePointList">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>181</width>
+     <height>301</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="dropRouteWindow">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>390</y>
+     <width>80</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Drop Route</string>
    </property>
   </widget>
  </widget>

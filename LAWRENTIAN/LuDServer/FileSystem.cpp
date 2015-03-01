@@ -50,9 +50,11 @@ const ::std::string __FileSystem__File__getHistory_name = "getHistory";
 
 const ::std::string __FileSystem__File__getImageList_name = "getImageList";
 
-const ::std::string __FileSystem__File__changeDir_name = "changeDir";
+const ::std::string __FileSystem__File__renameArt_name = "renameArt";
 
-const ::std::string __FileSystem__File__moveArtToSection_name = "moveArtToSection";
+const ::std::string __FileSystem__File__changeArtSection_name = "changeArtSection";
+
+const ::std::string __FileSystem__File__changeArtIssueDate_name = "changeArtIssueDate";
 
 const ::std::string __FileSystem__File__archiveIssue_name = "archiveIssue";
 
@@ -495,19 +497,19 @@ IceProxy::FileSystem::File::end_getImageList(const ::Ice::AsyncResultPtr& __resu
 }
 
 bool
-IceProxy::FileSystem::File::changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context* __ctx)
+IceProxy::FileSystem::File::renameArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context* __ctx)
 {
-    ::IceInternal::InvocationObserver __observer(this, __FileSystem__File__changeDir_name, __ctx);
+    ::IceInternal::InvocationObserver __observer(this, __FileSystem__File__renameArt_name, __ctx);
     int __cnt = 0;
     while(true)
     {
         ::IceInternal::Handle< ::IceDelegate::Ice::Object> __delBase;
         try
         {
-            __checkTwowayOnly(__FileSystem__File__changeDir_name);
+            __checkTwowayOnly(__FileSystem__File__renameArt_name);
             __delBase = __getDelegate(false);
             ::IceDelegate::FileSystem::File* __del = dynamic_cast< ::IceDelegate::FileSystem::File*>(__delBase.get());
-            return __del->changeDir(issueDate, sec, artOld, artNew, __ctx, __observer);
+            return __del->renameArt(issueDate, sec, artOld, artNew, __ctx, __observer);
         }
         catch(const ::IceInternal::LocalExceptionWrapper& __ex)
         {
@@ -521,13 +523,13 @@ IceProxy::FileSystem::File::changeDir(const ::std::string& issueDate, const ::st
 }
 
 ::Ice::AsyncResultPtr
-IceProxy::FileSystem::File::begin_changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
+IceProxy::FileSystem::File::begin_renameArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
 {
-    __checkAsyncTwowayOnly(__FileSystem__File__changeDir_name);
-    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __FileSystem__File__changeDir_name, __del, __cookie);
+    __checkAsyncTwowayOnly(__FileSystem__File__renameArt_name);
+    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __FileSystem__File__renameArt_name, __del, __cookie);
     try
     {
-        __result->__prepare(__FileSystem__File__changeDir_name, ::Ice::Normal, __ctx);
+        __result->__prepare(__FileSystem__File__renameArt_name, ::Ice::Normal, __ctx);
         ::IceInternal::BasicStream* __os = __result->__startWriteParams(::Ice::DefaultFormat);
         __os->write(issueDate);
         __os->write(sec);
@@ -544,9 +546,9 @@ IceProxy::FileSystem::File::begin_changeDir(const ::std::string& issueDate, cons
 }
 
 bool
-IceProxy::FileSystem::File::end_changeDir(const ::Ice::AsyncResultPtr& __result)
+IceProxy::FileSystem::File::end_renameArt(const ::Ice::AsyncResultPtr& __result)
 {
-    ::Ice::AsyncResult::__check(__result, this, __FileSystem__File__changeDir_name);
+    ::Ice::AsyncResult::__check(__result, this, __FileSystem__File__renameArt_name);
     bool __ret;
     bool __ok = __result->__wait();
     try
@@ -575,19 +577,19 @@ IceProxy::FileSystem::File::end_changeDir(const ::Ice::AsyncResultPtr& __result)
 }
 
 bool
-IceProxy::FileSystem::File::moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context* __ctx)
+IceProxy::FileSystem::File::changeArtSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context* __ctx)
 {
-    ::IceInternal::InvocationObserver __observer(this, __FileSystem__File__moveArtToSection_name, __ctx);
+    ::IceInternal::InvocationObserver __observer(this, __FileSystem__File__changeArtSection_name, __ctx);
     int __cnt = 0;
     while(true)
     {
         ::IceInternal::Handle< ::IceDelegate::Ice::Object> __delBase;
         try
         {
-            __checkTwowayOnly(__FileSystem__File__moveArtToSection_name);
+            __checkTwowayOnly(__FileSystem__File__changeArtSection_name);
             __delBase = __getDelegate(false);
             ::IceDelegate::FileSystem::File* __del = dynamic_cast< ::IceDelegate::FileSystem::File*>(__delBase.get());
-            return __del->moveArtToSection(issueDate, secOld, secNew, art, __ctx, __observer);
+            return __del->changeArtSection(issueDate, secOld, secNew, art, __ctx, __observer);
         }
         catch(const ::IceInternal::LocalExceptionWrapper& __ex)
         {
@@ -601,13 +603,13 @@ IceProxy::FileSystem::File::moveArtToSection(const ::std::string& issueDate, con
 }
 
 ::Ice::AsyncResultPtr
-IceProxy::FileSystem::File::begin_moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
+IceProxy::FileSystem::File::begin_changeArtSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
 {
-    __checkAsyncTwowayOnly(__FileSystem__File__moveArtToSection_name);
-    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __FileSystem__File__moveArtToSection_name, __del, __cookie);
+    __checkAsyncTwowayOnly(__FileSystem__File__changeArtSection_name);
+    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __FileSystem__File__changeArtSection_name, __del, __cookie);
     try
     {
-        __result->__prepare(__FileSystem__File__moveArtToSection_name, ::Ice::Normal, __ctx);
+        __result->__prepare(__FileSystem__File__changeArtSection_name, ::Ice::Normal, __ctx);
         ::IceInternal::BasicStream* __os = __result->__startWriteParams(::Ice::DefaultFormat);
         __os->write(issueDate);
         __os->write(secOld);
@@ -624,9 +626,89 @@ IceProxy::FileSystem::File::begin_moveArtToSection(const ::std::string& issueDat
 }
 
 bool
-IceProxy::FileSystem::File::end_moveArtToSection(const ::Ice::AsyncResultPtr& __result)
+IceProxy::FileSystem::File::end_changeArtSection(const ::Ice::AsyncResultPtr& __result)
 {
-    ::Ice::AsyncResult::__check(__result, this, __FileSystem__File__moveArtToSection_name);
+    ::Ice::AsyncResult::__check(__result, this, __FileSystem__File__changeArtSection_name);
+    bool __ret;
+    bool __ok = __result->__wait();
+    try
+    {
+        if(!__ok)
+        {
+            try
+            {
+                __result->__throwUserException();
+            }
+            catch(const ::Ice::UserException& __ex)
+            {
+                throw ::Ice::UnknownUserException(__FILE__, __LINE__, __ex.ice_name());
+            }
+        }
+        ::IceInternal::BasicStream* __is = __result->__startReadParams();
+        __is->read(__ret);
+        __result->__endReadParams();
+        return __ret;
+    }
+    catch(const ::Ice::LocalException& ex)
+    {
+        __result->__getObserver().failed(ex.ice_name());
+        throw;
+    }
+}
+
+bool
+IceProxy::FileSystem::File::changeArtIssueDate(const ::std::string& oldIssueDate, const ::std::string& newIssueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context* __ctx)
+{
+    ::IceInternal::InvocationObserver __observer(this, __FileSystem__File__changeArtIssueDate_name, __ctx);
+    int __cnt = 0;
+    while(true)
+    {
+        ::IceInternal::Handle< ::IceDelegate::Ice::Object> __delBase;
+        try
+        {
+            __checkTwowayOnly(__FileSystem__File__changeArtIssueDate_name);
+            __delBase = __getDelegate(false);
+            ::IceDelegate::FileSystem::File* __del = dynamic_cast< ::IceDelegate::FileSystem::File*>(__delBase.get());
+            return __del->changeArtIssueDate(oldIssueDate, newIssueDate, sec, art, __ctx, __observer);
+        }
+        catch(const ::IceInternal::LocalExceptionWrapper& __ex)
+        {
+            __handleExceptionWrapper(__delBase, __ex, __observer);
+        }
+        catch(const ::Ice::LocalException& __ex)
+        {
+            __handleException(__delBase, __ex, true, __cnt, __observer);
+        }
+    }
+}
+
+::Ice::AsyncResultPtr
+IceProxy::FileSystem::File::begin_changeArtIssueDate(const ::std::string& oldIssueDate, const ::std::string& newIssueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
+{
+    __checkAsyncTwowayOnly(__FileSystem__File__changeArtIssueDate_name);
+    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __FileSystem__File__changeArtIssueDate_name, __del, __cookie);
+    try
+    {
+        __result->__prepare(__FileSystem__File__changeArtIssueDate_name, ::Ice::Normal, __ctx);
+        ::IceInternal::BasicStream* __os = __result->__startWriteParams(::Ice::DefaultFormat);
+        __os->write(oldIssueDate);
+        __os->write(newIssueDate);
+        __os->write(sec);
+        __os->write(art);
+        __result->__endWriteParams();
+        __result->__send(true);
+    }
+    catch(const ::Ice::LocalException& __ex)
+    {
+        __result->__exceptionAsync(__ex);
+    }
+    return __result;
+}
+
+bool
+IceProxy::FileSystem::File::end_changeArtIssueDate(const ::Ice::AsyncResultPtr& __result)
+{
+    ::Ice::AsyncResult::__check(__result, this, __FileSystem__File__changeArtIssueDate_name);
     bool __ret;
     bool __ok = __result->__wait();
     try
@@ -1378,9 +1460,9 @@ IceDelegateM::FileSystem::File::getImageList(const ::std::string& issueDate, con
 }
 
 bool
-IceDelegateM::FileSystem::File::changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
+IceDelegateM::FileSystem::File::renameArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
 {
-    ::IceInternal::Outgoing __og(__handler.get(), __FileSystem__File__changeDir_name, ::Ice::Normal, __context, __observer);
+    ::IceInternal::Outgoing __og(__handler.get(), __FileSystem__File__renameArt_name, ::Ice::Normal, __context, __observer);
     try
     {
         ::IceInternal::BasicStream* __os = __og.startWriteParams(::Ice::DefaultFormat);
@@ -1422,15 +1504,59 @@ IceDelegateM::FileSystem::File::changeDir(const ::std::string& issueDate, const 
 }
 
 bool
-IceDelegateM::FileSystem::File::moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
+IceDelegateM::FileSystem::File::changeArtSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
 {
-    ::IceInternal::Outgoing __og(__handler.get(), __FileSystem__File__moveArtToSection_name, ::Ice::Normal, __context, __observer);
+    ::IceInternal::Outgoing __og(__handler.get(), __FileSystem__File__changeArtSection_name, ::Ice::Normal, __context, __observer);
     try
     {
         ::IceInternal::BasicStream* __os = __og.startWriteParams(::Ice::DefaultFormat);
         __os->write(issueDate);
         __os->write(secOld);
         __os->write(secNew);
+        __os->write(art);
+        __og.endWriteParams();
+    }
+    catch(const ::Ice::LocalException& __ex)
+    {
+        __og.abort(__ex);
+    }
+    bool __ok = __og.invoke();
+    bool __ret;
+    try
+    {
+        if(!__ok)
+        {
+            try
+            {
+                __og.throwUserException();
+            }
+            catch(const ::Ice::UserException& __ex)
+            {
+                ::Ice::UnknownUserException __uue(__FILE__, __LINE__, __ex.ice_name());
+                throw __uue;
+            }
+        }
+        ::IceInternal::BasicStream* __is = __og.startReadParams();
+        __is->read(__ret);
+        __og.endReadParams();
+        return __ret;
+    }
+    catch(const ::Ice::LocalException& __ex)
+    {
+        throw ::IceInternal::LocalExceptionWrapper(__ex, false);
+    }
+}
+
+bool
+IceDelegateM::FileSystem::File::changeArtIssueDate(const ::std::string& oldIssueDate, const ::std::string& newIssueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
+{
+    ::IceInternal::Outgoing __og(__handler.get(), __FileSystem__File__changeArtIssueDate_name, ::Ice::Normal, __context, __observer);
+    try
+    {
+        ::IceInternal::BasicStream* __os = __og.startWriteParams(::Ice::DefaultFormat);
+        __os->write(oldIssueDate);
+        __os->write(newIssueDate);
+        __os->write(sec);
         __os->write(art);
         __og.endWriteParams();
     }
@@ -2104,7 +2230,7 @@ IceDelegateD::FileSystem::File::getImageList(const ::std::string& issueDate, con
 }
 
 bool
-IceDelegateD::FileSystem::File::changeDir(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
+IceDelegateD::FileSystem::File::renameArt(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& artOld, const ::std::string& artNew, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
 {
     class _DirectI : public ::IceInternal::Direct
     {
@@ -2128,7 +2254,7 @@ IceDelegateD::FileSystem::File::changeDir(const ::std::string& issueDate, const 
             {
                 throw ::Ice::OperationNotExistException(__FILE__, __LINE__, _current.id, _current.facet, _current.operation);
             }
-            _result = servant->changeDir(_m_issueDate, _m_sec, _m_artOld, _m_artNew, _current);
+            _result = servant->renameArt(_m_issueDate, _m_sec, _m_artOld, _m_artNew, _current);
             return ::Ice::DispatchOK;
         }
         
@@ -2142,7 +2268,7 @@ IceDelegateD::FileSystem::File::changeDir(const ::std::string& issueDate, const 
     };
     
     ::Ice::Current __current;
-    __initCurrent(__current, __FileSystem__File__changeDir_name, ::Ice::Normal, __context);
+    __initCurrent(__current, __FileSystem__File__renameArt_name, ::Ice::Normal, __context);
     bool __result;
     try
     {
@@ -2178,7 +2304,7 @@ IceDelegateD::FileSystem::File::changeDir(const ::std::string& issueDate, const 
 }
 
 bool
-IceDelegateD::FileSystem::File::moveArtToSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
+IceDelegateD::FileSystem::File::changeArtSection(const ::std::string& issueDate, const ::std::string& secOld, const ::std::string& secNew, const ::std::string& art, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
 {
     class _DirectI : public ::IceInternal::Direct
     {
@@ -2202,7 +2328,7 @@ IceDelegateD::FileSystem::File::moveArtToSection(const ::std::string& issueDate,
             {
                 throw ::Ice::OperationNotExistException(__FILE__, __LINE__, _current.id, _current.facet, _current.operation);
             }
-            _result = servant->moveArtToSection(_m_issueDate, _m_secOld, _m_secNew, _m_art, _current);
+            _result = servant->changeArtSection(_m_issueDate, _m_secOld, _m_secNew, _m_art, _current);
             return ::Ice::DispatchOK;
         }
         
@@ -2216,11 +2342,85 @@ IceDelegateD::FileSystem::File::moveArtToSection(const ::std::string& issueDate,
     };
     
     ::Ice::Current __current;
-    __initCurrent(__current, __FileSystem__File__moveArtToSection_name, ::Ice::Normal, __context);
+    __initCurrent(__current, __FileSystem__File__changeArtSection_name, ::Ice::Normal, __context);
     bool __result;
     try
     {
         _DirectI __direct(__result, issueDate, secOld, secNew, art, __current);
+        try
+        {
+            __direct.getServant()->__collocDispatch(__direct);
+        }
+        catch(...)
+        {
+            __direct.destroy();
+            throw;
+        }
+        __direct.destroy();
+    }
+    catch(const ::Ice::SystemException&)
+    {
+        throw;
+    }
+    catch(const ::IceInternal::LocalExceptionWrapper&)
+    {
+        throw;
+    }
+    catch(const ::std::exception& __ex)
+    {
+        ::IceInternal::LocalExceptionWrapper::throwWrapper(__ex);
+    }
+    catch(...)
+    {
+        throw ::IceInternal::LocalExceptionWrapper(::Ice::UnknownException(__FILE__, __LINE__, "unknown c++ exception"), false);
+    }
+    return __result;
+}
+
+bool
+IceDelegateD::FileSystem::File::changeArtIssueDate(const ::std::string& oldIssueDate, const ::std::string& newIssueDate, const ::std::string& sec, const ::std::string& art, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
+{
+    class _DirectI : public ::IceInternal::Direct
+    {
+    public:
+
+        _DirectI(bool& __result, const ::std::string& __p_oldIssueDate, const ::std::string& __p_newIssueDate, const ::std::string& __p_sec, const ::std::string& __p_art, const ::Ice::Current& __current) : 
+            ::IceInternal::Direct(__current),
+            _result(__result),
+            _m_oldIssueDate(__p_oldIssueDate),
+            _m_newIssueDate(__p_newIssueDate),
+            _m_sec(__p_sec),
+            _m_art(__p_art)
+        {
+        }
+        
+        virtual ::Ice::DispatchStatus
+        run(::Ice::Object* object)
+        {
+            ::FileSystem::File* servant = dynamic_cast< ::FileSystem::File*>(object);
+            if(!servant)
+            {
+                throw ::Ice::OperationNotExistException(__FILE__, __LINE__, _current.id, _current.facet, _current.operation);
+            }
+            _result = servant->changeArtIssueDate(_m_oldIssueDate, _m_newIssueDate, _m_sec, _m_art, _current);
+            return ::Ice::DispatchOK;
+        }
+        
+    private:
+        
+        bool& _result;
+        const ::std::string& _m_oldIssueDate;
+        const ::std::string& _m_newIssueDate;
+        const ::std::string& _m_sec;
+        const ::std::string& _m_art;
+    };
+    
+    ::Ice::Current __current;
+    __initCurrent(__current, __FileSystem__File__changeArtIssueDate_name, ::Ice::Normal, __context);
+    bool __result;
+    try
+    {
+        _DirectI __direct(__result, oldIssueDate, newIssueDate, sec, art, __current);
         try
         {
             __direct.getServant()->__collocDispatch(__direct);
@@ -2835,7 +3035,7 @@ FileSystem::File::___getImageList(::IceInternal::Incoming& __inS, const ::Ice::C
 }
 
 ::Ice::DispatchStatus
-FileSystem::File::___changeDir(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
+FileSystem::File::___renameArt(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
 {
     __checkMode(::Ice::Normal, __current.mode);
     ::IceInternal::BasicStream* __is = __inS.startReadParams();
@@ -2848,7 +3048,7 @@ FileSystem::File::___changeDir(::IceInternal::Incoming& __inS, const ::Ice::Curr
     __is->read(artOld);
     __is->read(artNew);
     __inS.endReadParams();
-    bool __ret = changeDir(issueDate, sec, artOld, artNew, __current);
+    bool __ret = renameArt(issueDate, sec, artOld, artNew, __current);
     ::IceInternal::BasicStream* __os = __inS.__startWriteParams(::Ice::DefaultFormat);
     __os->write(__ret);
     __inS.__endWriteParams(true);
@@ -2856,7 +3056,7 @@ FileSystem::File::___changeDir(::IceInternal::Incoming& __inS, const ::Ice::Curr
 }
 
 ::Ice::DispatchStatus
-FileSystem::File::___moveArtToSection(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
+FileSystem::File::___changeArtSection(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
 {
     __checkMode(::Ice::Normal, __current.mode);
     ::IceInternal::BasicStream* __is = __inS.startReadParams();
@@ -2869,7 +3069,28 @@ FileSystem::File::___moveArtToSection(::IceInternal::Incoming& __inS, const ::Ic
     __is->read(secNew);
     __is->read(art);
     __inS.endReadParams();
-    bool __ret = moveArtToSection(issueDate, secOld, secNew, art, __current);
+    bool __ret = changeArtSection(issueDate, secOld, secNew, art, __current);
+    ::IceInternal::BasicStream* __os = __inS.__startWriteParams(::Ice::DefaultFormat);
+    __os->write(__ret);
+    __inS.__endWriteParams(true);
+    return ::Ice::DispatchOK;
+}
+
+::Ice::DispatchStatus
+FileSystem::File::___changeArtIssueDate(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
+{
+    __checkMode(::Ice::Normal, __current.mode);
+    ::IceInternal::BasicStream* __is = __inS.startReadParams();
+    ::std::string oldIssueDate;
+    ::std::string newIssueDate;
+    ::std::string sec;
+    ::std::string art;
+    __is->read(oldIssueDate);
+    __is->read(newIssueDate);
+    __is->read(sec);
+    __is->read(art);
+    __inS.endReadParams();
+    bool __ret = changeArtIssueDate(oldIssueDate, newIssueDate, sec, art, __current);
     ::IceInternal::BasicStream* __os = __inS.__startWriteParams(::Ice::DefaultFormat);
     __os->write(__ret);
     __inS.__endWriteParams(true);
@@ -2995,7 +3216,8 @@ namespace
 const ::std::string __FileSystem__File_all[] =
 {
     "archiveIssue",
-    "changeDir",
+    "changeArtIssueDate",
+    "changeArtSection",
     "deleteAllCopies",
     "deleteAllImages",
     "deleteArt",
@@ -3007,9 +3229,9 @@ const ::std::string __FileSystem__File_all[] =
     "ice_ids",
     "ice_isA",
     "ice_ping",
-    "moveArtToSection",
     "receiveLatest",
     "receiveVersion",
+    "renameArt",
     "sendFile"
 };
 
@@ -3018,7 +3240,7 @@ const ::std::string __FileSystem__File_all[] =
 ::Ice::DispatchStatus
 FileSystem::File::__dispatch(::IceInternal::Incoming& in, const ::Ice::Current& current)
 {
-    ::std::pair< const ::std::string*, const ::std::string*> r = ::std::equal_range(__FileSystem__File_all, __FileSystem__File_all + 17, current.operation);
+    ::std::pair< const ::std::string*, const ::std::string*> r = ::std::equal_range(__FileSystem__File_all, __FileSystem__File_all + 18, current.operation);
     if(r.first == r.second)
     {
         throw ::Ice::OperationNotExistException(__FILE__, __LINE__, current.id, current.facet, current.operation);
@@ -3032,55 +3254,55 @@ FileSystem::File::__dispatch(::IceInternal::Incoming& in, const ::Ice::Current& 
         }
         case 1:
         {
-            return ___changeDir(in, current);
+            return ___changeArtIssueDate(in, current);
         }
         case 2:
         {
-            return ___deleteAllCopies(in, current);
+            return ___changeArtSection(in, current);
         }
         case 3:
         {
-            return ___deleteAllImages(in, current);
+            return ___deleteAllCopies(in, current);
         }
         case 4:
         {
-            return ___deleteArt(in, current);
+            return ___deleteAllImages(in, current);
         }
         case 5:
         {
-            return ___deleteCopyVer(in, current);
+            return ___deleteArt(in, current);
         }
         case 6:
         {
-            return ___deleteImage(in, current);
+            return ___deleteCopyVer(in, current);
         }
         case 7:
         {
-            return ___getHistory(in, current);
+            return ___deleteImage(in, current);
         }
         case 8:
         {
-            return ___getImageList(in, current);
+            return ___getHistory(in, current);
         }
         case 9:
         {
-            return ___ice_id(in, current);
+            return ___getImageList(in, current);
         }
         case 10:
         {
-            return ___ice_ids(in, current);
+            return ___ice_id(in, current);
         }
         case 11:
         {
-            return ___ice_isA(in, current);
+            return ___ice_ids(in, current);
         }
         case 12:
         {
-            return ___ice_ping(in, current);
+            return ___ice_isA(in, current);
         }
         case 13:
         {
-            return ___moveArtToSection(in, current);
+            return ___ice_ping(in, current);
         }
         case 14:
         {
@@ -3091,6 +3313,10 @@ FileSystem::File::__dispatch(::IceInternal::Incoming& in, const ::Ice::Current& 
             return ___receiveVersion(in, current);
         }
         case 16:
+        {
+            return ___renameArt(in, current);
+        }
+        case 17:
         {
             return ___sendFile(in, current);
         }

@@ -15,8 +15,13 @@ public:
 
     void addArticle(Article *newArticle);
     void deleteArticle(int articleID);
+    void addMyPhotos(QStringList &imgPaths, int articleID,
+                     int sectionID, int photographerID);
+    void deleteMyPhotos(int articleId);
     bool isArticleTitleExistent(string title);
     bool isArticleTitleAlreadyInUse(string title, int id);
+
+
 
     vector<pair<string, int> *>* getListOfWritersForSection(int section, int currentWriter); //See documentation
     vector<pair<string, int> *>* getListOfPhotographers(int curentPhotographer); //See documentation

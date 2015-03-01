@@ -52,47 +52,36 @@ void newArticleWorkspaceWindow::on_chooseFile_pushButton_clicked()
 
 void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
 {
-    //Populate the new article object....
-    // </begin date> Maybe put this in an inherited dbcontroller function?
-    stringstream s;
-    int year = ui->issueDateEdit->date().year();
-    stringstream monthstream;
-    int month = ui->issueDateEdit->date().month();
-    if(month >= 10){
-        monthstream << month;
-    } else{
-        monthstream << "0" << month;
-    }
-    stringstream daystream;
-    int day = ui->issueDateEdit->date().day();
-    if(day >= 10){
-        daystream << day;
-    } else{
-        daystream << "0" << day;
-    }
-    s << year << monthstream.str() << daystream.str();
-    string issueDateString = s.str();
-    cout << "issueDateString" << issueDateString << endl;
-    // </end date>
-
-    string pastTitle = myArticle->getTitle();
+    // Initializing fields....
     string title = ui->articleTitleTextField->text().toStdString();
     string description = ui->descriptionTextField->toPlainText().toStdString();
     string date = ui->issueDateEdit->text().toStdString();
-    int section = this->getSelectedSectionID();
-    int writer = this->getSelectedWriterLuid();
-    int photographer = this->getSelectedPhotographerLuid();
+    int iSection = this->getSelectedSectionID();
+    int iWriter = this->getSelectedWriterLuid();
+    int iPhotographer = this->getSelectedPhotographerLuid();
     int id = myArticle->getId();
+    // done
+
     if(!dbController->isArticleTitleAlreadyInUse(title,id))
     {
-        if(0 != title.compare("Krebsbach is the best CS teacher in the world"))
+        if(title.compare("Krebsbach is the best CS teacher in the world"))
         {
-            //Do sender things...
+            cout << "Updating server." << endl;
+            // Update Server.
             Sender sndr = Sender();
-            string sec_this =  dbController->translateSection(section);
+            string sec_this =  dbController->translateSection(iSection);
             string sec_art = dbController->translateSection(myArticle->getSection());
-            if(section != myArticle->getSection() && sec_art.size())
-                sndr.moveArtToSection(date, sec_art, sec_this, title);
+
+            string date_art = QDate::fromString(myArticle->QGetIssueDate(),"yyyy-MM-dd").toString("dd MMM, yyyy").toStdString();
+
+            if(date.compare(date_art) && date_art.size())
+                sndr.changeArtIssueDate(date_art,date,sec_art,myArticle->getTitle());
+
+            if(iSection != myArticle->getSection() && sec_art.size())
+                sndr.changeArtSection(date, sec_art, sec_this, myArticle->getTitle());
+
+            if(title.compare(myArticle->getTitle()))
+                sndr.renameArticle(date, sec_this, myArticle->getTitle(), title);
 
             string filePath = ui->articleFileTextField->text().toStdString();
             if(filePath.size())
@@ -101,14 +90,12 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
             QStringList::const_iterator iter = img_paths.begin();
             for(iter; iter!=img_paths.end(); iter++)
                 sndr.sendFile(date,sec_this,title,fs::IMAGE,iter->toStdString());
-
-            if(pastTitle.compare(title))
-                sndr.renameArticle(date, sec_this, pastTitle, title);
-            //done.
+            // done.
 
             cout << "adding art." << endl;
-            myArticle = new Article(issueDateString, title, description, section, writer, photographer);
-
+            // add article.
+            string issueDateForArt = QDate::fromString(ui->issueDateEdit->text(),"dd MMM, yyyy").toString("yyyyMMdd").toStdString();
+            myArticle = new Article(issueDateForArt, title, description, iSection, iWriter, iPhotographer);
             myArticle->setId(id);
             //done.
 
@@ -126,6 +113,7 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
             cout << "Adding the article to the DB." << endl;
             //Add the new article to the DB...
             dbController->addArticle(myArticle);
+            updatePhotoDB(); //Must be done after adding article b/c foreign key constraints.
             //Done!
 
             //We're done.
@@ -326,14 +314,9 @@ int newArticleWorkspaceWindow::getSelectedSectionPermissionToken(){
 
 void newArticleWorkspaceWindow::on_copyHistory_pushButton_clicked()
 {
-    int section = this->getSelectedSectionID();
-
-    string date = ui->issueDateEdit->text().toStdString();
-    string sec = dbController->translateSection(section);
-    string art = ui->articleTitleTextField->text().toStdString();
-
-    cout << sec << endl;
-    cout << art << endl;
+    string date = QDate::fromString(myArticle->QGetIssueDate(),"yyyy-MM-dd").toString("dd MMM, yyyy").toStdString();
+    string sec = dbController->translateSection(myArticle->getSection());
+    string art = myArticle->getTitle();
 
     CopyHistoryWindow *chw = new CopyHistoryWindow(0,date,sec,art);
     chw->activateWindow();
@@ -405,6 +388,11 @@ std::string newArticleWorkspaceWindow::getNameExt(const std::string& s)
     return str.substr(iter - str.begin() + 1,str.end() - iter - 1);
 }
 
+string newArticleWorkspaceWindow::getfNameNoExt(string s){
+    string yesExt = getfName(QString::fromStdString(s)).toStdString();
+    return yesExt.substr(0,yesExt.find_last_of('.'));
+}
+
 std::string newArticleWorkspaceWindow::getExt(const string &s)
 {
     using namespace std;
@@ -442,15 +430,52 @@ void newArticleWorkspaceWindow::on_deleteAWS_pushButton_clicked()
 
     Sender sndr = Sender();
 
-    QString date = myArticle->QGetIssueDate();
-    string issueDate = QDate::fromString(date,"yyyy-MM-dd").toString("dd MMM, yyyy").toStdString();
+    string issueDate = QDate::fromString(myArticle->QGetIssueDate(),"yyyy-MM-dd").toString("dd MMM, yyyy").toStdString();
     string sec = dbController->translateSection(myArticle->getSection());
     string art = myArticle->getTitle();
 
     sndr.deleteArt(issueDate,sec,art);
     dbController->deleteArticle(myArticle->getId());
-
-    cout << issueDate << endl << sec << endl << art << endl;
+    dbController->deleteMyPhotos(myArticle->getId());
     closeMe();
 }
 
+void newArticleWorkspaceWindow::updatePhotoDB(){
+    //Yes, I know, I am once again writing a DB update algorithm that
+    //just wipes the database and reinputs the correct data.
+    //How horrible.
+    //However, in this case, I think such an algorithm is best.
+    //since so many things can change about articles, it's useless
+    //to keep track of them all and only update the affected rows in the photo DB.
+    //So, a wipe/redo algorithm is fine.
+
+    QStringList fname_paths;
+    for(int i = 0; i < img_paths.size(); i++){
+        fname_paths << QString::fromStdString(getfNameNoExt(img_paths.at(i).toStdString()));
+    }
+
+    dbController->deleteMyPhotos(myArticle->getId());
+    dbController->addMyPhotos(fname_paths,myArticle->getId(),getSelectedSectionID(),getSelectedPhotographerLuid());
+}
+
+//    // </begin date> Maybe put this in an inherited dbcontroller function?
+//    stringstream s;
+//    int year = ui->issueDateEdit->date().year();
+//    stringstream monthstream;
+//    int month = ui->issueDateEdit->date().month();
+//    if(month >= 10){
+//        monthstream << month;
+//    } else{
+//        monthstream << "0" << month;
+//    }
+//    stringstream daystream;
+//    int day = ui->issueDateEdit->date().day();
+//    if(day >= 10){
+//        daystream << day;
+//    } else{
+//        daystream << "0" << day;
+//    }
+//    s << year << monthstream.str() << daystream.str();
+//    string issueDateString = s.str();
+//    cout << "issueDateString" << issueDateString << endl;
+//    // </end date>

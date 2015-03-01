@@ -9,19 +9,37 @@ using namespace std;
 
 Route::Route(vector<RoutePoint> *r)
 {
-    Route::route = r;
+    route = r;
 }
 
 Route::Route()
 {
-
+    route = new vector<RoutePoint>;
 }
 
+vector<Route::RoutePoint>::iterator Route::at(int n){
+    vector<RoutePoint>::iterator it = route->begin();
+    if(n > 0){
+        while(n != 0){
+            it++;
+            n--;
+        }
+    }
+    return it;
+}
 
-void Route::addNode(RoutePoint* node, vector<RoutePoint>::iterator where)
+//void Route::insert(RoutePoint* r, vector<RoutePoint>::iterator it){
+//    route->insert(it,r); //Doesn't work for some reason
+//}
+
+
+void Route::swapPoints(vector<RoutePoint>::iterator first, vector<RoutePoint>::iterator second){
+    std::iter_swap(first,second);
+}
+
+void Route::insert(RoutePoint* node, vector<RoutePoint>::iterator where)
 {
-    vector<RoutePoint>::iterator it = where;
-    route->insert(it,*node);
+    route->insert(where,*node);
 }
 vector<Route::RoutePoint>::iterator Route::begin()
 {
