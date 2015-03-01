@@ -61,6 +61,18 @@ const string SELECT_ARTICLE_BY_TITLE_AND_NOT_ID =
         "WHERE title = :ti AND idarticle != :id";
 
 
+
+const string DELETE_ALL_PHOTOS_BY_ID =
+        "DELETE FROM lawrentian.photo "
+        "WHERE idarticle = :art";
+
+const string ADD_A_PHOTO =
+        "INSERT INTO lawrentian.photo "
+            "(filename,idsection,idarticle,idPhotographer) "
+        "VALUES "
+            "(:file, :section, :article, :photog)";
+
+
 }
 using namespace NAWWDBCCommands;
 NewArticleWorkspaceWindowDBC::NewArticleWorkspaceWindowDBC(Client *c):DatabaseController(c)
@@ -249,4 +261,40 @@ vector<pair<string,int>*>* NewArticleWorkspaceWindowDBC::getListOfPhotographers(
         cout << "!SQL ERROR: " << result->lastError().databaseText().toStdString() << endl;
     }
     return phographers;
+}
+
+
+void NewArticleWorkspaceWindowDBC::deleteMyPhotos(int articleId){
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(NAWWDBCCommands::DELETE_ALL_PHOTOS_BY_ID));
+    query->bindValue(":art",articleId);
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    if(err.isValid()){
+        cout << "!SQL ERROR: " << result->lastError().databaseText().toStdString() << endl;
+    }
+    return;
+}
+
+void NewArticleWorkspaceWindowDBC::addMyPhotos(QStringList& imgPaths,int articleID,
+                                               int sectionID,int photographerID){
+    QSqlQuery* query = new QSqlQuery();
+
+    for(int i = 0; i < imgPaths.size(); ++i){ //I miss my while loops :(
+        cout << "adding photo record to db: " << imgPaths.at(i).toStdString();
+        query->prepare(QString::fromStdString(NAWWDBCCommands::ADD_A_PHOTO));
+        query->bindValue(":file",imgPaths.at(i));
+        query->bindValue(":section",sectionID);
+        query->bindValue(":article",articleID);
+        query->bindValue(":photog",photographerID);
+        QSqlQuery* result = client->execute(query);
+        QSqlError err = result->lastError();
+
+        if(err.isValid()){
+            cout << "!SQL ERROR: " << result->lastError().databaseText().toStdString() << endl;
+        }
+    }
+    return;
+
 }

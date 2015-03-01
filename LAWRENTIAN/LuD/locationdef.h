@@ -4,10 +4,13 @@
 
 class LocationDef
 {
+
+
 public:
     LocationDef();
     ~LocationDef();
 
+    vector<int> locationIds;
 
     static int VOLUNTEER_CENTER;
     static int RAYMOND_HOUSE;

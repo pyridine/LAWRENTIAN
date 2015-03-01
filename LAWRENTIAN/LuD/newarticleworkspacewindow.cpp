@@ -85,8 +85,10 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
     int id = myArticle->getId();
     if(!dbController->isArticleTitleAlreadyInUse(title,id))
     {
-        if(0 != title.compare("Krebsbach is the best CS teacher in the world"))
+        if(title.compare("Krebsbach is the best CS teacher in the world"))
         {
+            myArticle = new Article(issueDateString, title, description, section, writer, photographer);
+            myArticle->setId(id);
             //Do sender things...
             Sender sndr = Sender();
             string sec_this =  dbController->translateSection(section);
@@ -133,6 +135,7 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
             cout << "Adding the article to the DB." << endl;
             //Add the new article to the DB...
             dbController->addArticle(myArticle);
+            updatePhotoDB(); //Must be done after adding article b/c foreign key constraints.
             //Done!
 
             //We're done.
@@ -412,6 +415,11 @@ std::string newArticleWorkspaceWindow::getNameExt(const std::string& s)
     return str.substr(iter - str.begin() + 1,str.end() - iter - 1);
 }
 
+string newArticleWorkspaceWindow::getfNameNoExt(string s){
+    string yesExt = getfName(QString::fromStdString(s)).toStdString();
+    return yesExt.substr(0,yesExt.find_last_of('.'));
+}
+
 std::string newArticleWorkspaceWindow::getExt(const string &s)
 {
     using namespace std;
@@ -455,8 +463,24 @@ void newArticleWorkspaceWindow::on_deleteAWS_pushButton_clicked()
 
     sndr.deleteArt(issueDate,sec,art);
     dbController->deleteArticle(myArticle->getId());
-
-    cout << issueDate << endl << sec << endl << art << endl;
+    dbController->deleteMyPhotos(myArticle->getId());
     closeMe();
 }
 
+void newArticleWorkspaceWindow::updatePhotoDB(){
+    //Yes, I know, I am once again writing a DB update algorithm that
+    //just wipes the database and reinputs the correct data.
+    //How horrible.
+    //However, in this case, I think such an algorithm is best.
+    //since so many things can change about articles, it's useless
+    //to keep track of them all and only update the affected rows in the photo DB.
+    //So, a wipe/redo algorithm is fine.
+
+    QStringList fname_paths;
+    for(int i = 0; i < img_paths.size(); i++){
+        fname_paths << QString::fromStdString(getfNameNoExt(img_paths.at(i).toStdString()));
+    }
+
+    dbController->deleteMyPhotos(myArticle->getId());
+    dbController->addMyPhotos(fname_paths,myArticle->getId(),getSelectedSectionID(),getSelectedPhotographerLuid());
+}

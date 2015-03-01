@@ -29,6 +29,8 @@ private slots:
 
     void on_routeSelectorWidget_currentRowChanged(int currentRow);
 
+    void on_addRouteButton_clicked();
+
 private:
     void initDB(Client* c);
     void populateRouteList();

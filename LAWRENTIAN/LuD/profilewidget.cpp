@@ -51,7 +51,7 @@ void profileWidget::updateNotifications()
         ui->systemNotificationsTextBrowser->append("<span>"+probationApprovalText+"</span>");
         for(int i = 0; i < possibleProbationApprovals.size(); i++){
             QString name = QString::fromStdString(possibleProbationApprovals[i]);
-            QString indexString = QString::fromStdString(to_string((long long)i));
+            QString indexString = QString::number(i);
             QString url = "<a href="+indexString+">"+name+"</a>";
             ui->systemNotificationsTextBrowser->append(url);
             selectedUser = QString::fromStdString(possibleProbationApprovals[i]);
