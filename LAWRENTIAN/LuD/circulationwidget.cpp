@@ -2,6 +2,7 @@
 #include "ui_circulationwidget.h"
 #include <iostream>
 #include "route.h"
+#include "editroutewindow.h"
 
 using namespace std;
 
@@ -51,7 +52,17 @@ circulationWidget::~circulationWidget()
 
 void circulationWidget::on_editRouteButton_clicked()
 {
-
+    int indexOfRoute = this->ui->routeSelectorWidget->currentRow();
+    if(indexOfRoute >= 0){
+        pair<Route*,int>* nextRoutePair = myRoutes->operator[](indexOfRoute); //Only way it works :P
+        Route* nextRoute = nextRoutePair->first;
+        int nextRouteID = nextRoutePair->second;
+        cout << "making w" << endl;
+        EditRouteWindow* e = new EditRouteWindow(this,nextRoute,nextRouteID);
+        e->setWindowModality(Qt::ApplicationModal);
+        e->initDb(dbController->getClient());
+        e->show();
+    }
 }
 
 void circulationWidget::on_routeSelectorWidget_currentRowChanged(int currentRow)
@@ -69,4 +80,14 @@ void circulationWidget::on_routeSelectorWidget_currentRowChanged(int currentRow)
         this->ui->routeDisplayWidget->addItem(name);
         points++;
     }
+}
+
+void circulationWidget::on_addRouteButton_clicked()
+{
+    Route* newR = new Route();
+    int nextRouteID = dbController->getAvailableRouteId();
+    EditRouteWindow* e = new EditRouteWindow(this,newR,nextRouteID);
+    e->setWindowModality(Qt::ApplicationModal);
+    e->initDb(dbController->getClient());
+    e->show();
 }

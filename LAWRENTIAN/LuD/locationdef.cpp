@@ -1,5 +1,6 @@
 #include "locationdef.h"
 
+
 int LocationDef::VOLUNTEER_CENTER = -13;
 int LocationDef::RAYMOND_HOUSE = -13;
 int LocationDef::BRIGGS_SACS = -13;
@@ -32,7 +33,6 @@ int LocationDef::BIG_EXEC = -13;
 int LocationDef::SMALL_EXEC = -13;
 int LocationDef::WELLNESS_FRONT = -13;
 int LocationDef::SLUG = -13;
-
 LocationDef::LocationDef()
 {
 
@@ -45,37 +45,37 @@ LocationDef::~LocationDef()
 
 void LocationDef::__populateValues(LoginWindowDBC *db){
 
-     VOLUNTEER_CENTER = db->__getLocationID("VOLUNTEER_CENTER");
-     RAYMOND_HOUSE= db->__getLocationID("RAYMOND_HOUSE");
-     BRIGGS_SACS= db->__getLocationID("BRIGGS_SACS");
-     BRIGGS_LOB= db->__getLocationID("BRIGGS_LOB");
-     BRIGGS_FAC= db->__getLocationID("BRIGGS_FAC");
-     DIVERSITY= db->__getLocationID("DIVERSITY");
-     VIKING_ROOM= db->__getLocationID("VIKING_ROOM");
-     SAMPSON= db->__getLocationID("SAMPSON");
-     LIBARY= db->__getLocationID("LIBARY");
-     WRISTON_FAC= db->__getLocationID("WRISTON_FAC");
-     HURVIS_FRONT= db->__getLocationID("HURVIS_FRONT");
-     HURVIS_CAREER= db->__getLocationID("HURVIS_CAREER");
-     HURVIS_LEFT= db->__getLocationID("HURVIS_LEFT");
-     SAGE = db->__getLocationID("SAGE");
-     COLMAN= db->__getLocationID("COLMAN");
-     KOHLER= db->__getLocationID("KOHLER");
-     TREVER= db->__getLocationID("TREVER");
-     ORMSBY_WORMSBY= db->__getLocationID("ORMSBY_WORMSBY");
-     HIETT= db->__getLocationID("HIETT");
-     PLANTZ= db->__getLocationID("PLANTZ");
-     DELT= db->__getLocationID("DELT");
-     DRAHEIM= db->__getLocationID("DRAHEIM");
-     SWING= db->__getLocationID("SWING");
-     GAMING= db->__getLocationID("GAMING");
-     BETA= db->__getLocationID("BETA");
-     SANKOFA= db->__getLocationID("SANKOFA");
-     GREENFIRE= db->__getLocationID("GREENFIRE");
-     ORC= db->__getLocationID("ORC");
-     BIG_EXEC= db->__getLocationID("BIG_EXEC");
-     SMALL_EXEC= db->__getLocationID("SMALL_EXEC");
-     WELLNESS_FRONT= db->__getLocationID("WELLNESS_FRONT");
-     SLUG= db->__getLocationID("SLUG");
+     LocationDef::VOLUNTEER_CENTER = db->__getLocationID("VOLUNTEER_CENTER");
+     LocationDef::RAYMOND_HOUSE= db->__getLocationID("RAYMOND_HOUSE");
+     LocationDef::BRIGGS_SACS= db->__getLocationID("BRIGGS_SACS");
+     LocationDef::BRIGGS_LOB= db->__getLocationID("BRIGGS_LOB");
+     LocationDef::BRIGGS_FAC= db->__getLocationID("BRIGGS_FAC");
+     LocationDef::DIVERSITY= db->__getLocationID("DIVERSITY");
+     LocationDef::VIKING_ROOM= db->__getLocationID("VIKING_ROOM");
+     LocationDef::SAMPSON= db->__getLocationID("SAMPSON");
+     LocationDef::LIBARY= db->__getLocationID("LIBARY");
+     LocationDef::WRISTON_FAC= db->__getLocationID("WRISTON_FAC");
+     LocationDef::HURVIS_FRONT= db->__getLocationID("HURVIS_FRONT");
+     LocationDef::HURVIS_CAREER= db->__getLocationID("HURVIS_CAREER");
+     LocationDef::HURVIS_LEFT= db->__getLocationID("HURVIS_LEFT");
+     LocationDef::SAGE = db->__getLocationID("SAGE");
+     LocationDef::COLMAN= db->__getLocationID("COLMAN");
+     LocationDef::KOHLER= db->__getLocationID("KOHLER");
+     LocationDef::TREVER= db->__getLocationID("TREVER");
+     LocationDef::ORMSBY_WORMSBY= db->__getLocationID("ORMSBY_WORMSBY");
+     LocationDef::HIETT= db->__getLocationID("HIETT");
+     LocationDef::PLANTZ= db->__getLocationID("PLANTZ");
+     LocationDef::DELT= db->__getLocationID("DELT");
+     LocationDef::DRAHEIM= db->__getLocationID("DRAHEIM");
+     LocationDef::SWING= db->__getLocationID("SWING");
+     LocationDef::GAMING= db->__getLocationID("GAMING");
+     LocationDef::BETA= db->__getLocationID("BETA");
+     LocationDef::SANKOFA= db->__getLocationID("SANKOFA");
+     LocationDef::GREENFIRE= db->__getLocationID("GREENFIRE");
+     LocationDef::ORC= db->__getLocationID("ORC");
+     LocationDef::BIG_EXEC= db->__getLocationID("BIG_EXEC");
+     LocationDef::SMALL_EXEC= db->__getLocationID("SMALL_EXEC");
+     LocationDef::WELLNESS_FRONT= db->__getLocationID("WELLNESS_FRONT");
+     LocationDef::SLUG= db->__getLocationID("SLUG");
 }
 

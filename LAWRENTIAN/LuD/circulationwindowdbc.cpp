@@ -10,8 +10,6 @@
 namespace CWDBCCommands {
     const string GET_ALL_ROUTE_NUMS = "SELECT routeid FROM lawrentian.routes GROUP BY routeid";
     const string GET_ROUTE_POINTS = "SELECT idlocation,numberOfIssues FROM lawrentian.routes WHERE routeid = :id ORDER BY locationorder ASC";
-    const string DROP_ROUTE = "DELETE FROM lawrentian.routes WHERE routeid = :id";
-    const string INSERT_ROUTE_POINT = "INSERT INTO lawrentian.routes (routeid,idlocation,numberOfIssues,locationorder) VALUES (:id,:loc,:num,:ord)";
 }
 using namespace CWDBCCommands;
 using namespace std;
@@ -61,7 +59,7 @@ Route* CirculationWindowDBC::getRoute(int routeId){
             int nextLocId = result->value(0).toInt();
             int nextNumIss = result->value(1).toInt();
             Route::RoutePoint* nextPoint = new pair<int,int>(nextLocId,nextNumIss);
-            newRoute->addNode(nextPoint,newRoute->end());
+            newRoute->insert(nextPoint,newRoute->end());
         }
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
@@ -70,34 +68,6 @@ Route* CirculationWindowDBC::getRoute(int routeId){
 }
 
 
-//Deletes before insering for simplicity. So you use this for add and edit.
-//Note: pass in a negative number
-void CirculationWindowDBC::insertRoute(Route *r, int routeID){
-    dropRoute(routeID);
-    vector<Route::RoutePoint>::iterator points = r->begin();
-
-    int nextOrder = 1;
-    while(points != r->end()){
-        this->insertRoutePoint(*points,routeID,nextOrder);
-        nextOrder++;
-    }
-}
-
-
-
-void CirculationWindowDBC::dropRoute(int routeID){
-    QSqlQuery* query = new QSqlQuery();
-
-    query->prepare(QString::fromStdString(CWDBCCommands::DROP_ROUTE));
-    query->bindValue(":id",routeID);
-
-    QSqlQuery* result = client->execute(query);
-    QSqlError err = result->lastError();
-
-    if(err.isValid()){
-        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
-    }
-}
 
 int CirculationWindowDBC::getAvailableRouteId(){ //Really important for inserting
     return findMissingNumber(getAllRouteNums());
@@ -123,25 +93,6 @@ vector<int>* CirculationWindowDBC::getAllRouteNums(){
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
     return numz;
-}
-
-void CirculationWindowDBC::insertRoutePoint(Route::RoutePoint p,int routeId, int pointOrder){
-    QSqlQuery* query = new QSqlQuery();
-
-    query->prepare(QString::fromStdString(CWDBCCommands::INSERT_ROUTE_POINT));
-
-    //(routeid,idlocation,numberOfIssues,locationorder) VALUES (:id,:loc,:num,:ord)";
-    query->bindValue(":id",routeId);
-    query->bindValue(":loc",p.first);
-    query->bindValue(":num",p.second);
-    query->bindValue(":ord",pointOrder);
-
-    QSqlQuery* result = client->execute(query);
-    QSqlError err = result->lastError();
-
-    if(err.isValid()){
-        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
-    }
 }
 
 /**

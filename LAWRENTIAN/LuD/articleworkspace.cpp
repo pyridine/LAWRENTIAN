@@ -51,7 +51,14 @@ void articleWorkspace::openArticleWorkspace(Article* a){
 void articleWorkspace::on_addArticleWorkspace_pushButton_clicked()
 {
 
-    Article* newArticle = new Article("2015-06-06","Article Title","Article Description",
+    //Set the article's date for the next Wednesday.
+    QDate todate = QDate::currentDate();
+    while(todate.dayOfWeek() != 3 /*Wednesday*/){
+        todate = todate.addDays(1);
+    }
+    QString dateFormat("yyyy-MM-dd");
+    string dateString = todate.toString(dateFormat).toStdString();
+    Article* newArticle = new Article(dateString,"Article Title","Article Description",
                                       0 /*Default to first section*/,
                                       -1 /*Nobody assigned*/,
                                       -1 /*Nobody assigned*/);
