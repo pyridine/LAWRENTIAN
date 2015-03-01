@@ -9,8 +9,7 @@
 #include <QHBoxLayout>
 
 CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& sec,
-                                     const std::string& date, const std::string& art,
-                                     const std::string& type, const std::string& fName) :
+                                     const std::string& date, const std::string& art) :
     QDialog(parent),
     ui(new Ui::CopyHistoryWindow)
 {
@@ -24,7 +23,6 @@ CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& sec,
     this->date = date;
     this->sec = sec;
     this->art = art;
-    this->type = type;
 
     ui->setupUi(this);
     ui->copyHistory_tableWidget->setColumnCount(3);
@@ -41,7 +39,7 @@ CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& sec,
     ui->copyHistory_tableWidget->setHorizontalHeaderItem(1,h2);
     ui->copyHistory_tableWidget->setHorizontalHeaderItem(2,h3);
 
-    ver_seq = sndr.getHistory(date, sec,art,type,fName);
+    ver_seq = sndr.getHistory(date, sec,art,fs::COPY);
     cout << ver_seq.size() << endl;
     VerSeq::const_iterator iter = ver_seq.begin();
     for(iter; iter != ver_seq.end(); iter++)
@@ -152,7 +150,7 @@ void CopyHistoryWindow::on_download_pushButton_clicked()
 
     cout << down_dir << endl << fName << endl << ver_num << endl;
     Sender sndr = Sender();
-    sndr.requestFile(date, sec,art,type,fName,down_dir,ver_num);
+    sndr.requestFile(date, sec,art,fs::COPY,down_dir,ver_num);
 
     this->close();
 }

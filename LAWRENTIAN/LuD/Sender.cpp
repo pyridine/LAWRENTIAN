@@ -40,8 +40,7 @@ Sender::~Sender()
 
 bool
 Sender::sendFile(const std::string& issueDate, const std::string& sec,
-                 const std::string& art, const std::string& type,
-                 const std::string& fNameExt, const std::string& clDir)
+                 const std::string& art, const std::string& type, const std::string& clDir)
 {
     using namespace std;
     using namespace Ice;
@@ -54,7 +53,7 @@ Sender::sendFile(const std::string& issueDate, const std::string& sec,
     ByteSeq seq(len);
     source.read(reinterpret_cast<char*>(&seq[0]), seq.size());
 
-    bool b = fpx->sendFile(issueDate, sec, art, type, fNameExt,seq);
+    bool b = fpx->sendFile(issueDate, sec, art, type, art,seq);
     source.close();
 
     return b;
@@ -62,16 +61,15 @@ Sender::sendFile(const std::string& issueDate, const std::string& sec,
 
 bool
 Sender::requestFile(const std::string& issueDate, const std::string& sec,
-                    const std::string& art, const std::string& type,
-                    const std::string& fName, const std::string& down_dir,
+                    const std::string& art, const std::string& type, const std::string& down_dir,
                     int ver)
 {
     using namespace std;
     using namespace Ice;
 
     ByteSeq seq = (ver == -1)
-                ? fpx->receiveLatest(issueDate, sec, art, type, fName)
-                : fpx->receiveVersion(issueDate, sec, art, type, fName, ver);
+                ? fpx->receiveLatest(issueDate, sec, art, type, art)
+                : fpx->receiveVersion(issueDate, sec, art, type, art, ver);
 
     if (!seq.size())
         return false;
@@ -84,9 +82,9 @@ Sender::requestFile(const std::string& issueDate, const std::string& sec,
 
 FileSystem::VerSeq
 Sender::getHistory(const std::string& issueDate, const std::string& sec, const std::string& art,
-                   const std::string& type, const std::string& fName)
+                   const std::string& type)
 {
-    return fpx->getHistory(issueDate, sec, art, type, fName);
+    return fpx->getHistory(issueDate, sec, art, type, art);
 }
 
 FileSystem::StrSeq Sender::getImageList(const std::string &issueDate, const std::string &sec, const std::string &art)
@@ -94,7 +92,7 @@ FileSystem::StrSeq Sender::getImageList(const std::string &issueDate, const std:
     return fpx->getImageList(issueDate, sec, art);
 }
 
-bool Sender::changeDir(const std::string &issueDate, const std::string &sec, const std::string &artOld, const std::string &artNew)
+bool Sender::renameArticle(const std::string &issueDate, const std::string &sec, const std::string &artOld, const std::string &artNew)
 {
     return fpx->changeDir(issueDate,sec,artOld,artNew);
 }

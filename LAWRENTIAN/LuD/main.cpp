@@ -15,10 +15,7 @@ using namespace FileSystem;
 
 /*int main(int argc, char *argv[])
 {
-    Sender sndr = Sender(0); // sends to server computer
-    //Sender sndr = Sender(0); // send to current computer. Needs Receiver rcvr = Receiver(0); in LuDServer main.
-//    sndr.sendFile("1-1-1001","First","Second",fs::COPY, "OMG","C:/Programs/down.docx");
-    sndr.deleteArt("1-1-1001","Nws","First");
+    QApplication a(argc, argv);
 
     return 0;
 }*/
