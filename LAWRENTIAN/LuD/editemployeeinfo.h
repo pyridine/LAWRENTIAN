@@ -23,7 +23,9 @@ public:
     void populateNameComboBox();
     void populateAllFields();
     void updateAllFields();
+    void initSelectedName(QString selectedName);
     employeesWidget *myParent;
+    string getSelectedName();
 
 private slots:
     void on_nameComboBox_currentIndexChanged(int index);
@@ -31,6 +33,8 @@ private slots:
     void on_pushButton_clicked();
 
     void on_pushButton_2_clicked();
+
+    void on_probationComboBox_currentIndexChanged(int index);
 
 private:
     Ui::EditEmployeeInfo *ui;

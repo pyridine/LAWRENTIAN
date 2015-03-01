@@ -56,6 +56,39 @@ string ProfileWidgetDBC::collectTitle(int luid)
     }
 }
 
+vector<string> ProfileWidgetDBC::collectProbationApprovals(QDate currentDate)
+{
+    QDate possibleApprovalDate = currentDate.addDays(-21);
+    QString possibleApprovalDateString = possibleApprovalDate.toString("yyyy-MM-dd");
+    cout<<possibleApprovalDateString.toStdString()<<endl;
+    const string GET_PROBATION_APPROVALS = "SELECT name FROM lawrentian.employee "
+                                           "INNER JOIN lawrentian.writer_timesheet "
+                                           "ON lawrentian.employee.luid = lawrentian.writer_timesheet.idwriter "
+                                           "WHERE employee.probationDate <= :probationDate "
+                                           "AND writer_timesheet.articles_ontime >= 3";
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_PROBATION_APPROVALS));
+    query->bindValue(":probationDate", possibleApprovalDateString);
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    vector<string> names;
+
+    if(!err.isValid()){
+        cout<<"About to enter while loop"<<endl;
+        while(result->next()){
+            cout<<"There are results found"<<endl;
+            string approvedPerson = result->value(0).toString().toStdString();
+            cout<<"An approved person is: "<<approvedPerson<<endl;
+            names.push_back(approvedPerson);
+        }
+        return names;
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+}
+
 ProfileWidgetDBC::~ProfileWidgetDBC()
 {
 

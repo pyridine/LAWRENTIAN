@@ -12,6 +12,7 @@ public:
 
     string collectName(int luid);
     string collectTitle(int luid);
+    vector<string> collectProbationApprovals(QDate currentDate);
 };
 
 #endif // PROFILEWIDGETDBC_H

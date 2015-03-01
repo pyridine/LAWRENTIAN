@@ -54,49 +54,57 @@ void EditProfileWidget::on_resetPushButton_clicked()
 
 void EditProfileWidget::on_pushButton_clicked()
 {
-    int loginId = loginCred->getLUID();
-
-    string oldPasswordTyped = ui->oldPasswordTextField->text().toStdString();
-    string oldPasswordDB = editProfileDBC->collectOldPassword(loginId);
-    string newPassword = ui->newPasswordTextField->text().toStdString();
-    string confirmPassword = ui->confirmPasswordTextField->text().toStdString();
-
-    bool fieldsAreSatisfied = true;
-
-    if(newPassword != ""){
-        //Check to see if passwords match.
-        if(newPassword.compare(confirmPassword) != 0){
-            Alert::showAlert("Error", "Your passwords don't match!");
-            fieldsAreSatisfied = false;
-        }
-        // Check to see if inputted oldPassword is the same as the password in the database
-        if(oldPasswordTyped.compare(oldPasswordDB) != 0){
-            Alert::showAlert("Error", "Incorrect password entered");
-            fieldsAreSatisfied = false;
-        }
-        //Check to see if password conforms to standards.
-        if(!isPasswordSuitable(newPassword)){
-            Alert::showAlert("Error", "Password must contain at least one number (0-9), one upper case character (A-Z), and one lower case character (a-z)");
-            fieldsAreSatisfied = false;
-        }
-    }
-
-    if(fieldsAreSatisfied){
+    Alert proceed;
+    int ret = proceed.showQuestionAlert("Update Profile", "Are you sure you want to save and proceed?");
+    switch(ret){
+    case QMessageBox::Save:
+    {
         int loginId = loginCred->getLUID();
-        string name = ui->nameTextField->text().toStdString();
-        string email = ui->emailTextField->text().toStdString();
-        string phone = ui->phoneTextField->text().toStdString();
-        string username = ui->usernameTextField->text().toStdString();
-        if(newPassword == ""){
-            editProfileDBC->saveEmployeeChangesWithoutPassword(name, email, phone, username, loginId);
-        }
-        else{
-            editProfileDBC->saveEmployeeChangesWithPassword(name, email, phone, username, newPassword, loginId);
-        }
-        this->close();
-        myParent->setWelcomeLabel();
-    }
 
+        string oldPasswordTyped = ui->oldPasswordTextField->text().toStdString();
+        string oldPasswordDB = editProfileDBC->collectOldPassword(loginId);
+        string newPassword = ui->newPasswordTextField->text().toStdString();
+        string confirmPassword = ui->confirmPasswordTextField->text().toStdString();
+
+        bool fieldsAreSatisfied = true;
+
+        if(newPassword != ""){
+            //Check to see if passwords match.
+            if(newPassword.compare(confirmPassword) != 0){
+                Alert::showAlert("Error", "Your passwords don't match!");
+                fieldsAreSatisfied = false;
+            }
+            // Check to see if inputted oldPassword is the same as the password in the database
+            if(oldPasswordTyped.compare(oldPasswordDB) != 0){
+                Alert::showAlert("Error", "Incorrect password entered");
+                fieldsAreSatisfied = false;
+            }
+            //Check to see if password conforms to standards.
+            if(!isPasswordSuitable(newPassword)){
+                Alert::showAlert("Error", "Password must contain at least one number (0-9), one upper case character (A-Z), and one lower case character (a-z)");
+                fieldsAreSatisfied = false;
+            }
+        }
+
+        if(fieldsAreSatisfied){
+            int loginId = loginCred->getLUID();
+            string name = ui->nameTextField->text().toStdString();
+            string email = ui->emailTextField->text().toStdString();
+            string phone = ui->phoneTextField->text().toStdString();
+            string username = ui->usernameTextField->text().toStdString();
+            if(newPassword == ""){
+                editProfileDBC->saveEmployeeChangesWithoutPassword(name, email, phone, username, loginId);
+            }
+            else{
+                editProfileDBC->saveEmployeeChangesWithPassword(name, email, phone, username, newPassword, loginId);
+            }
+            this->close();
+            myParent->setWelcomeLabel();
+        }
+    }
+    case QMessageBox::Cancel:
+        break;
+    }
 }
 
 bool EditProfileWidget::isPasswordSuitable(string s){
