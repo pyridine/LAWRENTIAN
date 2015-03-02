@@ -14,6 +14,7 @@
 #include "sectiondef.h"
 #include "permissiondef.h"
 #include "alert.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -124,11 +125,11 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
 
             string filePath = ui->articleFileTextField->text().toStdString();
             if(filePath.size())
-                sndr.sendFile(date, sec_this, title, fs::COPY, filePath);
+                sndr.sendCopy(date, sec_this, title, fs::COPY, filePath);
 
             QStringList::const_iterator iter = img_paths.begin();
             for(iter; iter!=img_paths.end(); iter++)
-                sndr.sendFile(date,sec_this,title,fs::IMAGE,iter->toStdString());
+                sndr.sendImage(date,sec_this,title,fs::IMAGE,getfName(*iter),iter->toStdString());
             // done.
 
             cout << "adding art." << endl;
@@ -249,8 +250,10 @@ void newArticleWorkspaceWindow::on_addImage_pushButton_clicked()
     vert_layout = new QVBoxLayout;
     while (iter != img_paths.end())
     {
+        cout << getfName(*iter) << endl;
+
         QLabel *text = new QLabel;
-        text->setText(getfName(*iter));
+        text->setText(QString::fromStdString(getfName(*iter)));
 
         QCheckBox *check_box = new QCheckBox;
         cb_vec.push_back(check_box);
@@ -272,51 +275,27 @@ void newArticleWorkspaceWindow::on_addImage_pushButton_clicked()
     ui->img_scrollArea->setWidget(widget);
 }
 
-QString newArticleWorkspaceWindow::getfName(QString s)
+string newArticleWorkspaceWindow::getfName(QString s)
 {
     using namespace std;
 
     string str = s.toStdString();
-    string::const_iterator iter = str.end() - 1;
+    size_t loc_slash = str.rfind('/');
+    loc_slash = loc_slash == string::npos ? str.rfind('\\') : loc_slash;
+    if(loc_slash == string::npos)
+        return "";
 
-    while(*iter != '/' && *iter != '\\')
-    {
-        iter--;
-        if(iter == str.begin())
-        {
-            break; //throw exception.
-        }
-    }
-    string ret = str.substr(iter - str.begin() + 1,str.end() - iter - 1);
-    return QString::fromStdString(ret);
+    str = str.substr(loc_slash + 1,str.size() - 1);
+    size_t loc_dot = str.rfind('.');
+    if(loc_dot == string::npos)
+        return "";
+
+    return str.substr(0,loc_dot);
+
 }
 
 void newArticleWorkspaceWindow::on_delete_pushButton_pressed()
 {
-    cout << "del" << endl;
-    cb_vec_t::iterator iter = cb_vec.begin();
-    for(iter; iter != cb_vec.end(); iter++)
-    {
-        QCheckBox *c_box = *iter;
-        if(c_box->isChecked())
-        {
-            vert_layout->removeItem(vert_layout->itemAt(iter - cb_vec.begin()));
-            img_paths.removeAt(iter - cb_vec.begin());
-            cb_vec.erase(iter,iter+1);
-
-            iter--;
-        }
-        if (iter == cb_vec.end())
-            break;
-    }
-
-
-    QWidget *widget = new QWidget;
-    widget->setLayout(vert_layout);
-    ui->img_scrollArea->setWidget(widget);
-
-    bool isVisible = !img_paths.isEmpty();
-    ui->delete_pushButton->setVisible(isVisible);
 }
 
 void newArticleWorkspaceWindow::initDB(Client* c){
@@ -417,42 +396,6 @@ void newArticleWorkspaceWindow::on_sectionComboBox_currentIndexChanged(const QSt
                            myArticle->getWriter());
 }
 
-std::string newArticleWorkspaceWindow::getNameExt(const std::string& s)
-{
-    using namespace std;
-    string str = s;
-    string::const_iterator iter = str.end() - 1;
-    while(*iter != '/' && *iter != '\\')
-    {
-        iter--;
-        if(iter == str.begin())
-        {
-            break; //throw exception.
-            cout << "broken" << endl;
-        }
-    }
-    return str.substr(iter - str.begin() + 1,str.end() - iter - 1);
-}
-
-string newArticleWorkspaceWindow::getfNameNoExt(string s){
-    string yesExt = getfName(QString::fromStdString(s)).toStdString();
-    return yesExt.substr(0,yesExt.find_last_of('.'));
-}
-
-std::string newArticleWorkspaceWindow::getExt(const string &s)
-{
-    using namespace std;
-
-    string::const_iterator iter = s.end() - 1;
-    while(*iter != '.')
-    {
-        if(iter == s.begin())
-            return "";
-        iter--;
-    }
-    return s.substr(iter - s.begin(), s.end() - s.begin());
-}
-
 std::string newArticleWorkspaceWindow::getNameColon(const std::string& s)
 {
     string str = s;
@@ -497,31 +440,51 @@ void newArticleWorkspaceWindow::updatePhotoDB(){
 
     QStringList fname_paths;
     for(int i = 0; i < img_paths.size(); i++){
-        fname_paths << QString::fromStdString(getfNameNoExt(img_paths.at(i).toStdString()));
+        fname_paths << QString::fromStdString(getfName(img_paths.at(i)));
     }
 
     dbController->deleteMyPhotos(myArticle->getId());
     dbController->addMyPhotos(fname_paths,myArticle->getId(),getSelectedSectionID(),getSelectedPhotographerLuid());
 }
 
-//    // </begin date> Maybe put this in an inherited dbcontroller function?
-//    stringstream s;
-//    int year = ui->issueDateEdit->date().year();
-//    stringstream monthstream;
-//    int month = ui->issueDateEdit->date().month();
-//    if(month >= 10){
-//        monthstream << month;
-//    } else{
-//        monthstream << "0" << month;
-//    }
-//    stringstream daystream;
-//    int day = ui->issueDateEdit->date().day();
-//    if(day >= 10){
-//        daystream << day;
-//    } else{
-//        daystream << "0" << day;
-//    }
-//    s << year << monthstream.str() << daystream.str();
-//    string issueDateString = s.str();
-//    cout << "issueDateString" << issueDateString << endl;
-//    // </end date>
+void newArticleWorkspaceWindow::on_delete_pushButton_clicked()
+{
+    cout << "del" << endl;
+    cb_vec_t::iterator iter = cb_vec.begin();
+    while(iter != cb_vec.end())
+    {
+        QCheckBox *c_box = *iter;
+        if(c_box->isChecked())
+        {
+            vert_layout->removeItem(vert_layout->itemAt(iter - cb_vec.begin()));
+            img_paths.removeAt(iter - cb_vec.begin());
+            cb_vec.erase(iter);
+        }
+        else
+            iter++;
+
+    }
+
+    for(iter; iter != cb_vec.end(); iter++)
+    {
+        QCheckBox *c_box = *iter;
+        if(c_box->isChecked())
+        {
+            vert_layout->removeItem(vert_layout->itemAt(iter - cb_vec.begin()));
+            img_paths.removeAt(iter - cb_vec.begin());
+            cb_vec.erase(iter,iter+1);
+
+            iter--;
+        }
+        if (iter == cb_vec.end())
+            break;
+    }
+
+
+    QWidget *widget = new QWidget;
+    widget->setLayout(vert_layout);
+    ui->img_scrollArea->setWidget(widget);
+
+    bool isVisible = !img_paths.isEmpty();
+    ui->delete_pushButton->setVisible(isVisible);
+}

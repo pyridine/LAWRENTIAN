@@ -46,6 +46,8 @@ private slots:
 
     void on_deleteAWS_pushButton_clicked();
 
+    void on_delete_pushButton_clicked();
+
 private:
     void handlePermissions();
     typedef QVector<QCheckBox*> cb_vec_t;
@@ -70,11 +72,8 @@ private:
     cb_vec_t cb_vec;
     QStringList img_paths;
     QVBoxLayout *vert_layout;
-    QString getfName(QString str);
+    string getfName(QString str);
     std::string getNameColon(const std::string& s);
-    std::string getNameExt(const std::string& s);
-    std::string getExt(const std::string& s);
-    string getfNameNoExt(string s);
     //What are these for?
     std::string COPY;
     std::string IMAGE;
