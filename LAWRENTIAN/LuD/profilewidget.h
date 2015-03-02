@@ -42,7 +42,6 @@ private:
     LoginCredentials* loginCred;
     Client *client;
     ProfileWidgetDBC *profileWidgetDBC;
-    QString selectedUser;
 };
 
 #endif // PROFILEWIDGET_H

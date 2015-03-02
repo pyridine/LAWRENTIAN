@@ -32,7 +32,7 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
     parentWindow = parent;
 
     QWidget *mainWidget = new QWidget(ui->centralwidget);
-    QTabWidget *tabs = new QTabWidget(mainWidget);
+    tabs = new QTabWidget(mainWidget);
 
 
     tabs->setFixedSize(1100,600);
@@ -100,24 +100,28 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
     if(loginCredo->hasPermission(PermissionDef::ADMIN_PTOKEN)
             ||loginCredo->hasPermission(PermissionDef::EDIT_TIMESHEETS)
             ||loginCredo->hasPermission(PermissionDef::VIEW_TIMESHEETS)){
-
-        tabs->addTab(new editorTimesheetWidget(), "Editor Timesheet");
+        editorTimesheetWidget *etw = new editorTimesheetWidget();
+        etw->initDB(client);
+        etw->init(loginCredo, client);
+        tabs->addTab(etw, "Editor Timesheet");
     }
 
     if(loginCredo->hasPermission(PermissionDef::ADMIN_PTOKEN)
             ||loginCredo->hasPermission(PermissionDef::EDIT_TIMESHEETS)
             ||loginCredo->hasPermission(PermissionDef::VIEW_TIMESHEETS)){
-
-        tabs->addTab(new writerTimesheetWidget(), "Writer Timesheet");
+        writerTimesheetWidget *wtw = new writerTimesheetWidget();
+        wtw->initDB(client);
+        wtw->init(loginCredo, client);
+        tabs->addTab(wtw, "Writer Timesheet");
     }
 
 
-    if(loginCredo->hasPermission(PermissionDef::ADMIN_PTOKEN)
+    /*if(loginCredo->hasPermission(PermissionDef::ADMIN_PTOKEN)
             ||loginCredo->hasPermission(PermissionDef::EDIT_TIMESHEETS)
             ||loginCredo->hasPermission(PermissionDef::VIEW_TIMESHEETS)){
 
         tabs->addTab(new writerTimesheetWidget(), "Writer Timesheet");
-    }
+    }*/
 
     if(loginCredo->hasPermission(PermissionDef::ADMIN_PTOKEN)
             ||loginCredo->hasPermission(PermissionDef::EDIT_CIRCULATIONS)

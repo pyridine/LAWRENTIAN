@@ -35,9 +35,9 @@ string DatabaseController::translateLocation(int locID){
         }
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
-        return false;
+        return "";
     }
-    return false;
+    return "";
 }
 
 string DatabaseController::translatePermission(int permID){
@@ -60,9 +60,9 @@ string DatabaseController::translatePermission(int permID){
         }
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
-        return false;
+        return "";
     }
-    return false;
+    return "";
 }
 string DatabaseController::translateTitle(int titleID){
     string transLoc = "SELECT titleName FROM lawrentian.titledefinitions WHERE idTitle = :id";
@@ -84,9 +84,9 @@ string DatabaseController::translateTitle(int titleID){
         }
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
-        return false;
+        return "";
     }
-    return false;
+    return "";
 }
 
 string DatabaseController::translateSection(int secID){
@@ -133,7 +133,7 @@ string DatabaseController::translateRoute(int rID){
         }
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
-        return false;
+        return "";
     }
-    return false;
+    return "";
 }

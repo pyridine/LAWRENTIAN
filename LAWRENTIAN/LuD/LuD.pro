@@ -64,6 +64,8 @@ SOURCES += main.cpp\
     editroutewindowdbc.cpp \
     addlocationdialogue.cpp \
     editprofiledbc.cpp \
+    writertimesheetdbc.cpp \
+    editortimesheetdbc.cpp \
     editprofilewidget.cpp \
     photopoolwindow.cpp \
     profilewidgetdbc.cpp \
@@ -119,6 +121,8 @@ HEADERS  += registrationwindow.h \
     editroutewindowdbc.h \
     addlocationdialogue.h \
     editprofiledbc.h \
+    writertimesheetdbc.h \
+    editortimesheetdbc.h \
     editprofilewidget.h \
     photopoolwindow.h \
     profilewidgetdbc.h \

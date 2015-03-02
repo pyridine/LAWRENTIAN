@@ -1,92 +1,13 @@
-#include "profilewidgetdbc.h"
+#include "writertimesheetdbc.h"
 
-#include <QtSql>
-#include <qvariant.h>
 #include <iostream>
 
-ProfileWidgetDBC::ProfileWidgetDBC(Client *c):DatabaseController(c)
+WriterTimesheetDBC::WriterTimesheetDBC(Client *c):DatabaseController(c)
 {
 
 }
 
-string ProfileWidgetDBC::collectName(int luid){
-    const string GET_NAME = "SELECT name FROM lawrentian.employee WHERE luid =:luid";
-    QSqlQuery* query = new QSqlQuery();
-    query->prepare(QString::fromStdString(GET_NAME));
-    query->bindValue(":luid", luid);
-
-    string name;
-
-    QSqlQuery* result = client->execute(query);
-    QSqlError err = result->lastError();
-
-    if(!err.isValid()){
-        while(result->next()){
-            name = result->value(0).toString().toStdString();
-        }
-        return name;
-    }else{
-        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
-    }
-}
-
-string ProfileWidgetDBC::collectTitle(int luid)
-{
-    const string GET_TITLE = "SELECT lawrentian.titledefinitions.titleName "
-                            "FROM lawrentian.titledefinitions "
-                            "INNER JOIN lawrentian.employee "
-                            "ON lawrentian.titledefinitions.idTitle = lawrentian.employee.title "
-                            "WHERE lawrentian.employee.luid = :luid";
-    QSqlQuery* query = new QSqlQuery();
-    query->prepare(QString::fromStdString(GET_TITLE));
-    query->bindValue(":luid", luid);
-
-    QSqlQuery* result = client->execute(query);
-    QSqlError err = result->lastError();
-
-    string title;
-
-    if(!err.isValid()){
-        while(result->next()){
-            title = result->value(0).toString().toStdString();
-        }
-        return title;
-    }else{
-        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
-    }
-}
-
-vector<string> ProfileWidgetDBC::collectProbationApprovals(QDate currentDate)
-{
-    QDate possibleApprovalDate = currentDate.addDays(-21);
-    QString possibleApprovalDateString = possibleApprovalDate.toString("yyyy-MM-dd");
-
-    const string GET_PROBATION_APPROVALS = "SELECT name FROM lawrentian.employee "
-                                           "INNER JOIN lawrentian.writer_timesheet "
-                                           "ON lawrentian.employee.luid = lawrentian.writer_timesheet.idwriter "
-                                           "WHERE employee.probationDate <= :probationDate "
-                                           "AND writer_timesheet.articles_ontime >= 3";
-    QSqlQuery* query = new QSqlQuery();
-    query->prepare(QString::fromStdString(GET_PROBATION_APPROVALS));
-    query->bindValue(":probationDate", possibleApprovalDateString);
-
-    QSqlQuery* result = client->execute(query);
-    QSqlError err = result->lastError();
-
-    vector<string> names;
-
-    if(!err.isValid()){
-        while(result->next()){
-            string approvedPerson = result->value(0).toString().toStdString();
-            names.push_back(approvedPerson);
-        }
-        return names;
-    }else{
-        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
-    }
-}
-
-vector<int> ProfileWidgetDBC::collectWriterForTimesheet(QDate currentDate)
+vector<int> WriterTimesheetDBC::collectWriterForTimesheet(QDate currentDate)
 {
     QString currentDateString = currentDate.toString("yyyy-MM-dd");
 
@@ -113,7 +34,7 @@ vector<int> ProfileWidgetDBC::collectWriterForTimesheet(QDate currentDate)
     }
 }
 
-void ProfileWidgetDBC::generateWriterTimesheet(int writerId, int articlesOnTime, int articlesLate, QDate issueDate)
+void WriterTimesheetDBC::generateWriterTimesheet(int writerId, int articlesOnTime, int articlesLate, QDate issueDate)
 {
     QString issueDateString = issueDate.toString("yyyy-MM-dd");
 
@@ -138,7 +59,7 @@ void ProfileWidgetDBC::generateWriterTimesheet(int writerId, int articlesOnTime,
     }
 }
 
-void ProfileWidgetDBC::deleteWriterTimesheetRecords(QDate issueDate)
+void WriterTimesheetDBC::deleteWriterTimesheetRecords(QDate issueDate)
 {
     QString issueDateString = issueDate.toString("yyyy-MM-dd");
 
@@ -159,7 +80,7 @@ void ProfileWidgetDBC::deleteWriterTimesheetRecords(QDate issueDate)
     }
 }
 
-int ProfileWidgetDBC::collectArticlesOnTime(int writer, QDate issueDate)
+int WriterTimesheetDBC::collectArticlesOnTime(int writer, QDate issueDate)
 {
     QString issueDateString = issueDate.toString("yyyy-MM-dd");
 
@@ -185,7 +106,7 @@ int ProfileWidgetDBC::collectArticlesOnTime(int writer, QDate issueDate)
     }
 }
 
-int ProfileWidgetDBC::collectArticlesLate(int writer, QDate issueDate)
+int WriterTimesheetDBC::collectArticlesLate(int writer, QDate issueDate)
 {
     QString issueDateString = issueDate.toString("yyyy-MM-dd");
 
@@ -212,7 +133,7 @@ int ProfileWidgetDBC::collectArticlesLate(int writer, QDate issueDate)
 }
 
 // Returns number of entries for the issue date
-int ProfileWidgetDBC::writerTimesheetExists(QDate issueDate)
+int WriterTimesheetDBC::writerTimesheetExists(QDate issueDate)
 {
     QString issueDateString = issueDate.toString("yyyy-MM-dd");
 
@@ -237,8 +158,7 @@ int ProfileWidgetDBC::writerTimesheetExists(QDate issueDate)
     }
 }
 
-
-ProfileWidgetDBC::~ProfileWidgetDBC()
+WriterTimesheetDBC::~WriterTimesheetDBC()
 {
 
 }

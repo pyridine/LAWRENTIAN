@@ -1,18 +1,15 @@
-#ifndef PROFILEWIDGETDBC_H
-#define PROFILEWIDGETDBC_H
+#ifndef WRITERTIMESHEETDBC_H
+#define WRITERTIMESHEETDBC_H
 
 #include "client.h"
 #include "databasecontroller.h"
 
-class ProfileWidgetDBC : public DatabaseController
+class WriterTimesheetDBC : public DatabaseController
 {
 public:
-    ProfileWidgetDBC(Client *c);
-    ~ProfileWidgetDBC();
+    WriterTimesheetDBC(Client *c);
+    ~WriterTimesheetDBC();
 
-    string collectName(int luid);
-    string collectTitle(int luid);
-    vector<string> collectProbationApprovals(QDate currentDate);
     vector<int> collectWriterForTimesheet(QDate currentDate);
     void generateWriterTimesheet(int writerId, int articlesOnTime, int articlesLate, QDate issueDate);
     void deleteWriterTimesheetRecords(QDate issueDate);
@@ -21,4 +18,4 @@ public:
     int writerTimesheetExists(QDate issueDate);
 };
 
-#endif // PROFILEWIDGETDBC_H
+#endif // WRITERTIMESHEETDBC_H
