@@ -3,17 +3,27 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-
+#include "permissiondef.h"
 #include "route.h"
 #include "editroutewindow.h"
 
 using namespace std;
 
-circulationWidget::circulationWidget(QWidget *parent) :
+circulationWidget::circulationWidget(QWidget *parent, LoginCredentials *c) :
     QWidget(parent),
     ui(new Ui::circulationWidget)
 {
     ui->setupUi(this);
+    login = c;
+    handlePermissions();
+}
+
+void circulationWidget::handlePermissions(){
+    if(!login->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            &&!login->hasPermission(PermissionDef::EDIT_CIRCULATIONS)){
+        this->ui->addRouteButton->setEnabled(false);
+        this->ui->editRouteButton->setEnabled(false);
+    }
 }
 
 void circulationWidget::init_ViewAndEditPrivileges(Client* c){

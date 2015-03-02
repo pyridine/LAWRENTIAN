@@ -68,12 +68,8 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
     }  else{
         empWidget->initNormalView();
     }
-
-
     tabs->addTab(empWidget, employeeTabTitle);
 
-    //TODO: Submenues in employees depending on can see all employee info, can edit permissions,
-    //probations, etc.
 
 
     cout << "about to create article wksps" << endl;
@@ -89,10 +85,10 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
             ||loginCredo->hasPermission(PermissionDef::APPROVE_ARTICLE)){
 
         articleWorkspace* awk = new articleWorkspace();
-        awk->initDB(client,loginCredo);
+        awk->init(client,loginCredo);
         awk->updateArticleList();
 
-        tabs->addTab(awk, "Article Workspace");
+        tabs->addTab(awk, "Articles");
 
         //TODO: Display submenus of categories (News, Feat, A&E, etc) by permission.
     }
@@ -115,19 +111,11 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
         tabs->addTab(wtw, "Writer Timesheet");
     }
 
-
-    /*if(loginCredo->hasPermission(PermissionDef::ADMIN_PTOKEN)
-            ||loginCredo->hasPermission(PermissionDef::EDIT_TIMESHEETS)
-            ||loginCredo->hasPermission(PermissionDef::VIEW_TIMESHEETS)){
-
-        tabs->addTab(new writerTimesheetWidget(), "Writer Timesheet");
-    }*/
-
     if(loginCredo->hasPermission(PermissionDef::ADMIN_PTOKEN)
             ||loginCredo->hasPermission(PermissionDef::EDIT_CIRCULATIONS)
             ||loginCredo->hasPermission(PermissionDef::VIEW_CIRCULATIONS)){
 
-        circulationWidget* circWidg = new circulationWidget();
+        circulationWidget* circWidg = new circulationWidget(this,loginCredo);
 
         if(loginCredo->hasPermission(PermissionDef::ADMIN_PTOKEN)
             ||loginCredo->hasPermission(PermissionDef::EDIT_CIRCULATIONS)){

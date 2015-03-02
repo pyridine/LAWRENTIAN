@@ -34,6 +34,7 @@ private slots:
     void on_approveRegButton_clicked();
 
 private:
+    void handlePermissions();
     Ui::employeesWidget *ui;
     LoginCredentials* loginCred;
     EmployeeTableDBC* dbController;

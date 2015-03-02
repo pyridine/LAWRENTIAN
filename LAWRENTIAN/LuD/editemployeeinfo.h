@@ -16,7 +16,7 @@ class EditEmployeeInfo : public QDialog
     Q_OBJECT
 
 public:
-    explicit EditEmployeeInfo(QWidget *parent = 0);
+    explicit EditEmployeeInfo(QWidget *parent = 0, LoginCredentials *c = new LoginCredentials());
     ~EditEmployeeInfo() throw();
 
     void initDB(Client *c);
@@ -37,6 +37,8 @@ private slots:
     void on_probationComboBox_currentIndexChanged(int index);
 
 private:
+    void handlePermissions();
+    LoginCredentials* login;
     Ui::EditEmployeeInfo *ui;
     EditEmployeeInfoDBC *editEmployeeInfoDBC;
 

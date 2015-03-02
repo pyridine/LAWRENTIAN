@@ -19,7 +19,7 @@ using namespace std;
 
 /*Used to display section names.*/
 
-newArticleWorkspaceWindow::newArticleWorkspaceWindow(QWidget *parent) :
+newArticleWorkspaceWindow::newArticleWorkspaceWindow(QWidget *parent,LoginCredentials* login) :
     QDialog(parent),
     ui(new Ui::newArticleWorkspaceWindow)
 {
@@ -33,11 +33,50 @@ newArticleWorkspaceWindow::newArticleWorkspaceWindow(QWidget *parent) :
 
     ui->setupUi(this);
 
-    //TODO: permissions.......
     ui->delete_pushButton->setVisible(false);
 
     ui->issueDateEdit->setDisplayFormat("dd MMM, yyyy");
+
+    loginCred = login;
+
+    //Permissions
+    handlePermissions();
 }
+
+
+
+void newArticleWorkspaceWindow::handlePermissions(){
+    if(!loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            &&!loginCred->hasPermission(PermissionDef::EDIT_ARTICLE_WORKSPACE)){
+        ui->sectionComboBox->setEnabled(false);
+        ui->writerComboBox->setEnabled(false);
+        ui->photographerComboBox->setEnabled(false);
+        ui->deleteAWS_pushButton->setEnabled(false);
+        ui->issueDateEdit->setEnabled(false);
+        ui->articleTitleTextField->setEnabled(false);
+        ui->descriptionTextField->setEnabled(false);
+    }
+
+    if(!loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            &&!loginCred->hasPermission(PermissionDef::SUBMIT_COPY)
+            &&!loginCred->hasPermission(PermissionDef::EDIT_COPY)){
+        ui->chooseFile_pushButton->setEnabled(false);
+        ui->copyHistory_pushButton->setEnabled(false);
+    }
+    if(!loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            &&!loginCred->hasPermission(PermissionDef::SUBMIT_GRAPHIC)
+            &&!loginCred->hasPermission(PermissionDef::EDIT_GRAPHIC)){
+        ui->addImage_pushButton->setEnabled(false);
+    }
+    if(!loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            &&!loginCred->hasPermission(PermissionDef::SUBMIT_GRAPHIC)
+            &&!loginCred->hasPermission(PermissionDef::EDIT_GRAPHIC)){
+        ui->addImage_pushButton->setEnabled(false);
+    }
+}
+
+
+
 
 newArticleWorkspaceWindow::~newArticleWorkspaceWindow()
 {
@@ -364,6 +403,13 @@ int newArticleWorkspaceWindow::getSelectedPhotographerLuid(){
 
 void newArticleWorkspaceWindow::on_sectionComboBox_currentIndexChanged(const QString &arg1)
 {
+
+    //This is so the compiler will shut up about how &arg1 is never referenced
+    //start
+    QString bif = arg1;
+    bif.append('c');
+    //end
+
     //This will in fact work if there is already a writer assigned.
     //The update checks to see if the assigned writer has permissions for the
     //newly selected section.

@@ -51,7 +51,6 @@ SOURCES += main.cpp\
     permissiondef.cpp \
     mainwindowdbc.cpp \
     titledef.cpp \
-    locationdef.cpp \
     copyhistorywindow.cpp \
     editroutewindow.cpp \
     circulationwindowdbc.cpp \
@@ -108,7 +107,6 @@ HEADERS  += registrationwindow.h \
     permissiondef.h \
     mainwindowdbc.h \
     titledef.h \
-    locationdef.h \
     copyhistorywindow.h \
     editroutewindow.h \
     circulationwindowdbc.h \

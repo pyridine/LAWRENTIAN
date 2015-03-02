@@ -22,7 +22,7 @@ class newArticleWorkspaceWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit newArticleWorkspaceWindow(QWidget *parent = 0);
+    explicit newArticleWorkspaceWindow(QWidget *parent = 0, LoginCredentials *login = new LoginCredentials());
     ~newArticleWorkspaceWindow();
 
     articleWorkspace *getParentArticleWorkspaceWidget() const;
@@ -47,6 +47,7 @@ private slots:
     void on_deleteAWS_pushButton_clicked();
 
 private:
+    void handlePermissions();
     typedef QVector<QCheckBox*> cb_vec_t;
 
     void updateWriterList(int section, int currentWriter);
@@ -62,7 +63,7 @@ private:
 
     NewArticleWorkspaceWindowDBC* dbController;
 
-
+    LoginCredentials* loginCred;
     Article* myArticle;
     Ui::newArticleWorkspaceWindow *ui;
     articleWorkspace *parentArticleWorkspaceWidget;

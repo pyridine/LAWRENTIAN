@@ -31,7 +31,6 @@ vector<int>* ArticleWorkspaceDBC::getAllArticleIDs(){
     if(!err.isValid()){
 
         while(result->next()){
-            cout << "nextartidnum " << result->value(0).toInt();
             numz->push_back(result->value(0).toInt());
         }
 
@@ -53,13 +52,7 @@ int ArticleWorkspaceDBC::getNextAvailableArticleID(){
 
     int nextInt;
 
-    cout << "getting next available article ID." << endl;
     vector<int>* nums = this->getAllArticleIDs();
-
-
-    for(vector<int>::iterator it = nums->begin(); it != nums->end(); it++){
-        cout << *it << ",";
-    }
 
     //if empty ret 1
     if(nums->end() == nums->begin()){
