@@ -3,7 +3,8 @@
 #include "route.h";
 #include "circulationwidget.h"
 #include <iostream>
-
+#include <qinputdialog.h>
+#include "addlocationdialogue.h"
 using namespace std;
 EditRouteWindow::EditRouteWindow(QWidget *parent, Route *r,int routeId) :
     QDialog(parent),
@@ -13,7 +14,7 @@ EditRouteWindow::EditRouteWindow(QWidget *parent, Route *r,int routeId) :
     myRoute = r;
     myRouteID = routeId;
     myParent = static_cast<circulationWidget*>(parent);
-    this->ui->routeLabel->setText(QString::fromStdString("Route # ").append(QString::number(myRouteID)));
+
 }
 
 EditRouteWindow::~EditRouteWindow()
@@ -34,6 +35,7 @@ void EditRouteWindow::updateRouteDisplay(){
 }
 
 void EditRouteWindow::updateLocationList(){
+    ui->locationList->clear();
     locIDs = dbController->getAllLocationIDs();
     vector<int>::iterator locIt = locIDs->begin();
     while(locIt != locIDs->end()){
@@ -48,6 +50,7 @@ void EditRouteWindow::initDb(Client* c){
     dbController = new EditRouteWindowDBC(c);
     updateLocationList();
     updateRouteDisplay();
+    this->ui->routeNameLine->setText(QString::fromStdString(dbController->translateRoute(myRouteID)));
 }
 
 void EditRouteWindow::on_upButton_clicked()
@@ -101,7 +104,59 @@ void EditRouteWindow::on_cancelButton_clicked()
 
 void EditRouteWindow::on_applyButton_clicked()
 {
-    dbController->insertRoute(myRoute,myRouteID);
+    if(myRoute->begin() != myRoute->end()){
+        if(this->ui->routeNameLine->text().toStdString().size()){
+            dbController->insertRoute(myRoute,myRouteID);
+            dbController->updateRouteName(myRouteID,this->ui->routeNameLine->text().toStdString());
+            myParent->populateRouteList();
+            this->hide();
+            delete(this);
+        }
+    }
+}
+
+void EditRouteWindow::on_dropRouteWindow_clicked()
+{
+    dbController->dropRoute(myRouteID);
+    dbController->dropRouteName(myRouteID);
+    myParent->populateRouteList();
     this->hide();
     delete(this);
+}
+
+void EditRouteWindow::on_locationList_itemDoubleClicked(QListWidgetItem *item)
+{
+    this->on_addPointButton_clicked();
+}
+
+void EditRouteWindow::on_routePointList_itemDoubleClicked(QListWidgetItem *item)
+{
+    bool changed;
+    int currentValue = (myRoute->at(ui->routePointList->currentRow()))->second;
+    int num = QInputDialog::getInt(this,"Toxt","emp",currentValue,0,1000,1,&changed);
+    (myRoute->at(ui->routePointList->currentRow()))->second = num;
+    this->updateRouteDisplay();
+}
+
+
+void EditRouteWindow::on_pushButton_5_clicked()
+{
+    //Add Location
+    int locID = dbController->getAvailableLocationID();
+    AddLocationDialogue* add = new AddLocationDialogue(this,locID,dbController->getClient(),"Name");
+    add->setWindowModality(Qt::ApplicationModal);
+    add->show();
+
+}
+
+void EditRouteWindow::on_pushButton_6_clicked()
+{
+
+    //Edit Loc
+    if(ui->locationList->currentRow() >= 0){
+        int locID = locIDs->operator [](this->ui->locationList->currentRow());
+        AddLocationDialogue* add = new AddLocationDialogue(this,locID,dbController->getClient(),ui->locationList->currentItem()->text().toStdString());
+        add->setWindowModality(Qt::ApplicationModal);
+        add->show();
+    }
 }

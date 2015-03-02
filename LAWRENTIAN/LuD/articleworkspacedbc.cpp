@@ -3,7 +3,7 @@
 
 namespace AWDBCCommands {
     const string GET_ARTICLE_BY_SECTION = "SELECT * FROM lawrentian.currentissue_article WHERE section = :sec";
-    const string GET_ARTICLE_IDS = "SELECT idarticle FROM lawrentian.currentissue_article ORDER BY idarticle ASC";
+    const string GET_ARTICLE_IDS = "SELECT idarticle FROM lawrentian.currentissue_article";
 }
 using namespace AWDBCCommands;
 using namespace std;

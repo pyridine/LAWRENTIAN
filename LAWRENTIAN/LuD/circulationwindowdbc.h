@@ -18,6 +18,7 @@ public:
     void insertRoute(Route* r, int routeID); //Deletes before insering for simplicity. So you use this for add and edit.
     void dropRoute(int routeID);
     int getAvailableRouteId();
+    int sumTotalCopies();
 private:
     vector<int> *getAllRouteNums();
     Route* getRoute(int routeId);

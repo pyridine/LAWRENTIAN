@@ -12,7 +12,8 @@ public:
     string translateTitle(int titleID);
     string translatePermission(int permID);
     string translateLocation(int locID);
-    string translateSection(int secId);
+    string translateSection(int secID);
+    string translateRoute(int rID);
 
 
 protected:

@@ -44,12 +44,12 @@
     <rect>
      <x>20</x>
      <y>12</y>
-     <width>121</width>
+     <width>41</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>Route # </string>
+    <string>Route:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
@@ -114,7 +114,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>?Add Location?</string>
+    <string>Add Location</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_6">
@@ -127,7 +127,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>?Edit Location?</string>
+    <string>Edit Location</string>
    </property>
   </widget>
   <widget class="QPushButton" name="addPointButton">
@@ -187,6 +187,16 @@
    </property>
    <property name="text">
     <string>Drop Route</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="routeNameLine">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>10</y>
+     <width>113</width>
+     <height>21</height>
+    </rect>
    </property>
   </widget>
  </widget>

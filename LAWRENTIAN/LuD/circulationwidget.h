@@ -20,6 +20,7 @@ class circulationWidget : public QWidget
 public:
     explicit circulationWidget(QWidget *parent = 0);
     ~circulationWidget();
+    void populateRouteList();
 
     void init_ViewPrivileges(Client* c);
     void init_ViewAndEditPrivileges(Client* c);
@@ -33,11 +34,11 @@ private slots:
 
 private:
     void initDB(Client* c);
-    void populateRouteList();
     vector<pair<Route*,int>>* myRoutes;
     Ui::circulationWidget *ui;
     vector<Route> routes;
     CirculationWindowDBC* dbController;
+    void updateTotalCirculates();
 
 };
 

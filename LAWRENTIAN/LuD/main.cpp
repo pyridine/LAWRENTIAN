@@ -27,6 +27,9 @@ int main(int argc, char *argv[])
     LoginWindow* l = new LoginWindow();
     Client* c = new Client();
     l->show();
+    c->connect();
+    DatabaseController* x = new DatabaseController(c);
+    cout << x->translateSection(5) << x->translateSection(6);
 
     if(c->connect()){
         l->show();

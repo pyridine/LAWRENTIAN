@@ -1,6 +1,9 @@
 #include "circulationwidget.h"
 #include "ui_circulationwidget.h"
 #include <iostream>
+#include <string>
+#include <sstream>
+
 #include "route.h"
 #include "editroutewindow.h"
 
@@ -32,18 +35,28 @@ void circulationWidget::initDB(Client* c){
 
 void circulationWidget::populateRouteList(){
 
+    this->ui->routeSelectorWidget->clear();
+    this->ui->routeDisplayWidget->clear();
+
     myRoutes = dbController->getAllRoutes();
     vector<pair<Route*,int>>::iterator it = myRoutes->begin();
-
     while(it != myRoutes->end()){
         int nextNum = (*it).second;
         ui->routeSelectorWidget->addItem(
-            QString::fromStdString("Route #").append(QString::number(nextNum)));
+            QString::fromStdString(dbController->translateRoute(nextNum)));
         ++it;
     }
-    on_routeSelectorWidget_currentRowChanged(0);
+
+    updateTotalCirculates();
 }
 
+void circulationWidget::updateTotalCirculates(){
+    int total = dbController->sumTotalCopies();
+    stringstream ss;
+    ss << "Total copies to circulate: " <<total;
+    QString Qlabel = QString::fromStdString(ss.str());
+    this->ui->total->setText(Qlabel);
+}
 
 circulationWidget::~circulationWidget()
 {
@@ -57,7 +70,6 @@ void circulationWidget::on_editRouteButton_clicked()
         pair<Route*,int> nextRoutePair = myRoutes->operator[](indexOfRoute); //Only way it works :P
         Route* nextRoute = nextRoutePair.first;
         int nextRouteID = nextRoutePair.second;
-        cout << "making w" << endl;
         EditRouteWindow* e = new EditRouteWindow(this,nextRoute,nextRouteID);
         e->setWindowModality(Qt::ApplicationModal);
         e->initDb(dbController->getClient());
@@ -67,18 +79,23 @@ void circulationWidget::on_editRouteButton_clicked()
 
 void circulationWidget::on_routeSelectorWidget_currentRowChanged(int currentRow)
 {
-    ui->routeDisplayWidget->clear();
-    pair<Route*,int> thisRouteCon = myRoutes->operator [](currentRow); //Yes, it actually has to be done this way :P
+    if(myRoutes->size() > 0 && currentRow >= 0){
+        ui->routeDisplayWidget->clear();
+        pair<Route*,int> thisRouteCon = myRoutes->operator [](currentRow); //Yes, it actually has to be done this way :P
 
-    Route* thisRoute = thisRouteCon.first;
-    vector<Route::RoutePoint>::iterator points = thisRoute->begin();
-    while(points != thisRoute->end()){
-        QString name = QString::fromStdString(dbController->translateLocation(points->first));
-        QString dash(" - ");
-        name.append(dash);
-        name.append(QString("%1").arg(points->second));
-        this->ui->routeDisplayWidget->addItem(name);
-        points++;
+        Route* thisRoute = thisRouteCon.first;
+        vector<Route::RoutePoint>::iterator points = thisRoute->begin();
+        int nextPointNum  = 1;
+        while(points != thisRoute->end()){
+            stringstream strs;
+            strs << nextPointNum << ". " << dbController->translateLocation(points->first);
+            strs << " (" << points->second << ")";
+
+            this->ui->routeDisplayWidget->addItem(QString::fromStdString(strs.str()));
+
+            points++;
+            nextPointNum++;
+        }
     }
 }
 

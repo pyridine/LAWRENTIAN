@@ -28,8 +28,8 @@ newArticleWorkspaceWindow::newArticleWorkspaceWindow(QWidget *parent) :
     FEATZ = "Features";
     OPEDZ = "Opinions & Editorials";
     ARTSENTZ = "Arts & Entertainment";
-    VARIEZ = "Sports";
-    SPORTZ = "Variety";
+    VARIEZ = "Variety";
+    SPORTZ = "Sports";
 
     ui->setupUi(this);
 
