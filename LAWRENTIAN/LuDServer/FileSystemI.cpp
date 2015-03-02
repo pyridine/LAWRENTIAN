@@ -203,8 +203,8 @@ FileSystemI::sendFile(const std::string& issue_date, const std::string& sec,
     consolePrint("===" + caller_info + "===" );
 
     string dir =  main_dir + "/" + issue_date + "/" + sec + "/" + art
-            + "/" + type;
-    dir = type.compare(fs::COPY) ? dir + "/" + fName : dir;
+            + "/" + type + "/" + fName;
+
     if(!dirExists(dir))
     {
         string temp = main_dir + "/" + issue_date;
@@ -242,7 +242,7 @@ FileSystemI::sendFile(const std::string& issue_date, const std::string& sec,
     dir = dir + "/" + fNameExt;
 
     ofstream dest;
-    dest.open(fixExtension(dir,type), ios::binary);
+    dest.open(dir, ios::binary);
     dest.write(reinterpret_cast<const char*>(&seq[0]),seq.size());
 
     bool status = dest ? true : false;
