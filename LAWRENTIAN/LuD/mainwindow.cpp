@@ -92,7 +92,7 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
             ||loginCredo->hasPermission(PermissionDef::SEC_VARIETY)){
 
         articleWorkspace* awk = new articleWorkspace();
-        awk->init(client,loginCredo);
+        awk->init(this, client,loginCredo);
         awk->updateArticleList();
 
         tabs->addTab(awk, "Articles");
@@ -114,7 +114,7 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
             ||loginCredo->hasPermission(PermissionDef::VIEW_TIMESHEETS)){
         writerTimesheetWidget *wtw = new writerTimesheetWidget();
         wtw->initDB(client);
-        wtw->init(loginCredo, client);
+        wtw->init(this, loginCredo, client);
         tabs->addTab(wtw, "Writer Timesheet");
     }
 

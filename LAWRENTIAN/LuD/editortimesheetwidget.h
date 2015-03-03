@@ -19,6 +19,7 @@ public:
 
     void init(LoginCredentials* l, Client *c);
     void initDB(Client *c);
+    void initTable(QDate date);
 
 private slots:
     void on_submitChangesButton_clicked();

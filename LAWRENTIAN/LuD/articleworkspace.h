@@ -5,6 +5,7 @@
 #include "client.h"
 #include "articleworkspacedbc.h"
 #include "logincredentials.h"
+#include "mainwindow.h"
 
 #include <QWidget>
 #include <QString>
@@ -27,7 +28,7 @@ public:
     ~articleWorkspace();
     void initArticle(Article *article);
     void addArticleButton(Article *article);
-    void init(Client* c,LoginCredentials* cred);
+    void init(MainWindow* parent, Client* c,LoginCredentials* cred);
     int x;
     int y;
     bool workspaceExists(string articleTitle);
@@ -38,6 +39,9 @@ public:
 
     Article *getNewArticle() const;
     void setNewArticle(Article *value);
+    void submitToArchive();
+    void generateTimesheet();
+    pair<int, int> calculateArticlesOnTimeAndLate(QDate issueDate, int writerId);
 
 private slots:
     void on_addArticleWorkspace_pushButton_clicked();
@@ -45,10 +49,13 @@ private slots:
 
     void openArticleWorkspace(Article* a);
 
+    void on_submitToArchiveButton_clicked();
+
 private:
     void handlePermissions();
     QVBoxLayout * vert_layout;
     Ui::articleWorkspace *ui;
+    MainWindow *parentWindow;
     vector<Article*> articleVector;
     void __insertArticles(int section, int secPerf);
     ArticleWorkspaceDBC* dbController;

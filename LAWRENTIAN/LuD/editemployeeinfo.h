@@ -16,10 +16,12 @@ class EditEmployeeInfo : public QDialog
     Q_OBJECT
 
 public:
-    explicit EditEmployeeInfo(QWidget *parent = 0, LoginCredentials *c = new LoginCredentials());
+    explicit EditEmployeeInfo(QWidget *parent = 0);
     ~EditEmployeeInfo() throw();
 
+    //explicit EditEmployeeInfo(QWidget *parent = 0, LoginCredentials *c = new LoginCredentials());
     void initDB(Client *c);
+    void init(LoginCredentials *c);
     void populateNameComboBox();
     void populateAllFields();
     void updateAllFields();

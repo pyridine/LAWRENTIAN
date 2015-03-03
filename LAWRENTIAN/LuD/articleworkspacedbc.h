@@ -14,6 +14,11 @@ public:
     ~ArticleWorkspaceDBC();
     vector<Article*>* getSectionArticles(int section);
     int getNextAvailableArticleID();
+    vector<int> collectWriterForTimesheet(QDate currentDate);
+    void generateWriterTimesheet(int writerId, int articlesOnTime, int articlesLate, QDate issueDate);
+    string collectArticleSection(int articleId);
+    string collectArticleTitle(int articleId);
+    vector<int> collectArticleIdForTimesheet(QDate currentDate, int writerId);
 
 private:
     vector<int> *getAllArticleIDs();

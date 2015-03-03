@@ -4,6 +4,9 @@
 #include "article.h"
 #include "permissiondef.h"
 #include "sectiondef.h"
+#include "alert.h"
+#include "Sender.h"
+#include "FileSystem.h"
 
 #include <QPushButton>
 #include <QString>
@@ -28,10 +31,11 @@ articleWorkspace::~articleWorkspace()
     delete ui;
 }
 
-void articleWorkspace::init(Client* c,LoginCredentials* crede)
+void articleWorkspace::init(MainWindow *parent, Client* c,LoginCredentials* crede)
 {
     dbController = new ArticleWorkspaceDBC(c);
     cred = crede;
+    parentWindow = parent;
 
     handlePermissions();
 }
@@ -101,7 +105,7 @@ void articleWorkspace::updateArticleList()
 void articleWorkspace::resetArticleButtons()
 {
     //TODO: delete all buttons.
-   //buttonVector.empty();
+    //buttonVector.empty();
     clearLayout(vert_layout);
     vector<Article*>::iterator it = articleVector.begin();
     while(it != articleVector.end())
@@ -139,18 +143,18 @@ void articleWorkspace::addArticleButton(Article *article)
     buttonVector.back()->setGeometry(x, y, 500, 32);
     buttonVector.back()->show();
     connect(buttonVector.back(), SIGNAL(clicked()), this, SLOT(handleButton()));*/
-        QPushButton *newArticleButton = new QPushButton(buttonTitle, this);
-        newArticleButton->setObjectName(title);
+    QPushButton *newArticleButton = new QPushButton(buttonTitle, this);
+    newArticleButton->setObjectName(title);
 
-        newArticleButton->setGeometry(x, y, 500, 32);
+    newArticleButton->setGeometry(x, y, 500, 32);
 
-        vert_layout->addWidget(newArticleButton);
-        QWidget *layout_widget = new QWidget;
-        layout_widget->setLayout(vert_layout);
-        ui->buttons_scrollArea->setWidget(layout_widget);
+    vert_layout->addWidget(newArticleButton);
+    QWidget *layout_widget = new QWidget;
+    layout_widget->setLayout(vert_layout);
+    ui->buttons_scrollArea->setWidget(layout_widget);
 
-        connect(newArticleButton, SIGNAL(clicked()), this, SLOT(handleButton()));
-        y = y+30;
+    connect(newArticleButton, SIGNAL(clicked()), this, SLOT(handleButton()));
+    y = y+30;
 }
 
 void articleWorkspace::handleButton()
@@ -196,3 +200,75 @@ bool articleWorkspace::workspaceExists(string articleTitle)
     return false;
 }
 
+void articleWorkspace::submitToArchive()
+{
+
+}
+
+void articleWorkspace::generateTimesheet()
+{
+    QDate currentDate = QDate::currentDate();
+    vector<int> writerIds = dbController->collectWriterForTimesheet(currentDate);
+
+        for(int i = 0; i<writerIds.size(); i++){
+            pair<int, int> submissionDate = calculateArticlesOnTimeAndLate(currentDate, writerIds[i]);
+            dbController->generateWriterTimesheet(writerIds[i], submissionDate.first, submissionDate.second, currentDate);
+        }
+        Alert *alert = new Alert;
+        alert->showInformationAlert("Generated!", "Writer Timesheet successfully generated");
+        this->parentWindow->tabs->setCurrentIndex(4);
+}
+
+pair<int, int> articleWorkspace::calculateArticlesOnTimeAndLate(QDate issueDate, int writerId)
+{
+    pair<int, int> articlesOnTimeAndLate;
+    int articlesOnTime = 0;
+    int articlesLate = 0;
+    QDate deadline = issueDate.addDays(-3);
+
+    QString issueDateQString = issueDate.toString("yyyy-MM-dd");
+    string issueDateString = issueDateQString.toStdString();
+    Sender *sndr = new Sender;
+    vector<int> articleIds = dbController->collectArticleIdForTimesheet(issueDate, writerId);
+    cout<<"Writer with id: "<<writerId<<" has "<<articleIds.size()<<" articles for this issue"<<endl;
+    for(int i = 0; i < articleIds.size(); i++){
+        string sectionName = dbController->collectArticleSection(articleIds[i]);
+        string articleName = dbController->collectArticleTitle(articleIds[i]);
+        FileSystem::VerSeq versions;
+        versions = sndr->getHistory(issueDateString, sectionName, articleName, fs::COPY);
+
+        // Reads in first submitted file (assumed its submitted by writer)
+        if(versions.size()>0){
+            FileSystem::TimeIce submissionTime = versions[0].time;
+            QDate submissionDate;
+            submissionDate.setDate(submissionTime.year, submissionTime.month, submissionTime.day);
+
+            if(submissionDate <= deadline){
+                articlesOnTime++;
+            } else {
+                articlesLate++;
+            }
+        }
+        articlesOnTimeAndLate = make_pair (articlesOnTime, articlesLate);
+        return articlesOnTimeAndLate;
+    }
+}
+
+void articleWorkspace::on_submitToArchiveButton_clicked()
+{
+    Alert *alert = new Alert;
+    int ret = alert->showWarningAlert("Submit to archive", "Are you sure you want to continue? \n\n"
+                                                           "All article workspaces will be removed and a writer "
+                                                           "timesheet will be generated. \n\n"
+                                                           "This action cannot be undone.");
+    switch(ret){
+    case QMessageBox::Apply:
+    {
+        generateTimesheet();
+        submitToArchive();
+        break;
+    }
+    case QMessageBox::Cancel:
+        break;
+    }
+}

@@ -14,6 +14,7 @@ public:
     static void showAlert(string title, string msg);
     static void showInformationAlert(string title, string msg);
     static int showQuestionAlert(string title, string msg);
+    int showWarningAlert(string title, string msg);
 };
 
 #endif // ALERT_H

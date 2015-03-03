@@ -9,6 +9,7 @@
 #include "Sender.h"
 #include "newarticleworkspacewindow.h"
 #include "FileSystem.h"
+#include <thread>
 
 using namespace std;
 using namespace FileSystem;
@@ -39,3 +40,5 @@ int main(int argc, char *argv[])
 
     return a.exec();
 }
+
+

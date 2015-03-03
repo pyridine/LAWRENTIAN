@@ -151,7 +151,9 @@ int employeesWidget::getNumUnregistered(){
 
 void employeesWidget::on_approveRegButton_clicked()
 {
-    EditEmployeeInfo* employeeInfo = new EditEmployeeInfo(this,loginCred);
+    //EditEmployeeInfo* employeeInfo = new EditEmployeeInfo(this,loginCred);
+    EditEmployeeInfo* employeeInfo = new EditEmployeeInfo;
+    employeeInfo->init(loginCred);
     employeeInfo->initDB(this->client);
     employeeInfo->myParent = this;
     employeeInfo->populateNameComboBox();

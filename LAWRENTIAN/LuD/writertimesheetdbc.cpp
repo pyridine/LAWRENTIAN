@@ -232,6 +232,37 @@ int WriterTimesheetDBC::writerTimesheetExists(QDate issueDate)
     }
 }
 
+vector<vector<string>>* WriterTimesheetDBC::getTimesheet(QDate issueDate){
+    int NUMBEROFCOLUMNS = 4;
+
+    QString issueDateString = issueDate.toString("yyyy-MM-dd");
+
+    const string GET_TIMESHEET = "SELECT name, articles_ontime, articles_late, issueDate "
+                                 "FROM lawrentian.writer_timesheet "
+                                 "INNER JOIN lawrentian.employee "
+                                 "ON writer_timesheet.idwriter = employee.luid "
+                                 "WHERE writer_timesheet.issueDate =:issueDate";
+
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_TIMESHEET));
+    query->bindValue(":issueDate", issueDateString);
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    vector<vector<string>>* matrix = new vector<vector<string>>();
+
+    while(result->next()){
+        vector<string>* nextRow = new vector<string>();
+        for(int i = 0; i < NUMBEROFCOLUMNS; i++){
+                nextRow->push_back(result->value(i).toString().toStdString());
+        }
+        matrix->push_back(*nextRow);
+    }
+    return matrix;
+}
+
+
 WriterTimesheetDBC::~WriterTimesheetDBC()
 {
 

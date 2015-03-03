@@ -5,13 +5,17 @@
 #include <iostream>
 #include "alert.h"
 
-EditEmployeeInfo::EditEmployeeInfo(QWidget *parent,LoginCredentials* c) :
+EditEmployeeInfo::EditEmployeeInfo(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::EditEmployeeInfo)
 {
     ui->setupUi(this);
-    login = c;
 
+}
+
+void EditEmployeeInfo::init(LoginCredentials *c)
+{
+    login = c;
     handlePermissions();
 }
 

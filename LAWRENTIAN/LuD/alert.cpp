@@ -36,3 +36,13 @@ int Alert::showQuestionAlert(string title, string msg)
     return ret;
 
 }
+
+int Alert::showWarningAlert(string title, string msg)
+{
+    QMessageBox alertBox;
+    QString t = QString::fromStdString(title);
+    QString m = QString::fromStdString(msg);
+    int ret = alertBox.warning(0, t, m,  QMessageBox::Cancel | QMessageBox::Apply, QMessageBox::Cancel);
+    alertBox.setFixedSize(500,200);
+    return ret;
+}

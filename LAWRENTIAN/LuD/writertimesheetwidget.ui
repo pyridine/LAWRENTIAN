@@ -13,16 +13,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QTableView" name="tableView">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>50</y>
-     <width>1041</width>
-     <height>451</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QPushButton" name="updateWriterTimesheetButton">
    <property name="geometry">
     <rect>
@@ -34,6 +24,16 @@
    </property>
    <property name="text">
     <string>Update Writer Timesheet</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="writerTimesheetTable">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>70</y>
+     <width>1041</width>
+     <height>501</height>
+    </rect>
    </property>
   </widget>
  </widget>

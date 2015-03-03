@@ -19,6 +19,7 @@ public:
     int collectArticlesOnTime(int writerId, QDate issueDate);
     int collectArticlesLate(int writerId, QDate issueDate);
     int writerTimesheetExists(QDate issueDate);
+    vector<vector<string>>* getTimesheet(QDate issueDate);
 };
 
 #endif // WRITERTIMESHEETDBC_H

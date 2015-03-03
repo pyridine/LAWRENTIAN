@@ -63,6 +63,7 @@ void profileWidget::updateNotifications()
         ui->systemNotificationsTextBrowser->append("<span>\n</span>");
     }
 
+
     // Checks if timesheet can be and should be generated
     vector<int> timesheetWriterIds = profileWidgetDBC->collectWriterForTimesheet(currentDate);
     int alreadyExists = profileWidgetDBC->writerTimesheetExists(currentDate);
@@ -80,6 +81,7 @@ void profileWidget::updateNotifications()
         QString url = "<a href=UpdateWriterTimesheet>Update</a>";
         ui->systemNotificationsTextBrowser->append(url);
     }
+
 }
 
 profileWidget::~profileWidget()
