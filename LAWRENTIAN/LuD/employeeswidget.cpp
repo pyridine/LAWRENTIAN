@@ -40,21 +40,26 @@ void employeesWidget::initNormalView(){
     viewType=0;
     ui->employeeTable->clear();
     int NUMBEROFCOLUMNS = 5;
-    int NUMBEROFROWS = 1+dbController->getNumberOfEmployees();
+    int NUMBEROFROWS = dbController->getNumberOfEmployees();
 
     vector<vector<string>>* result_matrix = dbController->getRegularEmployeeView();
     ui->employeeTable->setRowCount(NUMBEROFROWS);
     ui->employeeTable->setColumnCount(NUMBEROFCOLUMNS); //notice! hardcoded!
 
+    ui->employeeTable->setHorizontalHeaderItem(0, new QTableWidgetItem("LUID"));
+    ui->employeeTable->setHorizontalHeaderItem(1, new QTableWidgetItem("Name"));
+    ui->employeeTable->setHorizontalHeaderItem(2, new QTableWidgetItem("Title"));
+    ui->employeeTable->setHorizontalHeaderItem(3, new QTableWidgetItem("Phone"));
+    ui->employeeTable->setHorizontalHeaderItem(4, new QTableWidgetItem("Email"));
 
-    ui->employeeTable->setItem(0,0, new QTableWidgetItem("luid"));
-    ui->employeeTable->setItem(0,1, new QTableWidgetItem("name"));
-    ui->employeeTable->setItem(0,2, new QTableWidgetItem("title"));
-    ui->employeeTable->setItem(0,3, new QTableWidgetItem("name"));
-    ui->employeeTable->setItem(0,4, new QTableWidgetItem("email"));
+//    ui->employeeTable->setItem(0,0, new QTableWidgetItem("luid"));
+//    ui->employeeTable->setItem(0,1, new QTableWidgetItem("name"));
+//    ui->employeeTable->setItem(0,2, new QTableWidgetItem("title"));
+//    ui->employeeTable->setItem(0,3, new QTableWidgetItem("name"));
+//    ui->employeeTable->setItem(0,4, new QTableWidgetItem("email"));
 
     vector<vector<string>>::iterator employeeIt = result_matrix->begin();
-    for(int i = 1; i < NUMBEROFROWS; ++i){
+    for(int i = 0; i < NUMBEROFROWS; ++i){
         vector<string> nextEmployee = *employeeIt;
         vector<string>::iterator empDataIt = nextEmployee.begin();
         for(int z = 0; z < NUMBEROFCOLUMNS; z++){
@@ -70,22 +75,28 @@ void employeesWidget::initPrivilegedView(){
     viewType=1;
     ui->employeeTable->clear();
     int NUMBEROFCOLUMNS = 6;
-    int NUMBEROFROWS = 1+dbController->getNumberOfEmployees();
+    int NUMBEROFROWS = dbController->getNumberOfEmployees();
 
     vector<vector<string>>* result_matrix = dbController->getPrivilegedEmployeeView();
     ui->employeeTable->setRowCount(NUMBEROFROWS);
     ui->employeeTable->setColumnCount(NUMBEROFCOLUMNS); //notice! hardcoded!
 
+    ui->employeeTable->setHorizontalHeaderItem(0, new QTableWidgetItem("LUID"));
+    ui->employeeTable->setHorizontalHeaderItem(1, new QTableWidgetItem("Name"));
+    ui->employeeTable->setHorizontalHeaderItem(2, new QTableWidgetItem("Title"));
+    ui->employeeTable->setHorizontalHeaderItem(3, new QTableWidgetItem("Phone"));
+    ui->employeeTable->setHorizontalHeaderItem(4, new QTableWidgetItem("Email"));
+    ui->employeeTable->setHorizontalHeaderItem(5, new QTableWidgetItem("Approval"));
 
-    ui->employeeTable->setItem(0,0, new QTableWidgetItem("luid"));
-    ui->employeeTable->setItem(0,1, new QTableWidgetItem("name"));
-    ui->employeeTable->setItem(0,2, new QTableWidgetItem("title"));
-    ui->employeeTable->setItem(0,3, new QTableWidgetItem("name"));
-    ui->employeeTable->setItem(0,4, new QTableWidgetItem("email"));
-    ui->employeeTable->setItem(0,5, new QTableWidgetItem("approval"));
+//    ui->employeeTable->setItem(0,0, new QTableWidgetItem("luid"));
+//    ui->employeeTable->setItem(0,1, new QTableWidgetItem("name"));
+//    ui->employeeTable->setItem(0,2, new QTableWidgetItem("title"));
+//    ui->employeeTable->setItem(0,3, new QTableWidgetItem("name"));
+//    ui->employeeTable->setItem(0,4, new QTableWidgetItem("email"));
+//    ui->employeeTable->setItem(0,5, new QTableWidgetItem("approval"));
 
     vector<vector<string>>::iterator employeeIt = result_matrix->begin();
-    for(int i = 1; i < NUMBEROFROWS; ++i){
+    for(int i = 0; i < NUMBEROFROWS; ++i){
         vector<string> nextEmployee = *employeeIt;
         vector<string>::iterator empDataIt = nextEmployee.begin();
         for(int z = 0; z < NUMBEROFCOLUMNS; z++){
@@ -101,24 +112,32 @@ void employeesWidget::initTotalView(){
     viewType=2;
     ui->employeeTable->clear();
     int NUMBEROFCOLUMNS = 8;
-    int NUMBEROFROWS = 1+dbController->getNumberOfEmployees();
+    int NUMBEROFROWS = dbController->getNumberOfEmployees();
 
     vector<vector<string>>* result_matrix = dbController->getFullEmployeeView();
     ui->employeeTable->setRowCount(NUMBEROFROWS);
     ui->employeeTable->setColumnCount(NUMBEROFCOLUMNS); //notice! hardcoded!
 
+    ui->employeeTable->setHorizontalHeaderItem(0, new QTableWidgetItem("LUID"));
+    ui->employeeTable->setHorizontalHeaderItem(1, new QTableWidgetItem("Name"));
+    ui->employeeTable->setHorizontalHeaderItem(2, new QTableWidgetItem("Title"));
+    ui->employeeTable->setHorizontalHeaderItem(3, new QTableWidgetItem("Phone"));
+    ui->employeeTable->setHorizontalHeaderItem(4, new QTableWidgetItem("Email"));
+    ui->employeeTable->setHorizontalHeaderItem(5, new QTableWidgetItem("Username"));
+    ui->employeeTable->setHorizontalHeaderItem(6, new QTableWidgetItem("Password"));
+    ui->employeeTable->setHorizontalHeaderItem(7, new QTableWidgetItem("Approval"));
 
-    ui->employeeTable->setItem(0,0, new QTableWidgetItem("luid"));
-    ui->employeeTable->setItem(0,1, new QTableWidgetItem("name"));
-    ui->employeeTable->setItem(0,2, new QTableWidgetItem("title"));
-    ui->employeeTable->setItem(0,3, new QTableWidgetItem("name"));
-    ui->employeeTable->setItem(0,4, new QTableWidgetItem("email"));
-    ui->employeeTable->setItem(0,5, new QTableWidgetItem("username"));
-    ui->employeeTable->setItem(0,6, new QTableWidgetItem("password"));
-    ui->employeeTable->setItem(0,7, new QTableWidgetItem("approval"));
+    //ui->employeeTable->setItem(0,0, new QTableWidgetItem("luid"));
+    //ui->employeeTable->setItem(0,1, new QTableWidgetItem("name"));
+    //ui->employeeTable->setItem(0,2, new QTableWidgetItem("title"));
+//    ui->employeeTable->setItem(0,3, new QTableWidgetItem("name"));
+//    ui->employeeTable->setItem(0,4, new QTableWidgetItem("email"));
+//    ui->employeeTable->setItem(0,5, new QTableWidgetItem("username"));
+//    ui->employeeTable->setItem(0,6, new QTableWidgetItem("password"));
+//    ui->employeeTable->setItem(0,7, new QTableWidgetItem("approval"));
 
     vector<vector<string>>::iterator employeeIt = result_matrix->begin();
-    for(int i = 1; i < NUMBEROFROWS; ++i){
+    for(int i = 0; i < NUMBEROFROWS; ++i){
         vector<string> nextEmployee = *employeeIt;
         vector<string>::iterator empDataIt = nextEmployee.begin();
         for(int z = 0; z < NUMBEROFCOLUMNS; z++){
@@ -171,7 +190,7 @@ void employeesWidget::on_approveRegButton_clicked()
 {
     //EditEmployeeInfo* employeeInfo = new EditEmployeeInfo(this,loginCred);
     EditEmployeeInfo* employeeInfo = new EditEmployeeInfo;
-    employeeInfo->init(loginCred);
+    employeeInfo->init(loginCred, this);
     employeeInfo->initDB(this->client);
     employeeInfo->myParent = this;
     employeeInfo->populateNameComboBox();

@@ -13,10 +13,11 @@ EditEmployeeInfo::EditEmployeeInfo(QWidget *parent) :
 
 }
 
-void EditEmployeeInfo::init(LoginCredentials *c)
+void EditEmployeeInfo::init(LoginCredentials *c, employeesWidget *parent)
 {
     login = c;
-    parentYay = static_cast<employeesWidget*>(parent);
+    //parentYay = static_cast<employeesWidget*>(parent);
+    parentYay = parent;
     handlePermissions();
 }
 

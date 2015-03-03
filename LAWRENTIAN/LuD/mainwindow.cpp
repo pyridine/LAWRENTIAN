@@ -39,18 +39,10 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
 
     tabs->setFixedSize(1100,600);
 
-    //Init/Add profile widget.
-    profileWidget* w_profile = new profileWidget();
-    w_profile->init(loginCredo, client);
-    w_profile->initDB(client);
-    w_profile->init(this,loginCredo->getName(),dbController->translateTitle(loginCredo->getTitle()));
-    tabs->addTab(w_profile, "Profile");
-
+    // Needs to initialize employeesWidget BEFORE profileWidget
     employeesWidget* empWidget = new employeesWidget();
     empWidget->init(loginCredo);
     empWidget->initDB(client);
-
-
 
     QString employeeTabTitle = QString::fromStdString("Employees");
     if(loginCredo->hasPermission(PermissionDef::VIEW_ALL_EMPLOYEE_INFO)
@@ -70,6 +62,16 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
     }  else{
         empWidget->initNormalView();
     }
+
+
+    //Init/Add profile widget.
+    profileWidget* w_profile = new profileWidget();
+    w_profile->init(loginCredo, client, empWidget);
+    w_profile->initDB(client);
+    w_profile->init(this,loginCredo->getName(),dbController->translateTitle(loginCredo->getTitle()));
+    tabs->addTab(w_profile, "Profile");
+
+    // Adds tab for employee
     tabs->addTab(empWidget, employeeTabTitle);
 
 

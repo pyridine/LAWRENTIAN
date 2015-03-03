@@ -21,7 +21,7 @@ public:
 
     //explicit EditEmployeeInfo(QWidget *parent = 0, LoginCredentials *c = new LoginCredentials());
     void initDB(Client *c);
-    void init(LoginCredentials *c);
+    void init(LoginCredentials *c, employeesWidget *parent);
     void populateNameComboBox();
     void populateAllFields();
     void updateAllFields();

@@ -19,9 +19,11 @@ profileWidget::profileWidget(QWidget *parent) :
     ui->setupUi(this);
 }
 
-void profileWidget::init(LoginCredentials* l, Client *c){
+void profileWidget::init(LoginCredentials* l, Client *c, employeesWidget *ew)
+{
     loginCred = l;
     this->client = c;
+    this->ew = ew;
 
     if(!loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
             &&!loginCred->hasPermission(PermissionDef::VIEW_TIMESHEETS)
@@ -73,6 +75,7 @@ void profileWidget::updateNotifications()
     }
     }
 
+    /*
     if(loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
             ||loginCred->hasPermission(PermissionDef::VIEW_TIMESHEETS)){
     // Checks if timesheet can be and should be generated
@@ -94,7 +97,7 @@ void profileWidget::updateNotifications()
         ui->systemNotificationsTextBrowser->append(url);
     }
 
-    }
+    }*/
 }
 
 profileWidget::~profileWidget()
@@ -150,6 +153,7 @@ void profileWidget::on_systemNotificationsTextBrowser_anchorClicked(const QUrl &
         // Approve Probation
         int urlInt = stoi(urlString);
         EditEmployeeInfo *employeeInfo = new EditEmployeeInfo;
+        employeeInfo->init(loginCred, ew);
         employeeInfo->initDB(this->client);
         employeeInfo->initSelectedName(QString::fromStdString(possibleProbationApprovals[urlInt]));
         employeeInfo->show();

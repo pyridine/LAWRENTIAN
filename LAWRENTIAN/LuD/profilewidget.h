@@ -7,6 +7,7 @@
 #include "logincredentials.h"
 #include "client.h"
 #include "profilewidgetdbc.h"
+#include "employeeswidget.h"
 
 using namespace std;
 
@@ -23,7 +24,7 @@ public:
     void init(MainWindow* parent, QString name, string title);
     ~profileWidget();
 
-    void init(LoginCredentials* l, Client *c);
+    void init(LoginCredentials* l, Client *c, employeesWidget *ew);
     void initDB(Client *c);
     void setWelcomeLabel();
     void updateNotifications();
@@ -43,6 +44,7 @@ private:
     LoginCredentials* loginCred;
     Client *client;
     ProfileWidgetDBC *profileWidgetDBC;
+    employeesWidget *ew;
 };
 
 #endif // PROFILEWIDGET_H

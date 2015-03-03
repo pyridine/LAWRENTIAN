@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 
     LoginWindow* l = new LoginWindow();
     Client* c = new Client();
-    l->show();
+    //l->show();
 
     if(c->connect()){
         l->show();
