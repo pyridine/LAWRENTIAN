@@ -10,6 +10,7 @@
 #include "circulationwidget.h"
 #include "permissiondef.h"
 #include "mainwindowdbc.h"
+#include "photopoolwindow.h"
 #include <qstring.h>
 #include <QTabWidget>
 #include <iostream>
@@ -125,6 +126,11 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
         }
         tabs->addTab(circWidg, "Circulation");
     }
+
+    PhotoPoolWindow* ppw = new PhotoPoolWindow();
+    ppw->init(client);
+    tabs->addTab(ppw, "Photo Pool");
+
 }
 
 void MainWindow::logOut(){

@@ -62,10 +62,11 @@ void articleWorkspace::on_addArticleWorkspace_pushButton_clicked()
 
     //Set the article's date for the next Wednesday.
     QDate todate = QDate::currentDate();
-    while(todate.dayOfWeek() != 3 /*Wednesday*/){
+    if(todate.dayOfWeek() == 3)
+        todate = todate.addDays(7);
+    while(todate.dayOfWeek() != 3 /*Wednesday*/)
         todate = todate.addDays(1);
-    }
-    QString dateFormat("yyyy-MM-dd");
+    QString dateFormat(df::dbFormat);
     string dateString = todate.toString(dateFormat).toStdString();
     Article* newArticle = new Article(dateString,"Article Title","Article Description",
                                       0 /*Default to first section*/,
@@ -101,7 +102,7 @@ void articleWorkspace::updateArticleList()
 void articleWorkspace::resetArticleButtons()
 {
     //TODO: delete all buttons.
-   //buttonVector.empty();
+    //buttonVector.empty();
     clearLayout(vert_layout);
     vector<Article*>::iterator it = articleVector.begin();
     while(it != articleVector.end())
@@ -139,18 +140,18 @@ void articleWorkspace::addArticleButton(Article *article)
     buttonVector.back()->setGeometry(x, y, 500, 32);
     buttonVector.back()->show();
     connect(buttonVector.back(), SIGNAL(clicked()), this, SLOT(handleButton()));*/
-        QPushButton *newArticleButton = new QPushButton(buttonTitle, this);
-        newArticleButton->setObjectName(title);
+    QPushButton *newArticleButton = new QPushButton(buttonTitle, this);
+    newArticleButton->setObjectName(title);
 
-        newArticleButton->setGeometry(x, y, 500, 32);
+    newArticleButton->setGeometry(x, y, 500, 32);
 
-        vert_layout->addWidget(newArticleButton);
-        QWidget *layout_widget = new QWidget;
-        layout_widget->setLayout(vert_layout);
-        ui->buttons_scrollArea->setWidget(layout_widget);
+    vert_layout->addWidget(newArticleButton);
+    QWidget *layout_widget = new QWidget;
+    layout_widget->setLayout(vert_layout);
+    ui->buttons_scrollArea->setWidget(layout_widget);
 
-        connect(newArticleButton, SIGNAL(clicked()), this, SLOT(handleButton()));
-        y = y+30;
+    connect(newArticleButton, SIGNAL(clicked()), this, SLOT(handleButton()));
+    y = y+30;
 }
 
 void articleWorkspace::handleButton()

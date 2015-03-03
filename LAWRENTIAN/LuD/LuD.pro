@@ -68,7 +68,8 @@ SOURCES += main.cpp\
     editprofilewidget.cpp \
     photopoolwindow.cpp \
     profilewidgetdbc.cpp \
-    addlocationwindowdbc.cpp
+    addlocationwindowdbc.cpp \
+    photopoolwindowdbc.cpp
 
 HEADERS  += registrationwindow.h \
     employee.h \
@@ -124,7 +125,8 @@ HEADERS  += registrationwindow.h \
     editprofilewidget.h \
     photopoolwindow.h \
     profilewidgetdbc.h \
-    addlocationwindowdbc.h
+    addlocationwindowdbc.h \
+    photopoolwindowdbc.h
 
 
 FORMS    += registrationwindow.ui \

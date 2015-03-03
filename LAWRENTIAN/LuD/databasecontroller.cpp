@@ -7,6 +7,7 @@
 #include <QTableWidgetItem>
 
 
+
 DatabaseController::DatabaseController(Client* c){
     client = c;
 }
