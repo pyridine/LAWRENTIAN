@@ -36,7 +36,7 @@ newArticleWorkspaceWindow::newArticleWorkspaceWindow(QWidget *parent,LoginCreden
 
     ui->delete_pushButton->setVisible(false);
 
-    ui->issueDateEdit->setDisplayFormat("dd MMM, yyyy");
+    ui->issueDateEdit->setDisplayFormat(df::srvrFormat);
 
     loginCred = login;
 
@@ -112,7 +112,7 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
             string sec_this =  dbController->translateSection(iSection);
             string sec_art = dbController->translateSection(myArticle->getSection());
 
-            string date_art = QDate::fromString(myArticle->QGetIssueDate(),"yyyy-MM-dd").toString("dd MMM, yyyy").toStdString();
+            string date_art = QDate::fromString(myArticle->QGetIssueDate(),df::dbFormat).toString(df::srvrFormat).toStdString();
 
             if(date.compare(date_art) && date_art.size())
                 sndr.changeArtIssueDate(date_art,date,sec_art,myArticle->getTitle());
@@ -134,7 +134,7 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
 
             cout << "adding art." << endl;
             // add article.
-            string issueDateForArt = QDate::fromString(ui->issueDateEdit->text(),"dd MMM, yyyy").toString("yyyyMMdd").toStdString();
+            string issueDateForArt = QDate::fromString(ui->issueDateEdit->text(),df::srvrFormat).toString(df::dbFormat).toStdString();
             myArticle = new Article(issueDateForArt, title, description, iSection, iWriter, iPhotographer);
             myArticle->setId(id);
             //done.
@@ -199,7 +199,7 @@ void newArticleWorkspaceWindow::setupFields(Article *article)
     setupSectionComboBox(article->getSection());
     this->updatePhotographerList(article->getPhotographer());
     this->updateWriterList(article->getSection(),article->getWriter());
-    this->on_sectionComboBox_currentIndexChanged(QString("a")); //argument does nothing
+    this->on_sectionComboBox_currentIndexChanged(QString("argument does nothing"));
 }
 
 void newArticleWorkspaceWindow::setupSectionComboBox(int section)
@@ -332,7 +332,7 @@ int newArticleWorkspaceWindow::getSelectedSectionPermissionToken(){
 
 void newArticleWorkspaceWindow::on_copyHistory_pushButton_clicked()
 {
-    string date = QDate::fromString(myArticle->QGetIssueDate(),"yyyy-MM-dd").toString("dd MMM, yyyy").toStdString();
+    string date = QDate::fromString(myArticle->QGetIssueDate(),df::dbFormat).toString(df::srvrFormat).toStdString();
     string sec = dbController->translateSection(myArticle->getSection());
     string art = myArticle->getTitle();
 
@@ -419,7 +419,7 @@ void newArticleWorkspaceWindow::on_deleteAWS_pushButton_clicked()
 
     Sender sndr = Sender();
 
-    string issueDate = QDate::fromString(myArticle->QGetIssueDate(),"yyyy-MM-dd").toString("dd MMM, yyyy").toStdString();
+    string issueDate = QDate::fromString(myArticle->QGetIssueDate(),df::dbFormat).toString(df::srvrFormat).toStdString();
     string sec = dbController->translateSection(myArticle->getSection());
     string art = myArticle->getTitle();
 
