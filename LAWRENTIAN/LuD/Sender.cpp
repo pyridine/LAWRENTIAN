@@ -40,7 +40,7 @@ Sender::~Sender()
 
 bool
 Sender::sendCopy(const std::string& issueDate, const std::string& sec,
-                 const std::string& art, const std::string& type, const std::string& clDir)
+                 const std::string& art, const std::string& clDir)
 {
     using namespace std;
     using namespace Ice;
@@ -53,7 +53,7 @@ Sender::sendCopy(const std::string& issueDate, const std::string& sec,
     ByteSeq seq(len);
     source.read(reinterpret_cast<char*>(&seq[0]), seq.size());
 
-    bool b = fpx->sendFile(issueDate, sec, art, type, art,seq);
+    bool b = fpx->sendFile(issueDate, sec, art, fs::COPY, art,seq);
     source.close();
 
     return b;
@@ -61,7 +61,7 @@ Sender::sendCopy(const std::string& issueDate, const std::string& sec,
 
 bool
 Sender::sendImage(const std::string& issueDate, const std::string& sec,
-                 const std::string& art, const std::string& type, const std::string& fName,
+                 const std::string& art, const std::string& fName,
                   const std::string& clDir)
 {
     using namespace std;
@@ -75,23 +75,23 @@ Sender::sendImage(const std::string& issueDate, const std::string& sec,
     ByteSeq seq(len);
     source.read(reinterpret_cast<char*>(&seq[0]), seq.size());
 
-    bool b = fpx->sendFile(issueDate, sec, art, type, fName,seq);
+    bool b = fpx->sendFile(issueDate, sec, art, fs::IMAGE, fName,seq);
     source.close();
 
     return b;
 }
 
 bool
-Sender::requestFile(const std::string& issueDate, const std::string& sec,
-                    const std::string& art, const std::string& type, const std::string& down_dir,
+Sender::requestCopy(const std::string& issueDate, const std::string& sec,
+                    const std::string& art, const std::string& down_dir,
                     int ver)
 {
     using namespace std;
     using namespace Ice;
 
     ByteSeq seq = (ver == -1)
-                ? fpx->receiveLatest(issueDate, sec, art, type, art)
-                : fpx->receiveVersion(issueDate, sec, art, type, art, ver);
+                ? fpx->receiveLatest(issueDate, sec, art, fs::COPY, art)
+                : fpx->receiveVersion(issueDate, sec, art, fs::COPY, art, ver);
 
     if (!seq.size())
         return false;
@@ -101,6 +101,28 @@ Sender::requestFile(const std::string& issueDate, const std::string& sec,
     dest.write(reinterpret_cast<char*>(&seq[0]),seq.size());
     return dest ? true : false;
 }
+
+bool
+Sender::requestImage(const std::string &issueDate, const std::string &sec, const std::string &art, const std::string &fName, const std::string &down_dir, int ver)
+{
+    using namespace std;
+    using namespace Ice;
+
+    ByteSeq seq = (ver == -1)
+                ? fpx->receiveLatest(issueDate, sec, art, fs::IMAGE, fName)
+                : fpx->receiveVersion(issueDate, sec, art, fs::IMAGE, fName, ver);
+
+    if (!seq.size())
+        return false;
+
+    ofstream dest(down_dir, ios::binary);
+
+    dest.write(reinterpret_cast<char*>(&seq[0]),seq.size());
+    return dest ? true : false;
+
+}
+
+
 
 FileSystem::VerSeq
 Sender::getHistory(const std::string& issueDate, const std::string& sec, const std::string& art,

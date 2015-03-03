@@ -26,7 +26,7 @@ public:
      *  \param clDir: full file path of the file to be sent.
      *  \return true if file successfuly sent, false otherwise.
      */
-    bool sendCopy(const std::string& issueDate, const std::string& sec, const std::string& art, const std::string& type, const std::string& clDir);
+    bool sendCopy(const std::string& issueDate, const std::string& sec, const std::string& art, const std::string& clDir);
     /*! \brief sendImage: sends an image from client to server provided file is lesser than 1MB.
      *
      *  \param issueDate: the deadline date of the issue which the article belongs to.
@@ -37,7 +37,7 @@ public:
      *  \param clDir: full file path of the file to be sent.
      *  \return true if file successfuly sent, false otherwise.
      */
-    bool sendImage(const std::string& issueDate, const std::string& sec, const std::string& art, const std::string& type, const std::string& fName, const std::string& clDir);
+    bool sendImage(const std::string& issueDate, const std::string& sec, const std::string& art, const std::string& fName, const std::string& clDir);
 
     /*! \brief requestFile: request any file (article or image) from server and download to client, provided that
      *         file is lesser than 1MB and exists in server.
@@ -51,7 +51,21 @@ public:
      *              If ver = 0, lowest version file is received.
      *  \return true if file successfuly downloaded, false otherwise.
      */
-    bool requestFile(const std::string& issueDate, const std::string& sec, const std::string& art, const std::string& type, const std::string& down_dir, int ver = -1);
+    bool requestCopy(const std::string& issueDate, const std::string& sec, const std::string& art, const std::string& down_dir, int ver = -1);
+    /*! \brief requestFile: request any file (article or image) from server and download to client, provided that
+     *         file is lesser than 1MB and exists in server.
+     *
+     *  \param issueDate: the deadline date of the issue which the article belongs to.
+     *  \param sec: the section to which the article belongs to.
+     *  \param art: name of the article.
+     *  \param type: either fs::COPY or fs::IMAGE. Don't forget #include "FileSystem.h".
+     *  \param down_dir: full folder path to where the file will be downloaded.
+     *  \param ver: [opt] version of file, default -1. If ver = -1, highest version file is received.
+     *              If ver = 0, lowest version file is received.
+     *  \return true if file successfuly downloaded, false otherwise.
+     */
+    bool requestImage(const std::string& issueDate, const std::string& sec, const std::string& art, const std::string& fName, const std::string& down_dir, int ver = -1);
+
     /*!
      * \brief getHistory: gets the different versions of a file along with each creation date in the server.
      * \param issueDate: the deadline date of the issue which the article belongs to.

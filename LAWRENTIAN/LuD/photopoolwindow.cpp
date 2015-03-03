@@ -98,7 +98,6 @@ void PhotoPoolWindow::drawImages(const string &issueDate, const string &section,
         sndr.requestImage(issueDate, section, title, *iter, imgPath);
         iter++;
     }
-    QTest::qWait(10000);
     iter = imgNames.begin();
     while(iter != imgNames.end())
     {

@@ -122,11 +122,11 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
 
             string filePath = ui->articleFileTextField->text().toStdString();
             if(filePath.size())
-                sndr.sendCopy(date, sec_this, title, fs::COPY, filePath);
+                sndr.sendCopy(date, sec_this, title, filePath);
 
             QStringList::const_iterator iter = img_paths.begin();
             for(iter; iter!=img_paths.end(); iter++)
-                sndr.sendImage(date,sec_this,title,fs::IMAGE,getfName(*iter),iter->toStdString());
+                sndr.sendImage(date,sec_this,title,getfName(*iter),iter->toStdString());
             // done.
 
             cout << "adding art." << endl;
