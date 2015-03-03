@@ -4,6 +4,7 @@
 #include <iostream>
 #include <tuple>
 #include <utility>
+#include "managetitles.h"
 #include "QVariant"
 #include <QListWidgetItem>
 
@@ -34,7 +35,6 @@ void PermissionsWidget::updateEmployeeList(){
         QPoint* kludge = new QPoint(employeePair->first,employeePair->second); //Kludge alert
         this->ui->employeeCombobox->addItem(QString::fromStdString(std::get<1>(*(employees->at(i)))),QVariant::fromValue(*kludge)); //Are your eyes glazing over yet?
     }
-    cout << "Here, you need to reset the permissions view thing." << endl;
 
 }
 
@@ -90,14 +90,36 @@ int PermissionsWidget::getSelectedEmployee_TitleID(){
 }
 
 
+void PermissionsWidget::resetEmployeeCombobox(){
+    ui->employeeCombobox->setCurrentIndex(ui->employeeCombobox->currentIndex()); //This probably works
+}
 
 
 void PermissionsWidget::on_permissionList_currentRowChanged(int currentRow)
 {
-    ui->permissiondescription->width();
     if(currentRow >= 0 && ui->permissionList->count() >= 1){
         int selectedPermID = getSelectedPermissionToken();
         ui->permissiondescription->setText(QString::fromStdString(dbController->translatePermission_long(selectedPermID)));
 
     }
+}
+
+void PermissionsWidget::on_adPermButton_clicked()
+{
+    ManageTitles* mtw = new ManageTitles(this,false,getSelectedEmployee_ID());
+    mtw->initDB_LOL(dbController);
+    mtw->setWindowModality(Qt::ApplicationModal);
+    mtw->show();
+}
+
+void PermissionsWidget::on_editTitleButton_clicked()
+{
+    ManageTitles* mtw = new ManageTitles(this,true,0);
+    mtw->initDB_LOL(dbController);
+    mtw->setWindowModality(Qt::ApplicationModal);
+    mtw->show();
+}
+
+void PermissionsWidget::updatePermissionView(){
+    this->on_employeeCombobox_currentIndexChanged(ui->employeeCombobox->currentIndex());
 }

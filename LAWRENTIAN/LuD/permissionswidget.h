@@ -18,14 +18,20 @@ public:
     void initDB(Client* c);
     ~PermissionsWidget();
     void updateEmployeeList();
+    void resetEmployeeCombobox();
+    void updatePermissionView(); //for editing permissions window...
 
 private slots:
     void on_employeeCombobox_currentIndexChanged(int index);
 
     void on_permissionList_currentRowChanged(int currentRow);
 
+    void on_adPermButton_clicked();
+
+    void on_editTitleButton_clicked();
+
 private:
-    void populateEmployeeList();
+    //void populateEmployeeList();
     int QLISTWIDGET_FREEDATA;
     int getSelectedPermissionToken();
     int getSelectedEmployee_ID();

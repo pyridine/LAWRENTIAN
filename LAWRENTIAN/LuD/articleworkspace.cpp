@@ -82,21 +82,17 @@ void articleWorkspace::initArticle(Article *article)
 
 void articleWorkspace::updateArticleList()
 {
-    cout << "o";
     articleVector.clear();
-    cout << "o";
 
     __insertArticles(SectionDef::ARTSENT_SECTION,PermissionDef::SEC_ARTS);
-    cout << "o";
+
     __insertArticles(SectionDef::FEATURES_SECTION,PermissionDef::SEC_FEATURES);
     __insertArticles(SectionDef::NEWS_SECTION,PermissionDef::SEC_NEWS);
     __insertArticles(SectionDef::OPED_SECTION,PermissionDef::SEC_OPED);
     __insertArticles(SectionDef::SPORTS_SECTION,PermissionDef::SEC_SPORTS);
     __insertArticles(SectionDef::VARIETY_SECTION,PermissionDef::SEC_VARIETY);
 
-    cout << "o";
     resetArticleButtons();
-    cout << "o";
 }
 void articleWorkspace::resetArticleButtons()
 {

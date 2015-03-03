@@ -10,13 +10,22 @@ namespace PWDBCCommands{
     const string GETTOKENIDS = "SELECT idtoken FROM lawrentian.permissiontokens ORDER BY description ASC";
     const string GET_TITLE_TOKENS = "SELECT idTitle from lawrentian.titledefinitions ORDER BY titleName";
     const string GET_TITLE_NAME = "SELECT titleName from lawrentian.titledefinitions WHERE idTitle = :idtit";
+    const string GET_EMPLOYEE_NAME = "SELECT name from lawrentian.employee WHERE luid = :lui";
     const string GET_ALL_USER_IDS_AND_NAMES_AND_TITLE = "SELECT luid,name,title from lawrentian.employee ORDER BY name ASC";
-    const string DELETE_EMPLOYEE_PERMISSION = "DELETE FROM lawrentian.employee_permission WHERE luid = :lui AND token = :tok";
+
+
+
+    const string DROP_ALL_EMPLOYEE_PERMISSIONS = "DELETE FROM lawrentian.employee_permission WHERE luid = :luid";
     const string ADD_EMPLOYEE_PERMISSION = "INSERT INTO lawrentian.employee_permission (luid,token) VALUES (:lui,:tok)";
-    const string DELETE_TITLE_PERMISSION = "INSERT INTO lawrentian.title_permission (title,token) VALUES (:tit,:tok)";
-    const string ADD_TITLE_PERMISSION = "INSERT INTO lawrentian.title_permission WHERE title = :tit AND token = :tok";
+
+    const string DROP_ALL_TITLE_PERMISSIONS = "DELETE FROM lawrentian.title_permission WHERE title = :title";
+    const string ADD_TITLE_PERMISSION = "INSERT INTO lawrentian.title_permission (title,token) VALUES (:title,:token)";
+
+
+
     const string GET_EMPLOYEE_EXCEPTION_PERMISSIONS = "SELECT token FROM lawrentian.employee_permission WHERE luid = :luid";
     const string GET_TITLE_PERMISSIONS = "SELECT token FROM lawrentian.title_permission WHERE title = :title";
+    const string GET_ALL_PERMISSIONS = "SELECT idtoken FROM lawrentian.permissiontokens";
 }
 using namespace PWDBCCommands;
 using namespace std;
@@ -49,68 +58,72 @@ string PermissionsWidgetDBC::translatePermission_long(int perm){
         }
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
-        return "";
+        return "Error";
+    }
+}
+string PermissionsWidgetDBC::translateEmployee(int empId){
+
+    QSqlQuery* query = new QSqlQuery();
+
+    query->prepare(QString::fromStdString(PWDBCCommands::GET_EMPLOYEE_NAME));
+
+    query->bindValue(":lui",empId);
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    if(!err.isValid()){
+        if(result->next()){
+            return result->value(0).toString().toStdString();
+        } else{
+            return "Error";
+        }
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+        return "Error";
     }
 }
 
-void PermissionsWidgetDBC::removePermission_employee(int emp, int perm){
-   vector<string>* argName = new vector<string>();
-   vector<QVariant>* arg = new vector<QVariant>();
-
-   argName->push_back(":lui");
-   arg->push_back(QVariant(perm));
-   argName->push_back(":tok");
-   arg->push_back(QVariant(emp));
-
-   this->executeSQLString_Args(PWDBCCommands::DELETE_EMPLOYEE_PERMISSION,argName,arg);
-}
-
 void PermissionsWidgetDBC::addPermission_employee(int emp, int perm){
-    vector<string>* argName = new vector<string>();
-    vector<QVariant>* arg = new vector<QVariant>();
+    QSqlQuery* query = new QSqlQuery();
 
-    argName->push_back(":lui");
-    arg->push_back(QVariant(perm));
-    argName->push_back(":tok");
-    arg->push_back(QVariant(emp));
+    query->prepare(QString::fromStdString(PWDBCCommands::ADD_EMPLOYEE_PERMISSION));
+    query->bindValue(":lui",emp);
+    query->bindValue(":tok",perm);
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
 
-    this->executeSQLString_Args(PWDBCCommands::ADD_EMPLOYEE_PERMISSION,argName,arg);
-
-}
-
-void PermissionsWidgetDBC::removePermission_title(int ttl, int perm){
-    vector<string>* argName = new vector<string>();
-    vector<QVariant>* arg = new vector<QVariant>();
-
-    argName->push_back(":tit");
-    arg->push_back(QVariant(ttl));
-    argName->push_back(":tok");
-    arg->push_back(QVariant(perm));
-
-    executeSQLString_Args(PWDBCCommands::DELETE_TITLE_PERMISSION,argName,arg);
-
+    if(!err.isValid()){
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
 }
 
 void PermissionsWidgetDBC::addPermission_title(int ttl, int perm){
-    vector<string>* argName = new vector<string>();
-    vector<QVariant>* arg = new vector<QVariant>();
+    QSqlQuery* query = new QSqlQuery();
 
-    argName->push_back(":tit");
-    arg->push_back(QVariant(ttl));
-    argName->push_back(":tok");
-    arg->push_back(QVariant(perm));
+    query->prepare(QString::fromStdString(PWDBCCommands::ADD_TITLE_PERMISSION));
+    query->bindValue(":title",ttl);
+    query->bindValue(":token",perm);
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
 
-    executeSQLString_Args(PWDBCCommands::ADD_TITLE_PERMISSION,argName,arg);
+    if(!err.isValid()){
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
 }
 vector<int>* PermissionsWidgetDBC::getTitlePermissions(int title){
-    return execute_int_for_intvect(PWDBCCommands::GET_TITLE_PERMISSIONS,":title",title);
+    return this->execute_int_for_intvect(PWDBCCommands::GET_TITLE_PERMISSIONS,":title",title);
 }
 
 vector<int> *PermissionsWidgetDBC::getEmployeePermissions(int emp){
-    return execute_int_for_intvect(PWDBCCommands::GET_EMPLOYEE_EXCEPTION_PERMISSIONS,":luid",emp);
+    return this->execute_int_for_intvect(PWDBCCommands::GET_EMPLOYEE_EXCEPTION_PERMISSIONS,":luid",emp);
 }
 
 vector<std::tuple<int/*id*/,string/*name*/,int/*title*/>*>* PermissionsWidgetDBC::getEmployees(){
+    //Unfortunately, I'm just gonna have to write this one, since it's not
+    //something I'll be doing even twice.
+
     vector<std::tuple<int,string,int>*>* employees = new vector<std::tuple<int,string,int>*>();
     QSqlQuery* query = new QSqlQuery();
 
@@ -133,4 +146,26 @@ vector<std::tuple<int/*id*/,string/*name*/,int/*title*/>*>* PermissionsWidgetDBC
 
 vector<int>* PermissionsWidgetDBC::getTitles(){
     return execute_null_for_intvect(PWDBCCommands::GET_TITLE_TOKENS);
+}
+vector<int>* PermissionsWidgetDBC::getAllPermissions(){
+    return execute_null_for_intvect(PWDBCCommands::GET_ALL_PERMISSIONS);
+}
+
+
+void PermissionsWidgetDBC::dropAllPermission_Title(int title){
+    vector<string>* argName = new vector<string>();
+    vector<QVariant>* arg = new vector<QVariant>();
+    argName->push_back(":title");
+    arg->push_back(QVariant(title));
+    executeSQLString_Args(PWDBCCommands::DROP_ALL_TITLE_PERMISSIONS,argName,arg);
+    return;
+}
+
+void PermissionsWidgetDBC::dropAllPermission_Employee(int luid){
+    vector<string>* argName = new vector<string>();
+    vector<QVariant>* arg = new vector<QVariant>();
+    argName->push_back(":luid");
+    arg->push_back(QVariant(luid));
+    executeSQLString_Args(PWDBCCommands::DROP_ALL_EMPLOYEE_PERMISSIONS,argName,arg);
+    return;
 }
