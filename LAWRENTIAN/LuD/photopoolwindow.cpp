@@ -5,12 +5,20 @@
 #include <iostream>
 #include <QVariant>
 #include <QListWidgetItem>
+#include <QImage>
+#include <QPixmap>
+#include <QGraphicsScene>
+#include <QGraphicsPixmapItem>
+#include <QtTest/QTest>
 
 PhotoPoolWindow::PhotoPoolWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PhotoPoolWindow)
-{
+{ 
     ui->setupUi(this);
+    temp_dir.setPath(QDir::currentPath() + QString::fromStdString("/temp"));
+    scene = new QGraphicsScene;
+    scene->setParent(this);
 }
 
 PhotoPoolWindow::~PhotoPoolWindow()
@@ -77,20 +85,105 @@ void PhotoPoolWindow::drawImages(const string &issueDate, const string &section,
     using namespace FileSystem;
     using namespace std;
 
+    initializeTransfer();
     Sender sndr = Sender();
     StrSeq imgNames = sndr.getImageList(issueDate, section, title);
 
     StrSeq::const_iterator iter = imgNames.begin();
+    QPointF pos = QPointF(1,1);
     while(iter != imgNames.end())
     {
-        setupImage(*iter + fs::extIMAGE);
+        string fNameExt = *iter + fs::extIMAGE;
+        string imgPath = temp_dir.path().toStdString() + "/" + fNameExt;
+        sndr.requestImage(issueDate, section, title, *iter, imgPath);
         iter++;
     }
+    QTest::qWait(10000);
+    iter = imgNames.begin();
+    while(iter != imgNames.end())
+    {
+        cout <<"a " << iter -imgNames.begin() <<endl;
+        string fNameExt = *iter + fs::extIMAGE;
+        cout << "b" << endl;
+        string imgPath = temp_dir.path().toStdString() + "/" + fNameExt;
+        cout << "c" << endl;
+        cout << "d" << endl;
+        pos = addImage(imgPath, pos);
+        cout << "e" << endl;
+        iter++;
+        cout << "f" <<endl;
+    }
+
+
+    ui->photoPool_graphicsView->setScene(scene);
+    ui->photoPool_graphicsView->fitInView(scene->itemsBoundingRect() ,Qt::KeepAspectRatio);
+    cout << "done" << endl;
+
 }
 
-void PhotoPoolWindow::setupImage(const string &fNameExt)
+QPointF PhotoPoolWindow::addImage(const string& imgPath, const QPointF pos)
 {
+    //    QString img_path;
+    //    QImage *pixmap = new QImage(img_path);
+    //    QGraphicsPixmapItem* pItem = new QGraphicsPixmapItem;
 
+    //    img_path = QString::fromStdString(imgPath);
+
+    //    //while(!temp_dir.exists(img_path)){} //wait for file download to complete.
+    //    cout << "before " << img_path.toStdString() << endl;
+    //    int i =0;
+    //    while(pixmap->isNull())
+    //    {
+    //        QTest::qSleep(300);
+    //        pixmap->load(img_path);
+    //        cout << i++;
+    //    } // wait .5secs for file download to complete.
+    //    cout << 1 << endl;
+    //    pixmap->scaledToWidth(64);
+    //    cout << 2 << endl;
+    //    pixmap->scaledToHeight(48);
+    //    cout << 3 << endl;
+    //    pItem->setPixmap(*pixmap);
+    //    cout << 4 << endl;
+    //    pItem->setData(0,QVariant(img_path));
+    //    cout << 5 << endl;
+    //    pItem->setPos(pos);
+    //    cout << 6 << endl;
+    //    scene->addItem(pItem->topLevelItem());
+    //    cout << 7 << endl;
+    //    int width = ui->photoPool_graphicsView->width();
+
+    //    int x = (pos.x() + 84) > width ? 0 : width + 20;
+    //    int y = (pos.x() + 84) > width ? y + 68 : y;
+
+    //    return QPointF(x,y);
+    QString img_path = QString::fromStdString(imgPath);
+
+    QImage img = QImage(img_path);
+    img.scaledToHeight(96);
+
+    QGraphicsPixmapItem *pItem = new QGraphicsPixmapItem(QPixmap::fromImage(img));
+    pItem->setData(0,QVariant(img_path));
+    pItem->setPos(pos);
+    scene->addItem(pItem->topLevelItem());
+    int width = ui->photoPool_graphicsView->width();
+
+    int x = (pos.x() + 84) > width ? 0 : width + 20;
+    int y = (pos.x() + 84) > width ? y + 68 : y;
+
+    return QPointF(x,y);
+
+
+}
+
+void PhotoPoolWindow::initializeTransfer()
+{
+    temp_dir.removeRecursively();
+    if(!temp_dir.exists())
+        temp_dir.mkdir(temp_dir.path());
+
+    if(scene)
+        scene->clear();
 }
 
 void PhotoPoolWindow::on_allArt_pushButton_clicked()

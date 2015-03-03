@@ -6,7 +6,9 @@
 #include "logincredentials.h"
 #include "client.h"
 #include <QListWidgetItem>
-
+#include <QGraphicsScene>
+#include <QDir>
+#include <QPointF>
 
 namespace Ui {
 class PhotoPoolWindow;
@@ -35,9 +37,13 @@ private slots:
 private:
     Ui::PhotoPoolWindow *ui;
     PhotoPoolWindowDBC *dbController;
+    QGraphicsScene* scene;
+    QDir temp_dir;
+
     void drawArtsOnListView();
     void drawImages(const std::string& issueDate, const std::string& section, const std::string& title);
-    void setupImage(const std::string& fNameExt);
+    QPointF addImage(const std::string& fNameExt, const QPointF pos);
+    void initializeTransfer();
 };
 
 #endif // PHOTOPOOLWINDOW_H
