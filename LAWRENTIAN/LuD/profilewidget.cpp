@@ -22,6 +22,13 @@ profileWidget::profileWidget(QWidget *parent) :
 void profileWidget::init(LoginCredentials* l, Client *c){
     loginCred = l;
     this->client = c;
+
+    if(!loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            &&!loginCred->hasPermission(PermissionDef::VIEW_TIMESHEETS)
+            &&!loginCred->hasPermission(PermissionDef::MANAGE_EMPLOYEE_PROBATION)){
+        this->ui->systemNotificationsTextBrowser->hide();
+        this->ui->label->hide();
+    }
 }
 
 void profileWidget::initDB(Client *c){
@@ -49,6 +56,8 @@ void profileWidget::updateNotifications()
 
     QDate currentDate = QDate::currentDate();
 
+    if(loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            ||loginCred->hasPermission(PermissionDef::MANAGE_EMPLOYEE_PROBATION)){
     // Checks what writers can be taken off probation
     vector<string> possibleProbationApprovals = profileWidgetDBC->collectProbationApprovals(currentDate);
     if(possibleProbationApprovals.size()>0){
@@ -62,7 +71,10 @@ void profileWidget::updateNotifications()
         }
         ui->systemNotificationsTextBrowser->append("<span>\n</span>");
     }
+    }
 
+    if(loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            ||loginCred->hasPermission(PermissionDef::VIEW_TIMESHEETS)){
     // Checks if timesheet can be and should be generated
     vector<int> timesheetWriterIds = profileWidgetDBC->collectWriterForTimesheet(currentDate);
     int alreadyExists = profileWidgetDBC->writerTimesheetExists(currentDate);
@@ -73,12 +85,14 @@ void profileWidget::updateNotifications()
         ui->systemNotificationsTextBrowser->append(url);
     }
 
+
     // Checks if timesheet can be updated
     if(timesheetWriterIds.size()!=alreadyExists && alreadyExists>0){
         QString timesheetGenerationText = "Generate/Update Writer Timesheet: ";
         ui->systemNotificationsTextBrowser->append("<span>"+timesheetGenerationText+"</span>");
         QString url = "<a href=UpdateWriterTimesheet>Update</a>";
         ui->systemNotificationsTextBrowser->append(url);
+    }
     }
 }
 

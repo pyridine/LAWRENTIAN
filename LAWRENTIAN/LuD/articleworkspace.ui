@@ -43,7 +43,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Add Workspace</string>
+    <string>Add Article...</string>
    </property>
   </widget>
   <widget class="QScrollArea" name="buttons_scrollArea">

@@ -81,7 +81,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Download Images</string>
+    <string>Download Images...</string>
    </property>
   </widget>
   <widget class="QComboBox" name="toIssueDate_comboBox">
