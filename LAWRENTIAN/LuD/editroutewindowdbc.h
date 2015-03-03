@@ -18,9 +18,12 @@ public:
     void insertRoute(Route* r, int routeID); //Deletes before insering for simplicity. So you use this for add and edit.
     void dropRoute(int routeID);
     void insertRoutePoint(Route::RoutePoint p, int routeId, int pointOrder);
+    void updateRouteName(int routeID,string name);
+    void dropRouteName(int routeID);
+    int getAvailableLocationID();
 
 private:
-
+    void addRouteName(int routeID,string name);
 };
 
 #endif // EDITROUTEWINDOWDBC_H

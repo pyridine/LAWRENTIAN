@@ -12,3 +12,4 @@ PhotoPoolWindow::~PhotoPoolWindow()
 {
     delete ui;
 }
+

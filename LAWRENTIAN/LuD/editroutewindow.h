@@ -5,6 +5,8 @@
 #include "editroutewindowdbc.h"
 #include "route.h"
 #include "circulationwidget.h"
+#include <QWidgetItem>
+#include <QListWidgetItem>
 
 namespace Ui {
 class EditRouteWindow;
@@ -15,6 +17,8 @@ class EditRouteWindow : public QDialog
     Q_OBJECT
 
 public:
+    void updateRouteDisplay();
+    void updateLocationList();
     explicit EditRouteWindow(QWidget *parent = 0,Route* r = new Route(),int routeId = 0);
     void initDb(Client* c);
     ~EditRouteWindow();
@@ -34,11 +38,20 @@ private slots:
 
     void on_applyButton_clicked();
 
+    void on_dropRouteWindow_clicked();
+
+    void on_locationList_itemDoubleClicked(QListWidgetItem *item);
+
+    void on_routePointList_itemDoubleClicked(QListWidgetItem *item);
+
+
+    void on_pushButton_5_clicked();
+
+    void on_pushButton_6_clicked();
+
 private:
     Ui::EditRouteWindow *ui;
     EditRouteWindowDBC* dbController;
-    void updateRouteDisplay();
-    void updateLocationList();
     int myRouteID;
 
     circulationWidget* myParent;

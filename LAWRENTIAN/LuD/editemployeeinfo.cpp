@@ -5,11 +5,31 @@
 #include <iostream>
 #include "alert.h"
 
-EditEmployeeInfo::EditEmployeeInfo(QWidget *parent) :
+EditEmployeeInfo::EditEmployeeInfo(QWidget *parent,LoginCredentials* c) :
     QDialog(parent),
     ui(new Ui::EditEmployeeInfo)
 {
     ui->setupUi(this);
+    login = c;
+
+    handlePermissions();
+}
+
+void EditEmployeeInfo::handlePermissions(){
+    if(!login->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            &&!login->hasPermission(PermissionDef::MANAGE_EMPLOYEE_PROBATION))
+    {
+        ui->probationComboBox->setEnabled(false);
+    }
+    if(!login->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            &&!login->hasPermission(PermissionDef::EDIT_EMPLOYEE_INFO)){
+        ui->approvedComboBox->setEnabled(false);
+        ui->emailTextField->setEnabled(false);
+        ui->luidTextField->setEnabled(false);
+        ui->phoneTextField->setEnabled(false);
+        ui->probationStartDate->setEnabled(false);
+        ui->titleTextField->setEnabled(false);
+    }
 }
 
 void EditEmployeeInfo::initDB(Client *c){

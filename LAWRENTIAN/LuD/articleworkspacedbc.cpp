@@ -3,7 +3,7 @@
 
 namespace AWDBCCommands {
     const string GET_ARTICLE_BY_SECTION = "SELECT * FROM lawrentian.currentissue_article WHERE section = :sec";
-    const string GET_ARTICLE_IDS = "SELECT idarticle FROM lawrentian.currentissue_article ORDER BY idarticle ASC";
+    const string GET_ARTICLE_IDS = "SELECT idarticle FROM lawrentian.currentissue_article";
 }
 using namespace AWDBCCommands;
 using namespace std;
@@ -31,7 +31,6 @@ vector<int>* ArticleWorkspaceDBC::getAllArticleIDs(){
     if(!err.isValid()){
 
         while(result->next()){
-            cout << "nextartidnum " << result->value(0).toInt();
             numz->push_back(result->value(0).toInt());
         }
 
@@ -53,13 +52,7 @@ int ArticleWorkspaceDBC::getNextAvailableArticleID(){
 
     int nextInt;
 
-    cout << "getting next available article ID." << endl;
     vector<int>* nums = this->getAllArticleIDs();
-
-
-    for(vector<int>::iterator it = nums->begin(); it != nums->end(); it++){
-        cout << *it << ",";
-    }
 
     //if empty ret 1
     if(nums->end() == nums->begin()){

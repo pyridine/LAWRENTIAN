@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>645</width>
-    <height>405</height>
+    <width>676</width>
+    <height>437</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,7 +36,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Route Definition (first to last)</string>
+    <string>Route Description</string>
    </property>
   </widget>
   <widget class="QListWidget" name="routeSelectorWidget">
@@ -62,8 +62,8 @@
   <widget class="QPushButton" name="editRouteButton">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>10</y>
+     <x>180</x>
+     <y>320</y>
      <width>91</width>
      <height>31</height>
     </rect>
@@ -75,14 +75,27 @@
   <widget class="QPushButton" name="addRouteButton">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>10</y>
+     <x>20</x>
+     <y>320</y>
      <width>91</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
     <string>Add Route</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="total">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>330</y>
+     <width>451</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Total copies to circulate: &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
  </widget>

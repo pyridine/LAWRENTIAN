@@ -18,7 +18,19 @@ employeesWidget::employeesWidget(QWidget *parent) :
 
 void employeesWidget::init(LoginCredentials* l){
     loginCred = l;
+
+    handlePermissions();
 }
+
+void employeesWidget::handlePermissions(){
+
+    if(!loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            &&!loginCred->hasPermission(PermissionDef::EDIT_EMPLOYEE_INFO)
+            &&!loginCred->hasPermission(PermissionDef::MANAGE_EMPLOYEE_PROBATION)){
+        this->ui->approveRegButton->hide();
+    }
+}
+
 void employeesWidget::initDB(Client *c){
     this->client = c;
     dbController = new EmployeeTableDBC(client);
@@ -139,7 +151,7 @@ int employeesWidget::getNumUnregistered(){
 
 void employeesWidget::on_approveRegButton_clicked()
 {
-    EditEmployeeInfo* employeeInfo = new EditEmployeeInfo;
+    EditEmployeeInfo* employeeInfo = new EditEmployeeInfo(this,loginCred);
     employeeInfo->initDB(this->client);
     employeeInfo->myParent = this;
     employeeInfo->populateNameComboBox();

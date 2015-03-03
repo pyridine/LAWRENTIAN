@@ -52,6 +52,6 @@ void editorTimesheetWidget::on_currentIssueDate_userDateChanged(const QDate &dat
     int LUID = loginCred->getLUID();
     QDate chosenDate = ui->currentIssueDate->date();
     int hours = editorTimesheetDBC->getHoursWorked(LUID, chosenDate);
-    QString hoursString = QString::fromStdString(to_string(hours));
+    QString hoursString = QString::number(hours);
     ui->hoursWorkedTextEdit->setText(hoursString);
 }

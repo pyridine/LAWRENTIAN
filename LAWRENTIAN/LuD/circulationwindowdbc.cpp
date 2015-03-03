@@ -8,6 +8,7 @@
 #include <QtSql/qsqlerror.h>
 
 namespace CWDBCCommands {
+    const string GET_ALL_NUM_ISSUES = "SELECT numberOfIssues FROM lawrentian.routes";
     const string GET_ALL_ROUTE_NUMS = "SELECT routeid FROM lawrentian.routes GROUP BY routeid";
     const string GET_ROUTE_POINTS = "SELECT idlocation,numberOfIssues FROM lawrentian.routes WHERE routeid = :id ORDER BY locationorder ASC";
 }
@@ -44,7 +45,6 @@ vector<pair<Route*,int>>* CirculationWindowDBC::getAllRoutes(){
 
 Route* CirculationWindowDBC::getRoute(int routeId){
 
-    cout << "gitting route no " << routeId << endl;
 
     Route* newRoute = new Route();
     QSqlQuery* query = new QSqlQuery();
@@ -68,7 +68,26 @@ Route* CirculationWindowDBC::getRoute(int routeId){
     return newRoute;
 }
 
+int CirculationWindowDBC::sumTotalCopies(){
+    int num = 0;
+    QSqlQuery* query = new QSqlQuery();
 
+    query->prepare(QString::fromStdString(CWDBCCommands::GET_ALL_NUM_ISSUES));
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    if(!err.isValid()){
+
+        while(result->next()){
+            num += result->value(0).toInt();
+        }
+
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+    return num;
+}
 
 int CirculationWindowDBC::getAvailableRouteId(){ //Really important for inserting
     return findMissingNumber(getAllRouteNums());
@@ -85,10 +104,8 @@ vector<int>* CirculationWindowDBC::getAllRouteNums(){
     if(!err.isValid()){
 
         while(result->next()){
-            cout << result->value(0).toInt() << ",";
             numz->push_back(result->value(0).toInt());
         }
-        cout << endl;
 
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;

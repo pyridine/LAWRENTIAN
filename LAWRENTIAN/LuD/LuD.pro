@@ -51,7 +51,6 @@ SOURCES += main.cpp\
     permissiondef.cpp \
     mainwindowdbc.cpp \
     titledef.cpp \
-    locationdef.cpp \
     copyhistorywindow.cpp \
     editroutewindow.cpp \
     circulationwindowdbc.cpp \
@@ -68,7 +67,10 @@ SOURCES += main.cpp\
     editortimesheetdbc.cpp \
     editprofilewidget.cpp \
     photopoolwindow.cpp \
-    profilewidgetdbc.cpp
+    profilewidgetdbc.cpp \
+    addlocationwindowdbc.cpp \
+    permissionswidget.cpp \
+    permissionswidgetdbc.cpp
 
 HEADERS  += registrationwindow.h \
     employee.h \
@@ -107,7 +109,6 @@ HEADERS  += registrationwindow.h \
     permissiondef.h \
     mainwindowdbc.h \
     titledef.h \
-    locationdef.h \
     copyhistorywindow.h \
     editroutewindow.h \
     circulationwindowdbc.h \
@@ -124,7 +125,10 @@ HEADERS  += registrationwindow.h \
     editortimesheetdbc.h \
     editprofilewidget.h \
     photopoolwindow.h \
-    profilewidgetdbc.h
+    profilewidgetdbc.h \
+    addlocationwindowdbc.h \
+    permissionswidget.h \
+    permissionswidgetdbc.h
 
 
 FORMS    += registrationwindow.ui \
@@ -146,7 +150,8 @@ FORMS    += registrationwindow.ui \
     editemployeeinfo.ui \
     addlocationdialogue.ui \
     editprofilewidget.ui \
-    photopoolwindow.ui
+    photopoolwindow.ui \
+    permissionswidget.ui
 
 DISTFILES += \
     libmysql.dll \

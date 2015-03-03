@@ -39,7 +39,7 @@ Sender::~Sender()
 }
 
 bool
-Sender::sendFile(const std::string& issueDate, const std::string& sec,
+Sender::sendCopy(const std::string& issueDate, const std::string& sec,
                  const std::string& art, const std::string& type, const std::string& clDir)
 {
     using namespace std;
@@ -54,6 +54,28 @@ Sender::sendFile(const std::string& issueDate, const std::string& sec,
     source.read(reinterpret_cast<char*>(&seq[0]), seq.size());
 
     bool b = fpx->sendFile(issueDate, sec, art, type, art,seq);
+    source.close();
+
+    return b;
+}
+
+bool
+Sender::sendImage(const std::string& issueDate, const std::string& sec,
+                 const std::string& art, const std::string& type, const std::string& fName,
+                  const std::string& clDir)
+{
+    using namespace std;
+    using namespace Ice;
+
+    ifstream source(clDir, ios::binary);
+    source.seekg(0, ios::end);
+    long len = source.tellg();
+    source.seekg(0, ios::beg);
+
+    ByteSeq seq(len);
+    source.read(reinterpret_cast<char*>(&seq[0]), seq.size());
+
+    bool b = fpx->sendFile(issueDate, sec, art, type, fName,seq);
     source.close();
 
     return b;

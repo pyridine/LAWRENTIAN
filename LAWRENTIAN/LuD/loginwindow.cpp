@@ -10,7 +10,6 @@
 #include "logincredentials.h"
 #include "mainwindow.h"
 #include "titledef.h"
-#include "locationdef.h"
 #include "sectiondef.h"
 
 using namespace std;
@@ -35,11 +34,6 @@ void LoginWindow::initDB(Client* cp){
     cout << "Populating Title ids... ";
 
     TitleDef::__populateValues(dbController);
-
-    cout << "Done." << endl;
-    cout << "Populating Location ids... ";
-
-    LocationDef::__populateValues(dbController);
 
     cout << "Done."<< endl;
     cout << "Populating Section ids... ";

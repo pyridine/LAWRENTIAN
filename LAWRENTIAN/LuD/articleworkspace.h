@@ -27,7 +27,7 @@ public:
     ~articleWorkspace();
     void initArticle(Article *article);
     void addArticleButton(Article *article);
-    void initDB(Client* c,LoginCredentials* cred);
+    void init(Client* c,LoginCredentials* cred);
     int x;
     int y;
     bool workspaceExists(string articleTitle);
@@ -46,14 +46,15 @@ private slots:
     void openArticleWorkspace(Article* a);
 
 private:
+    void handlePermissions();
     QVBoxLayout * vert_layout;
-    LoginCredentials* credentials;
     Ui::articleWorkspace *ui;
     vector<Article*> articleVector;
     void __insertArticles(int section, int secPerf);
     ArticleWorkspaceDBC* dbController;
     vector<QPushButton*> buttonVector;
     void clearLayout(QVBoxLayout* vb_layout);
+    LoginCredentials* cred;
 
 };
 

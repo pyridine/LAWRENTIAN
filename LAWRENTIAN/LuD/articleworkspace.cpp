@@ -21,7 +21,6 @@ articleWorkspace::articleWorkspace(QWidget *parent) :
     x = 50;
     y = 50;
     vert_layout = new QVBoxLayout;
-    //this->updateArticleList();
 }
 
 articleWorkspace::~articleWorkspace()
@@ -29,17 +28,24 @@ articleWorkspace::~articleWorkspace()
     delete ui;
 }
 
-void articleWorkspace::initDB(Client* c,LoginCredentials* cred)
+void articleWorkspace::init(Client* c,LoginCredentials* crede)
 {
     dbController = new ArticleWorkspaceDBC(c);
-    credentials = cred;
+    cred = crede;
 
+    handlePermissions();
+}
+void articleWorkspace::handlePermissions(){
+    //Det whether to hide the add_workspace button.
+    if(!cred->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            && !cred->hasPermission(PermissionDef::EDIT_ARTICLE_WORKSPACE))
+        this->ui->addArticleWorkspace_pushButton->setEnabled(false);
 }
 
 
 void articleWorkspace::openArticleWorkspace(Article* a){
     //Init data
-    newArticleWorkspaceWindow *createArticleWorkspaceWindow = new newArticleWorkspaceWindow();
+    newArticleWorkspaceWindow *createArticleWorkspaceWindow = new newArticleWorkspaceWindow(this,cred);
     createArticleWorkspaceWindow->initDB(dbController->getClient());
     createArticleWorkspaceWindow->setupFields(a);
 
@@ -76,17 +82,21 @@ void articleWorkspace::initArticle(Article *article)
 
 void articleWorkspace::updateArticleList()
 {
+    cout << "o";
     articleVector.clear();
+    cout << "o";
 
-    //Didn't I need to initialize articlevector? :TODO :DEBUG :HEY_SEGFAULT
     __insertArticles(SectionDef::ARTSENT_SECTION,PermissionDef::SEC_ARTS);
+    cout << "o";
     __insertArticles(SectionDef::FEATURES_SECTION,PermissionDef::SEC_FEATURES);
     __insertArticles(SectionDef::NEWS_SECTION,PermissionDef::SEC_NEWS);
     __insertArticles(SectionDef::OPED_SECTION,PermissionDef::SEC_OPED);
     __insertArticles(SectionDef::SPORTS_SECTION,PermissionDef::SEC_SPORTS);
     __insertArticles(SectionDef::VARIETY_SECTION,PermissionDef::SEC_VARIETY);
 
+    cout << "o";
     resetArticleButtons();
+    cout << "o";
 }
 void articleWorkspace::resetArticleButtons()
 {
@@ -105,11 +115,12 @@ void articleWorkspace::resetArticleButtons()
 void articleWorkspace::__insertArticles(int section, int secPerf)
 {
 
-    if(credentials->hasPermission(PermissionDef::ADMIN_PTOKEN)
-            ||credentials->hasPermission(PermissionDef::SEC_ALL)
-            ||credentials->hasPermission(secPerf))
+    if(cred->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            ||cred->hasPermission(PermissionDef::SEC_ALL)
+            ||cred->hasPermission(secPerf))
     {
         // nice.
+        //I know, right? This is a really great function.
         vector<Article*>* newvit = dbController->getSectionArticles(section);
         articleVector.insert(articleVector.end(),newvit->begin(),newvit->end());
     }
