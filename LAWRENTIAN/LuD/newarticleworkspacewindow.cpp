@@ -5,6 +5,7 @@
 #include <QString>
 #include <QStringList>
 #include <QDate>
+#include "titledef.h"
 #include <string>
 #include "Sender.h"
 #include <QCheckBox>
@@ -61,9 +62,15 @@ void newArticleWorkspaceWindow::handlePermissions(){
     if(!loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
             &&!loginCred->hasPermission(PermissionDef::SUBMIT_COPY)
             &&!loginCred->hasPermission(PermissionDef::EDIT_COPY)){
+
+
         ui->chooseFile_pushButton->setEnabled(false);
         ui->copyHistory_pushButton->setEnabled(false);
     }
+
+    //Second pass thru writer permissions occurs in setupfields,
+    //when we know who the writer is.
+
     if(!loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
             &&!loginCred->hasPermission(PermissionDef::SUBMIT_GRAPHIC)
             &&!loginCred->hasPermission(PermissionDef::EDIT_GRAPHIC)
@@ -197,6 +204,15 @@ void newArticleWorkspaceWindow::setupFields(Article *article)
     this->updatePhotographerList(article->getPhotographer());
     this->updateWriterList(article->getSection(),article->getWriter());
     this->on_sectionComboBox_currentIndexChanged(QString("argument does nothing"));
+
+
+    if(loginCred->getTitle()==TitleDef::WRITER){
+        if(loginCred->getLUID() == getSelectedWriterLuid()){
+            this->ui->chooseFile_pushButton->setEnabled(true);
+        } else{
+            this->ui->chooseFile_pushButton->setEnabled(false);
+        }
+    }
 }
 
 void newArticleWorkspaceWindow::setupSectionComboBox(int section)
