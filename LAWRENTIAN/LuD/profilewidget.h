@@ -27,6 +27,7 @@ public:
     void initDB(Client *c);
     void setWelcomeLabel();
     void updateNotifications();
+    pair<int, int> calculateArticlesOnTimeAndLate(QDate issueDate, int writerId);
 
 private slots:
     void on_logOutButton_clicked();

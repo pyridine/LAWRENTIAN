@@ -69,7 +69,13 @@ SOURCES += main.cpp\
     photopoolwindow.cpp \
     profilewidgetdbc.cpp \
     addlocationwindowdbc.cpp \
+<<<<<<< HEAD
     photopoolwindowdbc.cpp
+=======
+    permissionswidget.cpp \
+    permissionswidgetdbc.cpp \
+    managetitles.cpp
+>>>>>>> origin/master
 
 HEADERS  += registrationwindow.h \
     employee.h \
@@ -126,7 +132,13 @@ HEADERS  += registrationwindow.h \
     photopoolwindow.h \
     profilewidgetdbc.h \
     addlocationwindowdbc.h \
+<<<<<<< HEAD
     photopoolwindowdbc.h
+=======
+    permissionswidget.h \
+    permissionswidgetdbc.h \
+    managetitles.h
+>>>>>>> origin/master
 
 
 FORMS    += registrationwindow.ui \
@@ -148,7 +160,9 @@ FORMS    += registrationwindow.ui \
     editemployeeinfo.ui \
     addlocationdialogue.ui \
     editprofilewidget.ui \
-    photopoolwindow.ui
+    photopoolwindow.ui \
+    permissionswidget.ui \
+    managetitles.ui
 
 DISTFILES += \
     libmysql.dll \
