@@ -66,12 +66,9 @@ void newArticleWorkspaceWindow::handlePermissions(){
     }
     if(!loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
             &&!loginCred->hasPermission(PermissionDef::SUBMIT_GRAPHIC)
-            &&!loginCred->hasPermission(PermissionDef::EDIT_GRAPHIC)){
-        ui->addImage_pushButton->setEnabled(false);
-    }
-    if(!loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
-            &&!loginCred->hasPermission(PermissionDef::SUBMIT_GRAPHIC)
-            &&!loginCred->hasPermission(PermissionDef::EDIT_GRAPHIC)){
+            &&!loginCred->hasPermission(PermissionDef::EDIT_GRAPHIC)
+            &&!loginCred->hasPermission(PermissionDef::SUBMIT_PHOTO)
+            &&!loginCred->hasPermission(PermissionDef::EDIT_PHOTO)){
         ui->addImage_pushButton->setEnabled(false);
     }
 }

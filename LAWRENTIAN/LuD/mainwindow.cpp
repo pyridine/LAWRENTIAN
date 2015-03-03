@@ -73,9 +73,6 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
     tabs->addTab(empWidget, employeeTabTitle);
 
 
-
-    cout << "about to create article wksps" << endl;
-
     if(loginCredo->hasPermission(PermissionDef::ADMIN_PTOKEN)
             ||loginCredo->hasPermission(PermissionDef::SUBMIT_COPY)
             ||loginCredo->hasPermission(PermissionDef::EDIT_COPY)
@@ -131,7 +128,7 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
         } else{
             circWidg->init_ViewPrivileges(client);
         }
-        tabs->addTab(circWidg, "Circulation");
+        tabs->addTab(circWidg, "Circulations");
     }
 
     if(loginCredo->hasPermission(PermissionDef::ADMIN_PTOKEN)
