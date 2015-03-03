@@ -4,6 +4,7 @@
 #include "profilewidget.h"
 #include "employeeswidget.h"
 #include "adwidget.h"
+#include "permissionswidget.h"
 #include "editortimesheetwidget.h"
 #include "writertimesheetwidget.h"
 #include "subscriptionswidget.h"
@@ -82,7 +83,13 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
             ||loginCredo->hasPermission(PermissionDef::SUBMIT_PHOTO)
             ||loginCredo->hasPermission(PermissionDef::EDIT_PHOTO)
             ||loginCredo->hasPermission(PermissionDef::EDIT_ARTICLE_WORKSPACE)
-            ||loginCredo->hasPermission(PermissionDef::APPROVE_ARTICLE)){
+            ||loginCredo->hasPermission(PermissionDef::SEC_ALL)
+            ||loginCredo->hasPermission(PermissionDef::SEC_ARTS)
+            ||loginCredo->hasPermission(PermissionDef::SEC_FEATURES)
+            ||loginCredo->hasPermission(PermissionDef::SEC_NEWS)
+            ||loginCredo->hasPermission(PermissionDef::SEC_OPED)
+            ||loginCredo->hasPermission(PermissionDef::SEC_SPORTS)
+            ||loginCredo->hasPermission(PermissionDef::SEC_VARIETY)){
 
         articleWorkspace* awk = new articleWorkspace();
         awk->init(client,loginCredo);
@@ -124,6 +131,15 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
             circWidg->init_ViewPrivileges(client);
         }
         tabs->addTab(circWidg, "Circulation");
+    }
+
+    if(loginCredo->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            ||loginCredo->hasPermission(PermissionDef::VIEW_PERMISSIONS)){
+
+        PermissionsWidget* pemWidg = new PermissionsWidget(this);
+        pemWidg->initDB(client);
+
+        tabs->addTab(pemWidg, "Permissions");
     }
 }
 
