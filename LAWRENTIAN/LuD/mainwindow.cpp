@@ -134,12 +134,10 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
         tabs->addTab(circWidg, "Circulation");
     }
 
-<<<<<<< HEAD
     PhotoPoolWindow* ppw = new PhotoPoolWindow();
     ppw->init(client);
     tabs->addTab(ppw, "Photo Pool");
 
-=======
     if(loginCredo->hasPermission(PermissionDef::ADMIN_PTOKEN)
             ||loginCredo->hasPermission(PermissionDef::VIEW_PERMISSIONS)){
 
@@ -148,7 +146,6 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
 
         tabs->addTab(pemWidg, "Permissions");
     }
->>>>>>> origin/master
 }
 
 void MainWindow::logOut(){

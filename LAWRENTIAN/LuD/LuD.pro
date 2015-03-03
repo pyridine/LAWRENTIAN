@@ -13,166 +13,159 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = LuD
 TEMPLATE = app
 
-
-SOURCES += main.cpp\
-        registrationwindow.cpp \
-    employee.cpp \
-    checkemployeeswindow.cpp \
-    permissions.cpp \
-    remotedbconnection.cpp \
-    client.cpp \
-    loginwindow.cpp \
-    logincredentials.cpp \
-    alert.cpp \
-    ad.cpp \
-    archive.cpp \
-    article.cpp \
-    editortimesheet.cpp \
-    idea.cpp \
-    registrationdialog.cpp \
-    subscription.cpp \
-    writertimesheet.cpp \
-    adwidget.cpp \
-    articleworkspace.cpp \
-    circulationwidget.cpp \
-    editortimesheetwidget.cpp \
-    employeeswidget.cpp \
-    mainwindow.cpp \
-    newarticleworkspacewindow.cpp \
-    profilewidget.cpp \
-    subscriptionswidget.cpp \
-    writertimesheetwidget.cpp \
-    FileSystem.cpp \
-    Sender.cpp \
-    registrationwindowdbc.cpp \
-    loginwindowdbc.cpp \
-    employeetabledbc.cpp \
-    databasecontroller.cpp \
-    permissiondef.cpp \
-    mainwindowdbc.cpp \
-    titledef.cpp \
-    copyhistorywindow.cpp \
-    editroutewindow.cpp \
-    circulationwindowdbc.cpp \
-    route.cpp \
-    newarticleworkspacewindowdbc.cpp \
-    articleworkspacedbc.cpp \
-    sectiondef.cpp \
-    editemployeeinfo.cpp \
-    editemployeeinfodbc.cpp \
-    editroutewindowdbc.cpp \
-    addlocationdialogue.cpp \
-    editprofiledbc.cpp \
-    writertimesheetdbc.cpp \
-    editortimesheetdbc.cpp \
-    editprofilewidget.cpp \
-    photopoolwindow.cpp \
-    profilewidgetdbc.cpp \
-    addlocationwindowdbc.cpp \
-<<<<<<< HEAD
-    photopoolwindowdbc.cpp
-=======
-    permissionswidget.cpp \
-    permissionswidgetdbc.cpp \
-    managetitles.cpp
->>>>>>> origin/master
-
-HEADERS  += registrationwindow.h \
-    employee.h \
-    checkemployeeswindow.h \
-    permissions.h \
-    remotedbconnection.h \
-    client.h \
-    loginwindow.h \
-    logincredentials.h \
-    alert.h \
-    ad.h \
-    archive.h \
-    article.h \
-    editortimesheet.h \
-    idea.h \
-    registrationdialog.h \
-    subscription.h \
-    writertimesheet.h \
-    adwidget.h \
-    articleworkspace.h \
-    circulationwidget.h \
-    editortimesheetwidget.h \
-    employeeswidget.h \
-    mainwindow.h \
-    newarticleworkspacewindow.h \
-    profilewidget.h \
-    subscriptionswidget.h \
-    writertimesheetwidget.h \
-    FileSystem.h \
-    Sender.h \
-    constants.h \
-    registrationwindowdbc.h \
-    loginwindowdbc.h \
-    employeetabledbc.h \
-    databasecontroller.h \
-    permissiondef.h \
-    mainwindowdbc.h \
-    titledef.h \
-    copyhistorywindow.h \
-    editroutewindow.h \
-    circulationwindowdbc.h \
-    route.h \
-    newarticleworkspacewindowdbc.h \
-    articleworkspacedbc.h \
-    sectiondef.h \
-    editemployeeinfo.h \
-    editemployeeinfodbc.h \
-    editroutewindowdbc.h \
-    addlocationdialogue.h \
-    editprofiledbc.h \
-    writertimesheetdbc.h \
-    editortimesheetdbc.h \
-    editprofilewidget.h \
-    photopoolwindow.h \
-    profilewidgetdbc.h \
-    addlocationwindowdbc.h \
-<<<<<<< HEAD
-    photopoolwindowdbc.h
-=======
-    permissionswidget.h \
-    permissionswidgetdbc.h \
-    managetitles.h
->>>>>>> origin/master
-
-
-FORMS    += registrationwindow.ui \
-    checkemployeeswindow.ui \
-    loginwindow.ui \
-    registrationdialog.ui \
-    adwidget.ui \
-    articleworkspace.ui \
-    circulationwidget.ui \
-    editortimesheetwidget.ui \
-    employeeswidget.ui \
-    mainwindow.ui \
-    newarticleworkspacewindow.ui \
-    profilewidget.ui \
-    subscriptionswidget.ui \
-    writertimesheetwidget.ui \
-    copyhistorywindow.ui \
-    editroutewindow.ui \
-    editemployeeinfo.ui \
-    addlocationdialogue.ui \
-    editprofilewidget.ui \
-    photopoolwindow.ui \
-    permissionswidget.ui \
-    managetitles.ui
-
 DISTFILES += \
     libmysql.dll \
-    LuD.pro.user \
     FileSystem.ice \
-    LuD.pro.user.0f8f2c1 \
-    LuD.pro.user.ee9f765 \
+    LuD.pro.user \
     LuD.pro.user.47f9476 \
-    LuD.pro.user.83fecab \
+    LuD.pro.user.ee9f765 \
     LuD.pro.user.IX7944
+
+FORMS += \
+    addlocationdialogue.ui \
+    adwidget.ui \
+    articleworkspace.ui \
+    checkemployeeswindow.ui \
+    circulationwidget.ui \
+    copyhistorywindow.ui \
+    editemployeeinfo.ui \
+    editortimesheetwidget.ui \
+    editprofilewidget.ui \
+    editroutewindow.ui \
+    employeeswidget.ui \
+    loginwindow.ui \
+    mainwindow.ui \
+    managetitles.ui \
+    newarticleworkspacewindow.ui \
+    permissionswidget.ui \
+    photopoolwindow.ui \
+    profilewidget.ui \
+    registrationdialog.ui \
+    registrationwindow.ui \
+    subscriptionswidget.ui \
+    writertimesheetwidget.ui
+
+HEADERS += \
+    ad.h \
+    addlocationdialogue.h \
+    addlocationwindowdbc.h \
+    adwidget.h \
+    alert.h \
+    archive.h \
+    article.h \
+    articleworkspace.h \
+    articleworkspacedbc.h \
+    checkemployeeswindow.h \
+    circulationwidget.h \
+    circulationwindowdbc.h \
+    client.h \
+    constants.h \
+    copyhistorywindow.h \
+    databasecontroller.h \
+    editemployeeinfo.h \
+    editemployeeinfodbc.h \
+    editortimesheet.h \
+    editortimesheetdbc.h \
+    editortimesheetwidget.h \
+    editprofiledbc.h \
+    editprofilewidget.h \
+    editroutewindow.h \
+    editroutewindowdbc.h \
+    employee.h \
+    employeeswidget.h \
+    employeetabledbc.h \
+    FileSystem.h \
+    idea.h \
+    logincredentials.h \
+    loginwindow.h \
+    loginwindowdbc.h \
+    mainwindow.h \
+    mainwindowdbc.h \
+    managetitles.h \
+    newarticleworkspacewindow.h \
+    newarticleworkspacewindowdbc.h \
+    permissiondef.h \
+    permissions.h \
+    permissionswidget.h \
+    permissionswidgetdbc.h \
+    photopoolwindow.h \
+    photopoolwindowdbc.h \
+    profilewidget.h \
+    profilewidgetdbc.h \
+    registrationdialog.h \
+    registrationwindow.h \
+    registrationwindowdbc.h \
+    remotedbconnection.h \
+    route.h \
+    sectiondef.h \
+    Sender.h \
+    subscription.h \
+    subscriptionswidget.h \
+    titledef.h \
+    writertimesheet.h \
+    writertimesheetdbc.h \
+    writertimesheetwidget.h
+
+SOURCES += \
+    ad.cpp \
+    addlocationdialogue.cpp \
+    addlocationwindowdbc.cpp \
+    adwidget.cpp \
+    alert.cpp \
+    archive.cpp \
+    article.cpp \
+    articleworkspace.cpp \
+    articleworkspacedbc.cpp \
+    checkemployeeswindow.cpp \
+    circulationwidget.cpp \
+    circulationwindowdbc.cpp \
+    client.cpp \
+    copyhistorywindow.cpp \
+    databasecontroller.cpp \
+    editemployeeinfo.cpp \
+    editemployeeinfodbc.cpp \
+    editortimesheet.cpp \
+    editortimesheetdbc.cpp \
+    editortimesheetwidget.cpp \
+    editprofiledbc.cpp \
+    editprofilewidget.cpp \
+    editroutewindow.cpp \
+    editroutewindowdbc.cpp \
+    employee.cpp \
+    employeeswidget.cpp \
+    employeetabledbc.cpp \
+    FileSystem.cpp \
+    idea.cpp \
+    logincredentials.cpp \
+    loginwindow.cpp \
+    loginwindowdbc.cpp \
+    main.cpp \
+    mainwindow.cpp \
+    mainwindowdbc.cpp \
+    managetitles.cpp \
+    newarticleworkspacewindow.cpp \
+    newarticleworkspacewindowdbc.cpp \
+    permissiondef.cpp \
+    permissions.cpp \
+    permissionswidget.cpp \
+    permissionswidgetdbc.cpp \
+    photopoolwindow.cpp \
+    photopoolwindowdbc.cpp \
+    profilewidget.cpp \
+    profilewidgetdbc.cpp \
+    registrationdialog.cpp \
+    registrationwindow.cpp \
+    registrationwindowdbc.cpp \
+    remotedbconnection.cpp \
+    route.cpp \
+    sectiondef.cpp \
+    Sender.cpp \
+    subscription.cpp \
+    subscriptionswidget.cpp \
+    titledef.cpp \
+    writertimesheet.cpp \
+    writertimesheetdbc.cpp \
+    writertimesheetwidget.cpp
 
 win32{
 
@@ -273,3 +266,4 @@ INCLUDEPATH += $$PWD/../../../../../../Library/Developer/Ice-3.5.1/include
 DEPENDPATH += $$PWD/../../../../../../Library/Developer/Ice-3.5.1/include
 
 }
+
