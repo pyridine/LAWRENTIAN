@@ -23,7 +23,7 @@ void RegistrationWindowDBC::addEmployee(Employee* e) {
 
     query->bindValue(":luid",e->getLuId());
     query->bindValue(":name",QString::fromStdString(e->getName()));
-    query->bindValue(":title",QString::fromStdString(e->getTitle()));
+    query->bindValue(":title",-1);
     query->bindValue(":phone",QString::fromStdString(e->getPhoneNumber()));
     query->bindValue(":email",QString::fromStdString(e->getEmail()));
     query->bindValue(":username",QString::fromStdString(e->getUsername()));
