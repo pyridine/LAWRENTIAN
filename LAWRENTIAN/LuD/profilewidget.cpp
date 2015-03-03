@@ -7,6 +7,8 @@
 
 #include "editprofilewidget.h"
 #include "editemployeeinfo.h"
+#include "Sender.h"
+#include "FileSystem.h"
 
 using namespace std;
 
@@ -112,9 +114,8 @@ void profileWidget::on_systemNotificationsTextBrowser_anchorClicked(const QUrl &
     //Generate Timesheet
     if(urlString == "GenerateWriterTimesheet"){
         for(int i = 0; i<writerIds.size(); i++){
-            int articlesOnTime = profileWidgetDBC->collectArticlesOnTime(writerIds[i], currentDate);
-            int articlesLate = profileWidgetDBC->collectArticlesLate(writerIds[i], currentDate);
-            profileWidgetDBC->generateWriterTimesheet(writerIds[i], articlesOnTime, articlesLate, currentDate);
+            pair<int, int> submissionDate = calculateArticlesOnTimeAndLate(currentDate, writerIds[i]);
+            profileWidgetDBC->generateWriterTimesheet(writerIds[i], submissionDate.first, submissionDate.second, currentDate);
         }
         Alert *alert = new Alert;
         alert->showInformationAlert("Generated!", "Writer Timesheet successfully generated");
@@ -123,9 +124,8 @@ void profileWidget::on_systemNotificationsTextBrowser_anchorClicked(const QUrl &
     } else if(urlString == "UpdateWriterTimesheet"){
         profileWidgetDBC->deleteWriterTimesheetRecords(currentDate);
         for(int i = 0; i<writerIds.size(); i++){
-            int articlesOnTime = profileWidgetDBC->collectArticlesOnTime(writerIds[i], currentDate);
-            int articlesLate = profileWidgetDBC->collectArticlesLate(writerIds[i], currentDate);
-            profileWidgetDBC->generateWriterTimesheet(writerIds[i], articlesOnTime, articlesLate, currentDate);
+            pair<int, int> submissionDate = calculateArticlesOnTimeAndLate(currentDate, writerIds[i]);
+            profileWidgetDBC->generateWriterTimesheet(writerIds[i], submissionDate.first, submissionDate.second, currentDate);
         }
         Alert *alert = new Alert;
         alert->showInformationAlert("Updated!", "Writer Timesheet successfully updated");
@@ -138,6 +138,41 @@ void profileWidget::on_systemNotificationsTextBrowser_anchorClicked(const QUrl &
         employeeInfo->initDB(this->client);
         employeeInfo->initSelectedName(QString::fromStdString(possibleProbationApprovals[urlInt]));
         employeeInfo->show();
+    }
+}
+
+pair<int, int> profileWidget::calculateArticlesOnTimeAndLate(QDate issueDate, int writerId)
+{
+    pair<int, int> articlesOnTimeAndLate;
+    int articlesOnTime = 0;
+    int articlesLate = 0;
+    QDate deadline = issueDate.addDays(-3);
+
+    QString issueDateQString = issueDate.toString("yyyy-MM-dd");
+    string issueDateString = issueDateQString.toStdString();
+    Sender *sndr = new Sender;
+    vector<int> articleIds = profileWidgetDBC->collectArticleIdForTimesheet(issueDate, writerId);
+    cout<<"Writer with id: "<<writerId<<" has "<<articleIds.size()<<" articles for this issue"<<endl;
+    for(int i = 0; i < articleIds.size(); i++){
+        string sectionName = profileWidgetDBC->collectArticleSection(articleIds[i]);
+        string articleName = profileWidgetDBC->collectArticleTitle(articleIds[i]);
+        FileSystem::VerSeq versions;
+        versions = sndr->getHistory(issueDateString, sectionName, articleName, fs::COPY);
+
+        // Reads in first submitted file (assumed its submitted by writer)
+        if(versions.size()>0){
+            FileSystem::TimeIce submissionTime = versions[0].time;
+            QDate submissionDate;
+            submissionDate.setDate(submissionTime.year, submissionTime.month, submissionTime.day);
+
+            if(submissionDate <= deadline){
+                articlesOnTime++;
+            } else {
+                articlesLate++;
+            }
+        }
+        articlesOnTimeAndLate = make_pair (articlesOnTime, articlesLate);
+        return articlesOnTimeAndLate;
     }
 }
 

@@ -9,6 +9,52 @@ ProfileWidgetDBC::ProfileWidgetDBC(Client *c):DatabaseController(c)
 
 }
 
+string ProfileWidgetDBC::collectArticleSection(int articleId){
+    const string GET_NAME = "SELECT lawrentian.section.sectionName "
+                            "FROM lawrentian.section "
+                            "INNER JOIN lawrentian.currentissue_article "
+                            "ON lawrentian.currentissue_article.section = lawrentian.section.idsection "
+                            "WHERE lawrentian.currentissue_article.idarticle = :idarticle";
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_NAME));
+    query->bindValue(":idarticle", articleId);
+
+    string sectionName;
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    if(!err.isValid()){
+        while(result->next()){
+            sectionName = result->value(0).toString().toStdString();
+        }
+        return sectionName;
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+}
+
+string ProfileWidgetDBC::collectArticleTitle(int articleId){
+    const string GET_NAME = "SELECT title FROM lawrentian.currentissue_article WHERE idarticle =:articleId";
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_NAME));
+    query->bindValue(":articleId", articleId);
+
+    string articleName;
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    if(!err.isValid()){
+        while(result->next()){
+            articleName = result->value(0).toString().toStdString();
+        }
+        return articleName;
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+}
+
 string ProfileWidgetDBC::collectName(int luid){
     const string GET_NAME = "SELECT name FROM lawrentian.employee WHERE luid =:luid";
     QSqlQuery* query = new QSqlQuery();
@@ -86,11 +132,39 @@ vector<string> ProfileWidgetDBC::collectProbationApprovals(QDate currentDate)
     }
 }
 
+vector<int> ProfileWidgetDBC::collectArticleIdForTimesheet(QDate currentDate, int writerId)
+{
+    QString currentDateString = currentDate.toString("yyyy-MM-dd");
+
+    const string GET_ARTICLEID = "SELECT idarticle FROM lawrentian.currentissue_article "
+                                           "WHERE currentissue_article.issueDate =:currentDate AND currentissue_article.writer =:writerId";
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_ARTICLEID));
+    query->bindValue(":currentDate", currentDateString);
+    query->bindValue(":writerId", writerId);
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    vector<int> articleIds;
+
+    if(!err.isValid()){
+        while(result->next()){
+            string id = result->value(0).toString().toStdString();
+            int idInt = stoi(id);
+            articleIds.push_back(idInt);
+        }
+        return articleIds;
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+}
+
 vector<int> ProfileWidgetDBC::collectWriterForTimesheet(QDate currentDate)
 {
     QString currentDateString = currentDate.toString("yyyy-MM-dd");
 
-    const string GET_WRITERS = "SELECT writer FROM lawrentian.currentissue_article "
+    const string GET_WRITERS = "SELECT DISTINCT writer FROM lawrentian.currentissue_article "
                                            "WHERE currentissue_article.issueDate =:currentDate";
     QSqlQuery* query = new QSqlQuery();
     query->prepare(QString::fromStdString(GET_WRITERS));
