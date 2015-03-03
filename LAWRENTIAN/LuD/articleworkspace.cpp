@@ -66,10 +66,11 @@ void articleWorkspace::on_addArticleWorkspace_pushButton_clicked()
 
     //Set the article's date for the next Wednesday.
     QDate todate = QDate::currentDate();
-    while(todate.dayOfWeek() != 3 /*Wednesday*/){
+    if(todate.dayOfWeek() == 3)
+        todate = todate.addDays(7);
+    while(todate.dayOfWeek() != 3 /*Wednesday*/)
         todate = todate.addDays(1);
-    }
-    QString dateFormat("yyyy-MM-dd");
+    QString dateFormat(df::dbFormat);
     string dateString = todate.toString(dateFormat).toStdString();
     Article* newArticle = new Article(dateString,"Article Title","Article Description",
                                       0 /*Default to first section*/,
@@ -86,21 +87,17 @@ void articleWorkspace::initArticle(Article *article)
 
 void articleWorkspace::updateArticleList()
 {
-    cout << "o";
     articleVector.clear();
-    cout << "o";
 
     __insertArticles(SectionDef::ARTSENT_SECTION,PermissionDef::SEC_ARTS);
-    cout << "o";
+
     __insertArticles(SectionDef::FEATURES_SECTION,PermissionDef::SEC_FEATURES);
     __insertArticles(SectionDef::NEWS_SECTION,PermissionDef::SEC_NEWS);
     __insertArticles(SectionDef::OPED_SECTION,PermissionDef::SEC_OPED);
     __insertArticles(SectionDef::SPORTS_SECTION,PermissionDef::SEC_SPORTS);
     __insertArticles(SectionDef::VARIETY_SECTION,PermissionDef::SEC_VARIETY);
 
-    cout << "o";
     resetArticleButtons();
-    cout << "o";
 }
 void articleWorkspace::resetArticleButtons()
 {

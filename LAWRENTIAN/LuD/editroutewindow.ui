@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>441</width>
+    <width>546</width>
     <height>422</height>
    </rect>
   </property>
@@ -107,27 +107,27 @@
   <widget class="QPushButton" name="pushButton_5">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>350</y>
-     <width>80</width>
+     <x>290</x>
+     <y>10</y>
+     <width>51</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>Add Location</string>
+    <string>Add...</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_6">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>350</y>
-     <width>91</width>
+     <x>350</x>
+     <y>10</y>
+     <width>51</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>Edit Location</string>
+    <string>Edit...</string>
    </property>
   </widget>
   <widget class="QPushButton" name="addPointButton">
@@ -179,7 +179,7 @@
   <widget class="QPushButton" name="dropRouteWindow">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>310</x>
      <y>390</y>
      <width>80</width>
      <height>21</height>

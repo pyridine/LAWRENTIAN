@@ -111,16 +111,6 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLineEdit" name="titleTextField">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>100</y>
-     <width>231</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLineEdit" name="emailTextField">
    <property name="geometry">
     <rect>
@@ -230,6 +220,16 @@
    </property>
    <property name="calendarPopup">
     <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="titleComboBaucks">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>100</y>
+     <width>231</width>
+     <height>22</height>
+    </rect>
    </property>
   </widget>
  </widget>

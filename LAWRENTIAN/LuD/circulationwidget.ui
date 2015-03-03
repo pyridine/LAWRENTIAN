@@ -69,7 +69,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Edit Route</string>
+    <string>Edit Route...</string>
    </property>
   </widget>
   <widget class="QPushButton" name="addRouteButton">
@@ -82,7 +82,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Add Route</string>
+    <string>Add Route...</string>
    </property>
   </widget>
   <widget class="QLabel" name="total">

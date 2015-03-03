@@ -1,6 +1,6 @@
 #include "editemployeeinfo.h"
 #include "ui_editemployeeinfo.h"
-
+#include "employeeswidget.h"
 #include <QStringList>
 #include <iostream>
 #include "alert.h"
@@ -16,6 +16,7 @@ EditEmployeeInfo::EditEmployeeInfo(QWidget *parent) :
 void EditEmployeeInfo::init(LoginCredentials *c)
 {
     login = c;
+    parentYay = static_cast<employeesWidget*>(parent);
     handlePermissions();
 }
 
@@ -32,12 +33,27 @@ void EditEmployeeInfo::handlePermissions(){
         ui->luidTextField->setEnabled(false);
         ui->phoneTextField->setEnabled(false);
         ui->probationStartDate->setEnabled(false);
-        ui->titleTextField->setEnabled(false);
+        ui->titleComboBaucks->setEnabled(false);
     }
 }
 
 void EditEmployeeInfo::initDB(Client *c){
     editEmployeeInfoDBC = new EditEmployeeInfoDBC(c);
+
+
+    //Populate combobox.
+    //Yeah, it's not in the right method.
+    //Fuckin' sue me.
+    vector<int>* tots = editEmployeeInfoDBC->getAllTitles();
+    vector<int>::iterator it = tots->begin();
+
+    while(it != tots->end()){
+        ui->titleComboBaucks->addItem(
+                    QString::fromStdString(editEmployeeInfoDBC->translateTitle(*it)),
+                    QVariant(*it));
+        it++;
+    }
+
 }
 
 void EditEmployeeInfo::initSelectedName(QString selectedName)
@@ -50,7 +66,7 @@ void EditEmployeeInfo::initSelectedName(QString selectedName)
     ui->phoneTextField->setEnabled(false);
     ui->emailTextField->setEnabled(false);
     ui->approvedComboBox->setEnabled(false);
-    ui->titleTextField->setEnabled(false);
+    ui->titleComboBaucks->setEnabled(false);
     updateAllFields();
 }
 
@@ -116,8 +132,15 @@ void EditEmployeeInfo::updateAllFields()
     int employeeID = editEmployeeInfoDBC->collectLuid(selectedName);
     ui->luidTextField->setText(QString::number(employeeID));
 
-    string title = editEmployeeInfoDBC->collectTitle(selectedName);
-    ui->titleTextField->setText(QString::fromStdString(title));
+    int titleID = editEmployeeInfoDBC->getEmployeeTitle(employeeID);
+
+    //Set title combo box.
+    for(int i = 0; i < ui->titleComboBaucks->count(); i++){
+        ui->titleComboBaucks->setCurrentIndex(i);
+        if(ui->titleComboBaucks->currentData().toInt() == titleID){
+            i = ui->titleComboBaucks->count(); //Super dumb loop break lol
+        }
+    }
 
     string phone = editEmployeeInfoDBC->collectPhone(selectedName);
     ui->phoneTextField->setText(QString::fromStdString(phone));
@@ -151,7 +174,8 @@ void EditEmployeeInfo::on_pushButton_clicked()
         }
 
         int luid = ui->luidTextField->text().toInt();
-        string title = ui->titleTextField->text().toStdString();
+        //string title = ui->titleTextField->text().toStdString();
+        editEmployeeInfoDBC->updateEmployeeTitle(luid,ui->titleComboBaucks->currentData().toInt());
         string email = ui->emailTextField->text().toStdString();
         string phone = ui->phoneTextField->text().toStdString();
         string approved = ui->approvedComboBox->currentText().toStdString();
@@ -173,13 +197,13 @@ void EditEmployeeInfo::on_pushButton_clicked()
             QDate probationDateQDate = ui->probationStartDate->date();
             string probationDateString = probationDateQDate.toString("yyyy-MM-dd").toStdString();
             cout<<"About to set probationDate to: "<<probationDateString<<endl;
-            editEmployeeInfoDBC->saveEmployeeChanges(oldName, selectedName, luid, title, email, phone, approvedInt, probationDateString);
+            editEmployeeInfoDBC->saveEmployeeChanges(oldName, selectedName, luid, "title", email, phone, approvedInt, probationDateString);
         }
         // If NOT put on probation
         if(ui->probationComboBox->currentIndex()==0)
         {
             cout<<"About to set probationDate to NULL"<<endl;
-            editEmployeeInfoDBC->saveEmployeeChanges(oldName, selectedName, luid, title, email, phone, approvedInt, "");
+            editEmployeeInfoDBC->saveEmployeeChanges(oldName, selectedName, luid, "title", email, phone, approvedInt, "");
         }
         // Updates name if approved
         if(approvedInt == 1){
@@ -194,6 +218,7 @@ void EditEmployeeInfo::on_pushButton_clicked()
 
 void EditEmployeeInfo::on_pushButton_2_clicked()
 {
+    parentYay->reUpdateTable();
     this->close();
 }
 

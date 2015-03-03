@@ -7,6 +7,7 @@
 #include <QTableWidgetItem>
 
 
+
 DatabaseController::DatabaseController(Client* c){
     client = c;
 }
@@ -42,6 +43,7 @@ void DatabaseController::executeSQLString_Args(string sql, vector<string> *bindN
         QString bindName = QString::fromStdString(*binder);
         QVariant bindVal = *binded;
         query->bindValue(bindName,bindVal);
+        binder++;
     }
 
     QSqlQuery* result = client->execute(query);

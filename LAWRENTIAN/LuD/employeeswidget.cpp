@@ -37,6 +37,8 @@ void employeesWidget::initDB(Client *c){
 }
 
 void employeesWidget::initNormalView(){
+    viewType=0;
+    ui->employeeTable->clear();
     int NUMBEROFCOLUMNS = 5;
     int NUMBEROFROWS = 1+dbController->getNumberOfEmployees();
 
@@ -65,6 +67,8 @@ void employeesWidget::initNormalView(){
 }
 
 void employeesWidget::initPrivilegedView(){
+    viewType=1;
+    ui->employeeTable->clear();
     int NUMBEROFCOLUMNS = 6;
     int NUMBEROFROWS = 1+dbController->getNumberOfEmployees();
 
@@ -94,6 +98,8 @@ void employeesWidget::initPrivilegedView(){
 }
 
 void employeesWidget::initTotalView(){
+    viewType=2;
+    ui->employeeTable->clear();
     int NUMBEROFCOLUMNS = 8;
     int NUMBEROFROWS = 1+dbController->getNumberOfEmployees();
 
@@ -147,6 +153,18 @@ void employeesWidget::on_employeeTable_cellClicked(int row, int column)
 
 int employeesWidget::getNumUnregistered(){
     return dbController->getNumUnregistered();
+}
+
+void employeesWidget::reUpdateTable(){
+    if(viewType == 0){
+        this->initNormalView();
+    }
+    if(viewType == 1){
+        this->initPrivilegedView();
+    }
+    if(viewType == 2){
+        this->initTotalView();
+    }
 }
 
 void employeesWidget::on_approveRegButton_clicked()

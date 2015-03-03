@@ -297,7 +297,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Delete Image</string>
+    <string>Remove Image</string>
    </property>
   </widget>
   <widget class="QPushButton" name="deleteAWS_pushButton">
