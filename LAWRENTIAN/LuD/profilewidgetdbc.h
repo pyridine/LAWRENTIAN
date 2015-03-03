@@ -12,6 +12,9 @@ public:
 
     string collectName(int luid);
     string collectTitle(int luid);
+    string collectArticleSection(int articleId);
+    string collectArticleTitle(int articleId);
+    vector<int> collectArticleIdForTimesheet(QDate currentDate, int writerId);
     vector<string> collectProbationApprovals(QDate currentDate);
     vector<int> collectWriterForTimesheet(QDate currentDate);
     void generateWriterTimesheet(int writerId, int articlesOnTime, int articlesLate, QDate issueDate);
