@@ -28,12 +28,15 @@ public:
 
     int getNumUnregistered();
 
+    void reUpdateTable();
+
 private slots:
     void on_employeeTable_cellClicked(int row, int column);
 
     void on_approveRegButton_clicked();
 
 private:
+    int viewType; //normal=0,privilieged=1,total=1. Just for edit window.
     void handlePermissions();
     Ui::employeesWidget *ui;
     LoginCredentials* loginCred;

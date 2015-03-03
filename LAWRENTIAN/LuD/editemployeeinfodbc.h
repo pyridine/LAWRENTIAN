@@ -23,6 +23,10 @@ public:
     string collectPhone(string username);
     int collectApproved(string username);
     string collectProbationDate(string username);
+
+    vector<int>* getAllTitles();
+    int getEmployeeTitle(int luid);
+    void updateEmployeeTitle(int luid,int ti);
 };
 
 #endif // EDITEMPLOYEEINFODBC_H

@@ -41,6 +41,7 @@ private:
     LoginCredentials* login;
     Ui::EditEmployeeInfo *ui;
     EditEmployeeInfoDBC *editEmployeeInfoDBC;
+    employeesWidget* parentYay;
 
 };
 
