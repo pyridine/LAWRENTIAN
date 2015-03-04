@@ -197,7 +197,7 @@ void newArticleWorkspaceWindow::setupFields(Article *article)
     ui->descriptionTextField->setText(QString::fromStdString(article->getDescription()));
 
     QString issueDateString = QString::fromStdString(article->getIssueDate());
-    QString dateFormat("yyyy-MM-dd");
+    QString dateFormat(df::dbFormat);
     QDate issueDate = QDate::fromString(issueDateString,dateFormat);
     ui->issueDateEdit->setDate(issueDate);
     setupSectionComboBox(article->getSection());
