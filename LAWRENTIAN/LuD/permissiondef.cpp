@@ -1,6 +1,6 @@
 #include "permissiondef.h"
 
-
+// -13 implies value is not set. The true values are obtained from the database.
 /*Administration*/
 int PermissionDef::ADMIN_PTOKEN = -13;
 /*Employee Management*/
