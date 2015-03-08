@@ -19,7 +19,8 @@ DISTFILES += \
     LuD.pro.user \
     LuD.pro.user.47f9476 \
     LuD.pro.user.ee9f765 \
-    LuD.pro.user.IX7944
+    LuD.pro.user.IX7944 \
+    LuD.pro.user.0f8f2c1
 
 FORMS += \
     addlocationdialogue.ui \
@@ -104,7 +105,9 @@ HEADERS += \
     titledef.h \
     writertimesheet.h \
     writertimesheetdbc.h \
-    writertimesheetwidget.h
+    writertimesheetwidget.h \
+    diff.h \
+    diff_match_patch.h
 
 SOURCES += \
     ad.cpp \
@@ -165,7 +168,8 @@ SOURCES += \
     titledef.cpp \
     writertimesheet.cpp \
     writertimesheetdbc.cpp \
-    writertimesheetwidget.cpp
+    writertimesheetwidget.cpp \
+    diff.cpp
 
 win32{
 
