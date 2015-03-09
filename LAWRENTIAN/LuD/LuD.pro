@@ -171,6 +171,11 @@ SOURCES += \
     writertimesheetwidget.cpp \
     diff.cpp
 
+
+
+
+ INCLUDEPATH += $$[QT_INSTALL_PREFIX]/src/3rdparty/zlib
+
 win32{
 
 CONFIG   += console

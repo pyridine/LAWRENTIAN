@@ -90,7 +90,7 @@ newArticleWorkspaceWindow::~newArticleWorkspaceWindow()
 
 void newArticleWorkspaceWindow::on_chooseFile_pushButton_clicked()
 {
-    QString articlePath = QFileDialog::getOpenFileName(this, tr("Select"), "/home", tr("Text Files (*.txt *.rtf *.docx)"));
+    QString articlePath = QFileDialog::getOpenFileName(this, tr("Select"), "/home", tr("Text Files (*.docx)"));
     ui->articleFileTextField->setText(articlePath);
 }
 

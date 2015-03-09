@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <vector>
 #include <QRadioButton>
-
+#include <QTableWidgetItem>
 #include "FileSystem.h"
 
 namespace Ui {
@@ -25,6 +25,8 @@ private slots:
 
     void on_cancel_pushButton_clicked();
 
+    void on_copyHistory_tableWidget_cellClicked(int row, int column);
+
 private:
     typedef std::vector<QRadioButton*> rb_vec_t;
 
@@ -38,6 +40,9 @@ private:
     std::string type;
 
     std::string getfName(const std::string& str);
+
+    std::string getArticleText(int articleNum);
+    void displayPreview(int new_index,int past_index);
 };
 
 #endif // COPYHISTORYWINDOW_H
