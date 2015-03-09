@@ -19,7 +19,8 @@ DISTFILES += \
     LuD.pro.user \
     LuD.pro.user.47f9476 \
     LuD.pro.user.ee9f765 \
-    LuD.pro.user.IX7944
+    LuD.pro.user.IX7944 \
+    lawrentian.jpg
 
 FORMS += \
     addlocationdialogue.ui \
@@ -43,7 +44,13 @@ FORMS += \
     registrationdialog.ui \
     registrationwindow.ui \
     subscriptionswidget.ui \
-    writertimesheetwidget.ui
+    writertimesheetwidget.ui \
+    articleworkspacenewswidget.ui \
+    articleworkspacefeatureswidget.ui \
+    articleworkspaceopedwidget.ui \
+    articleworkspaceaandewidget.ui \
+    articleworkspacesportswidget.ui \
+    articleworkspacevarietywidget.ui
 
 HEADERS += \
     ad.h \
@@ -104,7 +111,13 @@ HEADERS += \
     titledef.h \
     writertimesheet.h \
     writertimesheetdbc.h \
-    writertimesheetwidget.h
+    writertimesheetwidget.h \
+    articleworkspacenewswidget.h \
+    articleworkspacefeatureswidget.h \
+    articleworkspaceopedwidget.h \
+    articleworkspaceaandewidget.h \
+    articleworkspacesportswidget.h \
+    articleworkspacevarietywidget.h
 
 SOURCES += \
     ad.cpp \
@@ -165,7 +178,13 @@ SOURCES += \
     titledef.cpp \
     writertimesheet.cpp \
     writertimesheetdbc.cpp \
-    writertimesheetwidget.cpp
+    writertimesheetwidget.cpp \
+    articleworkspacenewswidget.cpp \
+    articleworkspacefeatureswidget.cpp \
+    articleworkspaceopedwidget.cpp \
+    articleworkspaceaandewidget.cpp \
+    articleworkspacesportswidget.cpp \
+    articleworkspacevarietywidget.cpp
 
 win32{
 

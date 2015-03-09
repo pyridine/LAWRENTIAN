@@ -93,7 +93,7 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
 
         articleWorkspace* awk = new articleWorkspace();
         awk->init(this, client,loginCredo);
-        awk->updateArticleList();
+        //awk->updateArticleList();
 
         tabs->addTab(awk, "Articles");
 

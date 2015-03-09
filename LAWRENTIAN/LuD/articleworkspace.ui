@@ -13,26 +13,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>10</y>
-     <width>201</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>16</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Articles:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="addArticleWorkspace_pushButton">
    <property name="geometry">
     <rect>
@@ -46,40 +26,17 @@
     <string>Add Article...</string>
    </property>
   </widget>
-  <widget class="QScrollArea" name="buttons_scrollArea">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>70</y>
-     <width>621</width>
-     <height>401</height>
-    </rect>
-   </property>
-   <property name="widgetResizable">
-    <bool>true</bool>
-   </property>
-   <widget class="QWidget" name="widget">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>619</width>
-      <height>399</height>
-     </rect>
-    </property>
-   </widget>
-  </widget>
   <widget class="QPushButton" name="submitToArchiveButton">
    <property name="geometry">
     <rect>
      <x>20</x>
      <y>510</y>
-     <width>161</width>
+     <width>201</width>
      <height>32</height>
     </rect>
    </property>
    <property name="text">
-    <string>SUBMIT TO ARCHIVE</string>
+    <string>Submit Issue to Archive...</string>
    </property>
   </widget>
  </widget>

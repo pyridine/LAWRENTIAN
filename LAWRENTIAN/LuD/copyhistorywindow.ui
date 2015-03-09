@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>404</width>
-    <height>297</height>
+    <height>304</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>View Copy History</string>
   </property>
   <widget class="QPushButton" name="cancel_pushButton">
    <property name="geometry">
@@ -19,7 +19,7 @@
      <x>274</x>
      <y>270</y>
      <width>121</width>
-     <height>23</height>
+     <height>32</height>
     </rect>
    </property>
    <property name="text">
@@ -32,7 +32,7 @@
      <x>10</x>
      <y>270</y>
      <width>111</width>
-     <height>23</height>
+     <height>32</height>
     </rect>
    </property>
    <property name="text">

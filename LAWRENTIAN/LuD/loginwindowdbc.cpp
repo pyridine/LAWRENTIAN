@@ -81,6 +81,7 @@ string LoginWindowDBC::getEmployeeName(int luid){
         return result->value(0).toString().toStdString();
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+        return NULL;
     }
 
 }
@@ -106,9 +107,8 @@ vector<int>* LoginWindowDBC::getEmployeePermissions(int LUID){
 
     }else{
         cout << "error: " << result->lastError().text().toStdString() << endl;
+        return NULL;
     }
-
-
 }
 
 int LoginWindowDBC::getEmployeeTitle(int LUID){
@@ -120,12 +120,15 @@ int LoginWindowDBC::getEmployeeTitle(int LUID){
     QSqlQuery* result = client->execute(query);
     QSqlError err = result->lastError();
 
+    int title = 0;
+
     if(!err.isValid()){
         result->next();
-        return result->value(0).toInt();
+        title = result->value(0).toInt();
     }else{
         cout << "error: " << result->lastError().text().toStdString() << endl;
     }
+    return title;
 
 }
 
@@ -155,6 +158,7 @@ vector<int>* LoginWindowDBC::getEmployeeTitlePermissions(int LUID){
 
     }else{
         cout << "error: " << result->lastError().text().toStdString() << endl;
+        return NULL;
     }
 
 
@@ -195,13 +199,15 @@ int LoginWindowDBC::__getPermissionID(string permission){
     QSqlQuery* result = client->execute(query);
     QSqlError err = result->lastError();
 
+    int permissionId = 0;
+
     if(!err.isValid()){
         result->next();
-        return result->value(0).toInt();
+        permissionId = result->value(0).toInt();
     }else{
         cout << "error: " << result->lastError().text().toStdString() << endl;
     }
-
+    return permissionId;
 }
 
 int LoginWindowDBC::__getTitleID(string title){
@@ -213,12 +219,15 @@ int LoginWindowDBC::__getTitleID(string title){
     QSqlQuery* result = client->execute(query);
     QSqlError err = result->lastError();
 
+    int titleId = 0;
+
     if(!err.isValid()){
         result->next();
-        return result->value(0).toInt();
+        titleId = result->value(0).toInt();
     }else{
         cout << "error: " << result->lastError().text().toStdString() << endl;
     }
+    return titleId;
 }
 
 int LoginWindowDBC::__getLocationID(string loc){
@@ -230,12 +239,15 @@ int LoginWindowDBC::__getLocationID(string loc){
     QSqlQuery* result = client->execute(query);
     QSqlError err = result->lastError();
 
+    int locationId = 0;
+
     if(!err.isValid()){
         result->next();
-        return result->value(0).toInt();
+        locationId = result->value(0).toInt();
     }else{
         cout << "error: " << result->lastError().text().toStdString() << endl;
     }
+    return locationId;
 }
 
 int LoginWindowDBC::__getSectionID(string sec){
@@ -247,12 +259,15 @@ int LoginWindowDBC::__getSectionID(string sec){
     QSqlQuery* result = client->execute(query);
     QSqlError err = result->lastError();
 
+    int sectionId = 0;
+
     if(!err.isValid()){
         result->next();
-        return result->value(0).toInt();
+        sectionId = result->value(0).toInt();
     }else{
         cout << "error: " << result->lastError().text().toStdString() << endl;
     }
+    return sectionId;
 }
 
 LoginWindowDBC::~LoginWindowDBC()

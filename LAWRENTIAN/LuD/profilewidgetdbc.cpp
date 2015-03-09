@@ -31,6 +31,7 @@ string ProfileWidgetDBC::collectArticleSection(int articleId){
         return sectionName;
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+        return NULL;
     }
 }
 
@@ -52,6 +53,7 @@ string ProfileWidgetDBC::collectArticleTitle(int articleId){
         return articleName;
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+        return NULL;
     }
 }
 
@@ -73,6 +75,7 @@ string ProfileWidgetDBC::collectName(int luid){
         return name;
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+        return NULL;
     }
 }
 
@@ -99,6 +102,7 @@ string ProfileWidgetDBC::collectTitle(int luid)
         return title;
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+        return NULL;
     }
 }
 
@@ -126,10 +130,11 @@ vector<string> ProfileWidgetDBC::collectProbationApprovals(QDate currentDate)
             string approvedPerson = result->value(0).toString().toStdString();
             names.push_back(approvedPerson);
         }
-        return names;
+
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return names;
 }
 
 vector<int> ProfileWidgetDBC::collectArticleIdForTimesheet(QDate currentDate, int writerId)
@@ -154,10 +159,11 @@ vector<int> ProfileWidgetDBC::collectArticleIdForTimesheet(QDate currentDate, in
             int idInt = stoi(id);
             articleIds.push_back(idInt);
         }
-        return articleIds;
+
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return articleIds;
 }
 
 vector<int> ProfileWidgetDBC::collectWriterForTimesheet(QDate currentDate)
@@ -181,10 +187,11 @@ vector<int> ProfileWidgetDBC::collectWriterForTimesheet(QDate currentDate)
             int writerInt = stoi(writer);
             writerIds.push_back(writerInt);
         }
-        return writerIds;
+
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return writerIds;
 }
 
 void ProfileWidgetDBC::generateWriterTimesheet(int writerId, int articlesOnTime, int articlesLate, QDate issueDate)
@@ -253,10 +260,11 @@ int ProfileWidgetDBC::collectArticlesOnTime(int writer, QDate issueDate)
         while(result->next()){
             count++;
         }
-        return count;
+
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return count;
 }
 
 int ProfileWidgetDBC::collectArticlesLate(int writer, QDate issueDate)
@@ -279,10 +287,11 @@ int ProfileWidgetDBC::collectArticlesLate(int writer, QDate issueDate)
         while(result->next()){
             count++;
         }
-        return count;
+
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return count;
 }
 
 // Returns number of entries for the issue date
@@ -305,10 +314,11 @@ int ProfileWidgetDBC::writerTimesheetExists(QDate issueDate)
         while(result->next()){
             count++;
         }
-        return count;
+
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return count;
 }
 
 

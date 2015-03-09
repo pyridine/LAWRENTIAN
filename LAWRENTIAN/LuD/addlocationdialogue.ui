@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>277</width>
+    <width>368</width>
     <height>99</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Add Location</string>
   </property>
   <widget class="QPushButton" name="AddLocButton">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>139</x>
      <y>60</y>
-     <width>80</width>
-     <height>21</height>
+     <width>121</width>
+     <height>32</height>
     </rect>
    </property>
    <property name="text">
@@ -29,10 +29,10 @@
   <widget class="QPushButton" name="cancelButton">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>260</x>
      <y>60</y>
      <width>80</width>
-     <height>21</height>
+     <height>32</height>
     </rect>
    </property>
    <property name="text">
@@ -42,9 +42,9 @@
   <widget class="QLineEdit" name="nameField">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>150</x>
      <y>20</y>
-     <width>113</width>
+     <width>191</width>
      <height>21</height>
     </rect>
    </property>
@@ -54,7 +54,7 @@
     <rect>
      <x>40</x>
      <y>20</y>
-     <width>91</width>
+     <width>111</width>
      <height>16</height>
     </rect>
    </property>
@@ -67,8 +67,8 @@
     <rect>
      <x>10</x>
      <y>60</y>
-     <width>80</width>
-     <height>21</height>
+     <width>121</width>
+     <height>32</height>
     </rect>
    </property>
    <property name="text">

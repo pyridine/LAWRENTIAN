@@ -26,6 +26,7 @@ string EditProfileDBC::collectName(int luid){
         return name;
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+        return NULL;
     }
 }
 
@@ -46,10 +47,11 @@ int EditProfileDBC::collectLuid(int luid)
             string luid = result->value(0).toString().toStdString();
             luidInt = stoi(luid);
         }
-        return luidInt;
+
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return luidInt;
 }
 
 string EditProfileDBC::collectTitle(int luid)
@@ -75,6 +77,7 @@ string EditProfileDBC::collectTitle(int luid)
         return title;
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+        return NULL;
     }
 }
 
@@ -97,6 +100,7 @@ string EditProfileDBC::collectEmail(int luid)
         return email;
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+        return NULL;
     }
 }
 
@@ -119,6 +123,7 @@ string EditProfileDBC::collectPhone(int luid)
         return phone;
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+        return NULL;
     }
 }
 
@@ -141,6 +146,7 @@ string EditProfileDBC::collectUsername(int luid)
         return username;
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+        return NULL;
     }
 }
 
@@ -163,6 +169,7 @@ string EditProfileDBC::collectOldPassword(int luid)
         return password;
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+        return NULL;
     }
 }
 

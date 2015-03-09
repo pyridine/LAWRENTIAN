@@ -19,7 +19,7 @@
      <x>20</x>
      <y>80</y>
      <width>1000</width>
-     <height>550</height>
+     <height>490</height>
     </rect>
    </property>
    <property name="editTriggers">
@@ -58,7 +58,7 @@
      <x>820</x>
      <y>40</y>
      <width>201</width>
-     <height>21</height>
+     <height>32</height>
     </rect>
    </property>
    <property name="text">
