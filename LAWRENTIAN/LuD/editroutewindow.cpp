@@ -1,6 +1,6 @@
 #include "editroutewindow.h"
 #include "ui_editroutewindow.h"
-#include "route.h";
+#include "route.h"
 #include "circulationwidget.h"
 #include <iostream>
 #include <qinputdialog.h>

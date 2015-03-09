@@ -40,6 +40,113 @@ vector<int>* ArticleWorkspaceDBC::getAllArticleIDs(){
     return numz;
 }
 
+vector<string> ArticleWorkspaceDBC::getArticleTitlesForSection(string section)
+{
+    const string GET_NAME = "SELECT currentissue_article.title "
+                            "FROM lawrentian.currentissue_article "
+                            "INNER JOIN lawrentian.section "
+                            "ON section.idsection = currentissue_article.section "
+                            "WHERE section.variablename =:section";
+
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_NAME));
+    query->bindValue(":section", QString::fromStdString(section));
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    vector<string> articles;
+    string articleName;
+
+    if(!err.isValid()){
+        while(result->next()){
+            articleName = result->value(0).toString().toStdString();
+            articles.push_back(articleName);
+        }
+
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+    return articles;
+}
+
+string ArticleWorkspaceDBC::getArticleDescription(string title)
+{
+    const string GET_NAME = "SELECT description FROM lawrentian.currentissue_article WHERE title =:articleTitle";
+
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_NAME));
+    query->bindValue(":articleTitle", QString::fromStdString(title));
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    string articleDescription;
+
+    if(!err.isValid()){
+        while(result->next()){
+            articleDescription = result->value(0).toString().toStdString();
+        }
+
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+    return articleDescription;
+}
+
+int ArticleWorkspaceDBC::getArticleId(string title)
+{
+    const string GET_NAME = "SELECT idarticle FROM lawrentian.currentissue_article WHERE title =:articleTitle";
+
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_NAME));
+    query->bindValue(":articleTitle", QString::fromStdString(title));
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    int articleId;
+
+    if(!err.isValid()){
+        while(result->next()){
+            string idString = result->value(0).toString().toStdString();
+            articleId = stoi(idString);
+        }
+
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+    return articleId;
+}
+
+
+string ArticleWorkspaceDBC::getArticleWriter(string title)
+{
+    const string GET_NAME = "SELECT name FROM lawrentian.employee "
+                            "INNER JOIN currentissue_article "
+                            "ON currentissue_article.writer = employee.luid "
+                            "WHERE currentissue_article.title =:articleTitle";
+
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_NAME));
+    query->bindValue(":articleTitle", QString::fromStdString(title));
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    string articleWriter;
+
+    if(!err.isValid()){
+        while(result->next()){
+            articleWriter = result->value(0).toString().toStdString();
+        }
+
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+    return articleWriter;
+}
+
 
 
 /**
@@ -103,6 +210,39 @@ vector<Article *> *ArticleWorkspaceDBC::getSectionArticles(int section){
     return youreATallGlassOfWaterArentYouSpencer;
 }
 
+Article *ArticleWorkspaceDBC::getArticleById(int articleId)
+{
+    Article *article;
+    QSqlQuery* query = new QSqlQuery();
+
+    const string GET_ARTICLE_BY_ID = "SELECT * FROM lawrentian.currentissue_article WHERE idarticle = :articleId";
+
+    query->prepare(QString::fromStdString(GET_ARTICLE_BY_ID));
+    query->bindValue(":articleId",articleId);
+
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    if(!err.isValid()){
+        while(result->next()){
+            int id = result->value(0).toInt();
+            string title = result->value(1).toString().toStdString();
+            string description = result->value(2).toString().toStdString();
+            int section = result->value(3).toInt();
+            int writerLUID = result->value(4).toInt();
+            int photographerLUID = result->value(5).toInt();
+            string issueDate = result->value(6).toString().toStdString();
+            article = new Article(issueDate, title, description, section, writerLUID, photographerLUID);
+            article->setId(id);
+        }
+
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+    return article;
+}
+
 vector<int> ArticleWorkspaceDBC::collectWriterForTimesheet(QDate currentDate)
 {
     QString currentDateString = currentDate.toString("yyyy-MM-dd");
@@ -124,10 +264,10 @@ vector<int> ArticleWorkspaceDBC::collectWriterForTimesheet(QDate currentDate)
             int writerInt = stoi(writer);
             writerIds.push_back(writerInt);
         }
-        return writerIds;
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return writerIds;
 }
 
 void ArticleWorkspaceDBC::generateWriterTimesheet(int writerId, int articlesOnTime, int articlesLate, QDate issueDate)
@@ -143,7 +283,6 @@ void ArticleWorkspaceDBC::generateWriterTimesheet(int writerId, int articlesOnTi
     query->bindValue(":articles_ontime", articlesOnTime);
     query->bindValue(":articles_late", articlesLate);
     query->bindValue(":issueDate", issueDateString);
-
 
     QSqlQuery* result = client->execute(query);
     QSqlError err = result->lastError();
@@ -174,10 +313,11 @@ string ArticleWorkspaceDBC::collectArticleSection(int articleId){
         while(result->next()){
             sectionName = result->value(0).toString().toStdString();
         }
-        return sectionName;
+
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return sectionName;
 }
 
 string ArticleWorkspaceDBC::collectArticleTitle(int articleId)
@@ -196,10 +336,11 @@ string ArticleWorkspaceDBC::collectArticleTitle(int articleId)
         while(result->next()){
             articleName = result->value(0).toString().toStdString();
         }
-        return articleName;
+
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return articleName;
 }
 
 vector<int> ArticleWorkspaceDBC::collectArticleIdForTimesheet(QDate currentDate, int writerId)
@@ -223,9 +364,9 @@ vector<int> ArticleWorkspaceDBC::collectArticleIdForTimesheet(QDate currentDate,
             string id = result->value(0).toString().toStdString();
             int idInt = stoi(id);
             articleIds.push_back(idInt);
-        }
-        return articleIds;
+        }   
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return articleIds;
 }

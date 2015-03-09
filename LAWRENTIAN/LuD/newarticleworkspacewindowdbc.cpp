@@ -38,7 +38,9 @@ const string SUBMIT_ARTICLE =
         "INSERT INTO lawrentian.currentissue_article (idarticle,title,description,section,writer,"
         "photographer,issueDate) "
         "VALUES (:idarticle, :title, :description, :section, :writer,"
-        ":photographer, :issueDate)";
+        ":photographer, :issueDate) "
+        "ON DUPLICATE KEY UPDATE title=:title, description=:description, section=:section, writer=:writer, "
+        "photographer=:photographer, issueDate=:issueDate";
 
 const string GET_ALL_PHOTOGRAPHERS = /*This command is unused.*/
         "SELECT lawrentian.employee.name,lawrentian.employee.luid "
@@ -129,13 +131,17 @@ bool NewArticleWorkspaceWindowDBC::isArticleTitleExistent(string title){
     QSqlQuery* result = client->execute(query);
     QSqlError err = result->lastError();
 
+    bool existent = false;
+
     if(!err.isValid()){
-        return result->next();
+        existent = result->next();
     }
     else{
         cout << "!SQL ERROR: " << result->lastError().databaseText().toStdString() << endl;
     }
+    return existent;
 }
+
 bool NewArticleWorkspaceWindowDBC::isArticleTitleAlreadyInUse(string title,int id){
 
     QSqlQuery* query = new QSqlQuery();
@@ -145,12 +151,15 @@ bool NewArticleWorkspaceWindowDBC::isArticleTitleAlreadyInUse(string title,int i
     QSqlQuery* result = client->execute(query);
     QSqlError err = result->lastError();
 
+    bool inUse = false;
+
     if(!err.isValid()){
-        return result->next();
+        inUse =  result->next();
     }
     else{
         cout << "!SQL ERROR: " << result->lastError().databaseText().toStdString() << endl;
     }
+    return inUse;
 }
 /**
  *

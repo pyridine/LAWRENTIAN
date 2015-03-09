@@ -20,13 +20,15 @@ int EditEmployeeInfoDBC::getEmployeeTitle(int luid){
     QSqlQuery* result = client->execute(query);
     QSqlError err = result->lastError();
 
+    int title = 0;
     if(!err.isValid()){
         while(result->next()){
-            return result->value(0).toInt();
+            title = result->value(0).toInt();
         }
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return title;
 }
 
 void EditEmployeeInfoDBC::updateEmployeeTitle(int luid,int ti){
@@ -62,10 +64,11 @@ vector<string> EditEmployeeInfoDBC::collectRegisteredNames(){
             //string concatName = name+", "+username;
             namesList.push_back(name);
         }
-        return namesList;
+
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return namesList;
 }
 
 int EditEmployeeInfoDBC::collectLuid(string username)
@@ -78,17 +81,18 @@ int EditEmployeeInfoDBC::collectLuid(string username)
     QSqlQuery* result = client->execute(query);
     QSqlError err = result->lastError();
 
-    int luidInt;
+    int luidInt = 0;
 
     if(!err.isValid()){
         while(result->next()){
             string luid = result->value(0).toString().toStdString();
             luidInt = stoi(luid);
         }
-        return luidInt;
+
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return luidInt;
 }
 
 string EditEmployeeInfoDBC::collectTitle(string username)
@@ -111,10 +115,11 @@ string EditEmployeeInfoDBC::collectTitle(string username)
         while(result->next()){
             title = result->value(0).toString().toStdString();
         }
-        return title;
+
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return title;
 }
 
 string EditEmployeeInfoDBC::collectEmail(string username)
@@ -136,6 +141,7 @@ string EditEmployeeInfoDBC::collectEmail(string username)
         return email;
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+        return NULL;
     }
 }
 
@@ -158,6 +164,7 @@ string EditEmployeeInfoDBC::collectPhone(string username)
         return phone;
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+        return NULL;
     }
 }
 
@@ -171,17 +178,18 @@ int EditEmployeeInfoDBC::collectApproved(string username)
     QSqlQuery* result = client->execute(query);
     QSqlError err = result->lastError();
 
-    int approvedInt;
+    int approvedInt = 0;
 
     if(!err.isValid()){
         while(result->next()){
             string approved = result->value(0).toString().toStdString();
             approvedInt = stoi(approved);
         }
-        return approvedInt;
+
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return approvedInt;
 }
 
 string EditEmployeeInfoDBC::collectProbationDate(string username)
@@ -203,6 +211,7 @@ string EditEmployeeInfoDBC::collectProbationDate(string username)
         return probationDate;
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+        return NULL;
     }
 }
 

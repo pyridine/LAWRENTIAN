@@ -150,16 +150,17 @@ int EmployeeTableDBC::getNumberOfEmployees(){
     QSqlQuery* result = client->execute(query);
     QSqlError err = result->lastError();
 
+    int numEmployees = 0;
+
     if(!err.isValid()){
-        int numEmployees = 0;
         while(result->next()){
             ++numEmployees;
         }
-        return numEmployees;
 
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return numEmployees;
 }
 
 void EmployeeTableDBC::unnaproveEmployee(int luid){
@@ -200,15 +201,17 @@ int EmployeeTableDBC::getNumUnregistered(){
     QSqlQuery* result = client->execute(query);
     QSqlError err = result->lastError();
 
-    if(!err.isValid()){
-        int NoMatterHowILookAtItItsYouGuysFaultImNotPopular = 0;
+    int NoMatterHowILookAtItItsYouGuysFaultImNotPopular = 0;
+
+    if(!err.isValid()){     
         while(result->next()){
             ++NoMatterHowILookAtItItsYouGuysFaultImNotPopular;
         }
-        return NoMatterHowILookAtItItsYouGuysFaultImNotPopular;
+
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return NoMatterHowILookAtItItsYouGuysFaultImNotPopular;
 
 }
 

@@ -22,12 +22,18 @@ public:
 
     void init(MainWindow* parent, LoginCredentials* l, Client *c);
     void initDB(Client *c);
-    void initTable();
     pair<int, int> calculateArticlesOnTimeAndLate(QDate issueDate, int writerId);
-    void updateWriterTimesheet();
+    void generateTimesheet(QDate issueDate);
+    bool updateWriterTimesheet(QDate selectedDate);
+    void initTable(QDate selectedDate);
+
 
 private slots:
     void on_updateWriterTimesheetButton_clicked();
+
+    void on_generateTimesheetButton_clicked();
+
+    void on_selectIssueDate_userDateChanged(const QDate &date);
 
 private:
     Ui::writerTimesheetWidget *ui;

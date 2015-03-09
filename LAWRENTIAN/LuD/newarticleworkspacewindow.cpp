@@ -45,8 +45,6 @@ newArticleWorkspaceWindow::newArticleWorkspaceWindow(QWidget *parent,LoginCreden
     handlePermissions();
 }
 
-
-
 void newArticleWorkspaceWindow::handlePermissions(){
     if(!loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
             &&!loginCred->hasPermission(PermissionDef::EDIT_ARTICLE_WORKSPACE)){
@@ -104,6 +102,7 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
     int iWriter = this->getSelectedWriterLuid();
     int iPhotographer = this->getSelectedPhotographerLuid();
     int id = myArticle->getId();
+    cout<<"The id is: "<<id<<endl;
     // done
 
     if(!dbController->isArticleTitleAlreadyInUse(title,id))
@@ -145,13 +144,45 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
 
             cout << "Updating the parent window." << endl;
             //Update the article workspace widget...
-            if(!parentArticleWorkspaceWidget->workspaceExists(title))
+            /*if(!parentArticleWorkspaceWidget->workspaceExists(title))
             {
                 parentArticleWorkspaceWidget->initArticle(myArticle);
                 parentArticleWorkspaceWidget->addArticleButton(myArticle);
                 dbController->addArticle(myArticle);
                 parentArticleWorkspaceWidget->resetArticleButtons();
+            }*/
+            // Checks if workspace exists in the different sections:
+            /*if(parentNewsWidget != NULL && !parentAAndEWidget->workspaceExists(id))
+            {
+                cout<<"in the aande widget"<<endl;
+                dbController->addArticle(myArticle);
             }
+            if(parentNewsWidget != NULL && !parentNewsWidget->workspaceExists(id))
+            {
+                cout<<"in the news widget"<<endl;
+                dbController->addArticle(myArticle);
+            }
+            if(parentFeaturesWidget != NULL && !parentFeaturesWidget->workspaceExists(id))
+            {
+                cout<<"in the features widget"<<endl;
+                dbController->addArticle(myArticle);
+            }
+            if(parentOpEdWidget != NULL && !parentOpEdWidget->workspaceExists(id))
+            {
+                cout<<"in the opEd widget"<<endl;
+                dbController->addArticle(myArticle);
+            }
+            if(parentSportsWidget != NULL && !parentSportsWidget->workspaceExists(id))
+            {
+                cout<<"in the sports widget"<<endl;
+                dbController->addArticle(myArticle);
+            }
+            if(parentVarietyWidget != NULL && !parentVarietyWidget->workspaceExists(id))
+            {
+                cout<<"in the variety widget"<<endl;
+                dbController->addArticle(myArticle);
+            }*/
+
             //Done.
 
             cout << "Adding the article to the DB." << endl;
@@ -175,7 +206,7 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
 }
 
 void newArticleWorkspaceWindow::closeMe(){
-    this->parentArticleWorkspaceWidget->updateArticleList();
+    //this->parentArticleWorkspaceWidget->updateArticleList();
     this->close();
 }
 
@@ -188,6 +219,36 @@ articleWorkspace* newArticleWorkspaceWindow::getParentArticleWorkspaceWidget() c
 void newArticleWorkspaceWindow::setParentArticleWorkspaceWidget(articleWorkspace *value)
 {
     parentArticleWorkspaceWidget = value;
+}
+
+void newArticleWorkspaceWindow::setParentAAndEWorkspaceWidget(ArticleWorkspaceAAndEWidget *parent)
+{
+    parentAAndEWidget = parent;
+}
+
+void newArticleWorkspaceWindow::setParentNewsWorkspaceWidget(ArticleWorkspaceNewsWidget *parent)
+{
+    parentNewsWidget = parent;
+}
+
+void newArticleWorkspaceWindow::setParentFeaturesWorkspaceWidget(ArticleWorkspaceFeaturesWidget *parent)
+{
+    parentFeaturesWidget = parent;
+}
+
+void newArticleWorkspaceWindow::setParentOpEdWorkspaceWidget(ArticleWorkspaceOpEdWidget *parent)
+{
+    parentOpEdWidget = parent;
+}
+
+void newArticleWorkspaceWindow::setParentSportsWorkspaceWidget(ArticleWorkspaceSportsWidget *parent)
+{
+    parentSportsWidget = parent;
+}
+
+void newArticleWorkspaceWindow::setParentVarietyWorkspaceWidget(ArticleWorkspaceVarietyWidget *parent)
+{
+    parentVarietyWidget = parent;
 }
 
 void newArticleWorkspaceWindow::setupFields(Article *article)

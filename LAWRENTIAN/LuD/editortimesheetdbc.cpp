@@ -52,10 +52,11 @@ int EditorTimesheetDBC::getHoursWorked(int luid, QDate issueDate)
             string hoursString = result->value(0).toString().toStdString();
             hours = stoi(hoursString);
         }
-        return hours;
+
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return hours;
 }
 
 vector<vector<string>>* EditorTimesheetDBC::getTimesheet(QDate issueDate){
@@ -109,10 +110,11 @@ vector<int> EditorTimesheetDBC::collectEditorForTimesheet(QDate currentDate)
             int editorInt = stoi(editor);
             editorIds.push_back(editorInt);
         }
-        return editorIds;
+
     }else{
-        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;        
     }
+    return editorIds;
 }
 
 

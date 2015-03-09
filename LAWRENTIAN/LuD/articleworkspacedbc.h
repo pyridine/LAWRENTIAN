@@ -19,6 +19,11 @@ public:
     string collectArticleSection(int articleId);
     string collectArticleTitle(int articleId);
     vector<int> collectArticleIdForTimesheet(QDate currentDate, int writerId);
+    vector<string> getArticleTitlesForSection(string section);
+    string getArticleDescription(string title);
+    string getArticleWriter(string title);
+    int getArticleId(string title);
+    Article* getArticleById(int articleId);
 
 private:
     vector<int> *getAllArticleIDs();

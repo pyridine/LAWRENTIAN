@@ -26,10 +26,10 @@ string WriterTimesheetDBC::collectArticleSection(int articleId){
         while(result->next()){
             sectionName = result->value(0).toString().toStdString();
         }
-        return sectionName;
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return sectionName;
 }
 
 string WriterTimesheetDBC::collectArticleTitle(int articleId){
@@ -47,10 +47,10 @@ string WriterTimesheetDBC::collectArticleTitle(int articleId){
         while(result->next()){
             articleName = result->value(0).toString().toStdString();
         }
-        return articleName;
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return articleName;
 }
 
 vector<int> WriterTimesheetDBC::collectArticleIdForTimesheet(QDate currentDate, int writerId)
@@ -75,10 +75,10 @@ vector<int> WriterTimesheetDBC::collectArticleIdForTimesheet(QDate currentDate, 
             int idInt = stoi(id);
             articleIds.push_back(idInt);
         }
-        return articleIds;
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return articleIds;
 }
 
 vector<int> WriterTimesheetDBC::collectWriterForTimesheet(QDate currentDate)
@@ -102,10 +102,10 @@ vector<int> WriterTimesheetDBC::collectWriterForTimesheet(QDate currentDate)
             int writerInt = stoi(writer);
             writerIds.push_back(writerInt);
         }
-        return writerIds;
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return writerIds;
 }
 
 void WriterTimesheetDBC::generateWriterTimesheet(int writerId, int articlesOnTime, int articlesLate, QDate issueDate)
@@ -174,10 +174,10 @@ int WriterTimesheetDBC::collectArticlesOnTime(int writer, QDate issueDate)
         while(result->next()){
             count++;
         }
-        return count;
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return count;
 }
 
 int WriterTimesheetDBC::collectArticlesLate(int writer, QDate issueDate)
@@ -200,10 +200,10 @@ int WriterTimesheetDBC::collectArticlesLate(int writer, QDate issueDate)
         while(result->next()){
             count++;
         }
-        return count;
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return count;
 }
 
 // Returns number of entries for the issue date
@@ -225,11 +225,11 @@ int WriterTimesheetDBC::writerTimesheetExists(QDate issueDate)
         // Checks if issue already exists
         while(result->next()){
             count++;
-        }
-        return count;
+        }   
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+    return count;
 }
 
 vector<vector<string>>* WriterTimesheetDBC::getTimesheet(QDate issueDate){
@@ -260,6 +260,30 @@ vector<vector<string>>* WriterTimesheetDBC::getTimesheet(QDate issueDate){
         matrix->push_back(*nextRow);
     }
     return matrix;
+}
+
+QDate WriterTimesheetDBC::collectLatestTimesheetDate()
+{
+    const string GET_ARTICLESONTIME = "SELECT issueDate FROM lawrentian.writer_timesheet "
+                                      "WHERE writer_timesheet.issueDate IN (SELECT max(issueDate) FROM lawrentian.writer_timesheet)";
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_ARTICLESONTIME));
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    QDate latestDate;
+
+    if(!err.isValid()){
+        // Checks if issue already exists
+        while(result->next()){
+            QString date = result->value(0).toString();
+            latestDate = QDate::fromString(date, "yyyy-MM-dd");
+        }
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+    return latestDate;
 }
 
 

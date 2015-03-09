@@ -20,7 +20,8 @@ DISTFILES += \
     LuD.pro.user.47f9476 \
     LuD.pro.user.ee9f765 \
     LuD.pro.user.IX7944 \
-    LuD.pro.user.0f8f2c1
+    LuD.pro.user.0f8f2c1 \
+    LuD.pro.user.bn5604
 
 FORMS += \
     addlocationdialogue.ui \
@@ -44,7 +45,13 @@ FORMS += \
     registrationdialog.ui \
     registrationwindow.ui \
     subscriptionswidget.ui \
-    writertimesheetwidget.ui
+    writertimesheetwidget.ui \
+    articleworkspaceaandewidget.ui \
+    articleworkspacefeatureswidget.ui \
+    articleworkspacenewswidget.ui \
+    articleworkspaceopedwidget.ui \
+    articleworkspacesportswidget.ui \
+    articleworkspacevarietywidget.ui
 
 HEADERS += \
     ad.h \
@@ -107,7 +114,13 @@ HEADERS += \
     writertimesheetdbc.h \
     writertimesheetwidget.h \
     diff.h \
-    diff_match_patch.h
+    diff_match_patch.h \
+    articleworkspaceaandewidget.h \
+    articleworkspacefeatureswidget.h \
+    articleworkspacenewswidget.h \
+    articleworkspaceopedwidget.h \
+    articleworkspacesportswidget.h \
+    articleworkspacevarietywidget.h
 
 SOURCES += \
     ad.cpp \
@@ -169,7 +182,13 @@ SOURCES += \
     writertimesheet.cpp \
     writertimesheetdbc.cpp \
     writertimesheetwidget.cpp \
-    diff.cpp
+    diff.cpp \
+    articleworkspaceaandewidget.cpp \
+    articleworkspacefeatureswidget.cpp \
+    articleworkspacenewswidget.cpp \
+    articleworkspaceopedwidget.cpp \
+    articleworkspacesportswidget.cpp \
+    articleworkspacevarietywidget.cpp
 
 
 

@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>401</width>
-    <height>174</height>
+    <width>405</width>
+    <height>178</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Login</string>
   </property>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>90</x>
      <y>120</y>
      <width>80</width>
-     <height>21</height>
+     <height>32</height>
     </rect>
    </property>
    <property name="text">
@@ -31,8 +31,8 @@
     <rect>
      <x>210</x>
      <y>120</y>
-     <width>80</width>
-     <height>21</height>
+     <width>91</width>
+     <height>32</height>
     </rect>
    </property>
    <property name="text">
@@ -42,10 +42,10 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>0</x>
      <y>20</y>
-     <width>161</width>
-     <height>16</height>
+     <width>401</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="font">
@@ -53,8 +53,14 @@
      <pointsize>12</pointsize>
     </font>
    </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
    <property name="text">
     <string>L.A.W.R.E.N.T.I.A.N.</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLineEdit" name="usernamebox">
@@ -83,7 +89,7 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>100</x>
      <y>60</y>
      <width>71</width>
      <height>20</height>
@@ -96,7 +102,7 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>100</x>
      <y>90</y>
      <width>71</width>
      <height>16</height>

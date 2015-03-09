@@ -29,6 +29,7 @@ void profileWidget::init(LoginCredentials* l, Client *c, employeesWidget *ew)
             &&!loginCred->hasPermission(PermissionDef::VIEW_TIMESHEETS)
             &&!loginCred->hasPermission(PermissionDef::MANAGE_EMPLOYEE_PROBATION)){
         this->ui->systemNotificationsTextBrowser->hide();
+        ui->pushButton->hide(); // Hides updateNotifications button
         this->ui->label->hide();
     }
 }
@@ -190,9 +191,9 @@ pair<int, int> profileWidget::calculateArticlesOnTimeAndLate(QDate issueDate, in
                 articlesLate++;
             }
         }
-        articlesOnTimeAndLate = make_pair (articlesOnTime, articlesLate);
-        return articlesOnTimeAndLate;
+        articlesOnTimeAndLate = make_pair (articlesOnTime, articlesLate);    
     }
+    return articlesOnTimeAndLate;
 }
 
 void profileWidget::on_pushButton_clicked()

@@ -27,6 +27,12 @@ public:
 
     articleWorkspace *getParentArticleWorkspaceWidget() const;
     void setParentArticleWorkspaceWidget(articleWorkspace *value);
+    void setParentAAndEWorkspaceWidget(ArticleWorkspaceAAndEWidget *parent);
+    void setParentNewsWorkspaceWidget(ArticleWorkspaceNewsWidget *parent);
+    void setParentFeaturesWorkspaceWidget(ArticleWorkspaceFeaturesWidget *parent);
+    void setParentOpEdWorkspaceWidget(ArticleWorkspaceOpEdWidget *parent);
+    void setParentSportsWorkspaceWidget(ArticleWorkspaceSportsWidget *parent);
+    void setParentVarietyWorkspaceWidget(ArticleWorkspaceVarietyWidget *parent);
     void initDB(Client* c);
     void setupFields(Article *article);
 
@@ -68,7 +74,6 @@ private:
     LoginCredentials* loginCred;
     Article* myArticle;
     Ui::newArticleWorkspaceWindow *ui;
-    articleWorkspace *parentArticleWorkspaceWidget;
     cb_vec_t cb_vec;
     QStringList img_paths;
     QVBoxLayout *vert_layout;
@@ -84,6 +89,14 @@ private:
     std::string ARTSENTZ;
     std::string VARIEZ;
     std::string SPORTZ;
+
+    articleWorkspace *parentArticleWorkspaceWidget;
+    ArticleWorkspaceAAndEWidget *parentAAndEWidget;
+    ArticleWorkspaceNewsWidget *parentNewsWidget;
+    ArticleWorkspaceFeaturesWidget *parentFeaturesWidget;
+    ArticleWorkspaceOpEdWidget *parentOpEdWidget;
+    ArticleWorkspaceSportsWidget *parentSportsWidget;
+    ArticleWorkspaceVarietyWidget *parentVarietyWidget;
 };
 
 #endif // NEWARTICLEWORKSPACEWINDOW_H
