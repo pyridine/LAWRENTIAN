@@ -5,6 +5,7 @@
 #include <QString>
 #include <QStringList>
 #include <QDate>
+#include "titledef.h"
 #include <string>
 #include "Sender.h"
 #include <QCheckBox>
@@ -59,9 +60,15 @@ void newArticleWorkspaceWindow::handlePermissions(){
     if(!loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
             &&!loginCred->hasPermission(PermissionDef::SUBMIT_COPY)
             &&!loginCred->hasPermission(PermissionDef::EDIT_COPY)){
+
+
         ui->chooseFile_pushButton->setEnabled(false);
         ui->copyHistory_pushButton->setEnabled(false);
     }
+
+    //Second pass thru writer permissions occurs in setupfields,
+    //when we know who the writer is.
+
     if(!loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
             &&!loginCred->hasPermission(PermissionDef::SUBMIT_GRAPHIC)
             &&!loginCred->hasPermission(PermissionDef::EDIT_GRAPHIC)
@@ -121,11 +128,11 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
 
             string filePath = ui->articleFileTextField->text().toStdString();
             if(filePath.size())
-                sndr.sendCopy(date, sec_this, title, fs::COPY, filePath);
+                sndr.sendCopy(date, sec_this, title, filePath);
 
             QStringList::const_iterator iter = img_paths.begin();
             for(iter; iter!=img_paths.end(); iter++)
-                sndr.sendImage(date,sec_this,title,fs::IMAGE,getfName(*iter),iter->toStdString());
+                sndr.sendImage(date,sec_this,title,getfName(*iter),iter->toStdString());
             // done.
 
             cout << "adding art." << endl;
@@ -251,13 +258,22 @@ void newArticleWorkspaceWindow::setupFields(Article *article)
     ui->descriptionTextField->setText(QString::fromStdString(article->getDescription()));
 
     QString issueDateString = QString::fromStdString(article->getIssueDate());
-    QString dateFormat("yyyy-MM-dd");
+    QString dateFormat(df::dbFormat);
     QDate issueDate = QDate::fromString(issueDateString,dateFormat);
     ui->issueDateEdit->setDate(issueDate);
     setupSectionComboBox(article->getSection());
     this->updatePhotographerList(article->getPhotographer());
     this->updateWriterList(article->getSection(),article->getWriter());
     this->on_sectionComboBox_currentIndexChanged(QString("argument does nothing"));
+
+
+    if(loginCred->getTitle()==TitleDef::WRITER){
+        if(loginCred->getLUID() == getSelectedWriterLuid()){
+            this->ui->chooseFile_pushButton->setEnabled(true);
+        } else{
+            this->ui->chooseFile_pushButton->setEnabled(false);
+        }
+    }
 }
 
 void newArticleWorkspaceWindow::setupSectionComboBox(int section)

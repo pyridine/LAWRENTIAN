@@ -13,29 +13,6 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QScrollArea" name="photoPool_scrollArea">
-   <property name="geometry">
-    <rect>
-     <x>370</x>
-     <y>50</y>
-     <width>521</width>
-     <height>411</height>
-    </rect>
-   </property>
-   <property name="widgetResizable">
-    <bool>true</bool>
-   </property>
-   <widget class="QWidget" name="scrollAreaWidgetContents">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>519</width>
-      <height>409</height>
-     </rect>
-    </property>
-   </widget>
-  </widget>
   <widget class="QComboBox" name="section_comboBox">
    <property name="geometry">
     <rect>
@@ -69,7 +46,7 @@
   <widget class="QPushButton" name="dwnldImgs_pushButton">
    <property name="geometry">
     <rect>
-     <x>540</x>
+     <x>610</x>
      <y>10</y>
      <width>141</width>
      <height>31</height>
@@ -141,6 +118,16 @@
    </property>
    <property name="text">
     <string>All Articles</string>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="photoPool_graphicsView">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>50</y>
+     <width>511</width>
+     <height>411</height>
+    </rect>
    </property>
   </widget>
  </widget>

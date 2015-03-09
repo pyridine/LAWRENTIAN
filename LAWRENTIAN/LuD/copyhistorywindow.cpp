@@ -147,7 +147,7 @@ void CopyHistoryWindow::on_download_pushButton_clicked()
 
 
     Sender sndr = Sender();
-    sndr.requestFile(date, sec,art,fs::COPY,down_dir,ver_num);
+    sndr.requestCopy(date, sec,art,down_dir,ver_num);
 
     this->close();
 }

@@ -5,7 +5,6 @@
 #include "logincredentials.h"
 #include <QWidget>
 #include "client.h"
-#include <thread>
 #include "mainwindow.h"
 #include <iostream>
 
