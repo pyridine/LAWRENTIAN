@@ -103,6 +103,27 @@ Sender::requestCopy(const std::string& issueDate, const std::string& sec,
 }
 
 bool
+Sender::requestXML(const std::string& issueDate, const std::string& sec,
+                    const std::string& art, const std::string& down_dir,
+                    int ver)
+{
+    using namespace std;
+    using namespace Ice;
+
+    ByteSeq seq = (ver == -1)
+                ? fpx->receiveLatestXML(issueDate, sec, art, fs::COPY, art)
+                : fpx->receiveVersionXML(issueDate, sec, art, fs::COPY, art, ver);
+
+    if (!seq.size())
+        return false;
+
+    ofstream dest(down_dir, ios::binary);
+
+    dest.write(reinterpret_cast<char*>(&seq[0]),seq.size());
+    return dest ? true : false;
+}
+
+bool
 Sender::requestImage(const std::string &issueDate, const std::string &sec, const std::string &art, const std::string &fName, const std::string &down_dir, int ver)
 {
     using namespace std;

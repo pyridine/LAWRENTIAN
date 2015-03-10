@@ -9,7 +9,10 @@
 #include <QPixmap>
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
+#include <QGraphicsItem>
 #include <QtTest/QTest>
+
+int WIDEST_EDGE_RES = 2500;
 
 PhotoPoolWindow::PhotoPoolWindow(QWidget *parent) :
     QDialog(parent),
@@ -19,10 +22,13 @@ PhotoPoolWindow::PhotoPoolWindow(QWidget *parent) :
     temp_dir.setPath(QDir::currentPath() + QString::fromStdString("/temp"));
     scene = new QGraphicsScene;
     scene->setParent(this);
+    ui->photoPool_graphicsView->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+
 }
 
 PhotoPoolWindow::~PhotoPoolWindow()
 {
+    cout << "photopool destructor called" << endl;
     delete ui;
 }
 
@@ -69,6 +75,7 @@ void PhotoPoolWindow::on_toIssueDate_comboBox_activated(int index)
 }
 
 
+
 void PhotoPoolWindow::drawArtsOnListView()
 {
     int secID = ui->section_comboBox->currentData().toInt();
@@ -90,13 +97,14 @@ void PhotoPoolWindow::drawImages(const string &issueDate, const string &section,
     StrSeq imgNames = sndr.getImageList(issueDate, section, title);
 
     StrSeq::const_iterator iter = imgNames.begin();
-    QPointF pos = QPointF(1,1);
+    QPointF pos = QPointF(15,1);
+
     while(iter != imgNames.end())
     {
         string fNameExt = *iter + fs::extIMAGE;
         string imgPath = temp_dir.path().toStdString() + "/" + fNameExt;
         sndr.requestImage(issueDate, section, title, *iter, imgPath);
-        pos = addImage(imgPath, pos);
+        pos = addImage(imgPath, pos, 60, 60, 15, 15);
         iter++;
     }
 //    iter = imgNames.begin();
@@ -107,14 +115,14 @@ void PhotoPoolWindow::drawImages(const string &issueDate, const string &section,
 //        pos = addImage(imgPath, pos);
 //        iter++;
 //    }
-
     ui->photoPool_graphicsView->setScene(scene);
-    ui->photoPool_graphicsView->fitInView(scene->itemsBoundingRect() ,Qt::KeepAspectRatio);
+
+//    ui->photoPool_graphicsView->fitInView(scene->itemsBoundingRect() ,Qt::KeepAspectRatio);
     cout << "done" << endl;
 
 }
 
-QPointF PhotoPoolWindow::addImage(const string& imgPath, const QPointF pos)
+QPointF PhotoPoolWindow::addImage(const string& imgPath, const QPointF pos, int xWidth, int yHeight, int xGap, int yGap)
 {
     using namespace std;
 
@@ -124,7 +132,6 @@ QPointF PhotoPoolWindow::addImage(const string& imgPath, const QPointF pos)
 
     img_path = QString::fromStdString(imgPath);
 
-    cout << "before " << img_path.toStdString() << endl;
     int count = 0;
     while(pixmap->isNull() && count < 10)
     {
@@ -139,18 +146,35 @@ QPointF PhotoPoolWindow::addImage(const string& imgPath, const QPointF pos)
     if(!pixmap->isNull())
     {
         cout << "Not null" << endl;
-        pixmap->scaledToHeight(96);
+//        if (pixmap->width() > WIDEST_EDGE_RES)
+//            pixmap->scaledToWidth(WIDEST_EDGE_RES);
 
-        pItem->setPixmap(*pixmap);
+//        if (pixmap->height() > WIDEST_EDGE_RES)
+//            pixmap->scaledToHeight(WIDEST_EDGE_RES);
+
+        pItem->setPixmap( pixmap->scaled(xWidth,yHeight));
+        pItem->update(0, 0, xWidth, yHeight);
+        cout << "ix " << pItem->topLevelItem()->boundingRect().width() << " iy " << pItem->topLevelItem()->boundingRect().height() << endl;
+
         pItem->setData(0,QVariant(img_path));
         pItem->setPos(pos);
+        // cout << "width " << pItem->boundingRect().width() << "height " << pItem->boundingRect().height() << endl;
+        pItem->topLevelWidget();
+        QObject *obj = (QObject*)pItem->toGraphicsObject();
+
+        connect(obj, SIGNAL(hoverEnterEvent(QGraphicsSceneHoverEvent)), this, SLOT(hoverEnterImg()));
 
         scene->addItem(pItem->topLevelItem());
 
         int gv_width = ui->photoPool_graphicsView->width();
 
-        int x = (pos.x() + 100) > gv_width ? 1 : gv_width + 20;
-        int y = (pos.x() + 100) > gv_width ? y + 100 : y;
+        int dx =  xWidth + xGap;
+        int dy =  yHeight + yGap;
+
+        int x = (pos.x() + dx) > gv_width ? xGap : pos.x() + dx;
+        int y = (pos.x() + dx) > gv_width ? pos.y() + dy : pos.y();
+
+        cout << "x " << x << "y " << y << endl;
 
         return QPointF(x,y);
     }
@@ -202,4 +226,14 @@ void PhotoPoolWindow::on_article_listWidget_itemDoubleClicked(QListWidgetItem *i
 
     drawImages(issueDate, section, title);
 
+}
+
+void PhotoPoolWindow::hoverEnterImg()
+{
+    cout << "hover" << endl;
+}
+
+void QGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+    cout << " hover" << endl;
 }

@@ -22,6 +22,7 @@ class FileSystemI : public FileSystem::File
 private:
     std::string arc_dir;
     std::string main_dir;
+    std::string batch_dir;
     bool getCreationTime(const std::string& path, FileSystem::TimeIce& time);
     bool dirExists(const std::string& dirName_in);
     std::string extractFileName(const std::string& str);
@@ -41,7 +42,11 @@ private:
     bool listFiles(std::string path, std::string mask, std::vector<std::string>& files, std::vector<std::string>& folders);
     std::string extractFolderName(const std::string& s);
     std::wstring wFixPath(const std::wstring& p);
-    bool FileSystemI::removeFolder(const std::string& folder);
+    bool removeFolder(const std::string& folder);
+    bool docToXml(const std::string& dir, const int ver);
+    std::string folderFromDir(const std::string str);
+    std::string transferXML(const std::string& dir);
+    bool percolateXML(const std::string direct);
 
 public:
     FileSystemI(const std::string& main_dir, const std::string& arc_dir);
@@ -105,6 +110,16 @@ public:
     virtual bool
     changeArtIssueDate(const std::string& oldIssueDate, const std::string& newIssueDate,
                        const std::string& sec, const std::string& art, const Ice::Current& c);
+
+    virtual FileSystem::ByteSeq
+    receiveLatestXML(const std::string& issueDate, const std::string& sec, const std::string& art,
+                  const std::string& type, const std::string& fName,
+                  const Ice::Current& c);
+
+    virtual FileSystem::ByteSeq
+    receiveVersionXML(const std::string& issueDate,const std::string& sec, const std::string& art,
+                   const std::string& type, const std::string& fName,
+                   const int ver, const Ice::Current& c);
 
 };
 

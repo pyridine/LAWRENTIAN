@@ -46,7 +46,7 @@
   <widget class="QPushButton" name="dwnldImgs_pushButton">
    <property name="geometry">
     <rect>
-     <x>610</x>
+     <x>560</x>
      <y>10</y>
      <width>141</width>
      <height>31</height>
