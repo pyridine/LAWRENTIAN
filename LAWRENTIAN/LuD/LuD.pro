@@ -120,7 +120,8 @@ HEADERS += \
     articleworkspacenewswidget.h \
     articleworkspaceopedwidget.h \
     articleworkspacesportswidget.h \
-    articleworkspacevarietywidget.h
+    articleworkspacevarietywidget.h \
+    docxtostring.h
 
 SOURCES += \
     ad.cpp \
@@ -188,12 +189,10 @@ SOURCES += \
     articleworkspacenewswidget.cpp \
     articleworkspaceopedwidget.cpp \
     articleworkspacesportswidget.cpp \
-    articleworkspacevarietywidget.cpp
+    articleworkspacevarietywidget.cpp \
+    docxtostring.cpp
 
 
-
-
- INCLUDEPATH += $$[QT_INSTALL_PREFIX]/src/3rdparty/zlib
 
 win32{
 
@@ -294,4 +293,3 @@ INCLUDEPATH += $$PWD/../../../../../../Library/Developer/Ice-3.5.1/include
 DEPENDPATH += $$PWD/../../../../../../Library/Developer/Ice-3.5.1/include
 
 }
-

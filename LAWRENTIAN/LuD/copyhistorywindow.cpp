@@ -9,8 +9,8 @@
 #include <QFileDialog>
 #include <QDate>
 #include "diff.h"
-#include <QtZlib/zlib.h>
-#include <QHBoxLayout>
+
+
 
 CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& date,
                                      const std::string& sec, const std::string& art) :
@@ -227,12 +227,22 @@ std::string CopyHistoryWindow::getArticleText(int articleNum){
         if(articleNum > 0) artFilePath+=articleNum;
         artFilePath+=".docx";
 
-        QFile* file = new QFile(QString::fromStdString(artFilePath));
-        QByteArray fiby = file->readAll();
-        QByteArray fibyun = qUncompress(fiby);
-        for(int i = 0; i < fibyun.size(); i++){
-            cout<<i;
-        }
+//        QuaZip zip("zipFile.zip");
+//        zip.open(QuaZip::mdUnzip);
+//        QuaZipFile file(&zip);
+
+////        filePath = QDir::currentPath().toStdString();
+////        filePath += "/"+articleNum;
+
+////        QFile infile(QString::fromStdString(artFilePath));
+////        QFile outfile(QString::fromStdString(filePath));
+////        infile.open(QIODevice::ReadOnly);
+////        outfile.open(QIODevice::WriteOnly);
+////        QByteArray uncompressedData = infile.readAll();
+////        QByteArray compressedData = qUncompress(uncompressedData);
+////        outfile.write(compressedData);
+////        infile.close();
+//        outfile.close();
 
 
     } else{
