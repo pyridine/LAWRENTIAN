@@ -175,7 +175,7 @@ public:
      *              If ver = 0, lowest version file is received.
      *  \return true if file successfuly downloaded, false otherwise.
      */
-    bool requestXML(const std::string &issueDate, const std::string &sec, const std::string &art, const std::string &down_dir, int ver);
+    bool requestXML(const std::string &issueDate, const std::string &sec, const std::string &art, const std::string &down_dir, int ver = -1);
 };
 
 #endif // SENDER_H
