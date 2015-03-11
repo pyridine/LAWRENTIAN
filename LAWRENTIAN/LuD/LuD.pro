@@ -121,7 +121,7 @@ HEADERS += \
     articleworkspaceopedwidget.h \
     articleworkspacesportswidget.h \
     articleworkspacevarietywidget.h \
-    docxtostring.h
+    DocxmlToString.h
 
 SOURCES += \
     ad.cpp \
@@ -190,7 +190,7 @@ SOURCES += \
     articleworkspaceopedwidget.cpp \
     articleworkspacesportswidget.cpp \
     articleworkspacevarietywidget.cpp \
-    docxtostring.cpp
+    DocxmlToString.cpp
 
 
 

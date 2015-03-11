@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
     LoginWindow* l = new LoginWindow();
     Client* c = new Client();
 
+
     JDiff d;
     d.doExample();
 

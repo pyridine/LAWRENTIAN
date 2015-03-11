@@ -11,8 +11,10 @@ class JDiff
 public:
     JDiff();
     ~JDiff();
-    string makeDiff(string a, string b,string DEL,string ADD);
-    void doExample();
+    static string makeDiff(string a, string b);
+    string doExample();
+private:
+    static string insertBreaks(string diffHTML);
 };
 
 #endif // DIFF_H
