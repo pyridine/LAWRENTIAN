@@ -1,8 +1,4 @@
 module FileSystem {
-    const string COPY = "Copy";
-    const string IMAGE = "Image";
-    const string extCOPY = ".docx";
-    const string extIMAGE = ".jpg";
 
     sequence<byte> ByteSeq;
     struct TimeIce {
@@ -24,7 +20,9 @@ module FileSystem {
     sequence<string> StrSeq;
     interface File {
         ByteSeq receiveLatest(string issueDate, string sec, string art, string type, string fName);
-        ByteSeq receiveVersion(string issueDate,string sec, string art, string type, string fName, int ver);
+        ByteSeq receiveVersion(string issueDate, string sec, string art, string type, string fName, int ver);
+        ByteSeq receiveLatestXML(string issueDate, string sec, string art, string type, string fName);
+        ByteSeq receiveVersionXML(string issueDate, string sec, string art, string type, string fName, int ver);
 
         bool sendFile(string issueDate,string sec, string art, string type, string fNameExt, ByteSeq seq);
 
@@ -49,4 +47,6 @@ module fs {
     const string IMAGE = "Image";
     const string extCOPY = ".docx";
     const string extIMAGE = ".jpg";
+    const string XML = "_XML_";
+    const string extXML = ".xml";
 };

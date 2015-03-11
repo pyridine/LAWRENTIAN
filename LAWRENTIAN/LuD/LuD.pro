@@ -20,7 +20,8 @@ DISTFILES += \
     LuD.pro.user.47f9476 \
     LuD.pro.user.ee9f765 \
     LuD.pro.user.IX7944 \
-    lawrentian.jpg
+    LuD.pro.user.0f8f2c1 \
+    LuD.pro.user.bn5604
 
 FORMS += \
     addlocationdialogue.ui \
@@ -45,10 +46,10 @@ FORMS += \
     registrationwindow.ui \
     subscriptionswidget.ui \
     writertimesheetwidget.ui \
-    articleworkspacenewswidget.ui \
-    articleworkspacefeatureswidget.ui \
-    articleworkspaceopedwidget.ui \
     articleworkspaceaandewidget.ui \
+    articleworkspacefeatureswidget.ui \
+    articleworkspacenewswidget.ui \
+    articleworkspaceopedwidget.ui \
     articleworkspacesportswidget.ui \
     articleworkspacevarietywidget.ui
 
@@ -112,12 +113,15 @@ HEADERS += \
     writertimesheet.h \
     writertimesheetdbc.h \
     writertimesheetwidget.h \
-    articleworkspacenewswidget.h \
-    articleworkspacefeatureswidget.h \
-    articleworkspaceopedwidget.h \
+    diff.h \
+    diff_match_patch.h \
     articleworkspaceaandewidget.h \
+    articleworkspacefeatureswidget.h \
+    articleworkspacenewswidget.h \
+    articleworkspaceopedwidget.h \
     articleworkspacesportswidget.h \
-    articleworkspacevarietywidget.h
+    articleworkspacevarietywidget.h \
+    docxtostring.h
 
 SOURCES += \
     ad.cpp \
@@ -179,12 +183,16 @@ SOURCES += \
     writertimesheet.cpp \
     writertimesheetdbc.cpp \
     writertimesheetwidget.cpp \
-    articleworkspacenewswidget.cpp \
-    articleworkspacefeatureswidget.cpp \
-    articleworkspaceopedwidget.cpp \
+    diff.cpp \
     articleworkspaceaandewidget.cpp \
+    articleworkspacefeatureswidget.cpp \
+    articleworkspacenewswidget.cpp \
+    articleworkspaceopedwidget.cpp \
     articleworkspacesportswidget.cpp \
-    articleworkspacevarietywidget.cpp
+    articleworkspacevarietywidget.cpp \
+    docxtostring.cpp
+
+
 
 win32{
 
@@ -285,4 +293,3 @@ INCLUDEPATH += $$PWD/../../../../../../Library/Developer/Ice-3.5.1/include
 DEPENDPATH += $$PWD/../../../../../../Library/Developer/Ice-3.5.1/include
 
 }
-

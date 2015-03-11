@@ -25,7 +25,8 @@ DISTFILES += \
     LuDServer.pro.user \
     Sections.txt \
     LuDServer.pro.user.47f9476 \
-    LuDServer.pro.user.83fecab
+    LuDServer.pro.user.83fecab \
+    Junzar.bat
 
 HEADERS += \
     FileSystem.h \

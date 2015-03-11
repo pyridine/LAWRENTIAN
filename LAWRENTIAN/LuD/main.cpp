@@ -9,6 +9,7 @@
 #include "Sender.h"
 #include "newarticleworkspacewindow.h"
 #include "FileSystem.h"
+#include "diff.h"
 
 using namespace std;
 using namespace FileSystem;
@@ -22,11 +23,13 @@ using namespace FileSystem;
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    QApplication z(argc, argv);
 
     LoginWindow* l = new LoginWindow();
     Client* c = new Client();
-    //l->show();
+
+    JDiff d;
+    d.doExample();
 
     if(c->connect()){
         l->show();
@@ -39,7 +42,7 @@ int main(int argc, char *argv[])
         return 1337;
     }
 
-    return a.exec();
+    return z.exec();
 }
 
 

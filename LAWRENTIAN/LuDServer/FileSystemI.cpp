@@ -9,6 +9,8 @@
 #include <stack>
 #include <stdio.h>
 #include <algorithm>
+#include <QProcess>
+#include <QDir>
 
 FileSystemI::FileSystemI()
 {
@@ -16,6 +18,7 @@ FileSystemI::FileSystemI()
 
     main_dir = "C:/Users/Briggs 419 Server/Dropbox/Issue";
     arc_dir = "C:/Users/Briggs 419 Server/Dropbox/Archive";
+    batch_dir = QDir::currentPath().toStdString();
 }
 
 FileSystemI::FileSystemI(const std::string& main_dir, const std::string& arc_dir)
@@ -24,7 +27,169 @@ FileSystemI::FileSystemI(const std::string& main_dir, const std::string& arc_dir
 
     this->main_dir = main_dir;
     this->arc_dir = arc_dir;
+    batch_dir = QDir::currentPath().toStdString();
 }
+
+
+FileSystem::ByteSeq
+FileSystemI::receiveLatestXML(const std::string& issue_date, const std::string& sec,
+                           const std::string& art, const std::string& type,
+                           const std::string& fName, const Ice::Current& c)
+{
+    using namespace std;
+    using namespace FileSystem;
+
+    ByteSeq seq;
+
+
+    string caller_info = getName(getIP(c));
+    consolePrint("===" + caller_info + "===" );
+
+    if(!dirExists(main_dir + "/" + issue_date))
+    {
+        consolePrint("receiveLatestXML: " + issue_date + " is invalid issue date.");
+        return seq;
+    }
+
+    string path =  main_dir + "/" + issue_date + "/" + sec + "/" + art + "/" + type
+            + "/" + fs::XML;
+
+    string fNameExt;
+    if(!type.compare(fs::COPY))
+        fNameExt = fName + fs::extXML;
+    else
+        return seq;
+
+    int ver_num = 1;
+    string dir;
+    if (dirExists(path))
+    {
+        string temp_dir = path + "/" + fNameExt;
+        ifstream check;
+        check.open(temp_dir, ios::binary);
+
+        if(!check.is_open())
+        {
+            /* FileSystem is set such that the first file is only the article name without version number.
+             * In such a restriction, the algorithm below works.
+             */
+
+            string folder_path = extractNodeName(temp_dir);
+            if(removeFolder(folder_path))
+                consolePrint("receiveLatestXML: " + folder_path + " is empty! Deleted.");
+            else
+                consolePrint("receiveLatestXML: " + folder_path + " is emply! Manual deletion required.");
+            return seq;
+        }
+
+        while(check.is_open())
+        {
+            dir = temp_dir;
+            temp_dir = path + "/" + fNameExt;
+            temp_dir = insertCorrectly(temp_dir, ver_num);
+
+            check.close();
+            check.open(temp_dir, ios::binary);
+            ver_num++;
+        }
+    }
+    else
+    {
+        consolePrint("receiveLatestXML: " + path + " does not exist."); // throw exception in the future.
+        return seq;
+    }
+
+    ifstream source;
+    source.open(dir,ios::binary);
+
+    if(dir.size())
+    {
+        source.seekg(0, ios::end);
+        streamoff len = source.tellg();
+        source.seekg(0, ios::beg);
+
+        seq.resize(len);
+        source.read(reinterpret_cast<char*>(&seq[0]), seq.size());
+    }
+    else
+    {
+        consolePrint(dir + " not found. :("); // throw exception in future.
+        return seq;
+    }
+
+    consolePrint("receiveLatestXML: " + dir + " is found!");
+    return seq;
+}
+
+FileSystem::ByteSeq
+FileSystemI::receiveVersionXML(const std::string& issue_date, const std::string& sec,
+                            const std::string& art, const std::string& type, const std::string& fName,
+                            const int ver, const Ice::Current& c)
+{
+    using namespace std;
+    using namespace FileSystem;
+
+    if (ver == -1) return receiveLatestXML(issue_date, sec, art, type, fName, c);
+
+    string caller_info = getName(getIP(c));
+    consolePrint("===" + caller_info + "===" );
+
+    ByteSeq seq;
+
+    if(!dirExists(main_dir + "/" + issue_date))
+    {
+        consolePrint("reveiveVersionXML: " + issue_date + " is invalid issue date.");
+        return seq;
+    }
+
+
+    string path =  main_dir + "/" + issue_date + "/" + sec + "/" + art + "/" + type
+            + "/" + fs::XML;
+
+    string dir;
+    if (dirExists(path))
+    {
+        long long ver_num = ver;
+
+        string fNameExt;
+        if(!type.compare(fs::COPY))
+            fNameExt = (ver) ? fName + std::to_string(ver_num) + fs::extXML
+                             : fName + fs::extXML;
+        else
+        {
+            consolePrint("reveiveVersionXML: " + type + " is invalid type.");
+            return seq;
+        }
+
+        dir = path + "/" + fNameExt;
+        ifstream check;
+        check.open(dir, ios::binary);
+        if (!check.is_open())
+        {
+            consolePrint("reveiveVersionXML: invalid version number.");
+            return seq;
+        }
+    }
+    else
+    {
+        consolePrint("reveiveVersionXML: " + path + " does not exist."); // throw exception in the future.
+        return seq;
+    }
+
+    ifstream source;
+    source.open(dir,ios::binary);
+
+    source.seekg(0, ios::end);
+    streamoff len = source.tellg();
+    source.seekg(0, ios::beg);
+
+    seq.resize(len);
+    source.read(reinterpret_cast<char*>(&seq[0]), seq.size());
+
+    consolePrint("reveiveVersionXML: " + dir + " found.");
+    return seq;
+}
+
 
 FileSystem::ByteSeq
 FileSystemI::receiveLatest(const std::string& issue_date, const std::string& sec,
@@ -239,6 +404,7 @@ FileSystemI::sendFile(const std::string& issue_date, const std::string& sec,
         ver++;
     }
     file.close();
+    string perc = dir;
     dir = dir + "/" + fNameExt;
 
     ofstream dest;
@@ -248,9 +414,14 @@ FileSystemI::sendFile(const std::string& issue_date, const std::string& sec,
     bool status = dest ? true : false;
 
     if(status)
+    {
         consolePrint("sendFile: " + dir + " successfully saved!");
+        if(!percolateXML(perc))
+            consolePrint("sendFile: " + perc + " could not be XML percolated.");
+    }
     else
         consolePrint("sendFile: " + dir + " addition unsuccessful.");
+
 
     return status;
 }
@@ -423,6 +594,8 @@ FileSystemI::renameArt(const std::string& issue_date, const std::string &sec,
     f_old = f_new + "/" + fs::COPY + "/" + artOld;
     f_new = f_new + "/" + fs::COPY + "/" + artNew;
 
+    string perc = f_new;
+
     if(dirExists(f_old))
         rename( f_old.c_str(), f_new.c_str());
     else
@@ -456,6 +629,9 @@ FileSystemI::renameArt(const std::string& issue_date, const std::string &sec,
     }
 
     consolePrint("changeDir: successfully changed name to " + artNew + ".");
+    if(!percolateXML(perc))
+        consolePrint("renameArt: " + perc + " could not be XML percolated.");
+
     return true;
 }
 
@@ -575,6 +751,90 @@ FileSystemI::insertCorrectly(const std::string& str, int n)
 
     return ret;
 }
+
+bool
+FileSystemI::percolateXML(const std::string direct)
+{
+    bool ret = true;
+    QDir dir(QString::fromStdString(direct));
+
+    QDir clean = dir;
+    clean.cdUp();
+    clean.setPath(QString::fromStdString(fs::XML));
+    while(clean.exists()) clean.removeRecursively();
+
+    QStringList listFiles = dir.entryList(QDir::Files);
+    for(int i=0; i!= listFiles.size(); i++)
+        ret = ret && docToXml(dir.path().toStdString(),i);
+    return (ret && listFiles.size());
+}
+
+std::string
+FileSystemI::transferXML(const std::string& dir)
+{
+    QDir xmlDir, tempDir;
+    QString newXmlDir, newFilePath;
+    QFile file;
+
+    xmlDir = QDir(QString::fromStdString(dir));
+    newXmlDir = QString::fromStdString(extractNodeName(extractNodeName(dir))) + "/" + QString::fromStdString(fs::XML);
+    tempDir = QDir(newXmlDir);
+    newFilePath = newXmlDir + "/" + QString::fromStdString(folderFromDir(xmlDir.path().toStdString())) + ".xml";
+    file.setFileName(xmlDir.path() + "/" + "document.xml");
+
+    if(!tempDir.cd(tempDir.path())) xmlDir.mkdir(newXmlDir);
+
+    while (!file.rename(newFilePath))
+    {
+        QFile tempFile(newFilePath);
+        tempFile.remove();
+    }
+
+    while(!xmlDir.removeRecursively()) {}
+
+    return newFilePath.toStdString();
+}
+
+
+bool
+FileSystemI::docToXml(const std::string& dir, const int ver)
+{
+    using namespace std;
+
+    string fName = ver ? folderFromDir(dir) + std::to_string((long long)ver)
+                       : folderFromDir(dir);
+
+    string bib = "/C start "+ batch_dir +" "+ fName +" "+ dir;
+
+    QProcess* proc = new QProcess();
+
+    proc->start("cmd",QStringList()<<bib.c_str());
+    if(!proc->waitForStarted(10000)) cout << "Didn't start" << endl;
+    if(!proc->waitForFinished(10000)) cout << "Didn't stop" << endl;
+
+    string xmlDir = dir + "/" + fName;
+    transferXML(xmlDir);
+    return true;
+}
+
+
+
+std::string
+FileSystemI::folderFromDir(const std::string str)
+{
+    using namespace std;
+
+    string::const_iterator iter = str.end() - 1;
+    while(*iter != '/' && *iter != '\\')
+    {
+        iter--;
+        if(iter == str.begin())
+            break; //throw exception.
+
+    }
+    return str.substr(iter - str.begin() + 1, str.size());
+}
+
 
 std::string
 FileSystemI::extractNodeName(const std::string str)
@@ -871,7 +1131,6 @@ FileSystemI::deleteAllCopies(const std::string& issue_date, const std::string &s
     }
 
     string path =  main_dir + "/" + issue_date + "/" + sec + "/" + art + "/" + fs::COPY;
-
     if(deleteDirectory(path))
     {
         consolePrint("deleteAllCopies: " + path + " successfully deleted!");
@@ -904,6 +1163,7 @@ FileSystemI::deleteCopyVer(const std::string& issue_date, const std::string &sec
     }
 
     string dir = main_dir + "/" + issue_date + "/" + sec + "/" + art + "/" + fs::COPY + "/" + art;
+    string perc = dir;
     string path_clean = addExtension( dir + "/" + art, fs::COPY);
 
     vector<string> files,folders;
@@ -929,6 +1189,8 @@ FileSystemI::deleteCopyVer(const std::string& issue_date, const std::string &sec
             rename(oldFilePath.c_str(), newFilePath.c_str()); // assume that if removal is permitted then rename is permitted as well.
         }
         consolePrint("deleteCopyVer: " + path + " successfully deleted.");
+        if(!percolateXML(perc))
+            consolePrint("deleteCopyVer: " + perc + " could not be XML percolated.");
         return true;
     }
     else

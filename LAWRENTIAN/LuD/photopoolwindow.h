@@ -34,6 +34,8 @@ private slots:
 
     void on_article_listWidget_itemDoubleClicked(QListWidgetItem *item);
 
+    void hoverEnterImg();
+
 private:
     Ui::PhotoPoolWindow *ui;
     PhotoPoolWindowDBC *dbController;
@@ -42,7 +44,7 @@ private:
 
     void drawArtsOnListView();
     void drawImages(const std::string& issueDate, const std::string& section, const std::string& title);
-    QPointF addImage(const std::string& fNameExt, const QPointF pos);
+    QPointF addImage(const std::string& fNameExt, const QPointF pos, int xWidth, int yHeight, int xGap, int yGap);
     void initializeTransfer();
 };
 

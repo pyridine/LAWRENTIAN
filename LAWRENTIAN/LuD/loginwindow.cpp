@@ -28,21 +28,17 @@ LoginWindow::LoginWindow(QWidget *parent) :
 void LoginWindow::initDB(Client* cp){
     dbController = new LoginWindowDBC(cp);
 
-    cout << "Populating Permissions ids... ";
+    cout << "Populating Permissions ids... "<<endl;
 
     PermissionDef::__populateValues(dbController);
 
-    cout << "Done. " << endl;
-    cout << "Populating Title ids... ";
+    cout << "Populating Title ids... "<<endl;
 
     TitleDef::__populateValues(dbController);
 
-    cout << "Done."<< endl;
-    cout << "Populating Section ids... ";
+    cout << "Populating Section ids... "<<endl;
 
     SectionDef::__populateValues(dbController);
-
-    cout << "Done. oped is " << SectionDef::OPED_SECTION<< endl;
 }
 
 LoginWindow::~LoginWindow()

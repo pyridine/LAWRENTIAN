@@ -162,6 +162,20 @@ public:
      * \return true if change was successful and false otherwise.
      */
     bool changeArtIssueDate(const std::string& oldIssueDate, const std::string& newIssueDate, const std::string& sec, const std::string& art);
+
+    /*! \brief requestXML: request any file (article or image) from server and download to client, provided that
+     *         file is lesser than 1MB and exists in server.
+     *
+     *  \param issueDate: the deadline date of the issue which the article belongs to.
+     *  \param sec: the section to which the article belongs to.
+     *  \param art: name of the article.
+     *  \param type: either fs::COPY or fs::IMAGE. Don't forget #include "FileSystem.h".
+     *  \param down_dir: full folder path to where the file will be downloaded.
+     *  \param ver: [opt] version of file, default -1. If ver = -1, highest version file is received.
+     *              If ver = 0, lowest version file is received.
+     *  \return true if file successfuly downloaded, false otherwise.
+     */
+    bool requestXML(const std::string &issueDate, const std::string &sec, const std::string &art, const std::string &down_dir, int ver);
 };
 
 #endif // SENDER_H
