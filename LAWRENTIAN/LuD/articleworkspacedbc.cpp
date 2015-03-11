@@ -18,6 +18,55 @@ ArticleWorkspaceDBC::~ArticleWorkspaceDBC()
 
 }
 
+QDate ArticleWorkspaceDBC::collectLatestIssueDate()
+{
+    const string GET_LATEST_ISSUE_DATE = "SELECT issueDate FROM lawrentian.issue_archive WHERE issue_archive.issueDate IN (SELECT max(issueDate) FROM issue_archive)";
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_LATEST_ISSUE_DATE));
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    QDate latestDate;
+
+    if(!err.isValid()){
+        // Checks if issue already exists
+        while(result->next()){
+            QString date = result->value(0).toString();
+            latestDate = QDate::fromString(date, "yyyy-MM-dd");
+        }
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+    return latestDate;
+}
+
+vector<QString> ArticleWorkspaceDBC::getIssueDateList()
+{
+    const string GET_ISSUE_DATES = "SELECT DISTINCT currentissue_article.issueDate "
+                                   "FROM lawrentian.currentissue_article "
+                                   "UNION SELECT issue_archive.issueDate "
+                                   "FROM lawrentian.issue_archive "
+                                   "ORDER BY issueDate DESC";
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_ISSUE_DATES));
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    vector<QString> issueDateList;
+
+    if(!err.isValid()){
+        while(result->next()){
+            QString date = result->value(0).toString();
+            issueDateList.push_back(date);
+        }
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+    return issueDateList;
+}
+
 
 vector<int>* ArticleWorkspaceDBC::getAllArticleIDs(){
     vector<int>* numz = new vector<int>();
@@ -40,17 +89,20 @@ vector<int>* ArticleWorkspaceDBC::getAllArticleIDs(){
     return numz;
 }
 
-vector<string> ArticleWorkspaceDBC::getArticleTitlesForSection(string section)
+vector<string> ArticleWorkspaceDBC::getArticleTitlesForSectionAndIssue(string section, QDate issueDate)
 {
+    QString issueDateString = issueDate.toString("yyyy-MM-dd");
+
     const string GET_NAME = "SELECT currentissue_article.title "
                             "FROM lawrentian.currentissue_article "
                             "INNER JOIN lawrentian.section "
                             "ON section.idsection = currentissue_article.section "
-                            "WHERE section.variablename =:section";
+                            "WHERE section.variablename =:section AND currentissue_article.issueDate =:issueDate";
 
     QSqlQuery* query = new QSqlQuery();
     query->prepare(QString::fromStdString(GET_NAME));
     query->bindValue(":section", QString::fromStdString(section));
+    query->bindValue(":issueDate", issueDateString);
 
     QSqlQuery* result = client->execute(query);
     QSqlError err = result->lastError();

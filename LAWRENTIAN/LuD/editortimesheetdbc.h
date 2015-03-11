@@ -14,6 +14,7 @@ public:
     int getHoursWorked(int luid, QDate issueDate);
     vector<int> collectEditorForTimesheet(QDate currentDate);
     vector<vector<string>>* getTimesheet(QDate issueDate);
+    QDate collectLatestIssueDate();
 };
 
 #endif // EDITORTIMESHEETDBC_H

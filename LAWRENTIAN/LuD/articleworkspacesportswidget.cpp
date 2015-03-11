@@ -2,6 +2,7 @@
 #include "ui_articleworkspacesportswidget.h"
 
 #include "newarticleworkspacewindow.h"
+#include "articleworkspace.h"
 #include <iostream>
 
 ArticleWorkspaceSportsWidget::ArticleWorkspaceSportsWidget(QWidget *parent) :
@@ -16,17 +17,24 @@ ArticleWorkspaceSportsWidget::~ArticleWorkspaceSportsWidget()
     delete ui;
 }
 
-void ArticleWorkspaceSportsWidget::init(Client* c,LoginCredentials* crede)
+void ArticleWorkspaceSportsWidget::init(articleWorkspace *myParent, Client* c,LoginCredentials* crede)
 {
     cred = crede;
     client = c;
+    parent = myParent;
     dbController = new ArticleWorkspaceDBC(client);
+
+    QDate selectedIssue = parent->getSelectedIssueDate();
+
     // Gets article titles for section
-    vector<string> articleTitles = dbController->getArticleTitlesForSection("SPORTS_SECTION");
+    vector<string> articleTitles = dbController->getArticleTitlesForSectionAndIssue("SPORTS_SECTION", selectedIssue);
     for (int i = 0; i < articleTitles.size(); i++){
         int articleId = dbController->getArticleId(articleTitles[i]);
         existingIds.push_back(articleId); // Keeps track of articles that already exist in database
     }
+    QTimer *timer = new QTimer(this);
+     connect(timer, SIGNAL(timeout()), this, SLOT(initTextBrowser()));
+     timer->start(10000);
     initTextBrowser();
 }
 
@@ -35,7 +43,10 @@ void ArticleWorkspaceSportsWidget::initTextBrowser()
     ui->articleTextBrowser->clear();
     ui->articleTextBrowser->setOpenLinks(false);
     existingIds.clear();
-    vector<string> articleTitles = dbController->getArticleTitlesForSection("SPORTS_SECTION");
+    QDate selectedIssue = parent->getSelectedIssueDate();
+
+    // Gets article titles for section
+    vector<string> articleTitles = dbController->getArticleTitlesForSectionAndIssue("SPORTS_SECTION", selectedIssue);
     for(int i = 0; i < articleTitles.size(); i++)
     {
         QString articleTitle = QString::fromStdString(articleTitles[i]);
@@ -74,12 +85,13 @@ bool ArticleWorkspaceSportsWidget::workspaceExists(int id)
 void ArticleWorkspaceSportsWidget::openArticleWorkspace(Article* a)
 {
     //Init data
-    newArticleWorkspaceWindow *createArticleWorkspaceWindow = new newArticleWorkspaceWindow(this,cred);
+    newArticleWorkspaceWindow *createArticleWorkspaceWindow = new newArticleWorkspaceWindow();
+    createArticleWorkspaceWindow->init(cred, this->parent);
     createArticleWorkspaceWindow->initDB(dbController->getClient());
     createArticleWorkspaceWindow->setupFields(a);
 
     //Init window
-    createArticleWorkspaceWindow->setParentSportsWorkspaceWidget(this);
+    //createArticleWorkspaceWindow->setParentSportsWorkspaceWidget(this);
     createArticleWorkspaceWindow->setWindowModality(Qt::ApplicationModal);
     createArticleWorkspaceWindow->window()->show();
 }
@@ -91,9 +103,4 @@ void ArticleWorkspaceSportsWidget::on_articleTextBrowser_anchorClicked(const QUr
     Article *article = dbController->getArticleById(urlInt);
     openArticleWorkspace(article);
 
-}
-
-void ArticleWorkspaceSportsWidget::on_refreshButton_clicked()
-{
-    initTextBrowser();
 }

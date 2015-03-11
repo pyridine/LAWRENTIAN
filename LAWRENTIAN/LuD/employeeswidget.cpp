@@ -47,10 +47,15 @@ void employeesWidget::initNormalView(){
     ui->employeeTable->setColumnCount(NUMBEROFCOLUMNS); //notice! hardcoded!
 
     ui->employeeTable->setHorizontalHeaderItem(0, new QTableWidgetItem("LUID"));
+    ui->employeeTable->setColumnWidth(0, 85);
     ui->employeeTable->setHorizontalHeaderItem(1, new QTableWidgetItem("Name"));
+    ui->employeeTable->setColumnWidth(1, 200);
     ui->employeeTable->setHorizontalHeaderItem(2, new QTableWidgetItem("Title"));
+    ui->employeeTable->setColumnWidth(2, 180);
     ui->employeeTable->setHorizontalHeaderItem(3, new QTableWidgetItem("Phone"));
+    ui->employeeTable->setColumnWidth(3, 200);
     ui->employeeTable->setHorizontalHeaderItem(4, new QTableWidgetItem("Email"));
+    ui->employeeTable->setColumnWidth(4, 225);
 
 //    ui->employeeTable->setItem(0,0, new QTableWidgetItem("luid"));
 //    ui->employeeTable->setItem(0,1, new QTableWidgetItem("name"));
@@ -125,13 +130,21 @@ void employeesWidget::initTotalView(){
     ui->employeeTable->setColumnCount(NUMBEROFCOLUMNS); //notice! hardcoded!
 
     ui->employeeTable->setHorizontalHeaderItem(0, new QTableWidgetItem("LUID"));
+    ui->employeeTable->setColumnWidth(0, 85);
     ui->employeeTable->setHorizontalHeaderItem(1, new QTableWidgetItem("Name"));
+    ui->employeeTable->setColumnWidth(1, 200);
     ui->employeeTable->setHorizontalHeaderItem(2, new QTableWidgetItem("Title"));
+    ui->employeeTable->setColumnWidth(2, 180);
     ui->employeeTable->setHorizontalHeaderItem(3, new QTableWidgetItem("Phone"));
+    ui->employeeTable->setColumnWidth(3, 200);
     ui->employeeTable->setHorizontalHeaderItem(4, new QTableWidgetItem("Email"));
+    ui->employeeTable->setColumnWidth(4, 225);
     ui->employeeTable->setHorizontalHeaderItem(5, new QTableWidgetItem("Username"));
+    ui->employeeTable->setColumnWidth(5, 82);
     ui->employeeTable->setHorizontalHeaderItem(6, new QTableWidgetItem("Password"));
+    ui->employeeTable->setColumnWidth(6, 82);
     ui->employeeTable->setHorizontalHeaderItem(7, new QTableWidgetItem("Approval"));
+    ui->employeeTable->setColumnWidth(7, 82);
 
     //ui->employeeTable->setItem(0,0, new QTableWidgetItem("luid"));
     //ui->employeeTable->setItem(0,1, new QTableWidgetItem("name"));

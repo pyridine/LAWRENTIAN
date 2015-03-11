@@ -27,16 +27,14 @@ public:
     void init(LoginCredentials* l, Client *c, employeesWidget *ew);
     void initDB(Client *c);
     void setWelcomeLabel();
-    void updateNotifications();
     pair<int, int> calculateArticlesOnTimeAndLate(QDate issueDate, int writerId);
 
 private slots:
     void on_logOutButton_clicked();
     void on_editProfileButton_clicked();
-
     void on_systemNotificationsTextBrowser_anchorClicked(const QUrl &arg1);
-
-    void on_pushButton_clicked();
+    void on_setDateButton_clicked();
+    void updateNotifications();
 
 private:
     Ui::profileWidget *ui;

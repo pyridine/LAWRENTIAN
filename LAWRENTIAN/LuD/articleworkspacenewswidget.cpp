@@ -2,6 +2,7 @@
 #include "ui_articleworkspacenewswidget.h"
 
 #include "newarticleworkspacewindow.h"
+#include "articleworkspace.h"
 #include <iostream>
 
 ArticleWorkspaceNewsWidget::ArticleWorkspaceNewsWidget(QWidget *parent) :
@@ -11,17 +12,26 @@ ArticleWorkspaceNewsWidget::ArticleWorkspaceNewsWidget(QWidget *parent) :
     ui->setupUi(this);
 }
 
-void ArticleWorkspaceNewsWidget::init(Client* c,LoginCredentials* crede)
+void ArticleWorkspaceNewsWidget::init(articleWorkspace *myParent, Client* c,LoginCredentials* crede)
 {
+    cout<<"About to initialize stuff"<<endl;
     cred = crede;
     client = c;
+    parent = myParent;
     dbController = new ArticleWorkspaceDBC(client);
+
+    cout<<"About to get selected date"<<endl;
+    QDate selectedIssue = parent->getSelectedIssueDate();
+
     // Gets article titles for section
-    vector<string> articleTitles = dbController->getArticleTitlesForSection("NEWS_SECTION");
+    vector<string> articleTitles = dbController->getArticleTitlesForSectionAndIssue("NEWS_SECTION", selectedIssue);
     for (int i = 0; i < articleTitles.size(); i++){
         int articleId = dbController->getArticleId(articleTitles[i]);
         existingIds.push_back(articleId); // Keeps track of articles that already exist in database
     }
+    QTimer *timer = new QTimer(this);
+     connect(timer, SIGNAL(timeout()), this, SLOT(initTextBrowser()));
+     timer->start(10000);
     initTextBrowser();
 }
 
@@ -35,7 +45,10 @@ void ArticleWorkspaceNewsWidget::initTextBrowser()
     ui->articleTextBrowser->clear();
     ui->articleTextBrowser->setOpenLinks(false);
     existingIds.clear();
-    vector<string> articleTitles = dbController->getArticleTitlesForSection("NEWS_SECTION");
+    QDate selectedIssue = parent->getSelectedIssueDate();
+
+    // Gets article titles for section
+    vector<string> articleTitles = dbController->getArticleTitlesForSectionAndIssue("NEWS_SECTION", selectedIssue);
     for(int i = 0; i < articleTitles.size(); i++)
     {
         QString articleTitle = QString::fromStdString(articleTitles[i]);
@@ -75,12 +88,13 @@ bool ArticleWorkspaceNewsWidget::workspaceExists(int id)
 void ArticleWorkspaceNewsWidget::openArticleWorkspace(Article* a)
 {
     //Init data
-    newArticleWorkspaceWindow *createArticleWorkspaceWindow = new newArticleWorkspaceWindow(this,cred);
+    newArticleWorkspaceWindow *createArticleWorkspaceWindow = new newArticleWorkspaceWindow();
+    createArticleWorkspaceWindow->init(cred, this->parent);
     createArticleWorkspaceWindow->initDB(dbController->getClient());
     createArticleWorkspaceWindow->setupFields(a);
 
     //Init window
-    createArticleWorkspaceWindow->setParentNewsWorkspaceWidget(this);
+    //createArticleWorkspaceWindow->setParentNewsWorkspaceWidget(this);
     createArticleWorkspaceWindow->setWindowModality(Qt::ApplicationModal);
     createArticleWorkspaceWindow->window()->show();
 }
@@ -92,9 +106,4 @@ void ArticleWorkspaceNewsWidget::on_articleTextBrowser_anchorClicked(const QUrl 
     Article *article = dbController->getArticleById(urlInt);
     openArticleWorkspace(article);
 
-}
-
-void ArticleWorkspaceNewsWidget::on_refreshButton_clicked()
-{
-    initTextBrowser();
 }

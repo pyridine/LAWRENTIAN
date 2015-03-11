@@ -14,8 +14,13 @@ editorTimesheetWidget::editorTimesheetWidget(QWidget *parent) :
 void editorTimesheetWidget::init(LoginCredentials* l, Client *c){
     loginCred = l;
     this->client = c;
-    ui->currentIssueDate->setDate(QDate::currentDate());
-    initTable(QDate::currentDate());
+    QDate latestIssue = editorTimesheetDBC->collectLatestIssueDate();
+    if(!latestIssue.isNull()){
+        ui->currentIssueDate->setDate(latestIssue);
+    } else {
+        ui->currentIssueDate->setDate(QDate::currentDate());
+    }
+    initTable(latestIssue);
 }
 
 void editorTimesheetWidget::initDB(Client *c){
@@ -85,8 +90,20 @@ void editorTimesheetWidget::on_currentIssueDate_userDateChanged(const QDate &dat
         QString hoursString = QString::number(hours);
         ui->hoursWorkedTextEdit->setText(hoursString);
     } else{
-    QString hoursString = QString::number(hours);
-    ui->hoursWorkedTextEdit->setText(hoursString);
+        QString hoursString = QString::number(hours);
+        ui->hoursWorkedTextEdit->setText(hoursString);
     }
     initTable(chosenDate);
+}
+
+void editorTimesheetWidget::on_setCurrentIssueButton_clicked()
+{
+    QDate latestIssue = editorTimesheetDBC->collectLatestIssueDate();
+        if(!latestIssue.isNull()){
+            ui->currentIssueDate->setDate(latestIssue);
+        } else {
+        Alert *alert = new Alert;
+        alert->showInformationAlert("No Set Issue Date", "No current issue date set.\nSetting to current date");
+        ui->currentIssueDate->setDate(QDate::currentDate());
+        }
 }

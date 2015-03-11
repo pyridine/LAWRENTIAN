@@ -13,19 +13,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="updateWriterTimesheetButton">
-   <property name="geometry">
-    <rect>
-     <x>890</x>
-     <y>140</y>
-     <width>191</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Update Writer Timesheet</string>
-   </property>
-  </widget>
   <widget class="QTableWidget" name="writerTimesheetTable">
    <property name="geometry">
     <rect>
@@ -73,9 +60,12 @@
     <rect>
      <x>110</x>
      <y>50</y>
-     <width>110</width>
+     <width>131</width>
      <height>24</height>
     </rect>
+   </property>
+   <property name="displayFormat">
+    <string>d MMM yyyy</string>
    </property>
    <property name="calendarPopup">
     <bool>true</bool>
@@ -126,23 +116,10 @@
     <string>Select Issue Date:</string>
    </property>
   </widget>
-  <widget class="QDateEdit" name="selectIssueDate">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>140</y>
-     <width>110</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="calendarPopup">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QPushButton" name="generateTimesheetButton">
    <property name="geometry">
     <rect>
-     <x>230</x>
+     <x>240</x>
      <y>50</y>
      <width>101</width>
      <height>32</height>
@@ -150,6 +127,16 @@
    </property>
    <property name="text">
     <string>Generate</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="selectIssueDateComboBox">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>140</y>
+     <width>141</width>
+     <height>26</height>
+    </rect>
    </property>
   </widget>
  </widget>

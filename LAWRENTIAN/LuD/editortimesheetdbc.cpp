@@ -7,6 +7,29 @@ EditorTimesheetDBC::EditorTimesheetDBC(Client *c):DatabaseController(c)
 
 }
 
+QDate EditorTimesheetDBC::collectLatestIssueDate()
+{
+    const string GET_LATEST_ISSUE_DATE = "SELECT issueDate FROM lawrentian.issue_archive WHERE issue_archive.issueDate IN (SELECT max(issueDate) FROM issue_archive)";
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_LATEST_ISSUE_DATE));
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    QDate latestDate;
+
+    if(!err.isValid()){
+        // Checks if issue already exists
+        while(result->next()){
+            QString date = result->value(0).toString();
+            latestDate = QDate::fromString(date, "yyyy-MM-dd");
+        }
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+    return latestDate;
+}
+
 void EditorTimesheetDBC::setHoursWorked(int luid, QDate issueDate, int hoursWorked)
 {
     QString issueDateString = issueDate.toString("yyyy-MM-dd");

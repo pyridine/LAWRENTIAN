@@ -21,9 +21,14 @@ using namespace std;
 
 /*Used to display section names.*/
 
-newArticleWorkspaceWindow::newArticleWorkspaceWindow(QWidget *parent,LoginCredentials* login) :
+newArticleWorkspaceWindow::newArticleWorkspaceWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::newArticleWorkspaceWindow)
+{
+    ui->setupUi(this);
+}
+
+void newArticleWorkspaceWindow::init(LoginCredentials* login, articleWorkspace *myParent)
 {
     //Set up static strings.
     NEWZ = "News";
@@ -33,7 +38,7 @@ newArticleWorkspaceWindow::newArticleWorkspaceWindow(QWidget *parent,LoginCreden
     VARIEZ = "Variety";
     SPORTZ = "Sports";
 
-    ui->setupUi(this);
+    ui->issueDateEdit->blockSignals(true);
 
     ui->delete_pushButton->setVisible(false);
 
@@ -41,11 +46,31 @@ newArticleWorkspaceWindow::newArticleWorkspaceWindow(QWidget *parent,LoginCreden
 
     loginCred = login;
 
+    parentArticleWorkspaceWidget = myParent;
+
     //Permissions
     handlePermissions();
+
 }
 
 void newArticleWorkspaceWindow::handlePermissions(){
+
+    // Check if user is viewing the archive
+    if (parentArticleWorkspaceWidget->getViewingArchive())
+    {
+        ui->articleTitleTextField->setEnabled(false);
+        ui->articleFileTextField->setEnabled(false);
+        ui->descriptionTextField->setEnabled(false);
+        ui->writerComboBox->setEnabled(false);
+        ui->photographerComboBox->setEnabled(false);
+        ui->deleteAWS_pushButton->setEnabled(false);
+        ui->issueDateEdit->setEnabled(false);
+        ui->sectionComboBox->setEnabled(false);
+        ui->chooseFile_pushButton->setEnabled(false);
+        ui->addImage_pushButton->setEnabled(false);
+        ui->descriptionTextField->hide();
+        ui->setCurrentIssueButton->setEnabled(false);
+    }
     if(!loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
             &&!loginCred->hasPermission(PermissionDef::EDIT_ARTICLE_WORKSPACE)){
         ui->sectionComboBox->setEnabled(false);
@@ -221,36 +246,6 @@ void newArticleWorkspaceWindow::setParentArticleWorkspaceWidget(articleWorkspace
     parentArticleWorkspaceWidget = value;
 }
 
-void newArticleWorkspaceWindow::setParentAAndEWorkspaceWidget(ArticleWorkspaceAAndEWidget *parent)
-{
-    parentAAndEWidget = parent;
-}
-
-void newArticleWorkspaceWindow::setParentNewsWorkspaceWidget(ArticleWorkspaceNewsWidget *parent)
-{
-    parentNewsWidget = parent;
-}
-
-void newArticleWorkspaceWindow::setParentFeaturesWorkspaceWidget(ArticleWorkspaceFeaturesWidget *parent)
-{
-    parentFeaturesWidget = parent;
-}
-
-void newArticleWorkspaceWindow::setParentOpEdWorkspaceWidget(ArticleWorkspaceOpEdWidget *parent)
-{
-    parentOpEdWidget = parent;
-}
-
-void newArticleWorkspaceWindow::setParentSportsWorkspaceWidget(ArticleWorkspaceSportsWidget *parent)
-{
-    parentSportsWidget = parent;
-}
-
-void newArticleWorkspaceWindow::setParentVarietyWorkspaceWidget(ArticleWorkspaceVarietyWidget *parent)
-{
-    parentVarietyWidget = parent;
-}
-
 void newArticleWorkspaceWindow::setupFields(Article *article)
 {
     myArticle = article;
@@ -261,6 +256,14 @@ void newArticleWorkspaceWindow::setupFields(Article *article)
     QString dateFormat(df::dbFormat);
     QDate issueDate = QDate::fromString(issueDateString,dateFormat);
     ui->issueDateEdit->setDate(issueDate);
+
+    QDate latestIssue = dbController->collectLatestIssueDate();
+    if(!latestIssue.isNull()){
+        if(issueDate == latestIssue){
+            ui->issueDescription->setText("(Current Issue)");
+        }
+    }
+
     setupSectionComboBox(article->getSection());
     this->updatePhotographerList(article->getPhotographer());
     this->updateWriterList(article->getSection(),article->getWriter());
@@ -274,6 +277,7 @@ void newArticleWorkspaceWindow::setupFields(Article *article)
             this->ui->chooseFile_pushButton->setEnabled(false);
         }
     }
+    ui->issueDateEdit->blockSignals(false);
 }
 
 void newArticleWorkspaceWindow::setupSectionComboBox(int section)
@@ -561,4 +565,34 @@ void newArticleWorkspaceWindow::on_delete_pushButton_clicked()
 
     bool isVisible = !img_paths.isEmpty();
     ui->delete_pushButton->setVisible(isVisible);
+}
+
+void newArticleWorkspaceWindow::on_issueDateEdit_userDateChanged(const QDate &date)
+{
+    QDate latestIssue = dbController->collectLatestIssueDate();
+    if(date < QDate::currentDate()){
+        Alert *alert = new Alert;
+        alert->showAlert("Invalid Date", "Invalid Issue Date!\nCannot use past date");
+
+        if(!latestIssue.isNull()){
+            ui->issueDateEdit->setDate(latestIssue);
+        }
+    }
+    if(date > latestIssue){
+        ui->issueDescription->setText("(After Current Issue)");
+    }
+    if(date == latestIssue){
+        ui->issueDescription->setText("(Current Issue)");
+    }
+    if(date < latestIssue && date >= QDate::currentDate()){
+        ui->issueDescription->setText("(Before Current Issue)");
+    }
+}
+
+void newArticleWorkspaceWindow::on_setCurrentIssueButton_clicked()
+{
+    QDate latestIssue = dbController->collectLatestIssueDate();
+        if(!latestIssue.isNull()){
+            ui->issueDateEdit->setDate(latestIssue);
+        }
 }
