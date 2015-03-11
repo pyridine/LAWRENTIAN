@@ -26,7 +26,7 @@ DISTFILES += \
     Sections.txt \
     LuDServer.pro.user.47f9476 \
     LuDServer.pro.user.83fecab \
-    docx2xml.bat
+    docxToxml.bat
 
 HEADERS += \
     FileSystem.h \

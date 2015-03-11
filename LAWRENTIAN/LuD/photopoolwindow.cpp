@@ -98,7 +98,7 @@ void PhotoPoolWindow::drawImages(const string &issueDate, const string &section,
     using namespace std;
 
     initializeTransfer();
-    Sender sndr = Sender(0);
+    Sender sndr = Sender();
     StrSeq imgNames = sndr.getImageList(issueDate, section, title);
 
     StrSeq::const_iterator iter = imgNames.begin();

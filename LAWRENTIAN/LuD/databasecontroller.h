@@ -7,7 +7,7 @@ using namespace std;
 namespace df
 {
     const QString dbFormat = "yyyy-MM-dd";
-    const QString srvrFormat = "dd MMM, yyyy";
+    const QString srvrFormat = "dd MMM yyyy";
 }
 
 class DatabaseController{
