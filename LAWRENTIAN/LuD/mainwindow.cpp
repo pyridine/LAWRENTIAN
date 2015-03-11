@@ -12,7 +12,7 @@
 #include "permissiondef.h"
 #include "mainwindowdbc.h"
 #include "photopoolwindow.h"
-#include "thread.h"
+//#include "thread.h"
 #include <qstring.h>
 #include <QTabWidget>
 #include <iostream>

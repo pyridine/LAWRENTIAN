@@ -20,12 +20,14 @@ CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& date,
 {
     using namespace FileSystem;
     using namespace std;
+    cout << "copy hist created";
 
     setWindowFlags(Qt::WindowStaysOnTopHint);
 
     Sender sndr = Sender();
 
     currentRow = -1;
+
     this->date = date;
     this->sec = sec;
     this->art = art;
@@ -34,6 +36,7 @@ CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& date,
     ui->copyHistory_tableWidget->setColumnCount(1);
     ui->copyHistory_tableWidget->setColumnWidth(0,300);
 
+    cout << "2";
     QTableWidgetItem* h1 = new QTableWidgetItem(QString("History"),QTableWidgetItem::Type);
     h1->setTextAlignment(Qt::AlignLeft);
 //    QTableWidgetItem* h2 = new QTableWidgetItem(QString("Version"),QTableWidgetItem::Type);
@@ -45,7 +48,9 @@ CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& date,
 //    ui->copyHistory_tableWidget->setHorizontalHeaderItem(1,h2);
 //    ui->copyHistory_tableWidget->setHorizontalHeaderItem(2,h3);
 
+    cout << "getting hist";
     ver_seq = sndr.getHistory(date, sec,art,fs::COPY);
+    cout << "got hist";
     cout << ver_seq.size() << endl;
     VerSeq::const_iterator iter = ver_seq.begin();
     for(iter; iter != ver_seq.end(); iter++)
@@ -101,7 +106,7 @@ CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& date,
         second = second.size() ? second : "00";
         second = second.size() == 1 ? "0"+second : second;
 
-        string s3 =  author + " - " + month + " " + day + ", " + year + ". ("
+        string s3 =  author + " - " + month + " " + day + " " + year + ". ("
                 + hour + ":" + minute + ")"
                /* + t.dayOfTheWeek*/;
 
@@ -211,11 +216,28 @@ void CopyHistoryWindow::displayPreview(int new_index,int past_index){
             //Compare one text with another.
             string newText = getArticleText(new_index);
             string oldText = getArticleText(past_index);
+            cout << endl;
+            cout << "new: " << newText;
+            cout << "old: " << oldText;
 
-            string diff = JDiff::makeDiff(newText,oldText);
+            //split strings into queues here, and then call makediffhtml.
+            queue<string>* newSQ = splitStringToQueue(newText);
+            queue<string>* oldSQ = splitStringToQueue(oldText);
 
 
-            ui->previewWindow->setHtml(QString::fromStdString(diff));
+
+
+            queue<string>* diffQ = JDiff::makeHTMLDiff_Q(*oldSQ,*newSQ);
+            stringstream diff;
+            while(diffQ->size()){
+                diff<<diffQ->front();
+                diffQ->pop();
+            }
+
+            ui->previewWindow->setHtml(diff.str().c_str());
+
+            cout<<endl;
+            cout <<"PREVHTML:::" << ui->previewWindow->toHtml().toStdString()<<endl;
 
 
         } else{
@@ -225,6 +247,32 @@ void CopyHistoryWindow::displayPreview(int new_index,int past_index){
         }
     }
 }
+
+std::queue<std::string>* CopyHistoryWindow::splitStringToQueue(std::string s){
+    queue<string>* splot = new queue<string>;
+
+    //first, we find the index of the first nontrivial character.
+    int i = 0;
+    while(s[i] == '\n'){
+        ++i;
+    }
+    ++i;
+
+    cout << "Lining: " << s << endl;
+    int j = 0;
+    while(i < s.size()){
+        //i is iterator. j keeps track of where new line begins.
+        if(s[i] == '\n'){
+            cout << "next line is "<<s.substr(j,i)<<endl;
+            splot->push(s.substr(j,i));
+            j = i+1;
+        }
+        ++i;
+    }
+    splot->push(s.substr(j,s.size())); //Push the final string
+    return splot;
+}
+
 std::string CopyHistoryWindow::getArticleText(int articleNum){
     string articleNumString;
 
