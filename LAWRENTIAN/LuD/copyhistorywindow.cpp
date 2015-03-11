@@ -9,6 +9,7 @@
 #include <QFileDialog>
 #include <QDate>
 #include "diff.h"
+#include "DocxmlToString.h"
 
 
 
@@ -24,6 +25,7 @@ CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& date,
 
     Sender sndr = Sender();
 
+    currentRow = -1;
     this->date = date;
     this->sec = sec;
     this->art = art;
@@ -193,20 +195,27 @@ void CopyHistoryWindow::on_copyHistory_tableWidget_cellClicked(int row, int colu
 
     using namespace std;
     cout << "retring file "<<row<<" and "<<(row-1)<<endl;
-    displayPreview(row,row-1);
+    ui->previewWindow->setText("Preview is loading...");
+    if(ui->ifDifCheckBox->isChecked())
+        displayPreview(row,row-1);
+    else
+        displayPreview(row,-1);
 }
 
 void CopyHistoryWindow::displayPreview(int new_index,int past_index){
     using namespace std; //why the hell is this file structured like this
+    currentRow = new_index;
 
     if(new_index >= 0){
         if(past_index >= 0){
             //Compare one text with another.
             string newText = getArticleText(new_index);
             string oldText = getArticleText(past_index);
-            JDiff d;
-            string diff = d.makeDiff(newText,oldText,"|D|","|A|");
-            ui->previewWindow->setText(QString::fromStdString(diff));
+
+            string diff = JDiff::makeDiff(newText,oldText);
+
+
+            ui->previewWindow->setHtml(QString::fromStdString(diff));
 
 
         } else{
@@ -217,37 +226,43 @@ void CopyHistoryWindow::displayPreview(int new_index,int past_index){
     }
 }
 std::string CopyHistoryWindow::getArticleText(int articleNum){
+    string articleNumString;
+
+    std::stringstream out;
+    out << articleNum;
+    articleNumString = out.str();
+
+
     using namespace std;
     Sender sndr = Sender();
     if(articleNum >= 0){
+        string fileName = art;
+        if(articleNum != 0) fileName += articleNumString;
+        string fileNameNoExt = fileName;
+        fileName += ".docx";
+
+
         string filePath = QDir::currentPath().toStdString();
-        cout<<filePath;
+        filePath+="/";filePath+=fileName;
+
+
         sndr.requestCopy(this->date,this->sec,this->art,filePath,articleNum);
-        string artFilePath = filePath+=(this->sec);
-        if(articleNum > 0) artFilePath+=articleNum;
-        artFilePath+=".docx";
-
-//        QuaZip zip("zipFile.zip");
-//        zip.open(QuaZip::mdUnzip);
-//        QuaZipFile file(&zip);
-
-////        filePath = QDir::currentPath().toStdString();
-////        filePath += "/"+articleNum;
-
-////        QFile infile(QString::fromStdString(artFilePath));
-////        QFile outfile(QString::fromStdString(filePath));
-////        infile.open(QIODevice::ReadOnly);
-////        outfile.open(QIODevice::WriteOnly);
-////        QByteArray uncompressedData = infile.readAll();
-////        QByteArray compressedData = qUncompress(uncompressedData);
-////        outfile.write(compressedData);
-////        infile.close();
-//        outfile.close();
 
 
+        string xmlLoc = DocxmlToString::unzipDocx(QDir::currentPath().toStdString(),fileNameNoExt);
+        string doc = DocxmlToString::parse(xmlLoc);
+
+        return doc;
     } else{
-        return "Error.";
+        return "Error: article num less than 0.";
     }
     return "oh";
 
+}
+
+
+
+void CopyHistoryWindow::on_ifDifCheckBox_clicked()
+{
+    this->on_copyHistory_tableWidget_cellClicked(currentRow,0);
 }

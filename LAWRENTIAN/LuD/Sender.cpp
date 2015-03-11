@@ -120,6 +120,7 @@ Sender::requestXML(const std::string& issueDate, const std::string& sec,
     ofstream dest(down_dir, ios::binary);
 
     dest.write(reinterpret_cast<char*>(&seq[0]),seq.size());
+
     return dest ? true : false;
 }
 

@@ -1,21 +1,18 @@
-#include "docxtostring.h"
-
-
-DocxmlToString::DocxmlToString()
-{
-
-}
-
-DocxmlToString::~DocxmlToString()
-{
-
-}
+#include "DocxmlToString.h"
+#include <string>
+#include <sstream>
+#include <iostream>
+#include <fstream>
+#include <qprocess.h>
+#include <QThread>
+#include <qstringlist.h>
 
 string DocxmlToString::parse(string absoluteDirectory){
     return parseDocXML(fileToText(absoluteDirectory));
 }
 
 string DocxmlToString::fileToText(string dir){
+    cout << "ftt opening " << dir << endl;
     ifstream document;
     document.open(dir);
     if(document.is_open()){
@@ -86,4 +83,50 @@ string DocxmlToString::parseDocXML(string xml){
     return document.str();
 
 
+}
+
+string DocxmlToString::unzipDocx(string dir/*directory of doc*/,string docxname){
+
+       QProcess* proc = new QProcess();
+
+       string directoryOfBatch = "C:/Users/Pyridine/Desktop/Junzar.bat"; //Sanfer, you need to set this! "C:/Users/username/dropbox....whatever" Remember, the batch file goes in the "home" directory, where ServerOutput is.
+
+//       string ARG = "/C start "+directoryOfBatch+" /"+docxname+"/ /"+dir+"/ ";
+
+
+       //Manually append quotation marks because fuck me
+//       int quot = 34;
+//       char q = quot;
+//       cout << "\""<< "\""<< "\""<< "\""<< "\""<< "\""<< "\""<<endl;
+
+       string docxC = "";
+//       docxC+=q;
+       docxC+=docxname;
+//       docxC+=q;
+
+       string dirC = "";
+//       dirC+=q;
+       dirC+=dir;
+//       dirC+=q;
+
+
+       QStringList args;
+       args.append(QString::fromStdString("/C start "+directoryOfBatch+" "+docxC+" "+dirC));
+
+
+       //cout << "calling cmd with " << args.toStdList() << endl;
+
+       proc->start("cmd",args/*QStringList()<<ARG.c_str()*/);
+       if(!proc->waitForStarted()){
+            cout << "fuck";
+       }
+       cout << "process going... ";
+       proc->waitForFinished();
+       QThread::sleep(1); //Necessary until we find a fix :P
+       //proc->close();
+       cout << "Finito :)";
+
+       stringstream directoryOfDoc;
+       directoryOfDoc << dir << "/" << docxname << "/" << "document.xml";
+       return directoryOfDoc.str();
 }

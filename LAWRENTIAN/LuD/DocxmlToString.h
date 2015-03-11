@@ -9,10 +9,8 @@ using namespace std;
 class DocxmlToString
 {
 public:
-    DocxmlToString();
-    ~DocxmlToString();
-
     static string parse(string absoluteDirectory);
+    static string unzipDocx(string dir,string docxname); //Returns the full directory of document.xml
 private:
     static string fileToText(string dir);
     static string parseDocXML(string xml);
