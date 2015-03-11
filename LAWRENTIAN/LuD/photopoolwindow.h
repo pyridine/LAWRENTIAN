@@ -9,17 +9,18 @@
 #include <QGraphicsScene>
 #include <QDir>
 #include <QPointF>
+#include "gitem.h"
 
 namespace Ui {
 class PhotoPoolWindow;
 }
 
-class PhotoPoolWindow : public QDialog
+class PhotoPoolWindow : public GItem
 {
     Q_OBJECT
 
 public:
-    explicit PhotoPoolWindow(QWidget *parent = 0);
+    explicit PhotoPoolWindow(QGraphicsPixmapItem *parent = 0);
     ~PhotoPoolWindow();
     void init(Client *c);
 
@@ -34,13 +35,18 @@ private slots:
 
     void on_article_listWidget_itemDoubleClicked(QListWidgetItem *item);
 
-    void hoverEnterImg();
+    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *e);
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *e);
+
+    void doubleClickImg(QGraphicsSceneMouseEvent* e);
 
 private:
     Ui::PhotoPoolWindow *ui;
     PhotoPoolWindowDBC *dbController;
     QGraphicsScene* scene;
     QDir temp_dir;
+    QGraphicsView *tView;
+    QGraphicsScene *tScene;
 
     void drawArtsOnListView();
     void drawImages(const std::string& issueDate, const std::string& section, const std::string& title);

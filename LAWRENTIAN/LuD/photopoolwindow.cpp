@@ -10,12 +10,14 @@
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsItem>
+#include "gitem.h"
 #include <QtTest/QTest>
+#include <QGraphicsSceneMouseEvent>
 
 int WIDEST_EDGE_RES = 2500;
 
-PhotoPoolWindow::PhotoPoolWindow(QWidget *parent) :
-    QDialog(parent),
+PhotoPoolWindow::PhotoPoolWindow(QGraphicsPixmapItem *parent) :
+    GItem(parent),
     ui(new Ui::PhotoPoolWindow)
 { 
     ui->setupUi(this);
@@ -23,6 +25,9 @@ PhotoPoolWindow::PhotoPoolWindow(QWidget *parent) :
     scene = new QGraphicsScene;
     scene->setParent(this);
     ui->photoPool_graphicsView->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    tView = new QGraphicsView;
+    tScene = new QGraphicsScene;
+
 
 }
 
@@ -93,7 +98,7 @@ void PhotoPoolWindow::drawImages(const string &issueDate, const string &section,
     using namespace std;
 
     initializeTransfer();
-    Sender sndr = Sender();
+    Sender sndr = Sender(0);
     StrSeq imgNames = sndr.getImageList(issueDate, section, title);
 
     StrSeq::const_iterator iter = imgNames.begin();
@@ -128,14 +133,14 @@ QPointF PhotoPoolWindow::addImage(const string& imgPath, const QPointF pos, int 
 
     QString img_path;
     QPixmap *pixmap = new QPixmap(img_path);
-    QGraphicsPixmapItem* pItem = new QGraphicsPixmapItem;
+    GItem* pItem = new GItem;
 
     img_path = QString::fromStdString(imgPath);
 
     int count = 0;
     while(pixmap->isNull() && count < 10)
     {
-        //QTest::qSleep(300); //This line gave me linker errors....
+
         pixmap->load(img_path);
         count++;
     } // wait .3 secs for file download to complete.
@@ -146,25 +151,21 @@ QPointF PhotoPoolWindow::addImage(const string& imgPath, const QPointF pos, int 
     if(!pixmap->isNull())
     {
         cout << "Not null" << endl;
-//        if (pixmap->width() > WIDEST_EDGE_RES)
-//            pixmap->scaledToWidth(WIDEST_EDGE_RES);
-
-//        if (pixmap->height() > WIDEST_EDGE_RES)
-//            pixmap->scaledToHeight(WIDEST_EDGE_RES);
 
         pItem->setPixmap( pixmap->scaled(xWidth,yHeight));
-        pItem->update(0, 0, xWidth, yHeight);
-        cout << "ix " << pItem->topLevelItem()->boundingRect().width() << " iy " << pItem->topLevelItem()->boundingRect().height() << endl;
+        pItem->QGraphicsItem::update(0, 0, xWidth, yHeight);
 
         pItem->setData(0,QVariant(img_path));
         pItem->setPos(pos);
-        // cout << "width " << pItem->boundingRect().width() << "height " << pItem->boundingRect().height() << endl;
-        pItem->topLevelWidget();
-        QObject *obj = (QObject*)pItem->toGraphicsObject();
 
-        connect(obj, SIGNAL(hoverEnterEvent(QGraphicsSceneHoverEvent)), this, SLOT(hoverEnterImg()));
+        pItem->setFlags(QGraphicsPixmapItem::ItemIsSelectable);
+        pItem->QGraphicsItem::setCursor(Qt::PointingHandCursor);
 
-        scene->addItem(pItem->topLevelItem());
+        connect(pItem, SIGNAL(hoverEnterEvent(QGraphicsSceneHoverEvent*)), this, SLOT(hoverEnterEvent(QGraphicsSceneHoverEvent*)));
+        connect(pItem, SIGNAL(hoverLeaveEvent(QGraphicsSceneHoverEvent*)), this, SLOT(hoverLeaveEvent(QGraphicsSceneHoverEvent*)));
+        connect(pItem, SIGNAL(mouseDoubleClickEvent(QGraphicsSceneMouseEvent*)), this, SLOT(doubleClickImg(QGraphicsSceneMouseEvent*)));
+
+        scene->addItem(pItem);
 
         int gv_width = ui->photoPool_graphicsView->width();
 
@@ -228,12 +229,57 @@ void PhotoPoolWindow::on_article_listWidget_itemDoubleClicked(QListWidgetItem *i
 
 }
 
-void PhotoPoolWindow::hoverEnterImg()
+
+void PhotoPoolWindow::hoverEnterEvent(QGraphicsSceneHoverEvent *e)
 {
-    cout << "hover" << endl;
+    int w = 160 * 2/3;
+    int h = 120 * 2/3;
+
+    //using namespace std;
+    QString path = ui->photoPool_graphicsView->itemAt(e->scenePos().toPoint())->data(0).toString();
+    if(path.isEmpty())
+        cout << "empty" << endl;
+    if(path.isEmpty())
+        path = ui->photoPool_graphicsView->itemAt(e->scenePos().toPoint() + QPoint(10,10))->data(0).toString();
+    if(path.isEmpty())
+        path = ui->photoPool_graphicsView->itemAt(e->scenePos().toPoint() + QPoint(-10,10))->data(0).toString();
+    if(path.isEmpty())
+        path = ui->photoPool_graphicsView->itemAt(e->scenePos().toPoint() + QPoint(10,-10))->data(0).toString();
+    if(path.isEmpty())
+        path = ui->photoPool_graphicsView->itemAt(e->scenePos().toPoint() + QPoint(-10,-10))->data(0).toString();
+
+
+    cout << path.toStdString() << endl;
+    QPixmap pixmap(path);
+
+    pixmap = pixmap.scaledToWidth(w);
+    if(pixmap.height() > h)
+        pixmap = pixmap.scaledToHeight(h);
+
+    tScene->clear();
+    tScene->addPixmap(pixmap);
+
+    tView->setScene(tScene);
+    tView->adjustSize();
+    tView->move(QCursor::pos() - QPoint(0,pixmap.height()));
+    tView->show();
 }
 
-void QGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+void PhotoPoolWindow::hoverLeaveEvent(QGraphicsSceneHoverEvent *e)
 {
-    cout << " hover" << endl;
+    using namespace std;
+    tScene->clear();
+    tView->close();
+    cout << "left" << endl;
 }
+
+void PhotoPoolWindow::doubleClickImg(QGraphicsSceneMouseEvent *e)
+{
+    using namespace std;
+    cout << ui->photoPool_graphicsView->itemAt(e->scenePos().toPoint())->data(0).toString().toStdString() << endl;
+}
+
+//void QGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+//{
+//    cout << " hover" << endl;
+//}
