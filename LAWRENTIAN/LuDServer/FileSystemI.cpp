@@ -18,7 +18,7 @@ FileSystemI::FileSystemI()
 
     main_dir = "C:/Users/Briggs 419 Server/Dropbox/Issue";
     arc_dir = "C:/Users/Briggs 419 Server/Dropbox/Archive";
-    batch_dir = QDir::currentPath().toStdString();
+    batch_dir = "C:/Programs/LAWRENTIAN/LAWRENTIAN/LuDServer/docx2xml.bat";
 }
 
 FileSystemI::FileSystemI(const std::string& main_dir, const std::string& arc_dir)
@@ -27,7 +27,7 @@ FileSystemI::FileSystemI(const std::string& main_dir, const std::string& arc_dir
 
     this->main_dir = main_dir;
     this->arc_dir = arc_dir;
-    batch_dir = QDir::currentPath().toStdString();
+    batch_dir = "C:/Programs/LAWRENTIAN/LAWRENTIAN/LuDServer/docx2xml.bat";
 }
 
 
@@ -416,8 +416,9 @@ FileSystemI::sendFile(const std::string& issue_date, const std::string& sec,
     if(status)
     {
         consolePrint("sendFile: " + dir + " successfully saved!");
-        if(!percolateXML(perc))
-            consolePrint("sendFile: " + perc + " could not be XML percolated.");
+        if(!type.compare(fs::COPY))
+            if(!percolateXML(perc))
+                consolePrint("sendFile: " + perc + " could not be XML percolated.");
     }
     else
         consolePrint("sendFile: " + dir + " addition unsuccessful.");
