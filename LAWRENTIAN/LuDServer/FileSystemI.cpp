@@ -811,7 +811,7 @@ FileSystemI::docToXml(const std::string& dir, const int ver)
     cout << bib << endl;
     QProcess* proc = new QProcess();
 
-    proc->startDetached("cmd",QStringList()<<bib.c_str());
+    proc->start("cmd",QStringList()<<bib.c_str());
     if(!proc->waitForStarted(10000)) cout << "Didn't start" << endl;
     if(!proc->waitForFinished(10000)) cout << "Didn't stop" << endl;
 

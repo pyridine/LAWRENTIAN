@@ -37,4 +37,4 @@ CD "%docxdir%"
 ::now just call 7z.
 set docxstention="%docxname%.docx"
 7z e %docxstention% -o"%docxname%"
-pause
+exit
