@@ -15,6 +15,8 @@ public:
     vector<int> collectEditorForTimesheet(QDate currentDate);
     vector<vector<string>>* getTimesheet(QDate issueDate);
     QDate collectLatestIssueDate();
+    vector<QDate> getTimesheetDateList();
+    int getLuidForName(string name);
 };
 
 #endif // EDITORTIMESHEETDBC_H

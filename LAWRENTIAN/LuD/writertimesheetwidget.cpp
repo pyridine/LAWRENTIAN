@@ -18,19 +18,12 @@ writerTimesheetWidget::writerTimesheetWidget(QWidget *parent) :
     ui->setupUi(this);
 }
 
-void writerTimesheetWidget::updateLatestTimesheetDate()
-{
-    QDate latestDate = writerTimesheetDBC->collectLatestTimesheetDate();
-    if(!latestDate.isNull()){
-        latestTimesheetDate = latestDate;
-    }
-
-}
-
 void writerTimesheetWidget::init(MainWindow* parent, LoginCredentials* l, Client *c){
     loginCred = l;
     this->client = c;
     parentWindow = parent;
+    ui->frozenModeLabel->hide();
+    ui->saveButton->hide();
 
     ui->selectIssueDateComboBox->blockSignals(true);
     populateIssueComboBox();
@@ -38,29 +31,42 @@ void writerTimesheetWidget::init(MainWindow* parent, LoginCredentials* l, Client
 
     QDate latestIssue = writerTimesheetDBC->collectLatestIssueDate();
     if(!latestIssue.isNull()){
-    ui->generateTimesheetDate->setDate(latestIssue);
+        ui->generateTimesheetDate->setDate(latestIssue);
     } else {
-    ui->generateTimesheetDate->setDate(QDate::currentDate());
+        ui->generateTimesheetDate->setDate(QDate::currentDate());
     }
-    updateLatestTimesheetDate();
-    QTimer *timer1 = new QTimer(this);
-    connect(timer1, SIGNAL(timeout()), this, SLOT(updateLatestTimesheetDate()));
-    timer1->start(1000);
 
-
-    QString latestDateString = latestTimesheetDate.toString("d MMM yyyy");
-    if(!latestTimesheetDate.isNull()){
+    QDate latestDate = writerTimesheetDBC->collectLatestTimesheetDate();
+    QString latestDateString = latestDate.toString("d MMM yyyy");
+    if(!latestDate.isNull()){
         ui->selectIssueDateComboBox->setCurrentText(latestDateString);
-        initTable(latestTimesheetDate);
-        updateWriterTimesheet();
+        updateWriterTimesheet(latestDate);
+        if(writerTimesheetDBC->getFrozen(latestDate)){
+            initTable(latestDate, true);
+            ui->freezeInformationButton->hide();
+            ui->frozenModeLabel->show();
+            ui->saveButton->show();
+        } else {
+            initTable(latestDate, false);
+        }
     }
 
     QString latestTimesheetDateString = ui->selectIssueDateComboBox->itemText(0);
     QDate latestTimesheetQDate = QDate::fromString(latestTimesheetDateString, "d MMM yyyy");
-    QTimer *timer2 = new QTimer(this);
-    connect(timer2, SIGNAL(timeout()), this, SLOT(updateWriterTimesheet()));
-    timer2->start(10000);
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateTimesheetAndView()));
+    timer->start(10000);
 
+}
+
+void writerTimesheetWidget::updateTimesheetAndView()
+{
+    QString dateString = ui->selectIssueDateComboBox->currentText();
+    QDate date = QDate::fromString(dateString, "d MMM yyyy");
+    if(!writerTimesheetDBC->getFrozen(date)){
+        cout<<"Updating writer timesheet"<<endl;
+    updateWriterTimesheet(date);
+    }
 }
 
 void writerTimesheetWidget::initDB(Client *c){
@@ -80,43 +86,54 @@ void writerTimesheetWidget::populateIssueComboBox()
     ui->selectIssueDateComboBox->addItems(timesheetDateQList);
 }
 
-void writerTimesheetWidget::initTable(QDate selectedDate)
+void writerTimesheetWidget::initTable(QDate selectedDate, bool editable)
 {
     int NUMBEROFCOLUMNS = 4;
     int NUMBEROFROWS = writerTimesheetDBC->collectWriterForTimesheet(selectedDate).size();
     int alreadyExists = writerTimesheetDBC->writerTimesheetExists(selectedDate);
 
     if(alreadyExists>0){
-    vector<vector<string>>* result_matrix = writerTimesheetDBC->getTimesheet(selectedDate);
-    ui->writerTimesheetTable->setRowCount(NUMBEROFROWS);
-    ui->writerTimesheetTable->setColumnCount(NUMBEROFCOLUMNS); //notice! hardcoded!
+        vector<vector<string>>* result_matrix = writerTimesheetDBC->getTimesheet(selectedDate);
+        ui->writerTimesheetTable->setRowCount(NUMBEROFROWS);
+        ui->writerTimesheetTable->setColumnCount(NUMBEROFCOLUMNS); //notice! hardcoded!
 
-    ui->writerTimesheetTable->setHorizontalHeaderItem(0, new QTableWidgetItem("Name"));
-    ui->writerTimesheetTable->setColumnWidth(0, 200);
-    ui->writerTimesheetTable->setHorizontalHeaderItem(1, new QTableWidgetItem("Articles on time"));
-    ui->writerTimesheetTable->setHorizontalHeaderItem(2, new QTableWidgetItem("Articles late"));
-    ui->writerTimesheetTable->setHorizontalHeaderItem(3, new QTableWidgetItem("Issue date"));
+        ui->writerTimesheetTable->setHorizontalHeaderItem(0, new QTableWidgetItem("Name"));
+        ui->writerTimesheetTable->setColumnWidth(0, 200);
+        ui->writerTimesheetTable->setHorizontalHeaderItem(1, new QTableWidgetItem("Articles on time"));
+        ui->writerTimesheetTable->setHorizontalHeaderItem(2, new QTableWidgetItem("Articles late"));
+        ui->writerTimesheetTable->setHorizontalHeaderItem(3, new QTableWidgetItem("Issue date"));
 
-    vector<vector<string>>::iterator writerIt = result_matrix->begin();
-    for(int i = 0; i < NUMBEROFROWS; ++i){
-        vector<string> nextWriter = *writerIt;
-        vector<string>::iterator empDataIt = nextWriter.begin();
-        for(int z = 0; z < NUMBEROFCOLUMNS; z++){
-            string nextItem = *empDataIt;
-            ui->writerTimesheetTable->setItem(i,z,new QTableWidgetItem((nextItem.c_str())));
-            ++empDataIt;
+        vector<vector<string>>::iterator writerIt = result_matrix->begin();
+        for(int i = 0; i < NUMBEROFROWS; ++i){
+            vector<string> nextWriter = *writerIt;
+            vector<string>::iterator empDataIt = nextWriter.begin();
+            for(int z = 0; z < NUMBEROFCOLUMNS; z++){
+                string nextItem = *empDataIt;
+                if(editable){
+                    ui->writerTimesheetTable->setItem(i,z,new QTableWidgetItem((nextItem.c_str())));
+                    if(z==0 || z==3){
+                        QTableWidgetItem *item = new QTableWidgetItem(nextItem.c_str());
+                        item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+                        ui->writerTimesheetTable->setItem(i,z,item);
+                    }
+                } else {
+                    QTableWidgetItem *item = new QTableWidgetItem(nextItem.c_str());
+                    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+                    ui->writerTimesheetTable->setItem(i,z,item);
+                }
+                ++empDataIt;
+            }
+            ++writerIt;
         }
-        ++writerIt;
-    }
     } else {
-    ui->writerTimesheetTable->clear();
-    ui->writerTimesheetTable->setRowCount(0);
-    ui->writerTimesheetTable->setColumnCount(4); //notice! hardcoded!
+        ui->writerTimesheetTable->clear();
+        ui->writerTimesheetTable->setRowCount(0);
+        ui->writerTimesheetTable->setColumnCount(4); //notice! hardcoded!
 
-    ui->writerTimesheetTable->setHorizontalHeaderItem(0, new QTableWidgetItem("Name"));
-    ui->writerTimesheetTable->setHorizontalHeaderItem(1, new QTableWidgetItem("Articles on time"));
-    ui->writerTimesheetTable->setHorizontalHeaderItem(2, new QTableWidgetItem("Articles late"));
-    ui->writerTimesheetTable->setHorizontalHeaderItem(3, new QTableWidgetItem("Issue date"));
+        ui->writerTimesheetTable->setHorizontalHeaderItem(0, new QTableWidgetItem("Name"));
+        ui->writerTimesheetTable->setHorizontalHeaderItem(1, new QTableWidgetItem("Articles on time"));
+        ui->writerTimesheetTable->setHorizontalHeaderItem(2, new QTableWidgetItem("Articles late"));
+        ui->writerTimesheetTable->setHorizontalHeaderItem(3, new QTableWidgetItem("Issue date"));
     }
 }
 
@@ -167,26 +184,45 @@ void writerTimesheetWidget::generateTimesheet(QDate issueDate)
         pair<int, int> submissionDate = calculateArticlesOnTimeAndLate(issueDate, writerIds[i]);
         writerTimesheetDBC->generateWriterTimesheet(writerIds[i], submissionDate.first, submissionDate.second, issueDate);
     }
+    populateIssueComboBox();
     Alert *alert = new Alert;
     alert->showInformationAlert("Generated!", "Writer Timesheet successfully generated");
-    populateIssueComboBox();
+
     QString issueDateString = issueDate.toString("d MM yyyy");
     ui->selectIssueDateComboBox->setCurrentText(issueDateString);
+    timer->blockSignals(false);
 }
 
-void writerTimesheetWidget::updateWriterTimesheet()
+void writerTimesheetWidget::updateWriterTimesheet(QDate selectedDate)
 {
-    vector<int> writerIds = writerTimesheetDBC->collectWriterForTimesheet(latestTimesheetDate);
-    int alreadyExists = writerTimesheetDBC->writerTimesheetExists(latestTimesheetDate);
-    if(alreadyExists>0){
-        if(writerIds.size()>0 && alreadyExists>0){
-            writerTimesheetDBC->deleteWriterTimesheetRecords(latestTimesheetDate);
-            for(int i = 0; i<writerIds.size(); i++){
-                pair<int, int> articleSubmission = calculateArticlesOnTimeAndLate(latestTimesheetDate, writerIds[i]);
-                writerTimesheetDBC->generateWriterTimesheet(writerIds[i], articleSubmission.first, articleSubmission.second, latestTimesheetDate);
+    if(!writerTimesheetDBC->getFrozen(selectedDate)){
+        vector<int> writerIds = writerTimesheetDBC->collectWriterForTimesheet(selectedDate);
+        int alreadyExists = writerTimesheetDBC->writerTimesheetExists(selectedDate);
+        if(alreadyExists>0){
+            if(writerIds.size()>0 && alreadyExists>0){
+                writerTimesheetDBC->deleteWriterTimesheetRecords(selectedDate);
+                for(int i = 0; i<writerIds.size(); i++){
+                    pair<int, int> articleSubmission = calculateArticlesOnTimeAndLate(selectedDate, writerIds[i]);
+                    writerTimesheetDBC->generateWriterTimesheet(writerIds[i], articleSubmission.first, articleSubmission.second, selectedDate);
+                }
+            }
+            if(writerTimesheetDBC->getFrozen(selectedDate)){
+                initTable(selectedDate, true);
+            } else {
+                initTable(selectedDate, false);
             }
         }
-        initTable(latestTimesheetDate);
+
+//        vector<int> writerIds = writerTimesheetDBC->collectWriterForTimesheet(selectedDate);
+//                for(int i = 0; i<writerIds.size(); i++){
+//                    pair<int, int> articleSubmission = calculateArticlesOnTimeAndLate(selectedDate, writerIds[i]);
+//                    writerTimesheetDBC->updateWriterTimesheet(writerIds[i], articleSubmission.first, articleSubmission.second, selectedDate);
+//                }
+//            if(writerTimesheetDBC->getFrozen(selectedDate)){
+//                initTable(selectedDate, true);
+//            } else {
+//                initTable(selectedDate, false);
+//            }
     }
 }
 
@@ -197,6 +233,7 @@ writerTimesheetWidget::~writerTimesheetWidget()
 
 void writerTimesheetWidget::on_generateTimesheetButton_clicked()
 {
+    timer->blockSignals(true);
     QDate selectedDate = ui->generateTimesheetDate->date();
     generateTimesheet(selectedDate);
 }
@@ -204,6 +241,93 @@ void writerTimesheetWidget::on_generateTimesheetButton_clicked()
 void writerTimesheetWidget::on_selectIssueDateComboBox_currentIndexChanged(const QString &arg1)
 {
     QDate date = QDate::fromString(arg1, "d MMM yyyy");
-    updateWriterTimesheet();
-    initTable(date);
+    updateWriterTimesheet(date);
+    if(writerTimesheetDBC->getFrozen(date)){
+        initTable(date, true);
+        ui->frozenModeLabel->show();
+    } else {
+        initTable(date, false);
+        ui->frozenModeLabel->hide();
+    }
+}
+
+void writerTimesheetWidget::on_freezeInformationButton_clicked()
+{
+    QMessageBox alertBox;
+    alertBox.setFixedSize(1000,700);
+    QString information = "Freeze Information:\n\n"
+                          "\"Freezing information\" consists of stopping the automatic writer timesheet updates and submission "
+                          "calculations so that you can make manual changes.\n"
+                          "This is only recommended if you "
+                          "do not need the system to calculate any more submissions for this issue date.\n\n"
+                          "Are you sure you want to proceed? This cannot be undone.";
+    int ret = alertBox.information(0, "Freeze Information", information, QMessageBox::Cancel | QMessageBox::Apply, QMessageBox::Cancel);
+    switch(ret){
+    case QMessageBox::Apply: {
+        timer->blockSignals(true);
+        QString selectedDateString = ui->selectIssueDateComboBox->currentText();
+        QDate selectedDate = QDate::fromString(selectedDateString, "d MMM yyyy");
+        updateWriterTimesheet(selectedDate); // Update last time before freeze
+        writerTimesheetDBC->setFrozen(selectedDate);
+        ui->frozenModeLabel->show();
+        ui->freezeInformationButton->hide();
+        ui->saveButton->show();
+        Alert *alert = new Alert;
+        alert->showInformationAlert("Success!", "Freeze mode successfully toggled. You can now make manual changes.");
+            initTable(selectedDate, true);
+        break;
+    }
+    case QMessageBox::Cancel: {
+        break;
+    }
+    }
+
+}
+
+void writerTimesheetWidget::on_saveButton_clicked()
+{
+    QString selectedDate = ui->selectIssueDateComboBox->currentText();
+    QDate date = QDate::fromString(selectedDate, "d MMM yyyy");
+
+    Alert *confirm = new Alert;
+    int ret = confirm->showQuestionAlert("Save", "Are you sure you want to save changes?");
+    switch(ret){
+    case QMessageBox::Save: {
+        // Must iterate through all rows
+        int NUMBEROFCOLUMNS = 4;
+        int NUMBEROFROWS = ui->writerTimesheetTable->rowCount();
+
+        for(int row = 0; row < NUMBEROFROWS; row++){
+            QString writerName = ui->writerTimesheetTable->item(row,0)->text();
+            int articlesOnTime = ui->writerTimesheetTable->item(row, 1)->text().toInt();
+            int articlesLate = ui->writerTimesheetTable->item(row, 2)->text().toInt();
+            QString issueDate = ui->writerTimesheetTable->item(row,3)->text();
+            QDate issueDateQDate = QDate::fromString(issueDate, "yyyy-MM-dd");
+            int luid = writerTimesheetDBC->getLuidForName(writerName.toStdString());
+            writerTimesheetDBC->setArticleSubmissionsForLuid(luid, articlesOnTime, articlesLate);
+        }
+        initTable(date, true);
+        Alert *alert = new Alert;
+        alert->showInformationAlert("Update Successful", "Changes successfully saved");
+        break;
+    }
+    case QMessageBox::Cancel: {
+        initTable(date, true);
+        Alert *editModeOff = new Alert;
+        editModeOff->showInformationAlert("Update Canceled", "Changes reverted and edit mode turned off");
+        break;
+    }
+    }
+
+}
+
+void writerTimesheetWidget::on_deleteTimesheetButton_clicked()
+{
+    QString selectedDateString = ui->selectIssueDateComboBox->currentText();
+    QDate selectedDate = QDate::fromString(selectedDateString, "d MMM yyyy");
+    writerTimesheetDBC->deleteWriterTimesheetRecords(selectedDate);
+    populateIssueComboBox();
+    QString latestTimesheetDateString = ui->selectIssueDateComboBox->itemText(0);
+    QDate latestTimesheetQDate = QDate::fromString(latestTimesheetDateString, "d MMM yyyy");
+    initTable(latestTimesheetQDate, false);
 }

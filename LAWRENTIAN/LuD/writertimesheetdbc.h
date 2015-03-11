@@ -23,6 +23,11 @@ public:
     QDate collectLatestTimesheetDate();
     QDate collectLatestIssueDate();
     vector<QDate> getTimesheetDateList();
+    bool getFrozen(QDate date);
+    void setFrozen(QDate date);
+    int getLuidForName(string name);
+    void setArticleSubmissionsForLuid(int luid, int articlesOnTime, int articlesLate);
+    void updateWriterTimesheet(int writerId, int articlesOnTime, int articlesLate, QDate issueDate);
 };
 
 #endif // WRITERTIMESHEETDBC_H

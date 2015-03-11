@@ -36,6 +36,12 @@ private slots:
     void on_setDateButton_clicked();
     void updateNotifications();
 
+    void on_submitChangesButton_clicked();
+
+    void on_setCurrentIssueButton_clicked();
+
+    void on_selectTimesheetDate_userDateChanged(const QDate &date);
+
 private:
     Ui::profileWidget *ui;
     MainWindow* parentWindow;

@@ -310,24 +310,6 @@ void articleWorkspace::submitToArchive()
     //sndr.archiveIssue(issueDate)
 }
 
-void articleWorkspace::on_submitToArchiveButton_clicked()
-{
-    Alert *alert = new Alert;
-    int ret = alert->showWarningAlert("Submit to archive", "Are you sure you want to continue? \n\n"
-                                                           "All article workspaces will be removed and you will no "
-                                                           "longer be able to make changes to them. \n\n"
-                                                           "This action cannot be undone.");
-    switch(ret){
-    case QMessageBox::Apply:
-    {
-        submitToArchive();
-        break;
-    }
-    case QMessageBox::Cancel:
-        break;
-    }
-}
-
 void articleWorkspace::on_issueDateComboBox_currentIndexChanged(const QString &arg1)
 {
     newsWidget->initTextBrowser();

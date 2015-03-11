@@ -65,8 +65,6 @@ private slots:
 
     void openArticleWorkspace(Article* a);
 
-    void on_submitToArchiveButton_clicked();
-
     void on_issueDateComboBox_currentIndexChanged(const QString &arg1);
 
     void on_currentIssueButton_clicked();

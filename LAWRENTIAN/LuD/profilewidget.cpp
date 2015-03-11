@@ -46,6 +46,7 @@ void profileWidget::initDB(Client *c){
         ui->currentIssueDate->setDate(latestDate);
         QString latestDateString = latestDate.toString("d MMMM yyyy");
         ui->dateLabel->setText(latestDateString);
+        ui->selectTimesheetDate->setDate(latestDate);
     } else {
         ui->currentIssueDate->setDate(QDate::currentDate());
         QPalette palette = ui->currentIssueDate->palette();
@@ -54,6 +55,7 @@ void profileWidget::initDB(Client *c){
         ui->currentIssueDate->setPalette(palette);
         ui->setDateButton->setDefault(true);
         ui->dateLabel->setText("NO DATE SPECIFIED");
+        ui->selectTimesheetDate->setDate(QDate::currentDate());
     }
 }
 
@@ -177,11 +179,59 @@ void profileWidget::on_setDateButton_clicked()
     case QMessageBox::Save: {
         QDate currentIssue = ui->currentIssueDate->date();
         profileWidgetDBC->setCurrentIssueDate(currentIssue);
-            QString currentIssueString = currentIssue.toString("d MMMM yyyy");
-            ui->dateLabel->setText(currentIssueString);
+        QString currentIssueString = currentIssue.toString("d MMMM yyyy");
+        ui->dateLabel->setText(currentIssueString);
         break;
     }
     case QMessageBox::Cancel:
         return;
+    }
+}
+
+void profileWidget::on_submitChangesButton_clicked()
+{
+    Alert *alert = new Alert;
+    int ret = alert->showQuestionAlert("Submit Changes", "Are you sure you want to submit changes?");
+    switch(ret){
+    case QMessageBox::Save:
+    {
+        int LUID = loginCred->getLUID();
+        QDate chosenDate = ui->selectTimesheetDate->date();
+        int hoursWorked = ui->hoursWorkedTextEdit->text().toInt();
+        profileWidgetDBC->setHoursWorked(LUID, chosenDate, hoursWorked);
+
+        Alert *confirm = new Alert;
+        confirm->showInformationAlert("Updated Successfully", "Hours updated successfully!");
+        break;
+    }
+    case QMessageBox::Cancel:
+        break;
+    }
+}
+
+void profileWidget::on_setCurrentIssueButton_clicked()
+{
+    QDate latestIssue = profileWidgetDBC->collectLatestIssueDate();
+    if(!latestIssue.isNull()){
+        ui->selectTimesheetDate->setDate(latestIssue);
+    } else {
+        Alert *alert = new Alert;
+        alert->showInformationAlert("No Set Issue Date", "No current issue date set.\nSetting to current date");
+        ui->selectTimesheetDate->setDate(QDate::currentDate());
+    }
+}
+
+void profileWidget::on_selectTimesheetDate_userDateChanged(const QDate &date)
+{
+    int LUID = loginCred->getLUID();
+    QDate chosenDate = ui->selectTimesheetDate->date();
+    int hours = profileWidgetDBC->getHoursWorked(LUID, chosenDate);
+    if(hours == NULL){
+        hours = 0;
+        QString hoursString = QString::number(hours);
+        ui->hoursWorkedTextEdit->setText(hoursString);
+    } else{
+        QString hoursString = QString::number(hours);
+        ui->hoursWorkedTextEdit->setText(hoursString);
     }
 }

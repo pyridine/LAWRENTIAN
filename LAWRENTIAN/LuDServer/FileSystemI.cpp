@@ -18,7 +18,7 @@ FileSystemI::FileSystemI()
 
     main_dir = "C:/Users/Briggs 419 Server/Dropbox/Issue";
     arc_dir = "C:/Users/Briggs 419 Server/Dropbox/Archive";
-    batch_dir = QDir::currentPath().toStdString();
+    batch_dir = "C:/Programs/LAWRENTIAN/LAWRENTIAN/LuDServer/docxToxml.bat";
 }
 
 FileSystemI::FileSystemI(const std::string& main_dir, const std::string& arc_dir)
@@ -27,7 +27,7 @@ FileSystemI::FileSystemI(const std::string& main_dir, const std::string& arc_dir
 
     this->main_dir = main_dir;
     this->arc_dir = arc_dir;
-    batch_dir = QDir::currentPath().toStdString();
+    batch_dir = "C:/Programs/LAWRENTIAN/LAWRENTIAN/LuDServer/docxToxml.bat";
 }
 
 
@@ -412,12 +412,13 @@ FileSystemI::sendFile(const std::string& issue_date, const std::string& sec,
     dest.write(reinterpret_cast<const char*>(&seq[0]),seq.size());
 
     bool status = dest ? true : false;
-
+    dest.close();
     if(status)
     {
         consolePrint("sendFile: " + dir + " successfully saved!");
-        if(!percolateXML(perc))
-            consolePrint("sendFile: " + perc + " could not be XML percolated.");
+        if(!type.compare(fs::COPY))
+            if(!percolateXML(perc))
+                consolePrint("sendFile: " + perc + " could not be XML percolated.");
     }
     else
         consolePrint("sendFile: " + dir + " addition unsuccessful.");
@@ -804,11 +805,13 @@ FileSystemI::docToXml(const std::string& dir, const int ver)
     string fName = ver ? folderFromDir(dir) + std::to_string((long long)ver)
                        : folderFromDir(dir);
 
-    string bib = "/C start "+ batch_dir +" "+ fName +" "+ dir;
+    cout << "THE DIR IS: " << dir << endl;
 
+    string bib = "/C start "+ batch_dir +" "+ fName +" end "+ dir + " end " ;
+    cout << bib << endl;
     QProcess* proc = new QProcess();
 
-    proc->start("cmd",QStringList()<<bib.c_str());
+    proc->startDetached("cmd",QStringList()<<bib.c_str());
     if(!proc->waitForStarted(10000)) cout << "Didn't start" << endl;
     if(!proc->waitForFinished(10000)) cout << "Didn't stop" << endl;
 

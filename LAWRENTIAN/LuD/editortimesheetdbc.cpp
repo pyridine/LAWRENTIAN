@@ -82,6 +82,32 @@ int EditorTimesheetDBC::getHoursWorked(int luid, QDate issueDate)
     return hours;
 }
 
+vector<QDate> EditorTimesheetDBC::getTimesheetDateList()
+{
+    const string GET_ISSUE_DATES = "SELECT DISTINCT editor_timesheet.issueDate "
+                                   "FROM lawrentian.editor_timesheet "
+                                   "ORDER BY issueDate DESC";
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_ISSUE_DATES));
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    vector<QDate> issueDateList;
+
+    if(!err.isValid()){
+        while(result->next()){
+            QString date = result->value(0).toString();
+            QDate qDate = QDate::fromString(date, "yyyy-MM-dd");
+            issueDateList.push_back(qDate);
+        }
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+    return issueDateList;
+}
+
+
 vector<vector<string>>* EditorTimesheetDBC::getTimesheet(QDate issueDate){
     int NUMBEROFCOLUMNS = 3;
 
@@ -138,6 +164,29 @@ vector<int> EditorTimesheetDBC::collectEditorForTimesheet(QDate currentDate)
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;        
     }
     return editorIds;
+}
+
+int EditorTimesheetDBC::getLuidForName(string name)
+{
+    const string GET_LUID = "SELECT luid FROM lawrentian.employee WHERE name =:name";
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_LUID));
+    query->bindValue(":name", QString::fromStdString(name));
+
+    int luid;
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    if(!err.isValid()){
+        while(result->next()){
+            string luidString = result->value(0).toString().toStdString();
+            luid = stoi(luidString);
+        }
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+    return luid;
 }
 
 
