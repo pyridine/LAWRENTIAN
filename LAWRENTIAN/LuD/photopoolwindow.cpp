@@ -140,10 +140,10 @@ QPointF PhotoPoolWindow::addImage(const string& imgPath, const QPointF pos, int 
     int count = 0;
     while(pixmap->isNull() && count < 10)
     {
-
         pixmap->load(img_path);
         count++;
-    } // wait .3 secs for file download to complete.
+
+    } 
 
     if(count >= 10)
         cout << "Loop limit exeeded." << endl;

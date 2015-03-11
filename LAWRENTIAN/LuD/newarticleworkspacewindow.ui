@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>659</width>
-    <height>600</height>
+    <height>631</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -61,6 +61,9 @@
      <height>21</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <property name="placeholderText">
     <string>Add Article Title...</string>
    </property>
@@ -86,6 +89,9 @@
      <width>501</width>
      <height>151</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <property name="placeholderText">
     <string>Add Article Description...</string>
@@ -172,6 +178,9 @@
      <height>21</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <property name="placeholderText">
     <string>Choose File to Submit...</string>
    </property>
@@ -180,7 +189,7 @@
    <property name="geometry">
     <rect>
      <x>520</x>
-     <y>550</y>
+     <y>580</y>
      <width>121</width>
      <height>32</height>
     </rect>
@@ -273,6 +282,9 @@
      <height>101</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(243, 243, 243);</string>
+   </property>
    <property name="widgetResizable">
     <bool>true</bool>
    </property>
@@ -304,7 +316,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>550</y>
+     <y>580</y>
      <width>141</width>
      <height>32</height>
     </rect>
@@ -324,6 +336,38 @@
    </property>
    <property name="text">
     <string>View Copy History...</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="issueDescription">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>530</y>
+     <width>241</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="setCurrentIssueButton">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>500</y>
+     <width>131</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Set Current Issue</string>
    </property>
   </widget>
  </widget>

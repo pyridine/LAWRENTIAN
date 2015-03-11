@@ -10,11 +10,20 @@ JDiff::~JDiff()
 
 }
 
-string JDiff::makeDiff(string a, string b,string DEL,string ADD){
+string JDiff::makeDiff(string a, string b){
     int mode_equal = 0;
     int mode_insert = 1;
     int mode_delete = 2;
     int mode = mode_equal;
+
+
+     string DEL = "<font color='red'>";
+     string NORMAL = "<font color='black'>";
+     string ADD = "<font color='green'>";
+     string STARTSTRIKE = "<s>";
+     string ENDSTRIKE = "</s>";
+     string END = "</font>";
+
 
     string diffResult = "";
 
@@ -26,36 +35,57 @@ string JDiff::makeDiff(string a, string b,string DEL,string ADD){
         diff_match_patch<string>::Diff diff = *diffIt;
         switch(diff.operation){
         case(diff_match_patch<string>::D_Operation::D_DELETE):
-            if(mode == mode_insert) diffResult += ADD;
+            diffResult += END;
+            diffResult += STARTSTRIKE;
             diffResult+=DEL;
             diffResult+=diff.text;
             mode = mode_delete;
             break;
         case(diff_match_patch<string>::D_Operation::D_INSERT):
-            if(mode == mode_delete) diffResult += DEL;
+            diffResult += ENDSTRIKE;
+            diffResult += END;
             diffResult+=ADD;
             diffResult+=diff.text;
             mode = mode_insert;
             break;
         case(diff_match_patch<string>::D_Operation::D_EQUAL):
-            if(mode == mode_insert) diffResult += ADD;
-            if(mode == mode_delete) diffResult += DEL;
+            diffResult += ENDSTRIKE;
+            diffResult += END;
+            diffResult += NORMAL;
             diffResult+=diff.text;
             mode = mode_equal;
             break;
         }
         ++diffIt;
     }
-    return diffResult;
+    string ender = "</body>";
+    diffResult += ender;
+    return insertBreaks(diffResult);
 }
 
-void JDiff::doExample(){
+string JDiff::insertBreaks(string diffHTML){
+    for(int i = 0; i < diffHTML.size(); i++){
+        if(diffHTML[i] == '\"'){
+            diffHTML.insert(i,"<br/>");
+            i+=4;
+        }
+        ++i;
+    }
+    return diffHTML;
+}
+
+string JDiff::doExample(){
 
     cout<<"Diffing Test:"<<endl;
-    string a = "Once upon a time, there was a brook by a glorious castle.";
+    string a = "Once upon a time, there was a\n brook by a glorious castle.";
     cout << "string 1: "<<a<<endl;
-    string b = "Once upon a midsummer night, there was a stoplight by an office building.";
+    string b = "Once upon a midsummer night,\n there was a stoplight by an office building.";
     cout << "string 2: "<<b<<endl;
-    cout << "Diff: "<<makeDiff(a,b,"|ADD|","|DEL|")<<endl;
-    cout << "I am indebted to: Neil Fraser, Mike Slemmer, and Sergey Nozhenko, three gentlemen posessive of the utmost excellence in industry."<<endl;
+    cout << "Diff: "<<makeDiff(a,b)<<endl;
+    //cout << "I am indebted to: Neil Fraser, Mike Slemmer, and Sergey Nozhenko, three gentlemen posessive of the utmost excellence in industry."<<endl;
+
+    return makeDiff(a,b);
+
 }
+
+

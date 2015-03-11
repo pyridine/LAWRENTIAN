@@ -20,6 +20,8 @@ LoginWindow::LoginWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    this->setStyleSheet("QLineEdit { border-radius: 9px;}");
+
 }
 
 

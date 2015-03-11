@@ -12,6 +12,7 @@
 #include "permissiondef.h"
 #include "mainwindowdbc.h"
 #include "photopoolwindow.h"
+#include "thread.h"
 #include <qstring.h>
 #include <QTabWidget>
 #include <iostream>
@@ -97,6 +98,10 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
 
         tabs->addTab(awk, "Articles");
 
+
+        //Thread *thread = new Thread(awk);
+        //thread->start();
+
         //TODO: Display submenus of categories (News, Feat, A&E, etc) by permission.
     }
 
@@ -148,11 +153,13 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
 
         tabs->addTab(pemWidg, "Permissions");
     }
+
 }
 
 void MainWindow::logOut(){
     delete(loginCredo);
-    this->hide();
+    //this->hide();
+    delete this; // Use this instead because the QTimers persist if they are not deleted (aka threads)
     parentWindow->show();
 }
 

@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>80</y>
+     <y>60</y>
      <width>1000</width>
      <height>490</height>
     </rect>
@@ -33,36 +33,32 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>40</y>
-     <width>111</width>
+     <y>30</y>
+     <width>181</width>
      <height>16</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Search Employee:</string>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
    </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>40</y>
-     <width>261</width>
-     <height>21</height>
-    </rect>
+   <property name="text">
+    <string>All Employee Information:</string>
    </property>
   </widget>
   <widget class="QPushButton" name="approveRegButton">
    <property name="geometry">
     <rect>
-     <x>820</x>
-     <y>40</y>
-     <width>201</width>
+     <x>900</x>
+     <y>20</y>
+     <width>121</width>
      <height>32</height>
     </rect>
    </property>
    <property name="text">
-    <string>Approve/Edit Employee</string>
+    <string>Edit Employee</string>
    </property>
   </widget>
  </widget>

@@ -9,6 +9,53 @@ ProfileWidgetDBC::ProfileWidgetDBC(Client *c):DatabaseController(c)
 
 }
 
+void ProfileWidgetDBC::setCurrentIssueDate(QDate issueDate)
+{
+    QString issueDateString = issueDate.toString("yyyy-MM-dd");
+
+    const string SET_ISSUE_DATE = "INSERT INTO issue_archive (issueDate) "
+                                  "VALUES (:issueDate) "
+                                  "ON DUPLICATE KEY UPDATE issueDate=:issueDate";
+
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(SET_ISSUE_DATE));
+    query->bindValue(":issueDate", issueDateString);
+
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    if(!err.isValid()){
+        return;
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+
+}
+
+QDate ProfileWidgetDBC::collectLatestIssueDate()
+{
+    const string GET_LATEST_ISSUE_DATE = "SELECT issueDate FROM lawrentian.issue_archive WHERE issue_archive.issueDate IN (SELECT max(issueDate) FROM issue_archive)";
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_LATEST_ISSUE_DATE));
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    QDate latestDate;
+
+    if(!err.isValid()){
+        // Checks if issue already exists
+        while(result->next()){
+            QString date = result->value(0).toString();
+            latestDate = QDate::fromString(date, "yyyy-MM-dd");
+        }
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+    return latestDate;
+}
+
 string ProfileWidgetDBC::collectArticleSection(int articleId){
     const string GET_NAME = "SELECT lawrentian.section.sectionName "
                             "FROM lawrentian.section "
@@ -129,6 +176,32 @@ vector<string> ProfileWidgetDBC::collectProbationApprovals(QDate currentDate)
         while(result->next()){
             string approvedPerson = result->value(0).toString().toStdString();
             names.push_back(approvedPerson);
+        }
+
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+    return names;
+}
+
+vector<string> ProfileWidgetDBC::collectRegistrationApprovals()
+{
+    int unapproved = 0;
+
+    const string GET_UNAPPROVED = "SELECT name FROM lawrentian.employee WHERE approved =:unapproved";
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_UNAPPROVED));
+    query->bindValue(":unapproved", unapproved);
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    vector<string> names;
+
+    if(!err.isValid()){
+        while(result->next()){
+            string unapprovedPerson = result->value(0).toString().toStdString();
+            names.push_back(unapprovedPerson);
         }
 
     }else{

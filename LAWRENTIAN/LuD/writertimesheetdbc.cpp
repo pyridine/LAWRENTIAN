@@ -7,6 +7,55 @@ WriterTimesheetDBC::WriterTimesheetDBC(Client *c):DatabaseController(c)
 
 }
 
+QDate WriterTimesheetDBC::collectLatestIssueDate()
+{
+    const string GET_LATEST_ISSUE_DATE = "SELECT issueDate FROM lawrentian.issue_archive WHERE issue_archive.issueDate IN (SELECT max(issueDate) FROM issue_archive)";
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_LATEST_ISSUE_DATE));
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    QDate latestDate;
+
+    if(!err.isValid()){
+        // Checks if issue already exists
+        while(result->next()){
+            QString date = result->value(0).toString();
+            latestDate = QDate::fromString(date, "yyyy-MM-dd");
+        }
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+    return latestDate;
+}
+
+vector<QDate> WriterTimesheetDBC::getTimesheetDateList()
+{
+    const string GET_ISSUE_DATES = "SELECT DISTINCT writer_timesheet.issueDate "
+                                   "FROM lawrentian.writer_timesheet "
+                                   "ORDER BY issueDate DESC";
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_ISSUE_DATES));
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    vector<QDate> issueDateList;
+
+    if(!err.isValid()){
+        while(result->next()){
+            QString date = result->value(0).toString();
+            QDate qDate = QDate::fromString(date, "yyyy-MM-dd");
+            issueDateList.push_back(qDate);
+        }
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+    return issueDateList;
+}
+
+
 string WriterTimesheetDBC::collectArticleSection(int articleId){
     const string GET_NAME = "SELECT lawrentian.section.sectionName "
                             "FROM lawrentian.section "

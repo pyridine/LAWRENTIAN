@@ -25,7 +25,8 @@ public:
     void populateNameComboBox();
     void populateAllFields();
     void updateAllFields();
-    void initSelectedName(QString selectedName);
+    void initSelectedNameProbation(QString selectedName);
+    void initSelectedNameApproval(QString selectedName);
     employeesWidget *myParent;
     string getSelectedName();
 

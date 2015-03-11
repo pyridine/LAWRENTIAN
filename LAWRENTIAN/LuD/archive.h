@@ -1,7 +1,6 @@
 #ifndef ARCHIVE_H
 #define ARCHIVE_H
 
-
 class Archive
 {
 public:

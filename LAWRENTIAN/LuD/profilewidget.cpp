@@ -29,13 +29,32 @@ void profileWidget::init(LoginCredentials* l, Client *c, employeesWidget *ew)
             &&!loginCred->hasPermission(PermissionDef::VIEW_TIMESHEETS)
             &&!loginCred->hasPermission(PermissionDef::MANAGE_EMPLOYEE_PROBATION)){
         this->ui->systemNotificationsTextBrowser->hide();
-        ui->pushButton->hide(); // Hides updateNotifications button
         this->ui->label->hide();
+        ui->currentIssueDate->setEnabled(false);
+        ui->setDateButton->setEnabled(false);
     }
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateNotifications()));
+    timer->start(10000);
 }
 
 void profileWidget::initDB(Client *c){
     profileWidgetDBC = new ProfileWidgetDBC(c);
+
+    QDate latestDate = profileWidgetDBC->collectLatestIssueDate();
+    if((!latestDate.isNull()) && QDate::currentDate()<=latestDate){
+        ui->currentIssueDate->setDate(latestDate);
+        QString latestDateString = latestDate.toString("d MMMM yyyy");
+        ui->dateLabel->setText(latestDateString);
+    } else {
+        ui->currentIssueDate->setDate(QDate::currentDate());
+        QPalette palette = ui->currentIssueDate->palette();
+        //palette.setColor(QPalette::Base, Qt::green);
+        palette.brightText();
+        ui->currentIssueDate->setPalette(palette);
+        ui->setDateButton->setDefault(true);
+        ui->dateLabel->setText("NO DATE SPECIFIED");
+    }
 }
 
 void profileWidget::init(MainWindow *parent, QString name, string title){
@@ -59,46 +78,39 @@ void profileWidget::updateNotifications()
 
     QDate currentDate = QDate::currentDate();
 
-    if(loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
-            ||loginCred->hasPermission(PermissionDef::MANAGE_EMPLOYEE_PROBATION)){
-    // Checks what writers can be taken off probation
-    vector<string> possibleProbationApprovals = profileWidgetDBC->collectProbationApprovals(currentDate);
-    if(possibleProbationApprovals.size()>0){
-        QString probationApprovalText = "Writers to be taken off probation: ";
-        ui->systemNotificationsTextBrowser->append("<span>"+probationApprovalText+"</span>");
-        for(int i = 0; i < possibleProbationApprovals.size(); i++){
-            QString name = QString::fromStdString(possibleProbationApprovals[i]);
+    // Checks what employees need to be approved:
+    vector<string> unapprovedEmployees = profileWidgetDBC->collectRegistrationApprovals();
+    if(unapprovedEmployees.size()>0)
+    {
+        QString employeeApprovalText = "Employees to be approved: ";
+        ui->systemNotificationsTextBrowser->append("<span>"+employeeApprovalText+"</span>");
+        for(int i = 0; i < unapprovedEmployees.size(); i++){
+            QString name = QString::fromStdString(unapprovedEmployees[i]);
             QString indexString = QString::number(i);
-            QString url = "<a href="+indexString+">"+name+"</a>";
+            QString prefix = "employeeApprovals";
+            QString url = "<a href="+prefix+indexString+">"+name+"</a>";
             ui->systemNotificationsTextBrowser->append(url);
         }
-        ui->systemNotificationsTextBrowser->append("<span>\n</span>");
-    }
+        ui->systemNotificationsTextBrowser->append("<table width=\"100%\"><tr><td><hr /></td></tr></table>");
     }
 
-    /*
     if(loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
-            ||loginCred->hasPermission(PermissionDef::VIEW_TIMESHEETS)){
-    // Checks if timesheet can be and should be generated
-    vector<int> timesheetWriterIds = profileWidgetDBC->collectWriterForTimesheet(currentDate);
-    int alreadyExists = profileWidgetDBC->writerTimesheetExists(currentDate);
-    if(timesheetWriterIds.size()>0 && alreadyExists==0){
-        QString timesheetGenerationText = "Generate/Update Writer Timesheet: ";
-        ui->systemNotificationsTextBrowser->append("<span>"+timesheetGenerationText+"</span>");
-        QString url = "<a href=GenerateWriterTimesheet>Generate</a>";
-        ui->systemNotificationsTextBrowser->append(url);
+            ||loginCred->hasPermission(PermissionDef::MANAGE_EMPLOYEE_PROBATION)){
+        // Checks what writers can be taken off probation
+        vector<string> possibleProbationApprovals = profileWidgetDBC->collectProbationApprovals(currentDate);
+        if(possibleProbationApprovals.size()>0){
+            QString probationApprovalText = "Writers to be taken off probation: ";
+            ui->systemNotificationsTextBrowser->append("<span>"+probationApprovalText+"</span>");
+            for(int i = 0; i < possibleProbationApprovals.size(); i++){
+                QString name = QString::fromStdString(possibleProbationApprovals[i]);
+                QString indexString = QString::number(i);
+                QString prefix = "probationApprovals";
+                QString url = "<a href="+prefix+indexString+">"+name+"</a>";
+                ui->systemNotificationsTextBrowser->append(url);
+            }
+            ui->systemNotificationsTextBrowser->append("<table width=\"100%\"><tr><td><hr /></td></tr></table>");
+        }
     }
-
-
-    // Checks if timesheet can be updated
-    if(timesheetWriterIds.size()!=alreadyExists && alreadyExists>0){
-        QString timesheetGenerationText = "Generate/Update Writer Timesheet: ";
-        ui->systemNotificationsTextBrowser->append("<span>"+timesheetGenerationText+"</span>");
-        QString url = "<a href=UpdateWriterTimesheet>Update</a>";
-        ui->systemNotificationsTextBrowser->append(url);
-    }
-
-    }*/
 }
 
 profileWidget::~profileWidget()
@@ -128,75 +140,48 @@ void profileWidget::on_systemNotificationsTextBrowser_anchorClicked(const QUrl &
 
     QDate currentDate = QDate::currentDate();
     vector<string> possibleProbationApprovals = profileWidgetDBC->collectProbationApprovals(currentDate);
-    vector<int> writerIds = profileWidgetDBC->collectWriterForTimesheet(currentDate);
+    vector<string> unapprovedEmployees = profileWidgetDBC->collectRegistrationApprovals();
 
-    //Generate Timesheet
-    if(urlString == "GenerateWriterTimesheet"){
-        for(int i = 0; i<writerIds.size(); i++){
-            pair<int, int> submissionDate = calculateArticlesOnTimeAndLate(currentDate, writerIds[i]);
-            profileWidgetDBC->generateWriterTimesheet(writerIds[i], submissionDate.first, submissionDate.second, currentDate);
-        }
-        Alert *alert = new Alert;
-        alert->showInformationAlert("Generated!", "Writer Timesheet successfully generated");
-        updateNotifications();
-        this->parentWindow->tabs->setCurrentIndex(4);
-    } else if(urlString == "UpdateWriterTimesheet"){
-        profileWidgetDBC->deleteWriterTimesheetRecords(currentDate);
-        for(int i = 0; i<writerIds.size(); i++){
-            pair<int, int> submissionDate = calculateArticlesOnTimeAndLate(currentDate, writerIds[i]);
-            profileWidgetDBC->generateWriterTimesheet(writerIds[i], submissionDate.first, submissionDate.second, currentDate);
-        }
-        Alert *alert = new Alert;
-        alert->showInformationAlert("Updated!", "Writer Timesheet successfully updated");
-        updateNotifications();
-        this->parentWindow->tabs->setCurrentIndex(4);
-    } else {
-        // Approve Probation
-        int urlInt = stoi(urlString);
+    size_t approvalExists = urlString.find("employeeApprovals");
+    if(approvalExists != string::npos){
+        string indexString = urlString.substr(approvalExists+17);
+        int index = stoi(indexString);
         EditEmployeeInfo *employeeInfo = new EditEmployeeInfo;
         employeeInfo->init(loginCred, ew);
         employeeInfo->initDB(this->client);
-        employeeInfo->initSelectedName(QString::fromStdString(possibleProbationApprovals[urlInt]));
+        employeeInfo->initSelectedNameApproval(QString::fromStdString(unapprovedEmployees[index]));
         employeeInfo->show();
     }
-}
 
-pair<int, int> profileWidget::calculateArticlesOnTimeAndLate(QDate issueDate, int writerId)
-{
-    pair<int, int> articlesOnTimeAndLate;
-    int articlesOnTime = 0;
-    int articlesLate = 0;
-    QDate deadline = issueDate.addDays(-3);
-
-    QString issueDateQString = issueDate.toString("yyyy-MM-dd");
-    string issueDateString = issueDateQString.toStdString();
-    Sender *sndr = new Sender;
-    vector<int> articleIds = profileWidgetDBC->collectArticleIdForTimesheet(issueDate, writerId);
-    cout<<"Writer with id: "<<writerId<<" has "<<articleIds.size()<<" articles for this issue"<<endl;
-    for(int i = 0; i < articleIds.size(); i++){
-        string sectionName = profileWidgetDBC->collectArticleSection(articleIds[i]);
-        string articleName = profileWidgetDBC->collectArticleTitle(articleIds[i]);
-        FileSystem::VerSeq versions;
-        versions = sndr->getHistory(issueDateString, sectionName, articleName, fs::COPY);
-
-        // Reads in first submitted file (assumed its submitted by writer)
-        if(versions.size()>0){
-            FileSystem::TimeIce submissionTime = versions[0].time;
-            QDate submissionDate;
-            submissionDate.setDate(submissionTime.year, submissionTime.month, submissionTime.day);
-
-            if(submissionDate <= deadline){
-                articlesOnTime++;
-            } else {
-                articlesLate++;
-            }
-        }
-        articlesOnTimeAndLate = make_pair (articlesOnTime, articlesLate);    
+    // Approve Probation
+    size_t probationExists = urlString.find("probationApprovals");
+    if(probationExists != string::npos){
+        string indexString = urlString.substr(probationExists+18);
+        int index = stoi(indexString);
+        EditEmployeeInfo *employeeInfo = new EditEmployeeInfo;
+        employeeInfo->init(loginCred, ew);
+        employeeInfo->initDB(this->client);
+        employeeInfo->initSelectedNameProbation(QString::fromStdString(possibleProbationApprovals[index]));
+        employeeInfo->show();
     }
-    return articlesOnTimeAndLate;
+
+
+
 }
 
-void profileWidget::on_pushButton_clicked()
+void profileWidget::on_setDateButton_clicked()
 {
-    updateNotifications();
+    Alert *alert = new Alert;
+    int ret = alert->showQuestionAlert("Set Date", "Are you sure you went to set the current issue date?");
+    switch(ret) {
+    case QMessageBox::Save: {
+        QDate currentIssue = ui->currentIssueDate->date();
+        profileWidgetDBC->setCurrentIssueDate(currentIssue);
+            QString currentIssueString = currentIssue.toString("d MMMM yyyy");
+            ui->dateLabel->setText(currentIssueString);
+        break;
+    }
+    case QMessageBox::Cancel:
+        return;
+    }
 }

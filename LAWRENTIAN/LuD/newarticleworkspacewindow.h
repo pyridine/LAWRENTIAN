@@ -22,17 +22,12 @@ class newArticleWorkspaceWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit newArticleWorkspaceWindow(QWidget *parent = 0, LoginCredentials *login = new LoginCredentials());
+    explicit newArticleWorkspaceWindow(QWidget *parent = 0);
     ~newArticleWorkspaceWindow();
 
+    void init(LoginCredentials* login = new LoginCredentials(), articleWorkspace *myParent = 0);
     articleWorkspace *getParentArticleWorkspaceWidget() const;
     void setParentArticleWorkspaceWidget(articleWorkspace *value);
-    void setParentAAndEWorkspaceWidget(ArticleWorkspaceAAndEWidget *parent);
-    void setParentNewsWorkspaceWidget(ArticleWorkspaceNewsWidget *parent);
-    void setParentFeaturesWorkspaceWidget(ArticleWorkspaceFeaturesWidget *parent);
-    void setParentOpEdWorkspaceWidget(ArticleWorkspaceOpEdWidget *parent);
-    void setParentSportsWorkspaceWidget(ArticleWorkspaceSportsWidget *parent);
-    void setParentVarietyWorkspaceWidget(ArticleWorkspaceVarietyWidget *parent);
     void initDB(Client* c);
     void setupFields(Article *article);
 
@@ -53,6 +48,10 @@ private slots:
     void on_deleteAWS_pushButton_clicked();
 
     void on_delete_pushButton_clicked();
+
+    void on_issueDateEdit_userDateChanged(const QDate &date);
+
+    void on_setCurrentIssueButton_clicked();
 
 private:
     void handlePermissions();
@@ -91,12 +90,6 @@ private:
     std::string SPORTZ;
 
     articleWorkspace *parentArticleWorkspaceWidget;
-    ArticleWorkspaceAAndEWidget *parentAAndEWidget;
-    ArticleWorkspaceNewsWidget *parentNewsWidget;
-    ArticleWorkspaceFeaturesWidget *parentFeaturesWidget;
-    ArticleWorkspaceOpEdWidget *parentOpEdWidget;
-    ArticleWorkspaceSportsWidget *parentSportsWidget;
-    ArticleWorkspaceVarietyWidget *parentVarietyWidget;
 };
 
 #endif // NEWARTICLEWORKSPACEWINDOW_H

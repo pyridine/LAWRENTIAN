@@ -27,7 +27,10 @@ private slots:
 
     void on_copyHistory_tableWidget_cellClicked(int row, int column);
 
+    void on_ifDifCheckBox_clicked();
+
 private:
+    int currentRow;
     typedef std::vector<QRadioButton*> rb_vec_t;
 
     Ui::CopyHistoryWindow *ui;
