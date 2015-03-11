@@ -55,6 +55,54 @@ vector<QDate> WriterTimesheetDBC::getTimesheetDateList()
     return issueDateList;
 }
 
+bool WriterTimesheetDBC::getFrozen(QDate date)
+{
+    QString dateString = date.toString("yyyy-MM-dd");
+    const string GET_ISSUE_DATES = "SELECT frozen FROM lawrentian.writer_timesheet WHERE issueDate =:issueDate";
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_ISSUE_DATES));
+    query->bindValue(":issueDate", dateString);
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    bool frozen;
+
+    if(!err.isValid()){
+        while(result->next()){
+            QString frozenString = result->value(0).toString();
+            int frozenChar = frozenString.toInt();
+            if(frozenChar == 0){
+                frozen = false;
+            } else {
+                frozen = true;
+            }
+        }
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+    return frozen;
+}
+
+void WriterTimesheetDBC::setFrozen(QDate date)
+{
+    QString dateString = date.toString("yyyy-MM-dd");
+    const string SET_FROZEN = "UPDATE lawrentian.writer_timesheet SET frozen=1 WHERE issueDate = :issueDate";
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(SET_FROZEN));
+    query->bindValue(":issueDate", dateString);
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+
+    if(!err.isValid()){
+
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+}
+
 
 string WriterTimesheetDBC::collectArticleSection(int articleId){
     const string GET_NAME = "SELECT lawrentian.section.sectionName "
@@ -180,6 +228,33 @@ void WriterTimesheetDBC::generateWriterTimesheet(int writerId, int articlesOnTim
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
+}
+
+void WriterTimesheetDBC::updateWriterTimesheet(int writerId, int articlesOnTime, int articlesLate, QDate issueDate)
+{
+
+   QString issueDateString = issueDate.toString("yyyy-MM-dd");
+
+   const string UPDATE_WRITER_TIMESHEET = "INSERT INTO lawrentian.writer_timesheet (idwriter, articles_ontime, articles_late, issueDate) "
+                                        "VALUES (:idwriter, :articles_ontime, :articles_late, :issueDate) "
+                                        "ON DUPLICATE KEY UPDATE idwriter =:idwriter, articles_ontime =:articles_ontime, articles_late =:articles_late, issueDate =:issueDate";
+
+   QSqlQuery* query = new QSqlQuery();
+   query->prepare(QString::fromStdString(UPDATE_WRITER_TIMESHEET));
+   query->bindValue(":idwriter", writerId);
+   query->bindValue(":articles_ontime", articlesOnTime);
+   query->bindValue(":articles_late", articlesLate);
+   query->bindValue(":issueDate", issueDateString);
+
+
+   QSqlQuery* result = client->execute(query);
+   QSqlError err = result->lastError();
+
+   if(!err.isValid()){
+       return;
+   }else{
+       cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+   }
 }
 
 void WriterTimesheetDBC::deleteWriterTimesheetRecords(QDate issueDate)
@@ -333,6 +408,50 @@ QDate WriterTimesheetDBC::collectLatestTimesheetDate()
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
     return latestDate;
+}
+
+int WriterTimesheetDBC::getLuidForName(string name)
+{
+    const string GET_LUID = "SELECT luid FROM lawrentian.employee WHERE name =:name";
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_LUID));
+    query->bindValue(":name", QString::fromStdString(name));
+
+    int luid;
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    if(!err.isValid()){
+        while(result->next()){
+            string luidString = result->value(0).toString().toStdString();
+            luid = stoi(luidString);
+        }
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+    return luid;
+}
+
+void WriterTimesheetDBC::setArticleSubmissionsForLuid(int luid, int articlesOnTime, int articlesLate)
+{
+    const string SET_FROZEN = "UPDATE lawrentian.writer_timesheet "
+                              "SET articles_ontime=:articlesOnTime, articles_late=:articlesLate WHERE idwriter = :luid";
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(SET_FROZEN));
+    query->bindValue(":articlesOnTime", articlesOnTime);
+    query->bindValue(":articlesLate", articlesLate);
+    query->bindValue(":luid",luid);
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+
+    if(!err.isValid()){
+
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
 }
 
 

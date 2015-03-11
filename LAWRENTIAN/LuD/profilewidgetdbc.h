@@ -25,6 +25,8 @@ public:
     int writerTimesheetExists(QDate issueDate);
     void setCurrentIssueDate(QDate issueDate);
     QDate collectLatestIssueDate();
+    void setHoursWorked(int luid, QDate issueDate, int hoursWorked);
+    int getHoursWorked(int luid, QDate issueDate);
 };
 
 #endif // PROFILEWIDGETDBC_H
