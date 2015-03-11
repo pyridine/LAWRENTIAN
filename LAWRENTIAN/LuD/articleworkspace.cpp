@@ -82,7 +82,7 @@ void articleWorkspace::init(MainWindow *parent, Client* c,LoginCredentials* cred
     if(!latestIssue.isNull()){
         QString latestIssueQString = latestIssue.toString("yyyy-MM-dd");
         ui->issueDateComboBox->setCurrentText(latestIssueQString);
-        QString issueDateFormatString = latestIssue.toString("d MMM yyyy");
+        QString issueDateFormatString = latestIssue.toString("d MMM, yyyy");
         ui->issueTypeLabel->setText("Current Issue Articles: "+issueDateFormatString);
         viewingArchive = false;
     }

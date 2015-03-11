@@ -47,8 +47,6 @@ private:
 
     std::string getArticleText(int articleNum);
     void displayPreview(int new_index,int past_index);
-
-    std::queue<std::string> *splitStringToQueue(std::string s);
 };
 
 #endif // COPYHISTORYWINDOW_H
