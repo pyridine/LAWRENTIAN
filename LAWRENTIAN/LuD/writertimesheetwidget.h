@@ -38,6 +38,8 @@ private slots:
 
     void on_saveButton_clicked();
 
+    void on_deleteTimesheetButton_clicked();
+
 private:
     Ui::writerTimesheetWidget *ui;
     LoginCredentials* loginCred;

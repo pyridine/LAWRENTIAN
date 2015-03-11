@@ -191,6 +191,19 @@
     <string>Save</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="deleteTimesheetButton">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>520</y>
+     <width>141</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Delete Timesheet</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

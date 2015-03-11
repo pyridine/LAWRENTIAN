@@ -196,33 +196,33 @@ void writerTimesheetWidget::generateTimesheet(QDate issueDate)
 void writerTimesheetWidget::updateWriterTimesheet(QDate selectedDate)
 {
     if(!writerTimesheetDBC->getFrozen(selectedDate)){
-//        vector<int> writerIds = writerTimesheetDBC->collectWriterForTimesheet(selectedDate);
-//        int alreadyExists = writerTimesheetDBC->writerTimesheetExists(selectedDate);
-//        if(alreadyExists>0){
-//            if(writerIds.size()>0 && alreadyExists>0){
-//                writerTimesheetDBC->deleteWriterTimesheetRecords(selectedDate);
-//                for(int i = 0; i<writerIds.size(); i++){
-//                    pair<int, int> articleSubmission = calculateArticlesOnTimeAndLate(selectedDate, writerIds[i]);
-//                    writerTimesheetDBC->generateWriterTimesheet(writerIds[i], articleSubmission.first, articleSubmission.second, selectedDate);
-//                }
-//            }
-//            if(writerTimesheetDBC->getFrozen(selectedDate)){
-//                initTable(selectedDate, true);
-//            } else {
-//                initTable(selectedDate, false);
-//            }
-//        }
-
         vector<int> writerIds = writerTimesheetDBC->collectWriterForTimesheet(selectedDate);
+        int alreadyExists = writerTimesheetDBC->writerTimesheetExists(selectedDate);
+        if(alreadyExists>0){
+            if(writerIds.size()>0 && alreadyExists>0){
+                writerTimesheetDBC->deleteWriterTimesheetRecords(selectedDate);
                 for(int i = 0; i<writerIds.size(); i++){
                     pair<int, int> articleSubmission = calculateArticlesOnTimeAndLate(selectedDate, writerIds[i]);
-                    writerTimesheetDBC->updateWriterTimesheet(writerIds[i], articleSubmission.first, articleSubmission.second, selectedDate);
+                    writerTimesheetDBC->generateWriterTimesheet(writerIds[i], articleSubmission.first, articleSubmission.second, selectedDate);
                 }
+            }
             if(writerTimesheetDBC->getFrozen(selectedDate)){
                 initTable(selectedDate, true);
             } else {
                 initTable(selectedDate, false);
             }
+        }
+
+//        vector<int> writerIds = writerTimesheetDBC->collectWriterForTimesheet(selectedDate);
+//                for(int i = 0; i<writerIds.size(); i++){
+//                    pair<int, int> articleSubmission = calculateArticlesOnTimeAndLate(selectedDate, writerIds[i]);
+//                    writerTimesheetDBC->updateWriterTimesheet(writerIds[i], articleSubmission.first, articleSubmission.second, selectedDate);
+//                }
+//            if(writerTimesheetDBC->getFrozen(selectedDate)){
+//                initTable(selectedDate, true);
+//            } else {
+//                initTable(selectedDate, false);
+//            }
     }
 }
 
@@ -319,4 +319,15 @@ void writerTimesheetWidget::on_saveButton_clicked()
     }
     }
 
+}
+
+void writerTimesheetWidget::on_deleteTimesheetButton_clicked()
+{
+    QString selectedDateString = ui->selectIssueDateComboBox->currentText();
+    QDate selectedDate = QDate::fromString(selectedDateString, "d MMM yyyy");
+    writerTimesheetDBC->deleteWriterTimesheetRecords(selectedDate);
+    populateIssueComboBox();
+    QString latestTimesheetDateString = ui->selectIssueDateComboBox->itemText(0);
+    QDate latestTimesheetQDate = QDate::fromString(latestTimesheetDateString, "d MMM yyyy");
+    initTable(latestTimesheetQDate, false);
 }
