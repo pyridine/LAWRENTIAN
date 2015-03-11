@@ -20,6 +20,7 @@ public:
     void deleteMyPhotos(int articleId);
     bool isArticleTitleExistent(string title);
     bool isArticleTitleAlreadyInUse(string title, int id);
+    QDate collectLatestIssueDate();
 
 
 

@@ -26,17 +26,63 @@
     <string>Add Article...</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="submitToArchiveButton">
+  <widget class="QLabel" name="issueTypeLabel">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>0</x>
+     <y>30</y>
+     <width>1101</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>CURRENT ISSUE/ARCHIVE:</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="issueDateComboBox">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
      <y>510</y>
-     <width>201</width>
+     <width>161</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>510</y>
+     <width>141</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>View Different Issue:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="currentIssueButton">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>510</y>
+     <width>114</width>
      <height>32</height>
     </rect>
    </property>
    <property name="text">
-    <string>Submit Issue to Archive...</string>
+    <string>Current Issue</string>
    </property>
   </widget>
  </widget>

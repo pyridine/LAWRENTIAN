@@ -2,6 +2,7 @@
 #include "ui_articleworkspaceopedwidget.h"
 
 #include "newarticleworkspacewindow.h"
+#include "articleworkspace.h"
 #include <iostream>
 
 ArticleWorkspaceOpEdWidget::ArticleWorkspaceOpEdWidget(QWidget *parent) :
@@ -16,17 +17,24 @@ ArticleWorkspaceOpEdWidget::~ArticleWorkspaceOpEdWidget()
     delete ui;
 }
 
-void ArticleWorkspaceOpEdWidget::init(Client* c,LoginCredentials* crede)
+void ArticleWorkspaceOpEdWidget::init(articleWorkspace *myParent, Client* c,LoginCredentials* crede)
 {
     cred = crede;
     client = c;
+    parent = myParent;
     dbController = new ArticleWorkspaceDBC(client);
+
+    QDate selectedIssue = parent->getSelectedIssueDate();
+
     // Gets article titles for section
-    vector<string> articleTitles = dbController->getArticleTitlesForSection("OPED_SECTION");
+    vector<string> articleTitles = dbController->getArticleTitlesForSectionAndIssue("OPED_SECTION", selectedIssue);
     for (int i = 0; i < articleTitles.size(); i++){
         int articleId = dbController->getArticleId(articleTitles[i]);
         existingIds.push_back(articleId); // Keeps track of articles that already exist in database
     }
+    QTimer *timer = new QTimer(this);
+     connect(timer, SIGNAL(timeout()), this, SLOT(initTextBrowser()));
+     timer->start(10000);
     initTextBrowser();
 }
 
@@ -35,7 +43,10 @@ void ArticleWorkspaceOpEdWidget::initTextBrowser()
     ui->articleTextBrowser->clear();
     ui->articleTextBrowser->setOpenLinks(false);
     existingIds.clear();
-    vector<string> articleTitles = dbController->getArticleTitlesForSection("OPED_SECTION");
+    QDate selectedIssue = parent->getSelectedIssueDate();
+
+    // Gets article titles for section
+    vector<string> articleTitles = dbController->getArticleTitlesForSectionAndIssue("OPED_SECTION", selectedIssue);
     for(int i = 0; i < articleTitles.size(); i++)
     {
         QString articleTitle = QString::fromStdString(articleTitles[i]);
@@ -74,12 +85,13 @@ bool ArticleWorkspaceOpEdWidget::workspaceExists(int id)
 void ArticleWorkspaceOpEdWidget::openArticleWorkspace(Article* a)
 {
     //Init data
-    newArticleWorkspaceWindow *createArticleWorkspaceWindow = new newArticleWorkspaceWindow(this,cred);
+    newArticleWorkspaceWindow *createArticleWorkspaceWindow = new newArticleWorkspaceWindow();
+    createArticleWorkspaceWindow->init(cred, this->parent);
     createArticleWorkspaceWindow->initDB(dbController->getClient());
     createArticleWorkspaceWindow->setupFields(a);
 
     //Init window
-    createArticleWorkspaceWindow->setParentOpEdWorkspaceWidget(this);
+    //createArticleWorkspaceWindow->setParentOpEdWorkspaceWidget(this);
     createArticleWorkspaceWindow->setWindowModality(Qt::ApplicationModal);
     createArticleWorkspaceWindow->window()->show();
 }
@@ -91,9 +103,4 @@ void ArticleWorkspaceOpEdWidget::on_articleTextBrowser_anchorClicked(const QUrl 
     Article *article = dbController->getArticleById(urlInt);
     openArticleWorkspace(article);
 
-}
-
-void ArticleWorkspaceOpEdWidget::on_refreshButton_clicked()
-{
-    initTextBrowser();
 }

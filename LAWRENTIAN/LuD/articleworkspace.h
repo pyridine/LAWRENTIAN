@@ -39,6 +39,8 @@ public:
     void init(MainWindow* parent, Client* c,LoginCredentials* cred);
     int x;
     int y;
+    QDate getSelectedIssueDate();
+    void populateIssueComboBox();
     //bool workspaceExists(string articleTitle);
 
     //void updateArticleList();
@@ -49,6 +51,13 @@ public:
     void setNewArticle(Article *value);
     void submitToArchive();
     QTabWidget *tabs;
+    ArticleWorkspaceNewsWidget *getNewsWidget();
+    ArticleWorkspaceFeaturesWidget *getFeaturesWidget();
+    ArticleWorkspaceOpEdWidget *getOpEdWidget();
+    ArticleWorkspaceAAndEWidget *getAAndEWidget();
+    ArticleWorkspaceSportsWidget *getSportsWidget();
+    ArticleWorkspaceVarietyWidget *getVarietyWidget();
+    bool getViewingArchive();
 
 private slots:
     void on_addArticleWorkspace_pushButton_clicked();
@@ -57,6 +66,10 @@ private slots:
     void openArticleWorkspace(Article* a);
 
     void on_submitToArchiveButton_clicked();
+
+    void on_issueDateComboBox_currentIndexChanged(const QString &arg1);
+
+    void on_currentIssueButton_clicked();
 
 private:
     void handlePermissions();
@@ -78,6 +91,7 @@ private:
     ArticleWorkspaceSportsWidget *sportsWidget;
     ArticleWorkspaceVarietyWidget *varietyWidget;
     articleWorkspace *articleWorkspaceParent;
+    bool viewingArchive;
 
 };
 

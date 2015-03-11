@@ -2,6 +2,7 @@
 #include "ui_articleworkspaceaandewidget.h"
 
 #include "newarticleworkspacewindow.h"
+#include "articleworkspace.h"
 #include <iostream>
 
 ArticleWorkspaceAAndEWidget::ArticleWorkspaceAAndEWidget(QWidget *parent) :
@@ -9,6 +10,7 @@ ArticleWorkspaceAAndEWidget::ArticleWorkspaceAAndEWidget(QWidget *parent) :
     ui(new Ui::ArticleWorkspaceAAndEWidget)
 {
     ui->setupUi(this);
+
 }
 
 ArticleWorkspaceAAndEWidget::~ArticleWorkspaceAAndEWidget()
@@ -16,17 +18,24 @@ ArticleWorkspaceAAndEWidget::~ArticleWorkspaceAAndEWidget()
     delete ui;
 }
 
-void ArticleWorkspaceAAndEWidget::init(Client* c,LoginCredentials* crede)
+void ArticleWorkspaceAAndEWidget::init(articleWorkspace *myParent, Client* c,LoginCredentials* crede)
 {
     cred = crede;
     client = c;
+    parent = myParent;
     dbController = new ArticleWorkspaceDBC(client);
+
+    QDate selectedIssue = parent->getSelectedIssueDate();
+
     // Gets article titles for section
-    vector<string> articleTitles = dbController->getArticleTitlesForSection("ARTSENT_SECTION");
+    vector<string> articleTitles = dbController->getArticleTitlesForSectionAndIssue("ARTSENT_SECTION", selectedIssue);
     for (int i = 0; i < articleTitles.size(); i++){
         int articleId = dbController->getArticleId(articleTitles[i]);
         existingIds.push_back(articleId); // Keeps track of articles that already exist in database
     }
+    QTimer *timer = new QTimer(this);
+     connect(timer, SIGNAL(timeout()), this, SLOT(initTextBrowser()));
+     timer->start(10000);
     initTextBrowser();
 }
 
@@ -35,7 +44,10 @@ void ArticleWorkspaceAAndEWidget::initTextBrowser()
     ui->articleTextBrowser->clear();
     ui->articleTextBrowser->setOpenLinks(false);
     existingIds.clear();
-    vector<string> articleTitles = dbController->getArticleTitlesForSection("ARTSENT_SECTION");
+    QDate selectedIssue = parent->getSelectedIssueDate();
+
+    // Gets article titles for section
+    vector<string> articleTitles = dbController->getArticleTitlesForSectionAndIssue("ARTSENT_SECTION", selectedIssue);
     for(int i = 0; i < articleTitles.size(); i++)
     {
         QString articleTitle = QString::fromStdString(articleTitles[i]);
@@ -76,12 +88,13 @@ bool ArticleWorkspaceAAndEWidget::workspaceExists(int id)
 void ArticleWorkspaceAAndEWidget::openArticleWorkspace(Article* a)
 {
     //Init data
-    newArticleWorkspaceWindow *createArticleWorkspaceWindow = new newArticleWorkspaceWindow(this,cred);
+    newArticleWorkspaceWindow *createArticleWorkspaceWindow = new newArticleWorkspaceWindow();
+    createArticleWorkspaceWindow->init(cred, this->parent);
     createArticleWorkspaceWindow->initDB(dbController->getClient());
     createArticleWorkspaceWindow->setupFields(a);
 
     //Init window
-    createArticleWorkspaceWindow->setParentAAndEWorkspaceWidget(this);
+    //createArticleWorkspaceWindow->setParentAAndEWorkspaceWidget(this);
     createArticleWorkspaceWindow->setWindowModality(Qt::ApplicationModal);
     createArticleWorkspaceWindow->window()->show();
 }
@@ -93,9 +106,4 @@ void ArticleWorkspaceAAndEWidget::on_articleTextBrowser_anchorClicked(const QUrl
     Article *article = dbController->getArticleById(urlInt);
     openArticleWorkspace(article);
 
-}
-
-void ArticleWorkspaceAAndEWidget::on_refreshButton_clicked()
-{
-    initTextBrowser();
 }

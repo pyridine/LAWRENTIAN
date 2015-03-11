@@ -23,17 +23,16 @@ public:
     void init(MainWindow* parent, LoginCredentials* l, Client *c);
     void initDB(Client *c);
     pair<int, int> calculateArticlesOnTimeAndLate(QDate issueDate, int writerId);
-    void generateTimesheet(QDate issueDate);
-    bool updateWriterTimesheet(QDate selectedDate);
+    void generateTimesheet(QDate issueDate);    
     void initTable(QDate selectedDate);
+    void populateIssueComboBox();
 
 
 private slots:
-    void on_updateWriterTimesheetButton_clicked();
-
     void on_generateTimesheetButton_clicked();
-
-    void on_selectIssueDate_userDateChanged(const QDate &date);
+    void on_selectIssueDateComboBox_currentIndexChanged(const QString &arg1);
+    void updateLatestTimesheetDate();
+    void updateWriterTimesheet();
 
 private:
     Ui::writerTimesheetWidget *ui;
@@ -41,6 +40,7 @@ private:
     Client *client;
     MainWindow *parentWindow;
     WriterTimesheetDBC *writerTimesheetDBC;
+    QDate latestTimesheetDate;
 
 };
 

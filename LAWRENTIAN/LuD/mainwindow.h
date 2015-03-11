@@ -6,6 +6,7 @@
 #include "client.h"
 #include "loginwindow.h"
 #include "mainwindowdbc.h"
+#include <QThread>
 
 namespace Ui {
 class MainWindow;

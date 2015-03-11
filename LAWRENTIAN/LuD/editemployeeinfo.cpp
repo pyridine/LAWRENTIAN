@@ -57,7 +57,7 @@ void EditEmployeeInfo::initDB(Client *c){
 
 }
 
-void EditEmployeeInfo::initSelectedName(QString selectedName)
+void EditEmployeeInfo::initSelectedNameProbation(QString selectedName)
 {
     populateNameComboBox();
     populateAllFields();
@@ -68,6 +68,22 @@ void EditEmployeeInfo::initSelectedName(QString selectedName)
     ui->emailTextField->setEnabled(false);
     ui->approvedComboBox->setEnabled(false);
     ui->titleComboBaucks->setEnabled(false);
+    updateAllFields();
+}
+
+void EditEmployeeInfo::initSelectedNameApproval(QString selectedName)
+{
+    populateNameComboBox();
+    populateAllFields();
+    ui->nameComboBox->setCurrentText(selectedName+" [UNAPPROVED]");
+    ui->nameComboBox->setEnabled(false);
+    ui->luidTextField->setEnabled(false);
+    ui->phoneTextField->setEnabled(false);
+    ui->emailTextField->setEnabled(false);
+    ui->approvedComboBox->setEnabled(true);
+    ui->titleComboBaucks->setEnabled(true);
+    ui->probationComboBox->setEnabled(false);
+    ui->probationStartDate->setEnabled(false);
     updateAllFields();
 }
 

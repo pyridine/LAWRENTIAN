@@ -31,12 +31,63 @@ articleWorkspace::~articleWorkspace()
     delete ui;
 }
 
+ArticleWorkspaceNewsWidget* articleWorkspace::getNewsWidget()
+{
+    return newsWidget;
+}
+
+ArticleWorkspaceFeaturesWidget* articleWorkspace::getFeaturesWidget()
+{
+    return featuresWidget;
+}
+
+ArticleWorkspaceOpEdWidget* articleWorkspace::getOpEdWidget()
+{
+    return opEdWidget;
+}
+
+ArticleWorkspaceAAndEWidget* articleWorkspace::getAAndEWidget()
+{
+    return aAndEWidget;
+}
+
+ArticleWorkspaceSportsWidget* articleWorkspace::getSportsWidget()
+{
+    return sportsWidget;
+}
+
+ArticleWorkspaceVarietyWidget* articleWorkspace::getVarietyWidget()
+{
+    return varietyWidget;
+}
+
+bool articleWorkspace::getViewingArchive()
+{
+    return viewingArchive;
+}
+
 void articleWorkspace::init(MainWindow *parent, Client* c,LoginCredentials* crede)
 {
     dbController = new ArticleWorkspaceDBC(c);
     cred = crede;
     parentWindow = parent;
     client = c;
+
+    ui->issueDateComboBox->blockSignals(true);
+    populateIssueComboBox();
+    viewingArchive = false;
+
+
+    QDate latestIssue = dbController->collectLatestIssueDate();
+    if(!latestIssue.isNull()){
+        QString latestIssueQString = latestIssue.toString("yyyy-MM-dd");
+        ui->issueDateComboBox->setCurrentText(latestIssueQString);
+        QString issueDateFormatString = latestIssue.toString("d MMM yyyy");
+        ui->issueTypeLabel->setText("Current Issue Articles: "+issueDateFormatString);
+        viewingArchive = false;
+    }
+
+
 
     handlePermissions();
     QWidget *mainWorkspaceWidget = new QWidget(this);
@@ -45,28 +96,30 @@ void articleWorkspace::init(MainWindow *parent, Client* c,LoginCredentials* cred
 
     newsWidget = new ArticleWorkspaceNewsWidget();
     tabs->addTab(newsWidget, "News");
-    newsWidget->init(client, cred);
+    cout<<"About to init Widget"<<endl;
+    newsWidget->init(this, client, cred);
 
     featuresWidget = new ArticleWorkspaceFeaturesWidget();
     tabs->addTab(featuresWidget, "Features");
-    featuresWidget->init(client, cred);
+    featuresWidget->init(this, client, cred);
 
     opEdWidget = new ArticleWorkspaceOpEdWidget();
     tabs->addTab(opEdWidget, "Opinions and Editorials");
-    opEdWidget->init(client,cred);
+    opEdWidget->init(this, client,cred);
 
     aAndEWidget = new ArticleWorkspaceAAndEWidget();
     tabs->addTab(aAndEWidget, "Arts and Entertainment");
-    aAndEWidget->init(client, cred);
+    aAndEWidget->init(this, client, cred);
 
     sportsWidget = new ArticleWorkspaceSportsWidget();
     tabs->addTab(sportsWidget, "Sports");
-    sportsWidget->init(client, cred);
+    sportsWidget->init(this, client, cred);
 
     varietyWidget = new ArticleWorkspaceVarietyWidget();
     tabs->addTab(varietyWidget, "Variety");
-    varietyWidget->init(client,cred);
+    varietyWidget->init(this, client,cred);
 
+    ui->issueDateComboBox->blockSignals(false);
 }
 void articleWorkspace::handlePermissions(){
     //Det whether to hide the add_workspace button.
@@ -75,10 +128,28 @@ void articleWorkspace::handlePermissions(){
         this->ui->addArticleWorkspace_pushButton->setEnabled(false);
 }
 
+void articleWorkspace::populateIssueComboBox()
+{
+    vector<QString> issueDateList = dbController->getIssueDateList();
+    QList<QString> issueDateQList;
+    for (int i=0; i<issueDateList.size(); i++)
+    {
+        issueDateQList.insert(i, issueDateList[i]);
+    }
+    ui->issueDateComboBox->addItems(issueDateQList);
+}
+
+QDate articleWorkspace::getSelectedIssueDate()
+{
+    QString selectedIssueString = ui->issueDateComboBox->currentText();
+    QDate selectedIssue = QDate::fromString(selectedIssueString, "yyyy-MM-dd");
+    return selectedIssue;
+}
 
 void articleWorkspace::openArticleWorkspace(Article* a){
     //Init data
-    newArticleWorkspaceWindow *createArticleWorkspaceWindow = new newArticleWorkspaceWindow(this,cred);
+    newArticleWorkspaceWindow *createArticleWorkspaceWindow = new newArticleWorkspaceWindow();
+    createArticleWorkspaceWindow->init(cred, this);
     createArticleWorkspaceWindow->initDB(dbController->getClient());
     createArticleWorkspaceWindow->setupFields(a);
 
@@ -90,15 +161,23 @@ void articleWorkspace::openArticleWorkspace(Article* a){
 
 void articleWorkspace::on_addArticleWorkspace_pushButton_clicked()
 {
+    string dateString;
+    QDate latestDate = dbController->collectLatestIssueDate();
 
-    //Set the article's date for the next Wednesday.
-    QDate todate = QDate::currentDate();
-    if(todate.dayOfWeek() == 3)
-        todate = todate.addDays(7);
-    while(todate.dayOfWeek() != 3 /*Wednesday*/)
-        todate = todate.addDays(1);
-    QString dateFormat(df::dbFormat);
-    string dateString = todate.toString(dateFormat).toStdString();
+    // Checks if an issue date has already been determined by editor-in-chief
+    if(!latestDate.isNull()){
+        QString dateFormat(df::dbFormat);
+        dateString = latestDate.toString(dateFormat).toStdString();
+    } else {
+        //Set the article's date for the next Wednesday.
+        QDate todate = QDate::currentDate();
+        if(todate.dayOfWeek() == 3)
+            todate = todate.addDays(7);
+        while(todate.dayOfWeek() != 3 /*Wednesday*/)
+            todate = todate.addDays(1);
+        QString dateFormat(df::dbFormat);
+        dateString = todate.toString(dateFormat).toStdString();
+    }
     Article* newArticle = new Article(dateString,"","",
                                       0 /*Default to first section*/,
                                       -1 /*Nobody assigned*/,
@@ -247,4 +326,48 @@ void articleWorkspace::on_submitToArchiveButton_clicked()
     case QMessageBox::Cancel:
         break;
     }
+}
+
+void articleWorkspace::on_issueDateComboBox_currentIndexChanged(const QString &arg1)
+{
+    newsWidget->initTextBrowser();
+    featuresWidget->initTextBrowser();
+    aAndEWidget->initTextBrowser();
+    opEdWidget->initTextBrowser();
+    sportsWidget->initTextBrowser();
+    varietyWidget->initTextBrowser();
+
+    QDate latestIssue = dbController->collectLatestIssueDate();
+    if(!latestIssue.isNull()){
+        QString latestIssueQString = latestIssue.toString("yyyy-MM-dd");
+        QDate selectedIssueDate = QDate::fromString(ui->issueDateComboBox->currentText(), "yyyy-MM-dd");
+        QString selectedIssueDateFormat = QDate::fromString(ui->issueDateComboBox->currentText(), "yyyy-MM-dd").toString("d MMM yyyy");
+        if(selectedIssueDate==latestIssue){
+            QString formatLatestIssue = latestIssue.toString("d MMM yyyy");
+            ui->issueTypeLabel->setText("Current Issue Articles: "+formatLatestIssue);
+            viewingArchive = false;
+        }
+        if(selectedIssueDate>latestIssue){
+            ui->issueTypeLabel->setText("<font color='green'>Upcoming Issue Articles: "+selectedIssueDateFormat+"</font>");
+            viewingArchive = false;
+        }
+        if(selectedIssueDate<latestIssue){
+            ui->issueTypeLabel->setText("<font color='red'>Archived Issue Articles: "+selectedIssueDateFormat+"</font>");
+            viewingArchive = true;
+        }
+    }
+
+}
+
+void articleWorkspace::on_currentIssueButton_clicked()
+{
+    QDate latestIssue = dbController->collectLatestIssueDate();
+    QString latestIssueString = latestIssue.toString("yyyy-MM-dd");
+        if(!latestIssue.isNull()){
+            ui->issueDateComboBox->setCurrentText(latestIssueString);
+        } else {
+        Alert *alert = new Alert;
+        alert->showInformationAlert("No Set Issue Date", "No current issue date set.\nSetting to latest available issue");
+        ui->issueDateComboBox->setCurrentIndex(0);
+        }
 }

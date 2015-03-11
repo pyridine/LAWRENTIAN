@@ -2,6 +2,7 @@
 #include "ui_articleworkspacevarietywidget.h"
 
 #include "newarticleworkspacewindow.h"
+#include "articleworkspace.h"
 #include <iostream>
 
 ArticleWorkspaceVarietyWidget::ArticleWorkspaceVarietyWidget(QWidget *parent) :
@@ -16,17 +17,24 @@ ArticleWorkspaceVarietyWidget::~ArticleWorkspaceVarietyWidget()
     delete ui;
 }
 
-void ArticleWorkspaceVarietyWidget::init(Client* c,LoginCredentials* crede)
+void ArticleWorkspaceVarietyWidget::init(articleWorkspace *myParent, Client* c,LoginCredentials* crede)
 {
     cred = crede;
     client = c;
+    parent = myParent;
     dbController = new ArticleWorkspaceDBC(client);
+
+    QDate selectedIssue = parent->getSelectedIssueDate();
+
     // Gets article titles for section
-    vector<string> articleTitles = dbController->getArticleTitlesForSection("VARIETY_SECTION");
+    vector<string> articleTitles = dbController->getArticleTitlesForSectionAndIssue("VARIETY_SECTION", selectedIssue);
     for (int i = 0; i < articleTitles.size(); i++){
         int articleId = dbController->getArticleId(articleTitles[i]);
         existingIds.push_back(articleId); // Keeps track of articles that already exist in database
     }
+    QTimer *timer = new QTimer(this);
+     connect(timer, SIGNAL(timeout()), this, SLOT(initTextBrowser()));
+     timer->start(10000);
     initTextBrowser();
 }
 
@@ -35,7 +43,10 @@ void ArticleWorkspaceVarietyWidget::initTextBrowser()
     ui->articleTextBrowser->clear();
     ui->articleTextBrowser->setOpenLinks(false);
     existingIds.clear();
-    vector<string> articleTitles = dbController->getArticleTitlesForSection("VARIETY_SECTION");
+    QDate selectedIssue = parent->getSelectedIssueDate();
+
+    // Gets article titles for section
+    vector<string> articleTitles = dbController->getArticleTitlesForSectionAndIssue("VARIETY_SECTION", selectedIssue);
     for(int i = 0; i < articleTitles.size(); i++)
     {
         QString articleTitle = QString::fromStdString(articleTitles[i]);
@@ -75,12 +86,13 @@ bool ArticleWorkspaceVarietyWidget::workspaceExists(int id)
 void ArticleWorkspaceVarietyWidget::openArticleWorkspace(Article* a)
 {
     //Init data
-    newArticleWorkspaceWindow *createArticleWorkspaceWindow = new newArticleWorkspaceWindow(this,cred);
+    newArticleWorkspaceWindow *createArticleWorkspaceWindow = new newArticleWorkspaceWindow();
+    createArticleWorkspaceWindow->init(cred, this->parent);
     createArticleWorkspaceWindow->initDB(dbController->getClient());
     createArticleWorkspaceWindow->setupFields(a);
 
     //Init window
-    createArticleWorkspaceWindow->setParentVarietyWorkspaceWidget(this);
+    //createArticleWorkspaceWindow->setParentVarietyWorkspaceWidget(this);
     createArticleWorkspaceWindow->setWindowModality(Qt::ApplicationModal);
     createArticleWorkspaceWindow->window()->show();
 }
@@ -92,9 +104,4 @@ void ArticleWorkspaceVarietyWidget::on_articleTextBrowser_anchorClicked(const QU
     Article *article = dbController->getArticleById(urlInt);
     openArticleWorkspace(article);
 
-}
-
-void ArticleWorkspaceVarietyWidget::on_refreshButton_clicked()
-{
-    initTextBrowser();
 }

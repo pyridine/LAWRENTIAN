@@ -21,6 +21,8 @@ public:
     int writerTimesheetExists(QDate issueDate);
     vector<vector<string>>* getTimesheet(QDate issueDate);
     QDate collectLatestTimesheetDate();
+    QDate collectLatestIssueDate();
+    vector<QDate> getTimesheetDateList();
 };
 
 #endif // WRITERTIMESHEETDBC_H

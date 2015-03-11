@@ -5,6 +5,8 @@
 #include "articleworkspacedbc.h"
 #include "logincredentials.h"
 
+class articleWorkspace;
+
 namespace Ui {
 class ArticleWorkspaceVarietyWidget;
 }
@@ -17,15 +19,15 @@ public:
     explicit ArticleWorkspaceVarietyWidget(QWidget *parent = 0);
     ~ArticleWorkspaceVarietyWidget();
 
-    void init(Client* c,LoginCredentials* crede);
-    void initTextBrowser();
+    void init(articleWorkspace *myParent, Client* c,LoginCredentials* crede);
     void openArticleWorkspace(Article* a);
     bool workspaceExists(int id);
 
 private slots:
     void on_articleTextBrowser_anchorClicked(const QUrl &arg1);
 
-    void on_refreshButton_clicked();
+public slots:
+    void initTextBrowser();
 
 private:
     Ui::ArticleWorkspaceVarietyWidget *ui;
@@ -33,6 +35,7 @@ private:
     LoginCredentials *cred;
     Client *client;
     vector<int> existingIds;
+    articleWorkspace *parent;
 };
 
 #endif // ARTICLEWORKSPACEVARIETYWIDGET_H

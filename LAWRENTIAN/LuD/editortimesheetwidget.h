@@ -26,6 +26,8 @@ private slots:
 
     void on_currentIssueDate_userDateChanged(const QDate &date);
 
+    void on_setCurrentIssueButton_clicked();
+
 private:
     Ui::editorTimesheetWidget *ui;
     LoginCredentials* loginCred;

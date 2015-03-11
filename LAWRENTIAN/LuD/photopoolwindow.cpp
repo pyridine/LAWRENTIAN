@@ -136,8 +136,6 @@ QPointF PhotoPoolWindow::addImage(const string& imgPath, const QPointF pos, int 
     while(pixmap->isNull() && count < 10)
     {
         //QTest::qSleep(300); //This line gave me linker errors....
-        pixmap->load(img_path);
-        count++;
     } // wait .3 secs for file download to complete.
 
     if(count >= 10)
