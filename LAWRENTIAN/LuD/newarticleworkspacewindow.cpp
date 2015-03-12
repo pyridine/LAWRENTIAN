@@ -140,6 +140,9 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
             Sender sndr = Sender();
             string sec_this =  dbController->translateSection(iSection);
             string sec_art = dbController->translateSection(myArticle->getSection());
+            string writerName = dbController->translateWriterName(this->getSelectedWriterLuid());
+
+            cout <<"WRITER NAME IS!! " << writerName<<endl;
 
             string date_art = QDate::fromString(myArticle->QGetIssueDate(),df::dbFormat).toString(df::srvrFormat).toStdString();
 
@@ -154,7 +157,7 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
 
             string filePath = ui->articleFileTextField->text().toStdString();
             if(filePath.size())
-                sndr.sendCopy(date, sec_this, title, filePath);
+                sndr.sendCopy(writerName, date, sec_this, title, filePath);
 
             QStringList::const_iterator iter = img_paths.begin();
             for(iter; iter!=img_paths.end(); iter++)
@@ -232,7 +235,6 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
 }
 
 void newArticleWorkspaceWindow::closeMe(){
-    //this->parentArticleWorkspaceWidget->updateArticleList();
     this->close();
 }
 
@@ -319,7 +321,7 @@ void newArticleWorkspaceWindow::on_addImage_pushButton_clicked()
 {
     using namespace std;
 
-    img_paths = QFileDialog::getOpenFileNames(this, "Select", "/home", "Images (*.png *.jpg)");
+    img_paths = QFileDialog::getOpenFileNames(this, "Select", "/home", "Images (*.jpg)");
 
     if(img_paths.isEmpty())
         return;

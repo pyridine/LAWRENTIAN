@@ -47,6 +47,8 @@ private:
     std::string folderFromDir(const std::string str);
     std::string transferXML(const std::string& dir);
     bool percolateXML(const std::string direct);
+    void addWriter(const std::string& path, const std::string& writerName, const int ver);
+    std::string getWriter(const std::string& path, const int ver);
 
 public:
     FileSystemI(const std::string& main_dir, const std::string& arc_dir);
@@ -63,7 +65,7 @@ public:
                    const int ver, const Ice::Current& c);
 
     virtual bool
-    sendFile(const std::string& issueDate,const std::string& sec, const std::string& art,
+    sendFile(const std::string& writerName, const std::string& issueDate,const std::string& sec, const std::string& art,
              const std::string& type, const std::string& fNameExt,
              const FileSystem::ByteSeq& seq, const Ice::Current& c);
 
@@ -121,6 +123,9 @@ public:
                    const std::string& type, const std::string& fName,
                    const int ver, const Ice::Current& c);
 
+    virtual std::string
+    getArtWriter(const std::string& issueDate, const std::string& sec, const std::string& art,
+                 const int ver, const Ice::Current &c);
 };
 
 #endif // FILESYSTEMI_H

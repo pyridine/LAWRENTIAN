@@ -26,7 +26,7 @@ public:
      *  \param clDir: full file path of the file to be sent.
      *  \return true if file successfuly sent, false otherwise.
      */
-    bool sendCopy(const std::string& issueDate, const std::string& sec, const std::string& art, const std::string& clDir);
+    bool sendCopy(const std::string &writerName, const std::string& issueDate, const std::string& sec, const std::string& art, const std::string& clDir);
     /*! \brief sendImage: sends an image from client to server provided file is lesser than 1MB.
      *
      *  \param issueDate: the deadline date of the issue which the article belongs to.
@@ -176,6 +176,7 @@ public:
      *  \return true if file successfuly downloaded, false otherwise.
      */
     bool requestXML(const std::string &issueDate, const std::string &sec, const std::string &art, const std::string &down_dir, int ver = -1);
+    std::string getWriter(const std::string &issueDate, const std::string &sec, const std::string &art, int ver);
 };
 
 #endif // SENDER_H

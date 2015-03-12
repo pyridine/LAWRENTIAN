@@ -78,7 +78,6 @@ CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& date,
 
         string articleName = iter->verName;
         TimeIce t = iter->time;
-        string author = "SETME!";
 
 //        string month = std::to_string((long long)t.month);
 //        month = month.size() ? month : "00";
@@ -102,6 +101,8 @@ CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& date,
         second = second.size() ? second : "00";
         second = second.size() == 1 ? "0"+second : second;
 
+        Sender s;
+        string author = s.getWriter(date,sec,art,index);
         string s3 =  author + " - " + month + " " + day + " " + year + ". ("
                 + hour + ":" + minute + ")"
                /* + t.dayOfTheWeek*/;

@@ -184,6 +184,28 @@ bool NewArticleWorkspaceWindowDBC::isArticleTitleAlreadyInUse(string title,int i
     }
     return inUse;
 }
+
+string NewArticleWorkspaceWindowDBC::translateWriterName(int luid){
+    /*First: get the assigned writer.*/
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare("SELECT name FROM lawrentian.employee WHERE luid = :lui");
+    query->bindValue(":lui",luid);
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+    if(!err.isValid()){
+        result->next();
+        return result->value(0).toString().toStdString();
+    }
+    else{
+        cout << "!SQL ERROR: " << result->lastError().databaseText().toStdString() << endl;
+        return "error";
+    }
+}
+
+
+
 /**
  *
  * Set currentWriter to -1 if there is no currentWriter for the article.

@@ -113,8 +113,8 @@ void LoginWindow::on_pushButton_clicked()
                     m->init(this,loginCred);
                     ui->usernamebox->setText("");
                     ui->passwordbox->setText("");
-                    this->hide();
                     m->show();
+                    this->hide();
                 }
                 else
                 {

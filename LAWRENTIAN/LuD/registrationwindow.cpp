@@ -106,9 +106,11 @@ void RegistrationWindow::on_submitButton_clicked()
                           stringEmail, dbController->translateTitle(TitleDef::NO_TITLE), stringPhone, stringUsername, stringPassword, 0);
 
         //Insert the new employee info to the DB.
+        cout << "trying to add employee" << endl;
         dbController->addEmployee(&employee);
+        cout << "did" << endl;
 
-        Alert::showAlert("Registration complete","Thank you for registering.\n The Employee Manager must approve your registration before you are able to log in.");
+        Alert::showInformationAlert("Registration complete","Thank you for registering.\n The Employee Manager must approve your registration before you are able to log in.");
 
 
         //Reset fields and hide away.
@@ -188,6 +190,7 @@ bool RegistrationWindow::isEmailValid(std::string sbemail){
     */
 
     itr = sbemail.begin();
+    if(itr == sbemail.end()) return false;
 
     //1
     if(!isalpha(*itr)){

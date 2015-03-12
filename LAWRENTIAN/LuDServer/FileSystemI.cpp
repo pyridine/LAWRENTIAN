@@ -190,6 +190,26 @@ FileSystemI::receiveVersionXML(const std::string& issue_date, const std::string&
     return seq;
 }
 
+std::string FileSystemI::getArtWriter(const std::string &issueDate, const std::string &sec, const std::string &art, const int ver, const Ice::Current& c)
+{
+    std::string path = main_dir + "/" + issueDate + "/" + sec + "/" + art + "/" + fs::COPY;
+
+    std::string caller_info = getName(getIP(c));
+    consolePrint("===" + caller_info + "===" );
+
+    if(!dirExists(main_dir + "/" + issueDate))
+    {
+        consolePrint("getArtWriter: " + issueDate + " is invalid issue date.");
+        return "";
+    }
+
+    std::string writerName = getWriter(path,ver);
+
+    consolePrint("getArtWriter: writer for " + art + " is " + writerName);
+
+    return writerName;
+}
+
 
 FileSystem::ByteSeq
 FileSystemI::receiveLatest(const std::string& issue_date, const std::string& sec,
@@ -355,8 +375,37 @@ FileSystemI::receiveVersion(const std::string& issue_date, const std::string& se
     return seq;
 }
 
+std::string FileSystemI::getWriter(const std::string& path, const int ver)
+{
+    using namespace std;
+
+    string fPath = path + "/" + "writer.txt";
+    ifstream src(fPath, ios::in);
+    if(!src.is_open())
+        return "";
+
+    string line;
+    string num = std::to_string((long long) ver);
+    while(getline(src,line))
+        if(!line.empty()) if(line[0] == num[0]) return line.substr(2,line.size());
+
+    return "";
+}
+
+void FileSystemI::addWriter(const std::string& path, const std::string& writerName, const int ver)
+{
+    using namespace std;
+
+    string fPath = path + "/" + "writer.txt";
+    ofstream dest(fPath, ios::app);
+    string line = std::to_string((long long) ver) + " " + writerName + "\n";
+
+    dest.write(line.c_str(),line.size());
+    dest.flush();
+}
+
 bool
-FileSystemI::sendFile(const std::string& issue_date, const std::string& sec,
+FileSystemI::sendFile(const std::string &writerName, const std::string& issue_date, const std::string& sec,
                       const std::string& art, const std::string& type,
                       const std::string& fName, const FileSystem::ByteSeq& seq,
                       const Ice::Current& c)
@@ -403,6 +452,7 @@ FileSystemI::sendFile(const std::string& issue_date, const std::string& sec,
         file.open(temp_dir, ios::binary);
         ver++;
     }
+    ver--;
     file.close();
     string perc = dir;
     dir = dir + "/" + fNameExt;
@@ -417,8 +467,11 @@ FileSystemI::sendFile(const std::string& issue_date, const std::string& sec,
     {
         consolePrint("sendFile: " + dir + " successfully saved!");
         if(!type.compare(fs::COPY))
+        {
             if(!percolateXML(perc))
                 consolePrint("sendFile: " + perc + " could not be XML percolated.");
+            addWriter(perc + "/..",writerName, ver);
+        }
     }
     else
         consolePrint("sendFile: " + dir + " addition unsuccessful.");
