@@ -232,7 +232,6 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
 }
 
 void newArticleWorkspaceWindow::closeMe(){
-    //this->parentArticleWorkspaceWidget->updateArticleList();
     this->close();
 }
 
@@ -319,7 +318,7 @@ void newArticleWorkspaceWindow::on_addImage_pushButton_clicked()
 {
     using namespace std;
 
-    img_paths = QFileDialog::getOpenFileNames(this, "Select", "/home", "Images (*.png *.jpg)");
+    img_paths = QFileDialog::getOpenFileNames(this, "Select", "/home", "Images (*.jpg)");
 
     if(img_paths.isEmpty())
         return;

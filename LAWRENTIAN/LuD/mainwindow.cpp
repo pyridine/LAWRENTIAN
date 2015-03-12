@@ -159,8 +159,9 @@ void MainWindow::init(LoginWindow *parent, LoginCredentials *l){
 void MainWindow::logOut(){
     delete(loginCredo);
     //this->hide();
-    delete this; // Use this instead because the QTimers persist if they are not deleted (aka threads)
     parentWindow->show();
+    delete this; // Use this instead because the QTimers persist if they are not deleted (aka threads)
+
 }
 
 void MainWindow::initDB(Client* c){
