@@ -268,9 +268,9 @@ void writerTimesheetWidget::on_freezeInformationButton_clicked()
 {
     QMessageBox alertBox;
     alertBox.setFixedSize(1000,700);
-    QString information = "Freeze Information:\n\n"
-                          "\"Freezing information\" consists of stopping the automatic writer timesheet updates and submission "
-                          "calculations so that you can make manual changes.\n"
+    QString information = "Freeze Auto-Updates:\n\n"
+                          "This action consists of permanently stopping the automatic writer timesheet updates and submission "
+                          "calculations so that you can make manual changes to the timesheet.\n"
                           "This is only recommended if you "
                           "do not need the system to calculate any more submissions for this issue date.\n\n"
                           "Are you sure you want to proceed? This cannot be undone.";
@@ -348,4 +348,10 @@ void writerTimesheetWidget::on_deleteTimesheetButton_clicked()
     initTable(latestTimesheetQDate, false);
     timer->blockSignals(false);
     //cout<<"Unblocking signals..."<<endl;
+    QString dateString = ui->selectIssueDateComboBox->currentText();
+    QDate date = QDate::fromString(dateString, df::srvrFormat);
+    if(!writerTimesheetDBC->getFrozen(date)){
+    ui->frozenModeLabel->hide();
+    ui->freezeInformationButton->show();
+    }
 }

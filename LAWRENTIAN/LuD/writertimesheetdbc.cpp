@@ -219,7 +219,6 @@ void WriterTimesheetDBC::generateWriterTimesheet(int writerId, int articlesOnTim
     query->bindValue(":articles_late", articlesLate);
     query->bindValue(":issueDate", issueDateString);
 
-
     QSqlQuery* result = client->execute(query);
     QSqlError err = result->lastError();
 

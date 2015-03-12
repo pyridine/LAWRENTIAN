@@ -49,7 +49,8 @@ void profileWidget::init(LoginCredentials* l, Client *c, employeesWidget *ew)
             &&!loginCred->hasPermission(PermissionDef::EDIT_EMPLOYEE_INFO)
             &&!loginCred->hasPermission(PermissionDef::EDIT_PERMISSIONS)
             &&!loginCred->hasPermission(PermissionDef::EDIT_PHOTO)
-            &&!loginCred->hasPermission(PermissionDef::EDIT_TIMESHEETS)){
+            &&!loginCred->hasPermission(PermissionDef::EDIT_TIMESHEETS)
+            &&!loginCred->hasPermission(PermissionDef::SUBMIT_TO_ARCHIVE)){
         ui->label_2->hide();
         ui->label_3->hide();
         ui->selectTimesheetDate->hide();

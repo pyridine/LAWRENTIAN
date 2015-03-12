@@ -70,6 +70,7 @@ void newArticleWorkspaceWindow::handlePermissions(){
         ui->addImage_pushButton->setEnabled(false);
         ui->descriptionTextField->setEnabled(false);
         ui->setCurrentIssueButton->setEnabled(false);
+        ui->issueDescription->hide();
     }
     if(!loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
             &&!loginCred->hasPermission(PermissionDef::EDIT_ARTICLE_WORKSPACE)){
