@@ -139,7 +139,9 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
             Sender sndr = Sender();
             string sec_this =  dbController->translateSection(iSection);
             string sec_art = dbController->translateSection(myArticle->getSection());
-            string writerName;
+            string writerName = dbController->translateWriterName(this->getSelectedWriterLuid());
+
+            cout <<"WRITER NAME IS!! " << writerName<<endl;
 
             string date_art = QDate::fromString(myArticle->QGetIssueDate(),df::dbFormat).toString(df::srvrFormat).toStdString();
 

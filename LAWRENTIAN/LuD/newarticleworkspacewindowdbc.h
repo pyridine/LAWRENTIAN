@@ -23,6 +23,7 @@ public:
     QDate collectLatestIssueDate();
 
 
+    string translateWriterName(int luid);
 
     vector<pair<string, int> *>* getListOfWritersForSection(int section, int currentWriter); //See documentation
     vector<pair<string, int> *>* getListOfPhotographers(int curentPhotographer); //See documentation
