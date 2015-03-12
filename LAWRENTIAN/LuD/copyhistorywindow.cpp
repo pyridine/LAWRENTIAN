@@ -26,13 +26,15 @@ CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& date,
     Sender sndr = Sender();
 
     currentRow = -1;
+
     this->date = date;
     this->sec = sec;
     this->art = art;
 
     ui->setupUi(this);
     ui->copyHistory_tableWidget->setColumnCount(1);
-    ui->copyHistory_tableWidget->setColumnWidth(0,300);
+    ui->copyHistory_tableWidget->setColumnWidth(0,381);
+    this->setWindowTitle("Copy History");
 
     QTableWidgetItem* h1 = new QTableWidgetItem(QString("History"),QTableWidgetItem::Type);
     h1->setTextAlignment(Qt::AlignLeft);
@@ -46,7 +48,6 @@ CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& date,
 //    ui->copyHistory_tableWidget->setHorizontalHeaderItem(2,h3);
 
     ver_seq = sndr.getHistory(date, sec,art,fs::COPY);
-    cout << ver_seq.size() << endl;
     VerSeq::const_iterator iter = ver_seq.begin();
     for(iter; iter != ver_seq.end(); iter++)
     {
@@ -77,7 +78,7 @@ CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& date,
 
         string articleName = iter->verName;
         TimeIce t = iter->time;
-        string author = "Shakespeere";
+        string author = "SETME!";
 
 //        string month = std::to_string((long long)t.month);
 //        month = month.size() ? month : "00";
@@ -101,7 +102,7 @@ CopyHistoryWindow::CopyHistoryWindow(QWidget *parent,const std::string& date,
         second = second.size() ? second : "00";
         second = second.size() == 1 ? "0"+second : second;
 
-        string s3 =  author + " - " + month + " " + day + ", " + year + ". ("
+        string s3 =  author + " - " + month + " " + day + " " + year + ". ("
                 + hour + ":" + minute + ")"
                /* + t.dayOfTheWeek*/;
 
@@ -125,7 +126,8 @@ void CopyHistoryWindow::on_download_pushButton_clicked()
 {
     using namespace std;
     using namespace FileSystem;
-
+    if(currentRow >= 0){
+/*
     rb_vec_t::const_iterator iter = rb_vec.begin();
 
     Version ver;
@@ -141,7 +143,7 @@ void CopyHistoryWindow::on_download_pushButton_clicked()
 
     if(!ver.verName.size())
         return;
-
+*/
     QString Qdown_dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
                                                           "/home",
                                                           QFileDialog::ShowDirsOnly
@@ -150,8 +152,10 @@ void CopyHistoryWindow::on_download_pushButton_clicked()
         return;
 
 
-    int ver_num = ver.verNum;
-    string temp = ver.verName + fs::extCOPY;
+    int ver_num = currentRow;
+    stringstream inter;
+    inter<<ver_num; //this is the only way I know how to make an int into a str...
+    string temp = art + inter.str() + fs::extCOPY;
     string down_dir = Qdown_dir.toStdString() + "/" + temp ;
 
     //    int ver_num = 1;
@@ -160,9 +164,10 @@ void CopyHistoryWindow::on_download_pushButton_clicked()
 
 
     Sender sndr = Sender();
-    sndr.requestCopy(date, sec,art,down_dir,ver_num);
+    sndr.requestCopy(date,sec,art,down_dir,currentRow);
 
     this->close();
+    }
 }
 
 std::string CopyHistoryWindow::getfName(const std::string& str)
@@ -193,13 +198,10 @@ void CopyHistoryWindow::on_copyHistory_tableWidget_cellClicked(int row, int colu
     int b = column;
     b++; //This is just so the compiler doesn't complain about an unused variable.
 
-    using namespace std;
-    cout << "retring file "<<row<<" and "<<(row-1)<<endl;
     ui->previewWindow->setText("Preview is loading...");
     if(ui->ifDifCheckBox->isChecked())
-        displayPreview(row,row-1);
-    else
-        displayPreview(row,-1);
+         displayPreview(row,row-1);
+    else displayPreview(row,-1);
 }
 
 void CopyHistoryWindow::displayPreview(int new_index,int past_index){
@@ -212,26 +214,35 @@ void CopyHistoryWindow::displayPreview(int new_index,int past_index){
             string newText = getArticleText(new_index);
             string oldText = getArticleText(past_index);
 
-            string diff = JDiff::makeDiff(newText,oldText);
+            //split strings into queues here, and then call makediffhtml.
+            queue<string>* newSQ = JDiff::splitStringToQueue(newText);
+            queue<string>* oldSQ = JDiff::splitStringToQueue(oldText);
 
-
-            ui->previewWindow->setHtml(QString::fromStdString(diff));
-
-
+            queue<string>* diffQ = JDiff::makeHTMLDiff_Q(*oldSQ,*newSQ);
+            stringstream diff;
+            while(diffQ->size()){
+                diff<<diffQ->front();
+                diffQ->pop();
+            }
+            ui->previewWindow->setHtml(diff.str().c_str());
         } else{
-            //Don't compare. Just display new.
+            //COMPARE THE TEXT WITH ITSELF LOL
             string newText = getArticleText(new_index);
-            ui->previewWindow->setText(QString::fromStdString(newText));
+
+            ui->previewWindow->setText(JDiff::makeHTML(newText).c_str());
         }
     }
 }
+
+
+
 std::string CopyHistoryWindow::getArticleText(int articleNum){
     string articleNumString;
 
+    //conv articleNum to string
     std::stringstream out;
     out << articleNum;
     articleNumString = out.str();
-
 
     using namespace std;
     Sender sndr = Sender();
@@ -239,24 +250,23 @@ std::string CopyHistoryWindow::getArticleText(int articleNum){
         string fileName = art;
         if(articleNum != 0) fileName += articleNumString;
         string fileNameNoExt = fileName;
-        fileName += ".docx";
-
+        fileName += ".xml";
 
         string filePath = QDir::currentPath().toStdString();
         filePath+="/";filePath+=fileName;
 
+        sndr.requestXML(this->date,this->sec,this->art,filePath,articleNum);
 
-        sndr.requestCopy(this->date,this->sec,this->art,filePath,articleNum);
-
-
-        string xmlLoc = DocxmlToString::unzipDocx(QDir::currentPath().toStdString(),fileNameNoExt);
-        string doc = DocxmlToString::parse(xmlLoc);
+        //string xmlLoc = DocxmlToString::unzipDocx(QDir::currentPath().toStdString(),fileNameNoExt);
+        string doc = DocxmlToString::parse(filePath);
+        if(!QFile::remove(fileName.c_str())){
+               cout << "Failed to remove xml." << endl;
+        }
 
         return doc;
     } else{
-        return "Error: article num less than 0.";
+        return "ERROR!!";
     }
-    return "oh";
 
 }
 

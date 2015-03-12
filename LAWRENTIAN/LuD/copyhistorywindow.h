@@ -6,6 +6,7 @@
 #include <QRadioButton>
 #include <QTableWidgetItem>
 #include "FileSystem.h"
+#include <queue>
 
 namespace Ui {
 class CopyHistoryWindow;

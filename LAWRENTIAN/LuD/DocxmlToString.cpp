@@ -12,7 +12,6 @@ string DocxmlToString::parse(string absoluteDirectory){
 }
 
 string DocxmlToString::fileToText(string dir){
-    cout << "ftt opening " << dir << endl;
     ifstream document;
     document.open(dir);
     if(document.is_open()){
@@ -34,7 +33,7 @@ string DocxmlToString::parseDocXML(string xml){
     stringstream document;
 
     string begin = "<w:t";
-    string newline = "<w:p"; //it is crucial that this is the same length as begin.
+    string newline = "<w:p"; //it is crucial that this is the same length as begin. actually <w:pStyle. okay, so this is shitty...
     char end = '<';
     //We will search for text starting after the end of $begin, and ending before $end.
     //Because we know for a fact that these tags occur way before the end of the document (many multiples of their length before),
@@ -42,6 +41,7 @@ string DocxmlToString::parseDocXML(string xml){
     //Actually, we don't have to be careful at all, because we can stop at the first < after <w:t>, and not care about getting
     //off of </w:t> properly!
 
+    int numNewLines = 0; //skip the first one.
     unsigned int it = 0;
     //This search is dumb.
     //Most of the not-text-we-want elements are accessed begin.size() times.
@@ -72,8 +72,19 @@ string DocxmlToString::parseDocXML(string xml){
             if(nextText.size()) document<<nextText;
         } else if (!thisText.compare(newline)){
             //We have found a newline tag.
-            if(xmlt[it] == '>'){
-            document<<"\n";
+            string ending;
+            ending+=xmlt[it];
+            ending+=xmlt[it+1];
+            ending+=xmlt[it+2];
+            ending+=xmlt[it+3];
+            if(!ending.compare("Styl")){
+                if(numNewLines == 0){
+                    numNewLines++;
+                }else{
+                //it's a new line.
+                //WOW THIS CODE IS SHIT.
+                document<<"\n";
+                }
             }
         }
         else{
@@ -89,42 +100,26 @@ string DocxmlToString::unzipDocx(string dir/*directory of doc*/,string docxname)
 
        QProcess* proc = new QProcess();
 
-       string directoryOfBatch = "C:/Users/Pyridine/Desktop/Junzar.bat"; //Sanfer, you need to set this! "C:/Users/username/dropbox....whatever" Remember, the batch file goes in the "home" directory, where ServerOutput is.
-
-//       string ARG = "/C start "+directoryOfBatch+" /"+docxname+"/ /"+dir+"/ ";
-
-
-       //Manually append quotation marks because fuck me
-//       int quot = 34;
-//       char q = quot;
-//       cout << "\""<< "\""<< "\""<< "\""<< "\""<< "\""<< "\""<<endl;
+       string directoryOfBatch = "C:/Users/Pyridine/Desktop/junz_gold.bat";
 
        string docxC = "";
-//       docxC+=q;
        docxC+=docxname;
-//       docxC+=q;
 
        string dirC = "";
-//       dirC+=q;
        dirC+=dir;
-//       dirC+=q;
 
 
        QStringList args;
-       args.append(QString::fromStdString("/C start "+directoryOfBatch+" "+docxC+" "+dirC));
+       args.append(QString::fromStdString("/C start "+directoryOfBatch+" "+docxC+" end "+dirC+" end "));
 
 
-       //cout << "calling cmd with " << args.toStdList() << endl;
-
-       proc->start("cmd",args/*QStringList()<<ARG.c_str()*/);
+       proc->startDetached("cmd",args);
        if(!proc->waitForStarted()){
-            cout << "fuck";
+            cout << "CMD start error.";
        }
-       cout << "process going... ";
        proc->waitForFinished();
        QThread::sleep(1); //Necessary until we find a fix :P
        //proc->close();
-       cout << "Finito :)";
 
        stringstream directoryOfDoc;
        directoryOfDoc << dir << "/" << docxname << "/" << "document.xml";

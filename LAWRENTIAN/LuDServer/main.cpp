@@ -2,6 +2,6 @@
 
 int main()
 {
-    Receiver rcvr = Receiver(0,"C:/Programs/Issue","C:/Programs/Archive");
+    Receiver rcvr = Receiver();
     return 0;
 }
