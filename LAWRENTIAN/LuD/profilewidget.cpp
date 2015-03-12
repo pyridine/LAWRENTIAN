@@ -28,11 +28,39 @@ void profileWidget::init(LoginCredentials* l, Client *c, employeesWidget *ew)
     if(!loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
             &&!loginCred->hasPermission(PermissionDef::VIEW_TIMESHEETS)
             &&!loginCred->hasPermission(PermissionDef::MANAGE_EMPLOYEE_PROBATION)){
-        this->ui->systemNotificationsTextBrowser->hide();
-        this->ui->label->hide();
-        ui->currentIssueDate->setEnabled(false);
-        ui->setDateButton->setEnabled(false);
+        //people who need system notifications
+        ui->systemNotificationsTextBrowser->hide();
+        ui->label->hide();
     }
+
+    if(!loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
+            &&!loginCred->hasPermission(PermissionDef::SUBMIT_TO_ARCHIVE)){
+            //only editor in chief
+            ui->currentIssueDate->setEnabled(false);
+            ui->setDateButton->setEnabled(false);
+    }
+
+
+
+    if(!loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
+        &&!loginCred->hasPermission(PermissionDef::EDIT_ARTICLE_WORKSPACE)
+            &&!loginCred->hasPermission(PermissionDef::EDIT_CIRCULATIONS)
+            &&!loginCred->hasPermission(PermissionDef::EDIT_COPY)
+            &&!loginCred->hasPermission(PermissionDef::EDIT_EMPLOYEE_INFO)
+            &&!loginCred->hasPermission(PermissionDef::EDIT_PERMISSIONS)
+            &&!loginCred->hasPermission(PermissionDef::EDIT_PHOTO)
+            &&!loginCred->hasPermission(PermissionDef::EDIT_TIMESHEETS)){
+        ui->label_2->hide();
+        ui->label_3->hide();
+        ui->selectTimesheetDate->hide();
+        ui->setCurrentIssueButton->hide();
+        ui->label_4->hide();
+        ui->hoursWorkedTextEdit->hide();
+        ui->submitChangesButton->hide();
+        ui->systemNotificationsTextBrowser->setFixedWidth(1031);
+    }
+
+
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateNotifications()));
     timer->start(10000);

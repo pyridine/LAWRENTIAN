@@ -68,7 +68,7 @@ void newArticleWorkspaceWindow::handlePermissions(){
         ui->sectionComboBox->setEnabled(false);
         ui->chooseFile_pushButton->setEnabled(false);
         ui->addImage_pushButton->setEnabled(false);
-        ui->descriptionTextField->hide();
+        ui->descriptionTextField->setEnabled(false);
         ui->setCurrentIssueButton->setEnabled(false);
     }
     if(!loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
