@@ -44,7 +44,7 @@ queue<string>* JDiff::makeHTMLDiff_Q(queue<string> newSQ,queue<string> oldSQ){
         }
         for(int i = 0; i < oldSQ.size(); i++){
             string olds = oldSQ.front();
-            final->push(JDiff::makeHTMLDiff_Line(olds,""));
+            final->push(JDiff::makeHTMLDiff_Line("",olds));
             oldSQ.pop();
         }
     }
@@ -145,7 +145,7 @@ void JDiff::doExample(){
 }
 
 string JDiff::GET_HTML_LINE_HEADER(){
-    return "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10.5pt;\">";
+    return "<span style=\" font-size:10.5pt;\">";
 }
 
 string JDiff::GET_HTML_LINE_ENDER(){
