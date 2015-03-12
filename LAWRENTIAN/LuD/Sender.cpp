@@ -39,7 +39,7 @@ Sender::~Sender()
 }
 
 bool
-Sender::sendCopy(const std::string& issueDate, const std::string& sec,
+Sender::sendCopy(const std::string& writerName, const std::string& issueDate, const std::string& sec,
                  const std::string& art, const std::string& clDir)
 {
     using namespace std;
@@ -53,7 +53,7 @@ Sender::sendCopy(const std::string& issueDate, const std::string& sec,
     ByteSeq seq(len);
     source.read(reinterpret_cast<char*>(&seq[0]), seq.size());
 
-    bool b = fpx->sendFile(issueDate, sec, art, fs::COPY, art,seq);
+    bool b = fpx->sendFile(writerName, issueDate, sec, art, fs::COPY, art,seq);
     source.close();
 
     return b;
@@ -75,7 +75,7 @@ Sender::sendImage(const std::string& issueDate, const std::string& sec,
     ByteSeq seq(len);
     source.read(reinterpret_cast<char*>(&seq[0]), seq.size());
 
-    bool b = fpx->sendFile(issueDate, sec, art, fs::IMAGE, fName,seq);
+    bool b = fpx->sendFile("",issueDate, sec, art, fs::IMAGE, fName,seq);
     source.close();
 
     return b;
@@ -122,6 +122,11 @@ Sender::requestXML(const std::string& issueDate, const std::string& sec,
     dest.write(reinterpret_cast<char*>(&seq[0]),seq.size());
 
     return dest ? true : false;
+}
+
+std::string Sender::getWriter(const std::string &issueDate, const std::string &sec, const std::string &art, int ver)
+{
+    return fpx->getArtWriter(issueDate, sec, art, ver);
 }
 
 bool

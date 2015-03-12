@@ -139,6 +139,7 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
             Sender sndr = Sender();
             string sec_this =  dbController->translateSection(iSection);
             string sec_art = dbController->translateSection(myArticle->getSection());
+            string writerName;
 
             string date_art = QDate::fromString(myArticle->QGetIssueDate(),df::dbFormat).toString(df::srvrFormat).toStdString();
 
@@ -153,7 +154,7 @@ void newArticleWorkspaceWindow::on_submit_pushButton_clicked()
 
             string filePath = ui->articleFileTextField->text().toStdString();
             if(filePath.size())
-                sndr.sendCopy(date, sec_this, title, filePath);
+                sndr.sendCopy(writerName, date, sec_this, title, filePath);
 
             QStringList::const_iterator iter = img_paths.begin();
             for(iter; iter!=img_paths.end(); iter++)

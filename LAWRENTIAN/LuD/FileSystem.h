@@ -414,6 +414,9 @@ typedef ::IceUtil::Handle< Callback_File_receiveLatestXML_Base> Callback_File_re
 class Callback_File_receiveVersionXML_Base : virtual public ::IceInternal::CallbackBase { };
 typedef ::IceUtil::Handle< Callback_File_receiveVersionXML_Base> Callback_File_receiveVersionXMLPtr;
 
+class Callback_File_getArtWriter_Base : virtual public ::IceInternal::CallbackBase { };
+typedef ::IceUtil::Handle< Callback_File_getArtWriter_Base> Callback_File_getArtWriterPtr;
+
 class Callback_File_sendFile_Base : virtual public ::IceInternal::CallbackBase { };
 typedef ::IceUtil::Handle< Callback_File_sendFile_Base> Callback_File_sendFilePtr;
 
@@ -914,39 +917,152 @@ private:
     
 public:
 
-    bool sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq)
+    ::std::string getArtWriter(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver)
     {
-        return sendFile(issueDate, sec, art, type, fNameExt, seq, 0);
+        return getArtWriter(issueDate, sec, art, ver, 0);
     }
-    bool sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx)
+    ::std::string getArtWriter(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::Ice::Context& __ctx)
     {
-        return sendFile(issueDate, sec, art, type, fNameExt, seq, &__ctx);
+        return getArtWriter(issueDate, sec, art, ver, &__ctx);
     }
 #ifdef ICE_CPP11
     ::Ice::AsyncResultPtr
-    begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_getArtWriter(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::IceInternal::Function<void (const ::std::string&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return __begin_sendFile(issueDate, sec, art, type, fNameExt, seq, 0, __response, __exception, __sent);
+        return __begin_getArtWriter(issueDate, sec, art, ver, 0, __response, __exception, __sent);
     }
     ::Ice::AsyncResultPtr
-    begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_getArtWriter(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_sendFile(issueDate, sec, art, type, fNameExt, seq, 0, ::Ice::newCallback(__completed, __sent), 0);
+        return begin_getArtWriter(issueDate, sec, art, ver, 0, ::Ice::newCallback(__completed, __sent), 0);
     }
     ::Ice::AsyncResultPtr
-    begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_getArtWriter(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::std::string&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return __begin_sendFile(issueDate, sec, art, type, fNameExt, seq, &__ctx, __response, __exception, __sent);
+        return __begin_getArtWriter(issueDate, sec, art, ver, &__ctx, __response, __exception, __sent);
     }
     ::Ice::AsyncResultPtr
-    begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_getArtWriter(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_sendFile(issueDate, sec, art, type, fNameExt, seq, &__ctx, ::Ice::newCallback(__completed, __sent));
+        return begin_getArtWriter(issueDate, sec, art, ver, &__ctx, ::Ice::newCallback(__completed, __sent));
     }
     
 private:
 
-    ::Ice::AsyncResultPtr __begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
+    ::Ice::AsyncResultPtr __begin_getArtWriter(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (const ::std::string&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
+    {
+        class Cpp11CB : public ::IceInternal::Cpp11FnCallbackNC
+        {
+        public:
+
+            Cpp11CB(const ::std::function<void (const ::std::string&)>& responseFunc, const ::std::function<void (const ::Ice::Exception&)>& exceptionFunc, const ::std::function<void (bool)>& sentFunc) :
+                ::IceInternal::Cpp11FnCallbackNC(exceptionFunc, sentFunc),
+                _response(responseFunc)
+            {
+                CallbackBase::checkCallback(true, responseFunc || exceptionFunc != nullptr);
+            }
+
+            virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+            {
+                ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+                ::std::string __ret;
+                try
+                {
+                    __ret = __proxy->end_getArtWriter(__result);
+                }
+                catch(::Ice::Exception& ex)
+                {
+                    Cpp11FnCallbackNC::__exception(__result, ex);
+                    return;
+                }
+                if(_response != nullptr)
+                {
+                    _response(__ret);
+                }
+            }
+        
+        private:
+            
+            ::std::function<void (const ::std::string&)> _response;
+        };
+        return begin_getArtWriter(issueDate, sec, art, ver, __ctx, new Cpp11CB(__response, __exception, __sent));
+    }
+    
+public:
+#endif
+
+    ::Ice::AsyncResultPtr begin_getArtWriter(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver)
+    {
+        return begin_getArtWriter(issueDate, sec, art, ver, 0, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_getArtWriter(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::Ice::Context& __ctx)
+    {
+        return begin_getArtWriter(issueDate, sec, art, ver, &__ctx, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_getArtWriter(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_getArtWriter(issueDate, sec, art, ver, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_getArtWriter(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_getArtWriter(issueDate, sec, art, ver, &__ctx, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_getArtWriter(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::FileSystem::Callback_File_getArtWriterPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_getArtWriter(issueDate, sec, art, ver, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_getArtWriter(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, ::Ice::Int ver, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_getArtWriterPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_getArtWriter(issueDate, sec, art, ver, &__ctx, __del, __cookie);
+    }
+
+    ::std::string end_getArtWriter(const ::Ice::AsyncResultPtr&);
+    
+private:
+
+    ::std::string getArtWriter(const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_getArtWriter(const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    
+public:
+
+    bool sendFile(const ::std::string& writerName, const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq)
+    {
+        return sendFile(writerName, issueDate, sec, art, type, fNameExt, seq, 0);
+    }
+    bool sendFile(const ::std::string& writerName, const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx)
+    {
+        return sendFile(writerName, issueDate, sec, art, type, fNameExt, seq, &__ctx);
+    }
+#ifdef ICE_CPP11
+    ::Ice::AsyncResultPtr
+    begin_sendFile(const ::std::string& writerName, const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_sendFile(writerName, issueDate, sec, art, type, fNameExt, seq, 0, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_sendFile(const ::std::string& writerName, const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_sendFile(writerName, issueDate, sec, art, type, fNameExt, seq, 0, ::Ice::newCallback(__completed, __sent), 0);
+    }
+    ::Ice::AsyncResultPtr
+    begin_sendFile(const ::std::string& writerName, const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_sendFile(writerName, issueDate, sec, art, type, fNameExt, seq, &__ctx, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_sendFile(const ::std::string& writerName, const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_sendFile(writerName, issueDate, sec, art, type, fNameExt, seq, &__ctx, ::Ice::newCallback(__completed, __sent));
+    }
+    
+private:
+
+    ::Ice::AsyncResultPtr __begin_sendFile(const ::std::string& writerName, const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (bool)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
     {
         class Cpp11CB : public ::IceInternal::Cpp11FnCallbackNC
         {
@@ -982,48 +1098,48 @@ private:
             
             ::std::function<void (bool)> _response;
         };
-        return begin_sendFile(issueDate, sec, art, type, fNameExt, seq, __ctx, new Cpp11CB(__response, __exception, __sent));
+        return begin_sendFile(writerName, issueDate, sec, art, type, fNameExt, seq, __ctx, new Cpp11CB(__response, __exception, __sent));
     }
     
 public:
 #endif
 
-    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq)
+    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& writerName, const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq)
     {
-        return begin_sendFile(issueDate, sec, art, type, fNameExt, seq, 0, ::IceInternal::__dummyCallback, 0);
+        return begin_sendFile(writerName, issueDate, sec, art, type, fNameExt, seq, 0, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx)
+    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& writerName, const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx)
     {
-        return begin_sendFile(issueDate, sec, art, type, fNameExt, seq, &__ctx, ::IceInternal::__dummyCallback, 0);
+        return begin_sendFile(writerName, issueDate, sec, art, type, fNameExt, seq, &__ctx, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& writerName, const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_sendFile(issueDate, sec, art, type, fNameExt, seq, 0, __del, __cookie);
+        return begin_sendFile(writerName, issueDate, sec, art, type, fNameExt, seq, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& writerName, const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_sendFile(issueDate, sec, art, type, fNameExt, seq, &__ctx, __del, __cookie);
+        return begin_sendFile(writerName, issueDate, sec, art, type, fNameExt, seq, &__ctx, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::FileSystem::Callback_File_sendFilePtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& writerName, const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::FileSystem::Callback_File_sendFilePtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_sendFile(issueDate, sec, art, type, fNameExt, seq, 0, __del, __cookie);
+        return begin_sendFile(writerName, issueDate, sec, art, type, fNameExt, seq, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_sendFilePtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string& writerName, const ::std::string& issueDate, const ::std::string& sec, const ::std::string& art, const ::std::string& type, const ::std::string& fNameExt, const ::FileSystem::ByteSeq& seq, const ::Ice::Context& __ctx, const ::FileSystem::Callback_File_sendFilePtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_sendFile(issueDate, sec, art, type, fNameExt, seq, &__ctx, __del, __cookie);
+        return begin_sendFile(writerName, issueDate, sec, art, type, fNameExt, seq, &__ctx, __del, __cookie);
     }
 
     bool end_sendFile(const ::Ice::AsyncResultPtr&);
     
 private:
 
-    bool sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Context*);
-    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    bool sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
     
 public:
 
@@ -2401,7 +2517,9 @@ public:
 
     virtual ::FileSystem::ByteSeq receiveVersionXML(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 
-    virtual bool sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+    virtual ::std::string getArtWriter(const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+
+    virtual bool sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 
     virtual ::FileSystem::VerSeq getHistory(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 
@@ -2449,7 +2567,9 @@ public:
 
     virtual ::FileSystem::ByteSeq receiveVersionXML(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
-    virtual bool sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual ::std::string getArtWriter(const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual bool sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
     virtual ::FileSystem::VerSeq getHistory(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
@@ -2497,7 +2617,9 @@ public:
 
     virtual ::FileSystem::ByteSeq receiveVersionXML(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
-    virtual bool sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual ::std::string getArtWriter(const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual bool sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
     virtual ::FileSystem::VerSeq getHistory(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
@@ -2553,7 +2675,10 @@ public:
     virtual ::FileSystem::ByteSeq receiveVersionXML(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Current& = ::Ice::Current()) = 0;
     ::Ice::DispatchStatus ___receiveVersionXML(::IceInternal::Incoming&, const ::Ice::Current&);
 
-    virtual bool sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Current& = ::Ice::Current()) = 0;
+    virtual ::std::string getArtWriter(const ::std::string&, const ::std::string&, const ::std::string&, ::Ice::Int, const ::Ice::Current& = ::Ice::Current()) = 0;
+    ::Ice::DispatchStatus ___getArtWriter(::IceInternal::Incoming&, const ::Ice::Current&);
+
+    virtual bool sendFile(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::FileSystem::ByteSeq&, const ::Ice::Current& = ::Ice::Current()) = 0;
     ::Ice::DispatchStatus ___sendFile(::IceInternal::Incoming&, const ::Ice::Current&);
 
     virtual ::FileSystem::VerSeq getHistory(const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
@@ -3013,6 +3138,106 @@ template<class T, typename CT> Callback_File_receiveVersionXMLPtr
 newCallback_File_receiveVersionXML(T* instance, void (T::*cb)(const ::FileSystem::ByteSeq&, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
 {
     return new Callback_File_receiveVersionXML<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T>
+class CallbackNC_File_getArtWriter : public Callback_File_getArtWriter_Base, public ::IceInternal::TwowayCallbackNC<T>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception&);
+    typedef void (T::*Sent)(bool);
+    typedef void (T::*Response)(const ::std::string&);
+
+    CallbackNC_File_getArtWriter(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallbackNC<T>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        ::std::string __ret;
+        try
+        {
+            __ret = __proxy->end_getArtWriter(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::CallbackNC<T>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::CallbackNC<T>::callback.get()->*response)(__ret);
+        }
+    }
+
+    Response response;
+};
+
+template<class T> Callback_File_getArtWriterPtr
+newCallback_File_getArtWriter(const IceUtil::Handle<T>& instance, void (T::*cb)(const ::std::string&), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_getArtWriter<T>(instance, cb, excb, sentcb);
+}
+
+template<class T> Callback_File_getArtWriterPtr
+newCallback_File_getArtWriter(T* instance, void (T::*cb)(const ::std::string&), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_File_getArtWriter<T>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT>
+class Callback_File_getArtWriter : public Callback_File_getArtWriter_Base, public ::IceInternal::TwowayCallback<T, CT>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception& , const CT&);
+    typedef void (T::*Sent)(bool , const CT&);
+    typedef void (T::*Response)(const ::std::string&, const CT&);
+
+    Callback_File_getArtWriter(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallback<T, CT>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::FileSystem::FilePrx __proxy = ::FileSystem::FilePrx::uncheckedCast(__result->getProxy());
+        ::std::string __ret;
+        try
+        {
+            __ret = __proxy->end_getArtWriter(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::Callback<T, CT>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::Callback<T, CT>::callback.get()->*response)(__ret, CT::dynamicCast(__result->getCookie()));
+        }
+    }
+
+    Response response;
+};
+
+template<class T, typename CT> Callback_File_getArtWriterPtr
+newCallback_File_getArtWriter(const IceUtil::Handle<T>& instance, void (T::*cb)(const ::std::string&, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_getArtWriter<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT> Callback_File_getArtWriterPtr
+newCallback_File_getArtWriter(T* instance, void (T::*cb)(const ::std::string&, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_File_getArtWriter<T, CT>(instance, cb, excb, sentcb);
 }
 
 template<class T>

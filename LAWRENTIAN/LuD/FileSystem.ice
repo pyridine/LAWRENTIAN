@@ -24,7 +24,9 @@ module FileSystem {
         ByteSeq receiveLatestXML(string issueDate, string sec, string art, string type, string fName);
         ByteSeq receiveVersionXML(string issueDate, string sec, string art, string type, string fName, int ver);
 
-        bool sendFile(string issueDate,string sec, string art, string type, string fNameExt, ByteSeq seq);
+        string getArtWriter(string issueDate, string sec, string art, int ver);
+
+        bool sendFile(string writerName, string issueDate,string sec, string art, string type, string fNameExt, ByteSeq seq);
 
         VerSeq getHistory(string issueDate,string sec, string art, string type, string fName);
         StrSeq getImageList(string issueDate,string sec, string art);
