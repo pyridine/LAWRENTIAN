@@ -57,7 +57,7 @@ vector<QDate> WriterTimesheetDBC::getTimesheetDateList()
 
 bool WriterTimesheetDBC::getFrozen(QDate date)
 {
-    QString dateString = date.toString("yyyy-MM-dd");
+    QString dateString = date.toString(df::dbFormat);
     const string GET_ISSUE_DATES = "SELECT frozen FROM lawrentian.writer_timesheet WHERE issueDate =:issueDate";
     QSqlQuery* query = new QSqlQuery();
     query->prepare(QString::fromStdString(GET_ISSUE_DATES));
@@ -86,7 +86,7 @@ bool WriterTimesheetDBC::getFrozen(QDate date)
 
 void WriterTimesheetDBC::setFrozen(QDate date)
 {
-    QString dateString = date.toString("yyyy-MM-dd");
+    QString dateString = date.toString(df::dbFormat);
     const string SET_FROZEN = "UPDATE lawrentian.writer_timesheet SET frozen=1 WHERE issueDate = :issueDate";
     QSqlQuery* query = new QSqlQuery();
     query->prepare(QString::fromStdString(SET_FROZEN));
@@ -152,7 +152,7 @@ string WriterTimesheetDBC::collectArticleTitle(int articleId){
 
 vector<int> WriterTimesheetDBC::collectArticleIdForTimesheet(QDate currentDate, int writerId)
 {
-    QString currentDateString = currentDate.toString("yyyy-MM-dd");
+    QString currentDateString = currentDate.toString(df::dbFormat);
 
     const string GET_ARTICLEID = "SELECT idarticle FROM lawrentian.currentissue_article "
                                            "WHERE currentissue_article.issueDate =:currentDate AND currentissue_article.writer =:writerId";
@@ -180,7 +180,7 @@ vector<int> WriterTimesheetDBC::collectArticleIdForTimesheet(QDate currentDate, 
 
 vector<int> WriterTimesheetDBC::collectWriterForTimesheet(QDate currentDate)
 {
-    QString currentDateString = currentDate.toString("yyyy-MM-dd");
+    QString currentDateString = currentDate.toString(df::dbFormat);
 
     const string GET_WRITERS = "SELECT DISTINCT writer FROM lawrentian.currentissue_article "
                                            "WHERE currentissue_article.issueDate =:currentDate";
@@ -207,7 +207,7 @@ vector<int> WriterTimesheetDBC::collectWriterForTimesheet(QDate currentDate)
 
 void WriterTimesheetDBC::generateWriterTimesheet(int writerId, int articlesOnTime, int articlesLate, QDate issueDate)
 {
-    QString issueDateString = issueDate.toString("yyyy-MM-dd");
+    QString issueDateString = issueDate.toString(df::dbFormat);
 
     const string GENERATE_WRITER_TIMESHEET = "INSERT INTO lawrentian.writer_timesheet (idwriter, articles_ontime, articles_late, issueDate) "
                                              "VALUES (:idwriter, :articles_ontime, :articles_late, :issueDate)";
@@ -233,7 +233,7 @@ void WriterTimesheetDBC::generateWriterTimesheet(int writerId, int articlesOnTim
 void WriterTimesheetDBC::updateWriterTimesheet(int writerId, int articlesOnTime, int articlesLate, QDate issueDate)
 {
 
-   QString issueDateString = issueDate.toString("yyyy-MM-dd");
+   QString issueDateString = issueDate.toString(df::dbFormat);
 
    const string UPDATE_WRITER_TIMESHEET = "INSERT INTO lawrentian.writer_timesheet (idwriter, articles_ontime, articles_late, issueDate) "
                                         "VALUES (:idwriter, :articles_ontime, :articles_late, :issueDate) "
@@ -259,7 +259,7 @@ void WriterTimesheetDBC::updateWriterTimesheet(int writerId, int articlesOnTime,
 
 void WriterTimesheetDBC::deleteWriterTimesheetRecords(QDate issueDate)
 {
-    QString issueDateString = issueDate.toString("yyyy-MM-dd");
+    QString issueDateString = issueDate.toString(df::dbFormat);
 
     const string DELETE_RECORDS = "DELETE FROM lawrentian.writer_timesheet WHERE writer_timesheet.issueDate =:issueDate";
 
@@ -280,7 +280,7 @@ void WriterTimesheetDBC::deleteWriterTimesheetRecords(QDate issueDate)
 
 int WriterTimesheetDBC::collectArticlesOnTime(int writer, QDate issueDate)
 {
-    QString issueDateString = issueDate.toString("yyyy-MM-dd");
+    QString issueDateString = issueDate.toString(df::dbFormat);
 
     const string GET_ARTICLESONTIME = "SELECT idarticle FROM lawrentian.currentissue_article "
                                            "WHERE currentissue_article.writer =:writer AND issueDate =:issueDate";
@@ -306,7 +306,7 @@ int WriterTimesheetDBC::collectArticlesOnTime(int writer, QDate issueDate)
 
 int WriterTimesheetDBC::collectArticlesLate(int writer, QDate issueDate)
 {
-    QString issueDateString = issueDate.toString("yyyy-MM-dd");
+    QString issueDateString = issueDate.toString(df::dbFormat);
 
     const string GET_ARTICLESLATE = "SELECT idarticle FROM lawrentian.currentissue_article "
                                            "WHERE currentissue_article.writer =:writer AND issueDate =:issueDate";
@@ -333,7 +333,7 @@ int WriterTimesheetDBC::collectArticlesLate(int writer, QDate issueDate)
 // Returns number of entries for the issue date
 int WriterTimesheetDBC::writerTimesheetExists(QDate issueDate)
 {
-    QString issueDateString = issueDate.toString("yyyy-MM-dd");
+    QString issueDateString = issueDate.toString(df::dbFormat);
 
     const string GET_ARTICLESONTIME = "SELECT issueDate FROM lawrentian.writer_timesheet WHERE writer_timesheet.issueDate =:issueDate";
     QSqlQuery* query = new QSqlQuery();
@@ -359,7 +359,7 @@ int WriterTimesheetDBC::writerTimesheetExists(QDate issueDate)
 vector<vector<string>>* WriterTimesheetDBC::getTimesheet(QDate issueDate){
     int NUMBEROFCOLUMNS = 4;
 
-    QString issueDateString = issueDate.toString("yyyy-MM-dd");
+    QString issueDateString = issueDate.toString(df::dbFormat);
 
     const string GET_TIMESHEET = "SELECT name, articles_ontime, articles_late, issueDate "
                                  "FROM lawrentian.writer_timesheet "
@@ -402,7 +402,7 @@ QDate WriterTimesheetDBC::collectLatestTimesheetDate()
         // Checks if issue already exists
         while(result->next()){
             QString date = result->value(0).toString();
-            latestDate = QDate::fromString(date, "yyyy-MM-dd");
+            latestDate = QDate::fromString(date, df::dbFormat);
         }
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;

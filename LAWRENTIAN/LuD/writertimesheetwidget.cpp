@@ -29,6 +29,12 @@ void writerTimesheetWidget::init(MainWindow* parent, LoginCredentials* l, Client
     populateIssueComboBox();
     ui->selectIssueDateComboBox->blockSignals(false);
 
+    QString latestTimesheetDateString = ui->selectIssueDateComboBox->itemText(0);
+    QDate latestTimesheetQDate = QDate::fromString(latestTimesheetDateString, df::srvrFormat);
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateTimesheetAndView()));
+    timer->start(10000);
+
     QDate latestIssue = writerTimesheetDBC->collectLatestIssueDate();
     if(!latestIssue.isNull()){
         ui->generateTimesheetDate->setDate(latestIssue);
@@ -37,7 +43,7 @@ void writerTimesheetWidget::init(MainWindow* parent, LoginCredentials* l, Client
     }
 
     QDate latestDate = writerTimesheetDBC->collectLatestTimesheetDate();
-    QString latestDateString = latestDate.toString("d MMM yyyy");
+    QString latestDateString = latestDate.toString(df::srvrFormat);
     if(!latestDate.isNull()){
         ui->selectIssueDateComboBox->setCurrentText(latestDateString);
         updateWriterTimesheet(latestDate);
@@ -51,20 +57,16 @@ void writerTimesheetWidget::init(MainWindow* parent, LoginCredentials* l, Client
         }
     }
 
-    QString latestTimesheetDateString = ui->selectIssueDateComboBox->itemText(0);
-    QDate latestTimesheetQDate = QDate::fromString(latestTimesheetDateString, "d MMM yyyy");
-    timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(updateTimesheetAndView()));
-    timer->start(10000);
+
 
 }
 
 void writerTimesheetWidget::updateTimesheetAndView()
 {
     QString dateString = ui->selectIssueDateComboBox->currentText();
-    QDate date = QDate::fromString(dateString, "d MMM yyyy");
+    QDate date = QDate::fromString(dateString, df::srvrFormat);
     if(!writerTimesheetDBC->getFrozen(date)){
-        cout<<"Updating writer timesheet"<<endl;
+       // cout<<"Updating writer timesheet"<<endl;
     updateWriterTimesheet(date);
     }
 }
@@ -80,7 +82,7 @@ void writerTimesheetWidget::populateIssueComboBox()
     QList<QString> timesheetDateQList;
     for (int i=0; i<timesheetDateList.size(); i++)
     {
-        QString dateString = timesheetDateList[i].toString("d MMM yyyy");
+        QString dateString = timesheetDateList[i].toString(df::srvrFormat);
         timesheetDateQList.insert(i, dateString);
     }
     ui->selectIssueDateComboBox->addItems(timesheetDateQList);
@@ -146,7 +148,7 @@ pair<int, int> writerTimesheetWidget::calculateArticlesOnTimeAndLate(QDate issue
     int articlesLate = 0;
     QDate deadline = issueDate.addDays(-3);
 
-    QString issueDateQString = issueDate.toString("yyyy-MM-dd");
+    QString issueDateQString = issueDate.toString(df::dbFormat);
     string issueDateString = issueDateQString.toStdString();
     string date_art = QDate::fromString(issueDateQString,df::dbFormat).toString(df::srvrFormat).toStdString();
     Sender sndr = Sender();
@@ -188,17 +190,21 @@ void writerTimesheetWidget::generateTimesheet(QDate issueDate)
     Alert *alert = new Alert;
     alert->showInformationAlert("Generated!", "Writer Timesheet successfully generated");
 
-    QString issueDateString = issueDate.toString("d MM yyyy");
+    QString issueDateString = issueDate.toString(df::srvrFormat);
     ui->selectIssueDateComboBox->setCurrentText(issueDateString);
     timer->blockSignals(false);
+    //cout<<"Unblocking signals..."<<endl;
 }
 
 void writerTimesheetWidget::updateWriterTimesheet(QDate selectedDate)
 {
+    timer->blockSignals(true);
+    //cout<<"Blocking signals..."<<endl;
     if(!writerTimesheetDBC->getFrozen(selectedDate)){
         vector<int> writerIds = writerTimesheetDBC->collectWriterForTimesheet(selectedDate);
         int alreadyExists = writerTimesheetDBC->writerTimesheetExists(selectedDate);
         if(alreadyExists>0){
+            //cout<<"Timesheet exists so will update"<<endl;
             if(writerIds.size()>0 && alreadyExists>0){
                 writerTimesheetDBC->deleteWriterTimesheetRecords(selectedDate);
                 for(int i = 0; i<writerIds.size(); i++){
@@ -224,6 +230,8 @@ void writerTimesheetWidget::updateWriterTimesheet(QDate selectedDate)
 //                initTable(selectedDate, false);
 //            }
     }
+    timer->blockSignals(false);
+    //cout<<"Unblocking signals..."<<endl;
 }
 
 writerTimesheetWidget::~writerTimesheetWidget()
@@ -234,13 +242,16 @@ writerTimesheetWidget::~writerTimesheetWidget()
 void writerTimesheetWidget::on_generateTimesheetButton_clicked()
 {
     timer->blockSignals(true);
+    //cout<<"Blocking signals"<<endl;
     QDate selectedDate = ui->generateTimesheetDate->date();
     generateTimesheet(selectedDate);
 }
 
 void writerTimesheetWidget::on_selectIssueDateComboBox_currentIndexChanged(const QString &arg1)
 {
-    QDate date = QDate::fromString(arg1, "d MMM yyyy");
+    timer->blockSignals(true);
+    //cout<<"Blocking signals..."<<endl;
+    QDate date = QDate::fromString(arg1, df::srvrFormat);
     updateWriterTimesheet(date);
     if(writerTimesheetDBC->getFrozen(date)){
         initTable(date, true);
@@ -249,6 +260,8 @@ void writerTimesheetWidget::on_selectIssueDateComboBox_currentIndexChanged(const
         initTable(date, false);
         ui->frozenModeLabel->hide();
     }
+    timer->blockSignals(false);
+    //cout<<"Unblocking signals..."<<endl;
 }
 
 void writerTimesheetWidget::on_freezeInformationButton_clicked()
@@ -265,8 +278,9 @@ void writerTimesheetWidget::on_freezeInformationButton_clicked()
     switch(ret){
     case QMessageBox::Apply: {
         timer->blockSignals(true);
+        //cout<<"blocking signals"<<endl;
         QString selectedDateString = ui->selectIssueDateComboBox->currentText();
-        QDate selectedDate = QDate::fromString(selectedDateString, "d MMM yyyy");
+        QDate selectedDate = QDate::fromString(selectedDateString, df::srvrFormat);
         updateWriterTimesheet(selectedDate); // Update last time before freeze
         writerTimesheetDBC->setFrozen(selectedDate);
         ui->frozenModeLabel->show();
@@ -287,7 +301,7 @@ void writerTimesheetWidget::on_freezeInformationButton_clicked()
 void writerTimesheetWidget::on_saveButton_clicked()
 {
     QString selectedDate = ui->selectIssueDateComboBox->currentText();
-    QDate date = QDate::fromString(selectedDate, "d MMM yyyy");
+    QDate date = QDate::fromString(selectedDate, df::srvrFormat);
 
     Alert *confirm = new Alert;
     int ret = confirm->showQuestionAlert("Save", "Are you sure you want to save changes?");
@@ -302,7 +316,7 @@ void writerTimesheetWidget::on_saveButton_clicked()
             int articlesOnTime = ui->writerTimesheetTable->item(row, 1)->text().toInt();
             int articlesLate = ui->writerTimesheetTable->item(row, 2)->text().toInt();
             QString issueDate = ui->writerTimesheetTable->item(row,3)->text();
-            QDate issueDateQDate = QDate::fromString(issueDate, "yyyy-MM-dd");
+            QDate issueDateQDate = QDate::fromString(issueDate, df::dbFormat);
             int luid = writerTimesheetDBC->getLuidForName(writerName.toStdString());
             writerTimesheetDBC->setArticleSubmissionsForLuid(luid, articlesOnTime, articlesLate);
         }
@@ -323,11 +337,15 @@ void writerTimesheetWidget::on_saveButton_clicked()
 
 void writerTimesheetWidget::on_deleteTimesheetButton_clicked()
 {
+    timer->blockSignals(true);
+    //cout<<"Blocking signals..."<<endl;
     QString selectedDateString = ui->selectIssueDateComboBox->currentText();
-    QDate selectedDate = QDate::fromString(selectedDateString, "d MMM yyyy");
+    QDate selectedDate = QDate::fromString(selectedDateString, df::srvrFormat);
     writerTimesheetDBC->deleteWriterTimesheetRecords(selectedDate);
     populateIssueComboBox();
     QString latestTimesheetDateString = ui->selectIssueDateComboBox->itemText(0);
-    QDate latestTimesheetQDate = QDate::fromString(latestTimesheetDateString, "d MMM yyyy");
+    QDate latestTimesheetQDate = QDate::fromString(latestTimesheetDateString, df::srvrFormat);
     initTable(latestTimesheetQDate, false);
+    timer->blockSignals(false);
+    //cout<<"Unblocking signals..."<<endl;
 }

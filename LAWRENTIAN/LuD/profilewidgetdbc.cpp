@@ -153,16 +153,15 @@ string ProfileWidgetDBC::collectTitle(int luid)
     }
 }
 
-vector<string> ProfileWidgetDBC::collectProbationApprovals(QDate currentDate)
+vector<int> ProfileWidgetDBC::collectPotentialProbationApprovals(QDate currentDate)
 {
     QDate possibleApprovalDate = currentDate.addDays(-21);
-    QString possibleApprovalDateString = possibleApprovalDate.toString("yyyy-MM-dd");
+    QString possibleApprovalDateString = possibleApprovalDate.toString(df::dbFormat);
 
-    const string GET_PROBATION_APPROVALS = "SELECT name FROM lawrentian.employee "
+    const string GET_PROBATION_APPROVALS = "SELECT DISTINCT luid FROM lawrentian.employee "
                                            "INNER JOIN lawrentian.writer_timesheet "
                                            "ON lawrentian.employee.luid = lawrentian.writer_timesheet.idwriter "
-                                           "WHERE employee.probationDate <= :probationDate "
-                                           "AND writer_timesheet.articles_ontime >= 3";
+                                           "WHERE employee.probationDate <= :probationDate";
     QSqlQuery* query = new QSqlQuery();
     query->prepare(QString::fromStdString(GET_PROBATION_APPROVALS));
     query->bindValue(":probationDate", possibleApprovalDateString);
@@ -170,18 +169,49 @@ vector<string> ProfileWidgetDBC::collectProbationApprovals(QDate currentDate)
     QSqlQuery* result = client->execute(query);
     QSqlError err = result->lastError();
 
-    vector<string> names;
+    vector<int> ids;
 
     if(!err.isValid()){
         while(result->next()){
             string approvedPerson = result->value(0).toString().toStdString();
-            names.push_back(approvedPerson);
+            int approvedPersonInt = stoi(approvedPerson);
+            ids.push_back(approvedPersonInt);
         }
 
     }else{
         cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
     }
-    return names;
+    return ids;
+}
+
+
+string ProfileWidgetDBC::collectProbationApproval(QDate currentDate, int luid)
+{
+    QDate possibleApprovalDate = currentDate.addDays(-21);
+    QString possibleApprovalDateString = possibleApprovalDate.toString(df::dbFormat);
+    int min = 3;
+
+    const string GET_PROBATION_APPROVALS = "SELECT name, SUM(articles_ontime) FROM lawrentian.employee INNER JOIN lawrentian.writer_timesheet ON lawrentian.employee.luid = lawrentian.writer_timesheet.idwriter WHERE (luid=:luid) HAVING SUM(articles_ontime)>=3";
+    QSqlQuery* query = new QSqlQuery();
+    query->prepare(QString::fromStdString(GET_PROBATION_APPROVALS));
+    query->bindValue(":probationDate", possibleApprovalDateString);
+    query->bindValue(":luid", luid);
+    query->bindValue(":min", min);
+
+    QSqlQuery* result = client->execute(query);
+    QSqlError err = result->lastError();
+
+   string name;
+
+    if(!err.isValid()){
+        while(result->next()){
+            name = result->value(0).toString().toStdString();
+        }
+
+    }else{
+        cout << "!SQL ERROR: " << result->lastError().text().toStdString() << endl;
+    }
+    return name;
 }
 
 vector<string> ProfileWidgetDBC::collectRegistrationApprovals()

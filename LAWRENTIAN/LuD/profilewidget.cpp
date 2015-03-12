@@ -99,12 +99,21 @@ void profileWidget::updateNotifications()
     if(loginCred->hasPermission(PermissionDef::ADMIN_PTOKEN)
             ||loginCred->hasPermission(PermissionDef::MANAGE_EMPLOYEE_PROBATION)){
         // Checks what writers can be taken off probation
-        vector<string> possibleProbationApprovals = profileWidgetDBC->collectProbationApprovals(currentDate);
-        if(possibleProbationApprovals.size()>0){
+        vector<int> potentialList = profileWidgetDBC->collectPotentialProbationApprovals(currentDate);
+        vector<string> probationApprovalNames; // Populate list of approvals
+        for (int i = 0; i < potentialList.size(); i++){
+            string name = profileWidgetDBC->collectProbationApproval(currentDate, potentialList[i]);
+            if(!name.empty())
+            {
+                probationApprovalNames.push_back(name);
+            }
+        }
+
+        if(probationApprovalNames.size()>0){
             QString probationApprovalText = "Writers to be taken off probation: ";
             ui->systemNotificationsTextBrowser->append("<span>"+probationApprovalText+"</span>");
-            for(int i = 0; i < possibleProbationApprovals.size(); i++){
-                QString name = QString::fromStdString(possibleProbationApprovals[i]);
+            for(int i = 0; i < probationApprovalNames.size(); i++){
+                QString name = QString::fromStdString(probationApprovalNames[i]);
                 QString indexString = QString::number(i);
                 QString prefix = "probationApprovals";
                 QString url = "<a href="+prefix+indexString+">"+name+"</a>";
@@ -141,7 +150,17 @@ void profileWidget::on_systemNotificationsTextBrowser_anchorClicked(const QUrl &
     string urlString = arg1.toString().toStdString();
 
     QDate currentDate = QDate::currentDate();
-    vector<string> possibleProbationApprovals = profileWidgetDBC->collectProbationApprovals(currentDate);
+
+    vector<int> potentialList = profileWidgetDBC->collectPotentialProbationApprovals(currentDate);
+    vector<string> probationApprovalNames; // Populate list of approvals
+    for (int i = 0; i < potentialList.size(); i++){
+        string name = profileWidgetDBC->collectProbationApproval(currentDate, potentialList[i]);
+        if(!name.empty())
+        {
+            probationApprovalNames.push_back(name);
+        }
+    }
+
     vector<string> unapprovedEmployees = profileWidgetDBC->collectRegistrationApprovals();
 
     size_t approvalExists = urlString.find("employeeApprovals");
@@ -163,7 +182,7 @@ void profileWidget::on_systemNotificationsTextBrowser_anchorClicked(const QUrl &
         EditEmployeeInfo *employeeInfo = new EditEmployeeInfo;
         employeeInfo->init(loginCred, ew);
         employeeInfo->initDB(this->client);
-        employeeInfo->initSelectedNameProbation(QString::fromStdString(possibleProbationApprovals[index]));
+        employeeInfo->initSelectedNameProbation(QString::fromStdString(probationApprovalNames[index]));
         employeeInfo->show();
     }
 
