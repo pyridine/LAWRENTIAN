@@ -1,0 +1,28 @@
+<map id="MainWindow::init" name="MainWindow::init">
+<area shape="rect" id="node2" href="$classprofile_widget.html#a27701d2cc0173c25a9fde6916f205388" title="profileWidget::init" alt="" coords="219,5,342,32"/>
+<area shape="rect" id="node3" href="$class_login_credentials.html#af385c4141ae5c398b019b485fbcd90e3" title="LoginCredentials::getName" alt="" coords="191,56,370,83"/>
+<area shape="rect" id="node4" href="$class_database_controller.html#a109af166fcb6981fe31cd85a7525313c" title="DatabaseController\l::translateTitle" alt="" coords="1031,150,1163,191"/>
+<area shape="rect" id="node6" href="$class_login_credentials.html#af53d6cc3fa3c0c25caa8881640ae3b2c" title="LoginCredentials::getTitle" alt="" coords="197,427,365,453"/>
+<area shape="rect" id="node7" href="$classemployees_widget.html#abab0fe9c68fc85e870e4d7c05aa65a8d" title="employeesWidget::init" alt="" coords="205,477,356,504"/>
+<area shape="rect" id="node8" href="$classemployees_widget.html#ae621ba21b802f46bd473d3244686b337" title="employeesWidget::initDB" alt="" coords="196,528,365,555"/>
+<area shape="rect" id="node9" href="$class_login_credentials.html#ad09a4d2b0d0135ec0a6be5d9d0914e0f" title="LoginCredentials::hasPermission" alt="" coords="175,579,387,605"/>
+<area shape="rect" id="node10" href="$classemployees_widget.html#ac8aad4e593cc041b75e44fd768303317" title="employeesWidget::getNumUnregistered" alt="" coords="435,73,687,100"/>
+<area shape="rect" id="node12" href="$classemployees_widget.html#a3c39214d47cda4370ede7350a714ef1b" title="employeesWidget::initPrivilegedView" alt="" coords="443,259,678,285"/>
+<area shape="rect" id="node15" href="$classemployees_widget.html#aa3e84ab14c47870122877ed39f8aaeed" title="employeesWidget::initTotalView" alt="" coords="457,309,664,336"/>
+<area shape="rect" id="node17" href="$classemployees_widget.html#a84faaa94935db8d9ee69658c9a3eac59" title="employeesWidget::initNormalView" alt="" coords="451,208,671,235"/>
+<area shape="rect" id="node19" href="$classarticle_workspace.html#ab665b38e692c93276b94108d3a88c337" title="articleWorkspace::initDB" alt="" coords="197,629,364,656"/>
+<area shape="rect" id="node20" href="$classarticle_workspace.html#ab0636a16c5adbfd2a624ac9635ffa381" title="articleWorkspace::update\lArticleList" alt="" coords="195,361,366,402"/>
+<area shape="rect" id="node26" href="$classcirculation_widget.html#a12729b13f36519416ef3188fb85563e3" title="circulationWidget::\linit_ViewAndEditPrivileges" alt="" coords="193,681,368,722"/>
+<area shape="rect" id="node27" href="$classcirculation_widget.html#a50b9b9d7491ab6cd379bda38f3eb9930" title="circulationWidget::\linit_ViewPrivileges" alt="" coords="215,746,346,787"/>
+<area shape="rect" id="node5" href="$class_client.html#a3a9e7a43f73fa36851226220366ea847" title="Client::execute" alt="" coords="1240,216,1349,243"/>
+<area shape="rect" id="node11" href="$class_employee_table_d_b_c.html#a416b470f5f4c69ba0534ed97e118fbc6" title="EmployeeTableDBC::getNum\lUnregistered" alt="" coords="1001,33,1192,74"/>
+<area shape="rect" id="node13" href="$class_employee_table_d_b_c.html#af56bdf0ed6a8436b25e8a3029a8a4563" title="EmployeeTableDBC::getNumber\lOfEmployees" alt="" coords="739,274,949,315"/>
+<area shape="rect" id="node14" href="$class_employee_table_d_b_c.html#a40d5fe0ac8a6906b08f3821ed2cd38b1" title="EmployeeTableDBC::getPrivileged\lEmployeeView" alt="" coords="735,209,953,250"/>
+<area shape="rect" id="node16" href="$class_employee_table_d_b_c.html#ab2bd665f6fa18def52cbadd902937ebb" title="EmployeeTableDBC::getFull\lEmployeeView" alt="" coords="751,339,937,381"/>
+<area shape="rect" id="node18" href="$class_employee_table_d_b_c.html#a7ca71072a7bbb5bbb0520259b3c3617c" title="EmployeeTableDBC::getRegular\lEmployeeView" alt="" coords="740,91,948,133"/>
+<area shape="rect" id="node21" href="$classarticle_workspace.html#a03bdfc2424a786b51a46d04c1426798e" title="articleWorkspace::resetArticle\lButtons" alt="" coords="462,383,659,425"/>
+<area shape="rect" id="node22" href="$classarticle_workspace.html#ad7fda7f14c95e55bc4596dc208bd9f6e" title="articleWorkspace::addArticle\lButton" alt="" coords="749,417,939,458"/>
+<area shape="rect" id="node23" href="$class_article.html#a6fca8ef24a200337b22cc52f2e00660d" title="Article::getTitle" alt="" coords="1042,435,1151,461"/>
+<area shape="rect" id="node24" href="$class_database_controller.html#a399ace73dd39f858a625d86eccb6a311" title="DatabaseController\l::translateSection" alt="" coords="1031,369,1163,410"/>
+<area shape="rect" id="node25" href="$class_article.html#a6bdb98f93b921392d7258bf63c7c322b" title="Article::getSection" alt="" coords="1032,485,1161,512"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="ArticleWorkspaceDBC" name="ArticleWorkspaceDBC">
+<area shape="rect" id="node2" href="$class_database_controller.html" title="{DatabaseController\n||+ DatabaseController()\l+ getClient()\l+ translateTitle()\l+ translatePermission()\l+ translateLocation()\l+ translateSection()\l}" alt="" coords="17,219,174,369"/>
+<area shape="rect" id="node3" href="$class_client.html" title="{Client\n||+ Client()\l+ connect()\l+ execute()\l+ execute()\l+ sampleQuery()\l+ ~Client()\l}" alt="" coords="36,5,155,156"/>
+</map>

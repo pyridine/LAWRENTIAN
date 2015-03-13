@@ -1,0 +1,11 @@
+<map id="mainwindow.h" name="mainwindow.h">
+<area shape="rect" id="node3" href="$logincredentials_8h.html" title="logincredentials.h" alt="" coords="97,229,220,256"/>
+<area shape="rect" id="node9" href="$client_8h.html" title="client.h" alt="" coords="583,379,647,405"/>
+<area shape="rect" id="node15" href="$loginwindow_8h.html" title="loginwindow.h" alt="" coords="321,80,423,107"/>
+<area shape="rect" id="node19" href="$mainwindowdbc_8h.html" title="mainwindowdbc.h" alt="" coords="453,80,577,107"/>
+<area shape="rect" id="node4" href="$permissions_8h.html" title="permissions.h" alt="" coords="153,304,255,331"/>
+<area shape="rect" id="node10" href="$remotedbconnection_8h.html" title="remotedbconnection.h" alt="" coords="545,453,695,480"/>
+<area shape="rect" id="node16" href="$loginwindowdbc_8h.html" title="loginwindowdbc.h" alt="" coords="303,229,425,256"/>
+<area shape="rect" id="node17" href="$databasecontroller_8h.html" title="databasecontroller.h" alt="" coords="335,304,473,331"/>
+<area shape="rect" id="node20" href="$permissiondef_8h.html" title="permissiondef.h" alt="" coords="458,155,571,181"/>
+</map>

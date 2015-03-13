@@ -1,0 +1,11 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$class_q_widget.html" title="QWidget" alt="" coords="5,183,79,209"/>
+<area shape="rect" id="node2" href="$classad_widget.html" title="adWidget" alt="" coords="165,5,243,32"/>
+<area shape="rect" id="node3" href="$classarticle_workspace.html" title="articleWorkspace" alt="" coords="143,56,265,83"/>
+<area shape="rect" id="node4" href="$classcirculation_widget.html" title="circulationWidget" alt="" coords="143,107,265,133"/>
+<area shape="rect" id="node5" href="$classeditor_timesheet_widget.html" title="editorTimesheetWidget" alt="" coords="127,157,281,184"/>
+<area shape="rect" id="node6" href="$classemployees_widget.html" title="employeesWidget" alt="" coords="141,208,267,235"/>
+<area shape="rect" id="node7" href="$classprofile_widget.html" title="profileWidget" alt="" coords="155,259,253,285"/>
+<area shape="rect" id="node8" href="$classsubscriptions_widget.html" title="subscriptionsWidget" alt="" coords="134,309,274,336"/>
+<area shape="rect" id="node9" href="$classwriter_timesheet_widget.html" title="writerTimesheetWidget" alt="" coords="127,360,281,387"/>
+</map>

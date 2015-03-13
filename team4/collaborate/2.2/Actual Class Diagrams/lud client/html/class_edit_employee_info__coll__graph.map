@@ -1,0 +1,5 @@
+<map id="EditEmployeeInfo" name="EditEmployeeInfo">
+<area shape="rect" id="node2" href="$class_q_dialog.html" title="{QDialog\n||}" alt="" coords="21,183,89,261"/>
+<area shape="rect" id="node3" href="$classemployees_widget.html" title="{employeesWidget\n||+ employeesWidget()\l+ ~employeesWidget()\l+ init()\l+ initDB()\l+ initNormalView()\l+ initPrivilegedView()\l+ initTotalView()\l+ getNumUnregistered()\l}" alt="" coords="113,132,273,312"/>
+<area shape="rect" id="node4" href="$class_q_widget.html" title="{QWidget\n||}" alt="" coords="157,5,230,83"/>
+</map>

@@ -1,0 +1,34 @@
+\hypertarget{circulationwindowdbc_8cpp}{}\section{circulationwindowdbc.\+cpp File Reference}
+\label{circulationwindowdbc_8cpp}\index{circulationwindowdbc.\+cpp@{circulationwindowdbc.\+cpp}}
+{\ttfamily \#include \char`\"{}circulationwindowdbc.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}route.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$qvariant.\+h$>$}\\*
+{\ttfamily \#include $<$Q\+Table\+Widget\+Item$>$}\\*
+{\ttfamily \#include $<$Qt\+Sql$>$}\\*
+{\ttfamily \#include $<$utility$>$}\\*
+{\ttfamily \#include $<$Qt\+Sql/qsqlerror.\+h$>$}\\*
+Include dependency graph for circulationwindowdbc.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{circulationwindowdbc_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespace_c_w_d_b_c_commands}{C\+W\+D\+B\+C\+Commands}
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const string \hyperlink{namespace_c_w_d_b_c_commands_aab733307e09eeb9654b58812c08502fe}{C\+W\+D\+B\+C\+Commands\+::\+G\+E\+T\+\_\+\+A\+L\+L\+\_\+\+R\+O\+U\+T\+E\+\_\+\+N\+U\+M\+S} = \char`\"{}S\+E\+L\+E\+C\+T routeid F\+R\+O\+M lawrentian.\+routes\char`\"{}
+\item 
+const string \hyperlink{namespace_c_w_d_b_c_commands_aa05e830c98222ee12267852ebcb5d48c}{C\+W\+D\+B\+C\+Commands\+::\+G\+E\+T\+\_\+\+R\+O\+U\+T\+E\+\_\+\+P\+O\+I\+N\+T\+S} = \char`\"{}S\+E\+L\+E\+C\+T idlocation,number\+Of\+Issues F\+R\+O\+M lawrentian.\+routes W\+H\+E\+R\+E routeid = \+:id O\+R\+D\+E\+R B\+Y locationorder A\+S\+C\char`\"{}
+\item 
+const string \hyperlink{namespace_c_w_d_b_c_commands_a3f1afd7c1c975fe20818bcaac5411782}{C\+W\+D\+B\+C\+Commands\+::\+D\+R\+O\+P\+\_\+\+R\+O\+U\+T\+E} = \char`\"{}D\+E\+L\+E\+T\+E F\+R\+O\+M lawrentian.\+routes W\+H\+E\+R\+E routeid = \+:id\char`\"{}
+\item 
+const string \hyperlink{namespace_c_w_d_b_c_commands_abd88284f4660e14a8b6397613a162bce}{C\+W\+D\+B\+C\+Commands\+::\+I\+N\+S\+E\+R\+T\+\_\+\+R\+O\+U\+T\+E\+\_\+\+P\+O\+I\+N\+T} = \char`\"{}I\+N\+S\+E\+R\+T I\+N\+T\+O lawrentian.\+routes (routeid,idlocation,number\+Of\+Issues,locationorder) V\+A\+L\+U\+E\+S (\+:id,\+:loc,\+:num,\+:ord)\char`\"{}
+\end{DoxyCompactItemize}

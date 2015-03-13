@@ -1,0 +1,167 @@
+\hypertarget{_file_system_8h}{}\section{File\+System.\+h File Reference}
+\label{_file_system_8h}\index{File\+System.\+h@{File\+System.\+h}}
+{\ttfamily \#include $<$Ice/\+Proxy\+F.\+h$>$}\\*
+{\ttfamily \#include $<$Ice/\+Object\+F.\+h$>$}\\*
+{\ttfamily \#include $<$Ice/\+Exception.\+h$>$}\\*
+{\ttfamily \#include $<$Ice/\+Local\+Object.\+h$>$}\\*
+{\ttfamily \#include $<$Ice/\+Stream\+Helpers.\+h$>$}\\*
+{\ttfamily \#include $<$Ice/\+Proxy.\+h$>$}\\*
+{\ttfamily \#include $<$Ice/\+Object.\+h$>$}\\*
+{\ttfamily \#include $<$Ice/\+Outgoing.\+h$>$}\\*
+{\ttfamily \#include $<$Ice/\+Outgoing\+Async.\+h$>$}\\*
+{\ttfamily \#include $<$Ice/\+Incoming.\+h$>$}\\*
+{\ttfamily \#include $<$Ice/\+Direct.\+h$>$}\\*
+{\ttfamily \#include $<$Ice\+Util/\+Scoped\+Array.\+h$>$}\\*
+{\ttfamily \#include $<$Ice\+Util/\+Optional.\+h$>$}\\*
+{\ttfamily \#include $<$Ice/\+Stream\+F.\+h$>$}\\*
+{\ttfamily \#include $<$Ice/\+Undef\+Sys\+Macros.\+h$>$}\\*
+Include dependency graph for File\+System.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_file_system_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_file_system_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_file_system_1_1_version}{File\+System\+::\+Version}
+\item 
+struct \hyperlink{struct_ice_1_1_streamable_traits_3_01_1_1_file_system_1_1_version_01_4}{Ice\+::\+Streamable\+Traits$<$ \+::\+File\+System\+::\+Version $>$}
+\item 
+struct \hyperlink{struct_ice_1_1_stream_writer_3_01_1_1_file_system_1_1_version_00_01_s_01_4}{Ice\+::\+Stream\+Writer$<$ \+::\+File\+System\+::\+Version, S $>$}
+\item 
+struct \hyperlink{struct_ice_1_1_stream_reader_3_01_1_1_file_system_1_1_version_00_01_s_01_4}{Ice\+::\+Stream\+Reader$<$ \+::\+File\+System\+::\+Version, S $>$}
+\item 
+class \hyperlink{class_file_system_1_1_callback___file__receive_latest___base}{File\+System\+::\+Callback\+\_\+\+File\+\_\+receive\+Latest\+\_\+\+Base}
+\item 
+class \hyperlink{class_file_system_1_1_callback___file__receive_version___base}{File\+System\+::\+Callback\+\_\+\+File\+\_\+receive\+Version\+\_\+\+Base}
+\item 
+class \hyperlink{class_file_system_1_1_callback___file__send_file___base}{File\+System\+::\+Callback\+\_\+\+File\+\_\+send\+File\+\_\+\+Base}
+\item 
+class \hyperlink{class_file_system_1_1_callback___file__get_history___base}{File\+System\+::\+Callback\+\_\+\+File\+\_\+get\+History\+\_\+\+Base}
+\item 
+class \hyperlink{class_ice_proxy_1_1_file_system_1_1_file}{Ice\+Proxy\+::\+File\+System\+::\+File}
+\item 
+class \hyperlink{class_ice_delegate_1_1_file_system_1_1_file}{Ice\+Delegate\+::\+File\+System\+::\+File}
+\item 
+class \hyperlink{class_ice_delegate_m_1_1_file_system_1_1_file}{Ice\+Delegate\+M\+::\+File\+System\+::\+File}
+\item 
+class \hyperlink{class_ice_delegate_d_1_1_file_system_1_1_file}{Ice\+Delegate\+D\+::\+File\+System\+::\+File}
+\item 
+class \hyperlink{class_file_system_1_1_file}{File\+System\+::\+File}
+\item 
+class \hyperlink{class_file_system_1_1_callback_n_c___file__receive_latest}{File\+System\+::\+Callback\+N\+C\+\_\+\+File\+\_\+receive\+Latest$<$ T $>$}
+\item 
+class \hyperlink{class_file_system_1_1_callback___file__receive_latest}{File\+System\+::\+Callback\+\_\+\+File\+\_\+receive\+Latest$<$ T, C\+T $>$}
+\item 
+class \hyperlink{class_file_system_1_1_callback_n_c___file__receive_version}{File\+System\+::\+Callback\+N\+C\+\_\+\+File\+\_\+receive\+Version$<$ T $>$}
+\item 
+class \hyperlink{class_file_system_1_1_callback___file__receive_version}{File\+System\+::\+Callback\+\_\+\+File\+\_\+receive\+Version$<$ T, C\+T $>$}
+\item 
+class \hyperlink{class_file_system_1_1_callback_n_c___file__send_file}{File\+System\+::\+Callback\+N\+C\+\_\+\+File\+\_\+send\+File$<$ T $>$}
+\item 
+class \hyperlink{class_file_system_1_1_callback___file__send_file}{File\+System\+::\+Callback\+\_\+\+File\+\_\+send\+File$<$ T, C\+T $>$}
+\item 
+class \hyperlink{class_file_system_1_1_callback_n_c___file__get_history}{File\+System\+::\+Callback\+N\+C\+\_\+\+File\+\_\+get\+History$<$ T $>$}
+\item 
+class \hyperlink{class_file_system_1_1_callback___file__get_history}{File\+System\+::\+Callback\+\_\+\+File\+\_\+get\+History$<$ T, C\+T $>$}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespace_ice_proxy}{Ice\+Proxy}
+\item 
+ \hyperlink{namespace_ice_proxy_1_1_file_system}{Ice\+Proxy\+::\+File\+System}
+\item 
+ \hyperlink{namespace_file_system}{File\+System}
+\item 
+ \hyperlink{namespace_ice}{Ice}
+\item 
+ \hyperlink{namespace_ice_delegate}{Ice\+Delegate}
+\item 
+ \hyperlink{namespace_ice_delegate_1_1_file_system}{Ice\+Delegate\+::\+File\+System}
+\item 
+ \hyperlink{namespace_ice_delegate_m}{Ice\+Delegate\+M}
+\item 
+ \hyperlink{namespace_ice_delegate_m_1_1_file_system}{Ice\+Delegate\+M\+::\+File\+System}
+\item 
+ \hyperlink{namespace_ice_delegate_d}{Ice\+Delegate\+D}
+\item 
+ \hyperlink{namespace_ice_delegate_d_1_1_file_system}{Ice\+Delegate\+D\+::\+File\+System}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \+::Ice\+Internal\+::\+Handle$<$ \+::\hyperlink{class_file_system_1_1_file}{File\+System\+::\+File} $>$ \hyperlink{namespace_file_system_a322304ec4ae6dc6308f79d49662764bb}{File\+System\+::\+File\+Ptr}
+\item 
+typedef \+::Ice\+Internal\+::\+Proxy\+Handle$<$ \+::\hyperlink{class_ice_proxy_1_1_file_system_1_1_file}{Ice\+Proxy\+::\+File\+System\+::\+File} $>$ \hyperlink{namespace_file_system_a2cca5b42d5ab231d91dd889d4d74218c}{File\+System\+::\+File\+Prx}
+\item 
+typedef \+::std\+::vector$<$ \+::Ice\+::\+Byte $>$ \hyperlink{namespace_file_system_a5c85de065f9c451ae1d1dea2dacb68c5}{File\+System\+::\+Byte\+Seq}
+\item 
+typedef \+::std\+::vector$<$ \+::\hyperlink{struct_file_system_1_1_version}{File\+System\+::\+Version} $>$ \hyperlink{namespace_file_system_ac32dc1eb34c060160b52edc7c4e37d6e}{File\+System\+::\+Ver\+Seq}
+\item 
+typedef \+::Ice\+Util\+::\+Handle$<$ Callback\+\_\+\+File\+\_\+receive\+Latest\+\_\+\+Base $>$ \hyperlink{namespace_file_system_a86fe38e325e02ddd26f665f486d51837}{File\+System\+::\+Callback\+\_\+\+File\+\_\+receive\+Latest\+Ptr}
+\item 
+typedef \+::Ice\+Util\+::\+Handle$<$ Callback\+\_\+\+File\+\_\+receive\+Version\+\_\+\+Base $>$ \hyperlink{namespace_file_system_a9f139d463637347415d1d3dadefe9bad}{File\+System\+::\+Callback\+\_\+\+File\+\_\+receive\+Version\+Ptr}
+\item 
+typedef \+::Ice\+Util\+::\+Handle$<$ Callback\+\_\+\+File\+\_\+send\+File\+\_\+\+Base $>$ \hyperlink{namespace_file_system_aa10040959d9776f7f500f38a2567b56e}{File\+System\+::\+Callback\+\_\+\+File\+\_\+send\+File\+Ptr}
+\item 
+typedef \+::Ice\+Util\+::\+Handle$<$ Callback\+\_\+\+File\+\_\+get\+History\+\_\+\+Base $>$ \hyperlink{namespace_file_system_a9dca00d90979e9c64452fc4123feed8e}{File\+System\+::\+Callback\+\_\+\+File\+\_\+get\+History\+Ptr}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{namespace_ice_proxy_1_1_file_system_a0b249e87c3baee8b137cf42677c53635}{Ice\+Proxy\+::\+File\+System\+::\+\_\+\+\_\+read} (\+::Ice\+Internal\+::\+Basic\+Stream $\ast$,\+::Ice\+Internal\+::\+Proxy\+Handle$<$ \+::\hyperlink{class_ice_proxy_1_1_file_system_1_1_file}{Ice\+Proxy\+::\+File\+System\+::\+File} $>$ \&)
+\item 
+\+::Ice\+Proxy\+::\+Ice\+::\+Object $\ast$ \hyperlink{namespace_ice_proxy_1_1_file_system_acb20dd4ca34a1045e77c7e64f5faa83a}{Ice\+Proxy\+::\+File\+System\+::up\+Cast} (\+::\hyperlink{class_ice_proxy_1_1_file_system_1_1_file}{Ice\+Proxy\+::\+File\+System\+::\+File} $\ast$)
+\item 
+bool \hyperlink{namespace_file_system_a73ba38c87f762f68818866f670cdece9}{File\+System\+::operator==} (const File \&, const File \&)
+\item 
+bool \hyperlink{namespace_file_system_ace2c44fa41a64ff7b2d5262d77563c06}{File\+System\+::operator$<$} (const File \&, const File \&)
+\item 
+\+::Ice\+::\+Object $\ast$ \hyperlink{namespace_file_system_a918f916e3b881056468148cf34e98734}{File\+System\+::up\+Cast} (\+::\hyperlink{class_file_system_1_1_file}{File\+System\+::\+File} $\ast$)
+\item 
+void \hyperlink{namespace_file_system_a51d618729b59cf8ad7823ff14af488de}{File\+System\+::\+\_\+\+\_\+patch} (File\+Ptr \&, const \+::Ice\+::\+Object\+Ptr \&)
+\item 
+{\footnotesize template$<$class T $>$ }\\Callback\+\_\+\+File\+\_\+receive\+Latest\+Ptr \hyperlink{namespace_file_system_a8cc04448ea3637125a33672fbd8f01db}{File\+System\+::new\+Callback\+\_\+\+File\+\_\+receive\+Latest} (const Ice\+Util\+::\+Handle$<$ T $>$ \&instance, void(T\+::$\ast$cb)(const \+::\hyperlink{namespace_file_system_a5c85de065f9c451ae1d1dea2dacb68c5}{File\+System\+::\+Byte\+Seq} \&), void(T\+::$\ast$excb)(const \+::Ice\+::\+Exception \&), void(T\+::$\ast$sentcb)(bool)=0)
+\item 
+{\footnotesize template$<$class T $>$ }\\Callback\+\_\+\+File\+\_\+receive\+Latest\+Ptr \hyperlink{namespace_file_system_a4fbffcbd3a07944195f823e591bb353d}{File\+System\+::new\+Callback\+\_\+\+File\+\_\+receive\+Latest} (T $\ast$instance, void(T\+::$\ast$cb)(const \+::\hyperlink{namespace_file_system_a5c85de065f9c451ae1d1dea2dacb68c5}{File\+System\+::\+Byte\+Seq} \&), void(T\+::$\ast$excb)(const \+::Ice\+::\+Exception \&), void(T\+::$\ast$sentcb)(bool)=0)
+\item 
+{\footnotesize template$<$class T , typename C\+T $>$ }\\Callback\+\_\+\+File\+\_\+receive\+Latest\+Ptr \hyperlink{namespace_file_system_a0046b7a52a5238cb4aec849e4ccd3f15}{File\+System\+::new\+Callback\+\_\+\+File\+\_\+receive\+Latest} (const Ice\+Util\+::\+Handle$<$ T $>$ \&instance, void(T\+::$\ast$cb)(const \+::\hyperlink{namespace_file_system_a5c85de065f9c451ae1d1dea2dacb68c5}{File\+System\+::\+Byte\+Seq} \&, const C\+T \&), void(T\+::$\ast$excb)(const \+::Ice\+::\+Exception \&, const C\+T \&), void(T\+::$\ast$sentcb)(bool, const C\+T \&)=0)
+\item 
+{\footnotesize template$<$class T , typename C\+T $>$ }\\Callback\+\_\+\+File\+\_\+receive\+Latest\+Ptr \hyperlink{namespace_file_system_ab3edd75e3503f455de67f53659888e54}{File\+System\+::new\+Callback\+\_\+\+File\+\_\+receive\+Latest} (T $\ast$instance, void(T\+::$\ast$cb)(const \+::\hyperlink{namespace_file_system_a5c85de065f9c451ae1d1dea2dacb68c5}{File\+System\+::\+Byte\+Seq} \&, const C\+T \&), void(T\+::$\ast$excb)(const \+::Ice\+::\+Exception \&, const C\+T \&), void(T\+::$\ast$sentcb)(bool, const C\+T \&)=0)
+\item 
+{\footnotesize template$<$class T $>$ }\\Callback\+\_\+\+File\+\_\+receive\+Version\+Ptr \hyperlink{namespace_file_system_a42d5739a2f8c21dd11147976f3899b6a}{File\+System\+::new\+Callback\+\_\+\+File\+\_\+receive\+Version} (const Ice\+Util\+::\+Handle$<$ T $>$ \&instance, void(T\+::$\ast$cb)(const \+::\hyperlink{namespace_file_system_a5c85de065f9c451ae1d1dea2dacb68c5}{File\+System\+::\+Byte\+Seq} \&), void(T\+::$\ast$excb)(const \+::Ice\+::\+Exception \&), void(T\+::$\ast$sentcb)(bool)=0)
+\item 
+{\footnotesize template$<$class T $>$ }\\Callback\+\_\+\+File\+\_\+receive\+Version\+Ptr \hyperlink{namespace_file_system_a03da11fc8fef703e71e714806a453d0f}{File\+System\+::new\+Callback\+\_\+\+File\+\_\+receive\+Version} (T $\ast$instance, void(T\+::$\ast$cb)(const \+::\hyperlink{namespace_file_system_a5c85de065f9c451ae1d1dea2dacb68c5}{File\+System\+::\+Byte\+Seq} \&), void(T\+::$\ast$excb)(const \+::Ice\+::\+Exception \&), void(T\+::$\ast$sentcb)(bool)=0)
+\item 
+{\footnotesize template$<$class T , typename C\+T $>$ }\\Callback\+\_\+\+File\+\_\+receive\+Version\+Ptr \hyperlink{namespace_file_system_aca4582991eb93cb8a1826c2387679604}{File\+System\+::new\+Callback\+\_\+\+File\+\_\+receive\+Version} (const Ice\+Util\+::\+Handle$<$ T $>$ \&instance, void(T\+::$\ast$cb)(const \+::\hyperlink{namespace_file_system_a5c85de065f9c451ae1d1dea2dacb68c5}{File\+System\+::\+Byte\+Seq} \&, const C\+T \&), void(T\+::$\ast$excb)(const \+::Ice\+::\+Exception \&, const C\+T \&), void(T\+::$\ast$sentcb)(bool, const C\+T \&)=0)
+\item 
+{\footnotesize template$<$class T , typename C\+T $>$ }\\Callback\+\_\+\+File\+\_\+receive\+Version\+Ptr \hyperlink{namespace_file_system_adf4cdf405caaf42582f7d55bf48d5702}{File\+System\+::new\+Callback\+\_\+\+File\+\_\+receive\+Version} (T $\ast$instance, void(T\+::$\ast$cb)(const \+::\hyperlink{namespace_file_system_a5c85de065f9c451ae1d1dea2dacb68c5}{File\+System\+::\+Byte\+Seq} \&, const C\+T \&), void(T\+::$\ast$excb)(const \+::Ice\+::\+Exception \&, const C\+T \&), void(T\+::$\ast$sentcb)(bool, const C\+T \&)=0)
+\item 
+{\footnotesize template$<$class T $>$ }\\Callback\+\_\+\+File\+\_\+send\+File\+Ptr \hyperlink{namespace_file_system_a19a234cedd70c1fd80bb5f5c842c3041}{File\+System\+::new\+Callback\+\_\+\+File\+\_\+send\+File} (const Ice\+Util\+::\+Handle$<$ T $>$ \&instance, void(T\+::$\ast$cb)(bool), void(T\+::$\ast$excb)(const \+::Ice\+::\+Exception \&), void(T\+::$\ast$sentcb)(bool)=0)
+\item 
+{\footnotesize template$<$class T $>$ }\\Callback\+\_\+\+File\+\_\+send\+File\+Ptr \hyperlink{namespace_file_system_a940c86675dd438dacf7618250756a3c0}{File\+System\+::new\+Callback\+\_\+\+File\+\_\+send\+File} (T $\ast$instance, void(T\+::$\ast$cb)(bool), void(T\+::$\ast$excb)(const \+::Ice\+::\+Exception \&), void(T\+::$\ast$sentcb)(bool)=0)
+\item 
+{\footnotesize template$<$class T , typename C\+T $>$ }\\Callback\+\_\+\+File\+\_\+send\+File\+Ptr \hyperlink{namespace_file_system_a018b94a8e4bb414a2eb5b880dfd2309d}{File\+System\+::new\+Callback\+\_\+\+File\+\_\+send\+File} (const Ice\+Util\+::\+Handle$<$ T $>$ \&instance, void(T\+::$\ast$cb)(bool, const C\+T \&), void(T\+::$\ast$excb)(const \+::Ice\+::\+Exception \&, const C\+T \&), void(T\+::$\ast$sentcb)(bool, const C\+T \&)=0)
+\item 
+{\footnotesize template$<$class T , typename C\+T $>$ }\\Callback\+\_\+\+File\+\_\+send\+File\+Ptr \hyperlink{namespace_file_system_a617605b6d0e9224ad5d7d424600651da}{File\+System\+::new\+Callback\+\_\+\+File\+\_\+send\+File} (T $\ast$instance, void(T\+::$\ast$cb)(bool, const C\+T \&), void(T\+::$\ast$excb)(const \+::Ice\+::\+Exception \&, const C\+T \&), void(T\+::$\ast$sentcb)(bool, const C\+T \&)=0)
+\item 
+{\footnotesize template$<$class T $>$ }\\Callback\+\_\+\+File\+\_\+get\+History\+Ptr \hyperlink{namespace_file_system_a9c85bcf49db4963463099447f95e0dab}{File\+System\+::new\+Callback\+\_\+\+File\+\_\+get\+History} (const Ice\+Util\+::\+Handle$<$ T $>$ \&instance, void(T\+::$\ast$cb)(const \+::\hyperlink{namespace_file_system_ac32dc1eb34c060160b52edc7c4e37d6e}{File\+System\+::\+Ver\+Seq} \&), void(T\+::$\ast$excb)(const \+::Ice\+::\+Exception \&), void(T\+::$\ast$sentcb)(bool)=0)
+\item 
+{\footnotesize template$<$class T $>$ }\\Callback\+\_\+\+File\+\_\+get\+History\+Ptr \hyperlink{namespace_file_system_ad5d2a7211c35dfd59a100b8672b42fae}{File\+System\+::new\+Callback\+\_\+\+File\+\_\+get\+History} (T $\ast$instance, void(T\+::$\ast$cb)(const \+::\hyperlink{namespace_file_system_ac32dc1eb34c060160b52edc7c4e37d6e}{File\+System\+::\+Ver\+Seq} \&), void(T\+::$\ast$excb)(const \+::Ice\+::\+Exception \&), void(T\+::$\ast$sentcb)(bool)=0)
+\item 
+{\footnotesize template$<$class T , typename C\+T $>$ }\\Callback\+\_\+\+File\+\_\+get\+History\+Ptr \hyperlink{namespace_file_system_a452d710fbcda80656c790b9c5fd63518}{File\+System\+::new\+Callback\+\_\+\+File\+\_\+get\+History} (const Ice\+Util\+::\+Handle$<$ T $>$ \&instance, void(T\+::$\ast$cb)(const \+::\hyperlink{namespace_file_system_ac32dc1eb34c060160b52edc7c4e37d6e}{File\+System\+::\+Ver\+Seq} \&, const C\+T \&), void(T\+::$\ast$excb)(const \+::Ice\+::\+Exception \&, const C\+T \&), void(T\+::$\ast$sentcb)(bool, const C\+T \&)=0)
+\item 
+{\footnotesize template$<$class T , typename C\+T $>$ }\\Callback\+\_\+\+File\+\_\+get\+History\+Ptr \hyperlink{namespace_file_system_acaebd2ccc7b6507ce9791aa62af99829}{File\+System\+::new\+Callback\+\_\+\+File\+\_\+get\+History} (T $\ast$instance, void(T\+::$\ast$cb)(const \+::\hyperlink{namespace_file_system_ac32dc1eb34c060160b52edc7c4e37d6e}{File\+System\+::\+Ver\+Seq} \&, const C\+T \&), void(T\+::$\ast$excb)(const \+::Ice\+::\+Exception \&, const C\+T \&), void(T\+::$\ast$sentcb)(bool, const C\+T \&)=0)
+\end{DoxyCompactItemize}

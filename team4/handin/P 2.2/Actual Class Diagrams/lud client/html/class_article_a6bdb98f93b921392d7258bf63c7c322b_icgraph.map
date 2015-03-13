@@ -1,0 +1,7 @@
+<map id="Article::getSection" name="Article::getSection">
+<area shape="rect" id="node2" href="$classarticle_workspace.html#ad7fda7f14c95e55bc4596dc208bd9f6e" title="articleWorkspace::addArticle\lButton" alt="" coords="185,5,375,47"/>
+<area shape="rect" id="node6" href="$classnew_article_workspace_window.html#a63010f293bf9b25d4f02953526d11990" title="newArticleWorkspaceWindow\l::setupFields" alt="" coords="183,71,377,112"/>
+<area shape="rect" id="node3" href="$classarticle_workspace.html#a03bdfc2424a786b51a46d04c1426798e" title="articleWorkspace::resetArticle\lButtons" alt="" coords="425,5,623,47"/>
+<area shape="rect" id="node4" href="$classarticle_workspace.html#ab0636a16c5adbfd2a624ac9635ffa381" title="articleWorkspace::update\lArticleList" alt="" coords="671,5,841,47"/>
+<area shape="rect" id="node5" href="$class_main_window.html#aadbdf8bfed00fa3a85ef2bbaed56fad7" title="MainWindow::init" alt="" coords="889,13,1011,39"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="QMainWindow" name="QMainWindow">
+<area shape="rect" id="node2" href="$class_main_window.html" title="{MainWindow\n||+ MainWindow()\l+ init()\l+ initDB()\l+ logOut()\l+ getClient()\l+ ~MainWindow()\l}" alt="" coords="5,131,129,281"/>
+<area shape="rect" id="node3" href="$class_registration_window.html" title="{RegistrationWindow\n||+ RegistrationWindow()\l+ ~RegistrationWindow()\l+ initDB()\l}" alt="" coords="154,153,319,259"/>
+</map>

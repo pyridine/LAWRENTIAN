@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.1">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>16</x>
+      <y>0</y>
+      <w>264</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>*Section Editor Creates Article Workspace*</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>160</x>
+      <y>96</y>
+      <w>184</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>_:Article Workspace Window_
+{new}</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>0</x>
+      <y>96</y>
+      <w>176</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+CreateWorkspaceButton()
+</panel_attributes>
+    <additional_attributes>10.0;20.0;200.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>488</x>
+      <y>88</y>
+      <w>104</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>_:Article Workspace_
+_Window Controller_
+{new}</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>336</x>
+      <y>96</y>
+      <w>168</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+1. Create()
+</panel_attributes>
+    <additional_attributes>10.0;20.0;190.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>40</y>
+      <w>320</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+
+2. Submit()
+</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;20.0;380.0;20.0;380.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>488</x>
+      <y>312</y>
+      <w>104</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>_:Article_
+{new}</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>536</x>
+      <y>128</y>
+      <w>72</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>
+3. Create()
+lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;230.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>168</x>
+      <y>208</y>
+      <w>168</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>Article Databse 
+Controller</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>328</x>
+      <y>120</y>
+      <w>176</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+              4. send(article)
+</panel_attributes>
+    <additional_attributes>200.0;10.0;80.0;10.0;80.0;130.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>232</y>
+      <w>136</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>5. updateArticle(article)
+lt=&lt;-
+</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>208</x>
+      <y>288</y>
+      <w>80</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>Client</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>312</y>
+      <w>176</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+6. sendToServer(key:int,article)</panel_attributes>
+    <additional_attributes>10.0;120.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>208</x>
+      <y>408</y>
+      <w>80</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>Server</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>504</x>
+      <y>488</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>Database</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>280</x>
+      <y>416</y>
+      <w>392</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+7b. [Row with id exists]
+updataArticle(article)</panel_attributes>
+    <additional_attributes>330.0;90.0;330.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>432</y>
+      <w>280</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+7a. [Not] createArticle(article)</panel_attributes>
+    <additional_attributes>330.0;90.0;10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>584</x>
+      <y>88</y>
+      <w>176</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>
+
+
+2.1 getTitle()
+     2.2 getDescription()
+  2.3 getWriters()
+        2.4 getPhotographers()
+    2.5 getIssueDate()
+lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;130.0;50.0;130.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

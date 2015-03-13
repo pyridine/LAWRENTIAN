@@ -1,0 +1,20 @@
+<map id="loginwindow.cpp" name="loginwindow.cpp">
+<area shape="rect" id="node2" href="$loginwindow_8h.html" title="loginwindow.h" alt="" coords="539,229,641,256"/>
+<area shape="rect" id="node3" href="$loginwindowdbc_8h.html" title="loginwindowdbc.h" alt="" coords="189,304,311,331"/>
+<area shape="rect" id="node18" href="$registrationwindow_8h.html" title="registrationwindow.h" alt="" coords="1043,229,1182,256"/>
+<area shape="rect" id="node26" href="$alert_8h.html" title="alert.h" alt="" coords="933,80,991,107"/>
+<area shape="rect" id="node28" href="$permissiondef_8h.html" title="permissiondef.h" alt="" coords="299,229,412,256"/>
+<area shape="rect" id="node29" href="$logincredentials_8h.html" title="logincredentials.h" alt="" coords="739,155,862,181"/>
+<area shape="rect" id="node30" href="$mainwindow_8h.html" title="mainwindow.h" alt="" coords="556,80,659,107"/>
+<area shape="rect" id="node32" href="$titledef_8h.html" title="titledef.h" alt="" coords="72,155,143,181"/>
+<area shape="rect" id="node33" href="$locationdef_8h.html" title="locationdef.h" alt="" coords="167,155,261,181"/>
+<area shape="rect" id="node34" href="$sectiondef_8h.html" title="sectiondef.h" alt="" coords="183,229,275,256"/>
+<area shape="rect" id="node5" href="$client_8h.html" title="client.h" alt="" coords="443,453,507,480"/>
+<area shape="rect" id="node11" href="$permissions_8h.html" title="permissions.h" alt="" coords="803,379,905,405"/>
+<area shape="rect" id="node14" href="$databasecontroller_8h.html" title="databasecontroller.h" alt="" coords="538,379,677,405"/>
+<area shape="rect" id="node6" href="$remotedbconnection_8h.html" title="remotedbconnection.h" alt="" coords="109,528,260,555"/>
+<area shape="rect" id="node19" href="$employee_8h.html" title="employee.h" alt="" coords="1095,379,1184,405"/>
+<area shape="rect" id="node21" href="$checkemployeeswindow_8h.html" title="checkemployeeswindow.h" alt="" coords="1053,304,1226,331"/>
+<area shape="rect" id="node22" href="$registrationwindowdbc_8h.html" title="registrationwindowdbc.h" alt="" coords="869,304,1029,331"/>
+<area shape="rect" id="node31" href="$mainwindowdbc_8h.html" title="mainwindowdbc.h" alt="" coords="388,155,512,181"/>
+</map>

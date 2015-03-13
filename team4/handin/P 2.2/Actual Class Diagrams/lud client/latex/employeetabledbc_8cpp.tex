@@ -1,0 +1,39 @@
+\hypertarget{employeetabledbc_8cpp}{}\section{employeetabledbc.\+cpp File Reference}
+\label{employeetabledbc_8cpp}\index{employeetabledbc.\+cpp@{employeetabledbc.\+cpp}}
+{\ttfamily \#include \char`\"{}employeetabledbc.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$Qt\+Sql$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$qvariant.\+h$>$}\\*
+{\ttfamily \#include $<$Q\+Table\+Widget\+Item$>$}\\*
+{\ttfamily \#include \char`\"{}client.\+h\char`\"{}}\\*
+Include dependency graph for employeetabledbc.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{employeetabledbc_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespace_e_t_d_b_c_commands}{E\+T\+D\+B\+C\+Commands}
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const string \hyperlink{namespace_e_t_d_b_c_commands_a5d22b26a78eed8afdd2c5f89468b8a1b}{E\+T\+D\+B\+C\+Commands\+::\+G\+E\+T\+\_\+\+R\+E\+G\+U\+L\+A\+R\+\_\+\+E\+M\+P\+L\+O\+Y\+E\+E\+\_\+\+D\+A\+T\+A} = \char`\"{}S\+E\+L\+E\+C\+T luid,name,title,phone,email F\+R\+O\+M lawrentian.\+employee\char`\"{}
+\item 
+const string \hyperlink{namespace_e_t_d_b_c_commands_a0d9ab08ba1207b9fd579a6af51459dfc}{E\+T\+D\+B\+C\+Commands\+::\+G\+E\+T\+\_\+\+P\+R\+I\+V\+I\+L\+E\+G\+E\+D\+\_\+\+E\+M\+P\+L\+O\+Y\+E\+E\+\_\+\+D\+A\+T\+A} = \char`\"{}S\+E\+L\+E\+C\+T luid,name,title,phone,email,approved F\+R\+O\+M lawrentian.\+employee\char`\"{}
+\item 
+const string \hyperlink{namespace_e_t_d_b_c_commands_a1475584452da28fc78b2956161c57f50}{E\+T\+D\+B\+C\+Commands\+::\+G\+E\+T\+\_\+\+F\+U\+L\+L\+\_\+\+E\+M\+P\+L\+O\+Y\+E\+E\+\_\+\+D\+A\+T\+A} = \char`\"{}S\+E\+L\+E\+C\+T luid,name,title,phone,email,username,password,approved F\+R\+O\+M lawrentian.\+employee\char`\"{}
+\item 
+const string \hyperlink{namespace_e_t_d_b_c_commands_ac40b08f5b0b25143fca889bf133b5ba1}{E\+T\+D\+B\+C\+Commands\+::\+G\+E\+T\+\_\+\+N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+E\+M\+P\+L\+O\+Y\+E\+E\+S} = \char`\"{}S\+E\+L\+E\+C\+T luid F\+R\+O\+M lawrentian.\+employee\char`\"{}
+\item 
+const string \hyperlink{namespace_e_t_d_b_c_commands_afb938cccd823d769aadf6b2d2f0258ce}{E\+T\+D\+B\+C\+Commands\+::\+A\+P\+P\+R\+O\+V\+E\+\_\+\+L\+U\+I\+D} = \char`\"{}U\+P\+D\+A\+T\+E lawrentian.\+employee S\+E\+T approved=1 W\+H\+E\+R\+E luid=\+:id\char`\"{}
+\item 
+const string \hyperlink{namespace_e_t_d_b_c_commands_a0f9fcebb6f4bed5812550e62f6f009db}{E\+T\+D\+B\+C\+Commands\+::\+U\+N\+P\+R\+O\+V\+E\+\_\+\+L\+U\+I\+D} = \char`\"{}U\+P\+D\+A\+T\+E lawrentian.\+employee S\+E\+T approved=0 W\+H\+E\+R\+E luid=\+:id\char`\"{}
+\item 
+const string \hyperlink{namespace_e_t_d_b_c_commands_a8145a815e9ebf0893a962b329e00334a}{E\+T\+D\+B\+C\+Commands\+::\+G\+E\+T\+\_\+\+N\+U\+M\+\_\+\+U\+N\+R\+E\+G\+I} = \char`\"{}S\+E\+L\+E\+C\+T luid F\+R\+O\+M lawrentian.\+employee W\+H\+E\+R\+E approved = 0\char`\"{}
+\end{DoxyCompactItemize}

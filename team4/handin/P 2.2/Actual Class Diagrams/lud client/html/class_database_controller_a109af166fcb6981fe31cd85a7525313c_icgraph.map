@@ -1,0 +1,9 @@
+<map id="DatabaseController::translateTitle" name="DatabaseController::translateTitle">
+<area shape="rect" id="node2" href="$class_employee_table_d_b_c.html#a7ca71072a7bbb5bbb0520259b3c3617c" title="EmployeeTableDBC::getRegular\lEmployeeView" alt="" coords="191,5,399,47"/>
+<area shape="rect" id="node4" href="$class_main_window.html#aadbdf8bfed00fa3a85ef2bbaed56fad7" title="MainWindow::init" alt="" coords="735,99,856,126"/>
+<area shape="rect" id="node5" href="$class_employee_table_d_b_c.html#a40d5fe0ac8a6906b08f3821ed2cd38b1" title="EmployeeTableDBC::getPrivileged\lEmployeeView" alt="" coords="185,123,404,164"/>
+<area shape="rect" id="node7" href="$class_employee_table_d_b_c.html#ab2bd665f6fa18def52cbadd902937ebb" title="EmployeeTableDBC::getFull\lEmployeeView" alt="" coords="202,188,387,229"/>
+<area shape="rect" id="node3" href="$classemployees_widget.html#a84faaa94935db8d9ee69658c9a3eac59" title="employeesWidget::initNormalView" alt="" coords="459,17,679,43"/>
+<area shape="rect" id="node6" href="$classemployees_widget.html#a3c39214d47cda4370ede7350a714ef1b" title="employeesWidget::initPrivilegedView" alt="" coords="452,126,687,153"/>
+<area shape="rect" id="node8" href="$classemployees_widget.html#aa3e84ab14c47870122877ed39f8aaeed" title="employeesWidget::initTotalView" alt="" coords="466,183,673,210"/>
+</map>

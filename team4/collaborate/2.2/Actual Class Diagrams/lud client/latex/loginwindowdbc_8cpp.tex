@@ -1,0 +1,46 @@
+\hypertarget{loginwindowdbc_8cpp}{}\section{loginwindowdbc.\+cpp File Reference}
+\label{loginwindowdbc_8cpp}\index{loginwindowdbc.\+cpp@{loginwindowdbc.\+cpp}}
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$qsql.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}databasecontroller.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}client.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}permissiondef.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}loginwindowdbc.\+h\char`\"{}}\\*
+Include dependency graph for loginwindowdbc.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{loginwindowdbc_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespace_l_w_d_b_ccommands}{L\+W\+D\+B\+Ccommands}
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const string \hyperlink{namespace_l_w_d_b_ccommands_af30578b8b16007ee496a1984487b9fc5}{L\+W\+D\+B\+Ccommands\+::\+S\+E\+L\+E\+C\+T\+\_\+\+L\+U\+I\+D\+\_\+\+F\+R\+O\+M\+\_\+\+L\+O\+G\+I\+N\+\_\+\+C\+R\+E\+D\+E\+N\+T\+I\+A\+L\+S} = \char`\"{}S\+E\+L\+E\+C\+T luid F\+R\+O\+M lawrentian.\+employee W\+H\+E\+R\+E username = ? A\+N\+D password = ?\char`\"{}
+\item 
+const string \hyperlink{namespace_l_w_d_b_ccommands_a6dcdf2d4cdf87e217b4c8a5c3be048c9}{L\+W\+D\+B\+Ccommands\+::\+G\+E\+T\+\_\+\+N\+A\+M\+E} = \char`\"{}S\+E\+L\+E\+C\+T name F\+R\+O\+M lawrentian.\+employee W\+H\+E\+R\+E luid = \+:luid\char`\"{}
+\item 
+const string \hyperlink{namespace_l_w_d_b_ccommands_a9b4deb87585d30ea401b83064fa5519b}{L\+W\+D\+B\+Ccommands\+::\+G\+E\+T\+\_\+\+A\+P\+P\+R\+O\+V\+E\+D} = \char`\"{}S\+E\+L\+E\+C\+T approved F\+R\+O\+M lawrentian.\+employee W\+H\+E\+R\+E luid = \+:luid\char`\"{}
+\item 
+const string \hyperlink{namespace_l_w_d_b_ccommands_a036f332657ac52041a58c6b08d353016}{L\+W\+D\+B\+Ccommands\+::\+G\+E\+T\+\_\+\+T\+I\+T\+L\+E} = \char`\"{}S\+E\+L\+E\+C\+T title F\+R\+O\+M lawrentian.\+employee W\+H\+E\+R\+E luid = \+:luid\char`\"{}
+\item 
+const string \hyperlink{namespace_l_w_d_b_ccommands_a056cd3ecf83a40957cb6abc1b82b4c73}{L\+W\+D\+B\+Ccommands\+::\+G\+E\+T\+\_\+\+E\+M\+P\+L\+O\+Y\+E\+E\+\_\+\+E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+P\+E\+R\+M\+I\+S\+S\+I\+O\+N\+S} = \char`\"{}S\+E\+L\+E\+C\+T token F\+R\+O\+M lawrentian.\+employee\+\_\+permission W\+H\+E\+R\+E luid = \+:luid\char`\"{}
+\item 
+const string \hyperlink{namespace_l_w_d_b_ccommands_a206fef094a70286865709618b9d9423c}{L\+W\+D\+B\+Ccommands\+::\+G\+E\+T\+\_\+\+T\+I\+T\+L\+E\+\_\+\+P\+E\+R\+M\+I\+S\+S\+I\+O\+N\+S} = \char`\"{}S\+E\+L\+E\+C\+T token F\+R\+O\+M lawrentian.\+title\+\_\+permission W\+H\+E\+R\+E title = \+:title\char`\"{}
+\item 
+const string \hyperlink{namespace_l_w_d_b_ccommands_a5b265e16bb6a1a02c236cda01cd71bce}{L\+W\+D\+B\+Ccommands\+::\+I\+N\+S\+E\+R\+T\+\_\+\+T\+I\+T\+L\+E\+\_\+\+P\+E\+R\+M\+I\+S\+S\+I\+O\+N} = \char`\"{}I\+N\+S\+E\+R\+T I\+N\+T\+O lawrentian.\+title\+\_\+permission (title,token) V\+A\+L\+U\+E\+S (\+:ti,\+:to)\char`\"{}
+\item 
+const string \hyperlink{namespace_l_w_d_b_ccommands_aa6c28877fcb0b957733838a203649cd4}{L\+W\+D\+B\+Ccommands\+::\+\_\+\+G\+E\+T\+\_\+\+P\+E\+R\+M\+I\+S\+S\+I\+O\+N\+\_\+\+I\+D} = \char`\"{}S\+E\+L\+E\+C\+T idtoken from lawrentian.\+permissiontokens W\+H\+E\+R\+E variablename = \+:var\char`\"{}
+\item 
+const string \hyperlink{namespace_l_w_d_b_ccommands_a2b95e41044f72b14f707b30773f2ece5}{L\+W\+D\+B\+Ccommands\+::\+\_\+\+G\+E\+T\+\_\+\+T\+I\+T\+L\+E\+\_\+\+I\+D} = \char`\"{}S\+E\+L\+E\+C\+T idtitle from lawrentian.\+titledefinitions W\+H\+E\+R\+E variablename = \+:var\char`\"{}
+\item 
+const string \hyperlink{namespace_l_w_d_b_ccommands_add36a05562a3745c2955ae38e3aea765}{L\+W\+D\+B\+Ccommands\+::\+\_\+\+G\+E\+T\+\_\+\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+I\+D} = \char`\"{}S\+E\+L\+E\+C\+T idlocation from lawrentian.\+location W\+H\+E\+R\+E variablename = \+:var\char`\"{}
+\item 
+const string \hyperlink{namespace_l_w_d_b_ccommands_ada31170d76bb541174b8c40d8d019cca}{L\+W\+D\+B\+Ccommands\+::\+\_\+\+G\+E\+T\+\_\+\+S\+E\+C\+T\+I\+O\+N\+\_\+\+I\+D} = \char`\"{}S\+E\+L\+E\+C\+T idsection from lawrentian.\+section W\+H\+E\+R\+E variablename = \+:var\char`\"{}
+\end{DoxyCompactItemize}

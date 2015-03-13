@@ -1,0 +1,6 @@
+<map id="employeesWidget::initTotalView" name="employeesWidget::initTotalView">
+<area shape="rect" id="node2" href="$class_employee_table_d_b_c.html#af56bdf0ed6a8436b25e8a3029a8a4563" title="EmployeeTableDBC::getNumber\lOfEmployees" alt="" coords="493,5,703,47"/>
+<area shape="rect" id="node4" href="$class_employee_table_d_b_c.html#ab2bd665f6fa18def52cbadd902937ebb" title="EmployeeTableDBC::getFull\lEmployeeView" alt="" coords="260,64,445,105"/>
+<area shape="rect" id="node3" href="$class_client.html#a3a9e7a43f73fa36851226220366ea847" title="Client::execute" alt="" coords="751,71,860,98"/>
+<area shape="rect" id="node5" href="$class_database_controller.html#a109af166fcb6981fe31cd85a7525313c" title="DatabaseController\l::translateTitle" alt="" coords="532,123,664,164"/>
+</map>

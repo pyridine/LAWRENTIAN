@@ -1,0 +1,11 @@
+<map id="RegistrationWindowDBC::addEmployee" name="RegistrationWindowDBC::addEmployee">
+<area shape="rect" id="node2" href="$class_employee.html#a0ed36a69ad4b9c187c29bdd1e6f162ec" title="Employee::getLuId" alt="" coords="246,5,377,32"/>
+<area shape="rect" id="node3" href="$class_employee.html#ab2476ea9935bcc3417c41e48c4f1b297" title="Employee::getName" alt="" coords="241,56,381,83"/>
+<area shape="rect" id="node4" href="$class_employee.html#ad40806584fde5a21a4dc775aa1fcc4f0" title="Employee::getTitle" alt="" coords="246,107,377,133"/>
+<area shape="rect" id="node5" href="$class_employee.html#a8a3f91c92402a4b8b59edf13ec40abc9" title="Employee::getPhoneNumber" alt="" coords="217,157,405,184"/>
+<area shape="rect" id="node6" href="$class_employee.html#a31c72a588174edcff627ce3ee3bcb6d8" title="Employee::getEmail" alt="" coords="242,208,381,235"/>
+<area shape="rect" id="node7" href="$class_employee.html#adbc4cb26306e28f1ce2791aa50f4245e" title="Employee::getUsername" alt="" coords="229,259,394,285"/>
+<area shape="rect" id="node8" href="$class_employee.html#acc48f9f678410291dc901bc4995d12be" title="Employee::getPassword" alt="" coords="230,309,393,336"/>
+<area shape="rect" id="node9" href="$class_employee.html#a6536686a3186432263d67ff9ba099e3c" title="Employee::getApproved" alt="" coords="232,360,391,387"/>
+<area shape="rect" id="node10" href="$class_client.html#a3a9e7a43f73fa36851226220366ea847" title="Client::execute" alt="" coords="257,411,366,437"/>
+</map>

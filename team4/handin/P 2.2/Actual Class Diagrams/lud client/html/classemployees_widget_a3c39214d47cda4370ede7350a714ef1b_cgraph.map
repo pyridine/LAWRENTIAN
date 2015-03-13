@@ -1,0 +1,6 @@
+<map id="employeesWidget::initPrivilegedView" name="employeesWidget::initPrivilegedView">
+<area shape="rect" id="node2" href="$class_employee_table_d_b_c.html#af56bdf0ed6a8436b25e8a3029a8a4563" title="EmployeeTableDBC::getNumber\lOfEmployees" alt="" coords="555,5,764,47"/>
+<area shape="rect" id="node4" href="$class_employee_table_d_b_c.html#a40d5fe0ac8a6906b08f3821ed2cd38b1" title="EmployeeTableDBC::getPrivileged\lEmployeeView" alt="" coords="288,64,507,105"/>
+<area shape="rect" id="node3" href="$class_client.html#a3a9e7a43f73fa36851226220366ea847" title="Client::execute" alt="" coords="812,71,921,98"/>
+<area shape="rect" id="node5" href="$class_database_controller.html#a109af166fcb6981fe31cd85a7525313c" title="DatabaseController\l::translateTitle" alt="" coords="593,123,725,164"/>
+</map>

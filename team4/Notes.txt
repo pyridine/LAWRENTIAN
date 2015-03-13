@@ -1,0 +1,33 @@
+Jan13: First Use-Case diagram presentation.
+
+==Team 1==
+Actors are roles; they are not hierarchical.
+
+Use-Case diagram arrow directions do not matter. In Use-Case diagram there is NO need to keep all the primary actors are to the left and supporting actors to the right.
+
+Brief Use case:
+1) Needs primary actor
+2) Needs goal
+3) Needs supporting actors to accomplish its goal
+
+Make sure the primary actors are explicitly stated in the use case.
+
+Actor - verb - object syntax so: <This Person> is responsible for doing <this to this>.
+
+Make sure the Use-Cases are in the slide in entirity.
+
+Everytime there is a Use-Case make sure these are answered: 1) What's the goal? 2) Who's got it?
+
+==Team 2==
+Make sure each actor is sufficiently described in the Use-Case: adjectives and number are important.
+
+Having a meaningfull name for actors which is very-specific is highly important.
+
+Just a thought: use color-coding on lines in SuD to distinguish overlap.
+
+==Team 3==
+Don't make Use-Cases too hierarchical just to have the sequential info.
+
+Good to explicitly specify when the trigger for the Use-Case is specified.
+
+

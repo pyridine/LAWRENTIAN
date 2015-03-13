@@ -1,0 +1,10 @@
+<map id="newArticleWorkspaceWindow::setupFields" name="newArticleWorkspaceWindow::setupFields">
+<area shape="rect" id="node2" href="$class_article.html#a6fca8ef24a200337b22cc52f2e00660d" title="Article::getTitle" alt="" coords="275,5,384,32"/>
+<area shape="rect" id="node3" href="$class_article.html#a0446f2c2f3db66ee9f58a4f16399d7dc" title="Article::getDescription" alt="" coords="254,56,405,83"/>
+<area shape="rect" id="node4" href="$class_database_controller.html#a399ace73dd39f858a625d86eccb6a311" title="DatabaseController\l::translateSection" alt="" coords="263,107,395,149"/>
+<area shape="rect" id="node6" href="$class_article.html#a6bdb98f93b921392d7258bf63c7c322b" title="Article::getSection" alt="" coords="265,173,394,200"/>
+<area shape="rect" id="node7" href="$class_article.html#aa2695bf4770a05db7b914828962ef2d7" title="Article::getWriter" alt="" coords="269,224,389,251"/>
+<area shape="rect" id="node8" href="$class_article.html#a43b05b03994e0985117aa8e590cc1cb8" title="Article::getPhotographer" alt="" coords="248,275,411,301"/>
+<area shape="rect" id="node9" href="$class_article.html#aa7de0296d6ba592e9550e09aea1dc3bc" title="Article::getIssueDate" alt="" coords="258,325,401,352"/>
+<area shape="rect" id="node5" href="$class_client.html#a3a9e7a43f73fa36851226220366ea847" title="Client::execute" alt="" coords="459,115,568,141"/>
+</map>

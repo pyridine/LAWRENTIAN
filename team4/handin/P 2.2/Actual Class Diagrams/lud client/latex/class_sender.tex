@@ -1,0 +1,118 @@
+\hypertarget{class_sender}{}\section{Sender Class Reference}
+\label{class_sender}\index{Sender@{Sender}}
+
+
+{\ttfamily \#include $<$Sender.\+h$>$}
+
+
+
+Collaboration diagram for Sender\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=160pt]{class_sender__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_sender_ae14150bc5755bf478a7ad1904c017ba1}{Sender} ()
+\item 
+\hyperlink{class_sender_a2e4d8f4062616f00b51b886b5cd2b873}{Sender} (const std\+::string \&connection)
+\item 
+\hyperlink{class_sender_ade3d4235ec5eb618c2729355ddb562a6}{Sender} (const int \&num)
+\item 
+\hyperlink{class_sender_a99dd9c6aa7d546320d619aca9067fdc6}{$\sim$\+Sender} ()
+\item 
+bool \hyperlink{class_sender_a8e2a5e629882083ec57d3a1b7f129658}{send\+File} (const std\+::string \&sec, const std\+::string \&art, const std\+::string \&type, const std\+::string \&f\+Name\+Ext, const std\+::string \&cl\+Dir)
+\item 
+bool \hyperlink{class_sender_a40a914e92ccb56e8927e7d51d8bf2817}{request\+File} (const std\+::string \&sec, const std\+::string \&art, const std\+::string \&type, const std\+::string \&f\+Name, const std\+::string \&down\+\_\+dir, int ver=-\/1)
+\item 
+\hyperlink{namespace_file_system_ac32dc1eb34c060160b52edc7c4e37d6e}{File\+System\+::\+Ver\+Seq} \hyperlink{class_sender_af08d8e303f3fdce05f01f53a7ac7752b}{get\+History} (const std\+::string \&sec, const std\+::string \&art, const std\+::string \&type, const std\+::string \&f\+Name)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_sender_ae14150bc5755bf478a7ad1904c017ba1}{}\index{Sender@{Sender}!Sender@{Sender}}
+\index{Sender@{Sender}!Sender@{Sender}}
+\subsubsection[{Sender}]{\setlength{\rightskip}{0pt plus 5cm}Sender\+::\+Sender (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_sender_ae14150bc5755bf478a7ad1904c017ba1}
+\hypertarget{class_sender_a2e4d8f4062616f00b51b886b5cd2b873}{}\index{Sender@{Sender}!Sender@{Sender}}
+\index{Sender@{Sender}!Sender@{Sender}}
+\subsubsection[{Sender}]{\setlength{\rightskip}{0pt plus 5cm}Sender\+::\+Sender (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{connection}
+\end{DoxyParamCaption}
+)}\label{class_sender_a2e4d8f4062616f00b51b886b5cd2b873}
+\hypertarget{class_sender_ade3d4235ec5eb618c2729355ddb562a6}{}\index{Sender@{Sender}!Sender@{Sender}}
+\index{Sender@{Sender}!Sender@{Sender}}
+\subsubsection[{Sender}]{\setlength{\rightskip}{0pt plus 5cm}Sender\+::\+Sender (
+\begin{DoxyParamCaption}
+\item[{const int \&}]{num}
+\end{DoxyParamCaption}
+)}\label{class_sender_ade3d4235ec5eb618c2729355ddb562a6}
+\hypertarget{class_sender_a99dd9c6aa7d546320d619aca9067fdc6}{}\index{Sender@{Sender}!````~Sender@{$\sim$\+Sender}}
+\index{````~Sender@{$\sim$\+Sender}!Sender@{Sender}}
+\subsubsection[{$\sim$\+Sender}]{\setlength{\rightskip}{0pt plus 5cm}Sender\+::$\sim$\+Sender (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_sender_a99dd9c6aa7d546320d619aca9067fdc6}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_sender_af08d8e303f3fdce05f01f53a7ac7752b}{}\index{Sender@{Sender}!get\+History@{get\+History}}
+\index{get\+History@{get\+History}!Sender@{Sender}}
+\subsubsection[{get\+History}]{\setlength{\rightskip}{0pt plus 5cm}{\bf File\+System\+::\+Ver\+Seq} Sender\+::get\+History (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{sec, }
+\item[{const std\+::string \&}]{art, }
+\item[{const std\+::string \&}]{type, }
+\item[{const std\+::string \&}]{f\+Name}
+\end{DoxyParamCaption}
+)}\label{class_sender_af08d8e303f3fdce05f01f53a7ac7752b}
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=324pt]{class_sender_af08d8e303f3fdce05f01f53a7ac7752b_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{class_sender_a40a914e92ccb56e8927e7d51d8bf2817}{}\index{Sender@{Sender}!request\+File@{request\+File}}
+\index{request\+File@{request\+File}!Sender@{Sender}}
+\subsubsection[{request\+File}]{\setlength{\rightskip}{0pt plus 5cm}bool Sender\+::request\+File (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{sec, }
+\item[{const std\+::string \&}]{art, }
+\item[{const std\+::string \&}]{type, }
+\item[{const std\+::string \&}]{f\+Name, }
+\item[{const std\+::string \&}]{down\+\_\+dir, }
+\item[{int}]{ver = {\ttfamily -\/1}}
+\end{DoxyParamCaption}
+)}\label{class_sender_a40a914e92ccb56e8927e7d51d8bf2817}
+\hypertarget{class_sender_a8e2a5e629882083ec57d3a1b7f129658}{}\index{Sender@{Sender}!send\+File@{send\+File}}
+\index{send\+File@{send\+File}!Sender@{Sender}}
+\subsubsection[{send\+File}]{\setlength{\rightskip}{0pt plus 5cm}bool Sender\+::send\+File (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{sec, }
+\item[{const std\+::string \&}]{art, }
+\item[{const std\+::string \&}]{type, }
+\item[{const std\+::string \&}]{f\+Name\+Ext, }
+\item[{const std\+::string \&}]{cl\+Dir}
+\end{DoxyParamCaption}
+)}\label{class_sender_a8e2a5e629882083ec57d3a1b7f129658}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_sender_8h}{Sender.\+h}\item 
+\hyperlink{_sender_8cpp}{Sender.\+cpp}\end{DoxyCompactItemize}

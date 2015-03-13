@@ -1,0 +1,8 @@
+<map id="EditEmployeeInfo::updateAllFields" name="EditEmployeeInfo::updateAllFields">
+<area shape="rect" id="node2" href="$class_edit_employee_info_d_b_c.html#a9abf26b3fde851af4f6a1e47e327af27" title="EditEmployeeInfoDBC\l::collectApproved" alt="" coords="224,5,375,47"/>
+<area shape="rect" id="node4" href="$class_edit_employee_info_d_b_c.html#a30a8b91291851f44262a2100828a40e3" title="EditEmployeeInfoDBC\l::collectLuid" alt="" coords="224,71,375,112"/>
+<area shape="rect" id="node5" href="$class_edit_employee_info_d_b_c.html#a0080a80bd06e5fd75d9efa02f1c7e5f5" title="EditEmployeeInfoDBC\l::collectTitle" alt="" coords="224,136,375,177"/>
+<area shape="rect" id="node6" href="$class_edit_employee_info_d_b_c.html#aaa47af8cd27238961404fac7375e4522" title="EditEmployeeInfoDBC\l::collectPhone" alt="" coords="224,201,375,243"/>
+<area shape="rect" id="node7" href="$class_edit_employee_info_d_b_c.html#a67aca8d21b57cf97624f5daa18733ad8" title="EditEmployeeInfoDBC\l::collectEmail" alt="" coords="224,267,375,308"/>
+<area shape="rect" id="node3" href="$class_client.html#a3a9e7a43f73fa36851226220366ea847" title="Client::execute" alt="" coords="423,143,532,170"/>
+</map>

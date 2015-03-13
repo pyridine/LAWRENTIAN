@@ -1,0 +1,219 @@
+\hypertarget{class_file_system_1_1_file}{}\section{File\+System\+:\+:File Class Reference}
+\label{class_file_system_1_1_file}\index{File\+System\+::\+File@{File\+System\+::\+File}}
+
+
+{\ttfamily \#include $<$File\+System.\+h$>$}
+
+
+
+Inheritance diagram for File\+System\+:\+:File\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{class_file_system_1_1_file__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for File\+System\+:\+:File\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{class_file_system_1_1_file__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{namespace_file_system_a2cca5b42d5ab231d91dd889d4d74218c}{File\+Prx} \hyperlink{class_file_system_1_1_file_a2dc305348e01c17ad9736a7abcbec36e}{Proxy\+Type}
+\item 
+typedef \hyperlink{namespace_file_system_a322304ec4ae6dc6308f79d49662764bb}{File\+Ptr} \hyperlink{class_file_system_1_1_file_a51b2a288a025efc05fb07e0dfb29f06f}{Pointer\+Type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual bool \hyperlink{class_file_system_1_1_file_afec97134dcddcbbc8f71facb63fab3a1}{ice\+\_\+is\+A} (const \+::std\+::string \&, const \+::Ice\+::\+Current \&=\+::Ice\+::\+Current()) const 
+\item 
+virtual \+::std\+::vector$<$ \+::std\+::string $>$ \hyperlink{class_file_system_1_1_file_abab4030df236aaeaba1f11025ad8a44e}{ice\+\_\+ids} (const \+::Ice\+::\+Current \&=\+::Ice\+::\+Current()) const 
+\item 
+virtual const \+::std\+::string \& \hyperlink{class_file_system_1_1_file_ab914ee68ffbae6780d679fad367157aa}{ice\+\_\+id} (const \+::Ice\+::\+Current \&=\+::Ice\+::\+Current()) const 
+\item 
+virtual \+::\hyperlink{namespace_file_system_a5c85de065f9c451ae1d1dea2dacb68c5}{File\+System\+::\+Byte\+Seq} \hyperlink{class_file_system_1_1_file_a99b432d430b47e2f065cf9ad529c8956}{receive\+Latest} (const \+::std\+::string \&, const \+::std\+::string \&, const \+::std\+::string \&, const \+::std\+::string \&, const \+::Ice\+::\+Current \&=\+::Ice\+::\+Current())=0
+\item 
+\+::Ice\+::\+Dispatch\+Status \hyperlink{class_file_system_1_1_file_a26bd114faec6b1c85d119ff4a0e57ca1}{\+\_\+\+\_\+\+\_\+receive\+Latest} (\+::Ice\+Internal\+::\+Incoming \&, const \+::Ice\+::\+Current \&)
+\item 
+virtual \+::\hyperlink{namespace_file_system_a5c85de065f9c451ae1d1dea2dacb68c5}{File\+System\+::\+Byte\+Seq} \hyperlink{class_file_system_1_1_file_a135c7e7f7f7838e6c76c36cdf0012131}{receive\+Version} (const \+::std\+::string \&, const \+::std\+::string \&, const \+::std\+::string \&, const \+::std\+::string \&,\+::Ice\+::\+Int, const \+::Ice\+::\+Current \&=\+::Ice\+::\+Current())=0
+\item 
+\+::Ice\+::\+Dispatch\+Status \hyperlink{class_file_system_1_1_file_a96c6caf4d0270443e84f1fb4548e3de8}{\+\_\+\+\_\+\+\_\+receive\+Version} (\+::Ice\+Internal\+::\+Incoming \&, const \+::Ice\+::\+Current \&)
+\item 
+virtual bool \hyperlink{class_file_system_1_1_file_a06849361bc722ed92f0075377eac6d09}{send\+File} (const \+::std\+::string \&, const \+::std\+::string \&, const \+::std\+::string \&, const \+::std\+::string \&, const \+::\hyperlink{namespace_file_system_a5c85de065f9c451ae1d1dea2dacb68c5}{File\+System\+::\+Byte\+Seq} \&, const \+::Ice\+::\+Current \&=\+::Ice\+::\+Current())=0
+\item 
+\+::Ice\+::\+Dispatch\+Status \hyperlink{class_file_system_1_1_file_a0259134b0777f587ee8b38dd08831a0c}{\+\_\+\+\_\+\+\_\+send\+File} (\+::Ice\+Internal\+::\+Incoming \&, const \+::Ice\+::\+Current \&)
+\item 
+virtual \+::\hyperlink{namespace_file_system_ac32dc1eb34c060160b52edc7c4e37d6e}{File\+System\+::\+Ver\+Seq} \hyperlink{class_file_system_1_1_file_aa411c511900735474fdba5f9c22a1747}{get\+History} (const \+::std\+::string \&, const \+::std\+::string \&, const \+::std\+::string \&, const \+::std\+::string \&, const \+::Ice\+::\+Current \&=\+::Ice\+::\+Current())=0
+\item 
+\+::Ice\+::\+Dispatch\+Status \hyperlink{class_file_system_1_1_file_a5798e84a210ecbe73bc52062d9c44019}{\+\_\+\+\_\+\+\_\+get\+History} (\+::Ice\+Internal\+::\+Incoming \&, const \+::Ice\+::\+Current \&)
+\item 
+virtual \+::Ice\+::\+Dispatch\+Status \hyperlink{class_file_system_1_1_file_a245efe96625966b4d5dc6c70b6f5eae8}{\+\_\+\+\_\+dispatch} (\+::Ice\+Internal\+::\+Incoming \&, const \+::Ice\+::\+Current \&)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static const \+::std\+::string \& \hyperlink{class_file_system_1_1_file_ad7894f231547d245a095e12fc557dc2c}{ice\+\_\+static\+Id} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \hyperlink{class_file_system_1_1_file_a2ba83e5fbc37577fb08f6cc44b1006e2}{\+\_\+\+\_\+write\+Impl} (\+::Ice\+Internal\+::\+Basic\+Stream $\ast$) const 
+\item 
+virtual void \hyperlink{class_file_system_1_1_file_af70b25b7133fa3f2be82b8b8ce37b852}{\+\_\+\+\_\+read\+Impl} (\+::Ice\+Internal\+::\+Basic\+Stream $\ast$)
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_file_system_1_1_file_a51b2a288a025efc05fb07e0dfb29f06f}{}\index{File\+System\+::\+File@{File\+System\+::\+File}!Pointer\+Type@{Pointer\+Type}}
+\index{Pointer\+Type@{Pointer\+Type}!File\+System\+::\+File@{File\+System\+::\+File}}
+\subsubsection[{Pointer\+Type}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf File\+Ptr} {\bf File\+System\+::\+File\+::\+Pointer\+Type}}\label{class_file_system_1_1_file_a51b2a288a025efc05fb07e0dfb29f06f}
+\hypertarget{class_file_system_1_1_file_a2dc305348e01c17ad9736a7abcbec36e}{}\index{File\+System\+::\+File@{File\+System\+::\+File}!Proxy\+Type@{Proxy\+Type}}
+\index{Proxy\+Type@{Proxy\+Type}!File\+System\+::\+File@{File\+System\+::\+File}}
+\subsubsection[{Proxy\+Type}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf File\+Prx} {\bf File\+System\+::\+File\+::\+Proxy\+Type}}\label{class_file_system_1_1_file_a2dc305348e01c17ad9736a7abcbec36e}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_file_system_1_1_file_a5798e84a210ecbe73bc52062d9c44019}{}\index{File\+System\+::\+File@{File\+System\+::\+File}!\+\_\+\+\_\+\+\_\+get\+History@{\+\_\+\+\_\+\+\_\+get\+History}}
+\index{\+\_\+\+\_\+\+\_\+get\+History@{\+\_\+\+\_\+\+\_\+get\+History}!File\+System\+::\+File@{File\+System\+::\+File}}
+\subsubsection[{\+\_\+\+\_\+\+\_\+get\+History}]{\setlength{\rightskip}{0pt plus 5cm}Ice\+::\+Dispatch\+Status File\+System\+::\+File\+::\+\_\+\+\_\+\+\_\+get\+History (
+\begin{DoxyParamCaption}
+\item[{\+::Ice\+Internal\+::\+Incoming \&}]{\+\_\+\+\_\+in\+S, }
+\item[{const \+::Ice\+::\+Current \&}]{\+\_\+\+\_\+current}
+\end{DoxyParamCaption}
+)}\label{class_file_system_1_1_file_a5798e84a210ecbe73bc52062d9c44019}
+\hypertarget{class_file_system_1_1_file_a26bd114faec6b1c85d119ff4a0e57ca1}{}\index{File\+System\+::\+File@{File\+System\+::\+File}!\+\_\+\+\_\+\+\_\+receive\+Latest@{\+\_\+\+\_\+\+\_\+receive\+Latest}}
+\index{\+\_\+\+\_\+\+\_\+receive\+Latest@{\+\_\+\+\_\+\+\_\+receive\+Latest}!File\+System\+::\+File@{File\+System\+::\+File}}
+\subsubsection[{\+\_\+\+\_\+\+\_\+receive\+Latest}]{\setlength{\rightskip}{0pt plus 5cm}Ice\+::\+Dispatch\+Status File\+System\+::\+File\+::\+\_\+\+\_\+\+\_\+receive\+Latest (
+\begin{DoxyParamCaption}
+\item[{\+::Ice\+Internal\+::\+Incoming \&}]{\+\_\+\+\_\+in\+S, }
+\item[{const \+::Ice\+::\+Current \&}]{\+\_\+\+\_\+current}
+\end{DoxyParamCaption}
+)}\label{class_file_system_1_1_file_a26bd114faec6b1c85d119ff4a0e57ca1}
+\hypertarget{class_file_system_1_1_file_a96c6caf4d0270443e84f1fb4548e3de8}{}\index{File\+System\+::\+File@{File\+System\+::\+File}!\+\_\+\+\_\+\+\_\+receive\+Version@{\+\_\+\+\_\+\+\_\+receive\+Version}}
+\index{\+\_\+\+\_\+\+\_\+receive\+Version@{\+\_\+\+\_\+\+\_\+receive\+Version}!File\+System\+::\+File@{File\+System\+::\+File}}
+\subsubsection[{\+\_\+\+\_\+\+\_\+receive\+Version}]{\setlength{\rightskip}{0pt plus 5cm}Ice\+::\+Dispatch\+Status File\+System\+::\+File\+::\+\_\+\+\_\+\+\_\+receive\+Version (
+\begin{DoxyParamCaption}
+\item[{\+::Ice\+Internal\+::\+Incoming \&}]{\+\_\+\+\_\+in\+S, }
+\item[{const \+::Ice\+::\+Current \&}]{\+\_\+\+\_\+current}
+\end{DoxyParamCaption}
+)}\label{class_file_system_1_1_file_a96c6caf4d0270443e84f1fb4548e3de8}
+\hypertarget{class_file_system_1_1_file_a0259134b0777f587ee8b38dd08831a0c}{}\index{File\+System\+::\+File@{File\+System\+::\+File}!\+\_\+\+\_\+\+\_\+send\+File@{\+\_\+\+\_\+\+\_\+send\+File}}
+\index{\+\_\+\+\_\+\+\_\+send\+File@{\+\_\+\+\_\+\+\_\+send\+File}!File\+System\+::\+File@{File\+System\+::\+File}}
+\subsubsection[{\+\_\+\+\_\+\+\_\+send\+File}]{\setlength{\rightskip}{0pt plus 5cm}Ice\+::\+Dispatch\+Status File\+System\+::\+File\+::\+\_\+\+\_\+\+\_\+send\+File (
+\begin{DoxyParamCaption}
+\item[{\+::Ice\+Internal\+::\+Incoming \&}]{\+\_\+\+\_\+in\+S, }
+\item[{const \+::Ice\+::\+Current \&}]{\+\_\+\+\_\+current}
+\end{DoxyParamCaption}
+)}\label{class_file_system_1_1_file_a0259134b0777f587ee8b38dd08831a0c}
+\hypertarget{class_file_system_1_1_file_a245efe96625966b4d5dc6c70b6f5eae8}{}\index{File\+System\+::\+File@{File\+System\+::\+File}!\+\_\+\+\_\+dispatch@{\+\_\+\+\_\+dispatch}}
+\index{\+\_\+\+\_\+dispatch@{\+\_\+\+\_\+dispatch}!File\+System\+::\+File@{File\+System\+::\+File}}
+\subsubsection[{\+\_\+\+\_\+dispatch}]{\setlength{\rightskip}{0pt plus 5cm}Ice\+::\+Dispatch\+Status File\+System\+::\+File\+::\+\_\+\+\_\+dispatch (
+\begin{DoxyParamCaption}
+\item[{\+::Ice\+Internal\+::\+Incoming \&}]{in, }
+\item[{const \+::Ice\+::\+Current \&}]{current}
+\end{DoxyParamCaption}
+)}\label{class_file_system_1_1_file_a245efe96625966b4d5dc6c70b6f5eae8}
+\hypertarget{class_file_system_1_1_file_af70b25b7133fa3f2be82b8b8ce37b852}{}\index{File\+System\+::\+File@{File\+System\+::\+File}!\+\_\+\+\_\+read\+Impl@{\+\_\+\+\_\+read\+Impl}}
+\index{\+\_\+\+\_\+read\+Impl@{\+\_\+\+\_\+read\+Impl}!File\+System\+::\+File@{File\+System\+::\+File}}
+\subsubsection[{\+\_\+\+\_\+read\+Impl}]{\setlength{\rightskip}{0pt plus 5cm}void File\+System\+::\+File\+::\+\_\+\+\_\+read\+Impl (
+\begin{DoxyParamCaption}
+\item[{\+::Ice\+Internal\+::\+Basic\+Stream $\ast$}]{\+\_\+\+\_\+is}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\label{class_file_system_1_1_file_af70b25b7133fa3f2be82b8b8ce37b852}
+\hypertarget{class_file_system_1_1_file_a2ba83e5fbc37577fb08f6cc44b1006e2}{}\index{File\+System\+::\+File@{File\+System\+::\+File}!\+\_\+\+\_\+write\+Impl@{\+\_\+\+\_\+write\+Impl}}
+\index{\+\_\+\+\_\+write\+Impl@{\+\_\+\+\_\+write\+Impl}!File\+System\+::\+File@{File\+System\+::\+File}}
+\subsubsection[{\+\_\+\+\_\+write\+Impl}]{\setlength{\rightskip}{0pt plus 5cm}void File\+System\+::\+File\+::\+\_\+\+\_\+write\+Impl (
+\begin{DoxyParamCaption}
+\item[{\+::Ice\+Internal\+::\+Basic\+Stream $\ast$}]{\+\_\+\+\_\+os}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\label{class_file_system_1_1_file_a2ba83e5fbc37577fb08f6cc44b1006e2}
+\hypertarget{class_file_system_1_1_file_aa411c511900735474fdba5f9c22a1747}{}\index{File\+System\+::\+File@{File\+System\+::\+File}!get\+History@{get\+History}}
+\index{get\+History@{get\+History}!File\+System\+::\+File@{File\+System\+::\+File}}
+\subsubsection[{get\+History}]{\setlength{\rightskip}{0pt plus 5cm}virtual \+::{\bf File\+System\+::\+Ver\+Seq} File\+System\+::\+File\+::get\+History (
+\begin{DoxyParamCaption}
+\item[{const \+::std\+::string \&}]{, }
+\item[{const \+::std\+::string \&}]{, }
+\item[{const \+::std\+::string \&}]{, }
+\item[{const \+::std\+::string \&}]{, }
+\item[{const \+::Ice\+::\+Current \&}]{ = {\ttfamily \+:\+:Ice\+:\+:Current()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\label{class_file_system_1_1_file_aa411c511900735474fdba5f9c22a1747}
+\hypertarget{class_file_system_1_1_file_ab914ee68ffbae6780d679fad367157aa}{}\index{File\+System\+::\+File@{File\+System\+::\+File}!ice\+\_\+id@{ice\+\_\+id}}
+\index{ice\+\_\+id@{ice\+\_\+id}!File\+System\+::\+File@{File\+System\+::\+File}}
+\subsubsection[{ice\+\_\+id}]{\setlength{\rightskip}{0pt plus 5cm}const \+::std\+::string \& File\+System\+::\+File\+::ice\+\_\+id (
+\begin{DoxyParamCaption}
+\item[{const \+::Ice\+::\+Current \&}]{ = {\ttfamily \+:\+:Ice\+:\+:Current()}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\label{class_file_system_1_1_file_ab914ee68ffbae6780d679fad367157aa}
+\hypertarget{class_file_system_1_1_file_abab4030df236aaeaba1f11025ad8a44e}{}\index{File\+System\+::\+File@{File\+System\+::\+File}!ice\+\_\+ids@{ice\+\_\+ids}}
+\index{ice\+\_\+ids@{ice\+\_\+ids}!File\+System\+::\+File@{File\+System\+::\+File}}
+\subsubsection[{ice\+\_\+ids}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$\+::std\+::string $>$ File\+System\+::\+File\+::ice\+\_\+ids (
+\begin{DoxyParamCaption}
+\item[{const \+::Ice\+::\+Current \&}]{ = {\ttfamily \+:\+:Ice\+:\+:Current()}}
+\end{DoxyParamCaption}
+) const}\label{class_file_system_1_1_file_abab4030df236aaeaba1f11025ad8a44e}
+\hypertarget{class_file_system_1_1_file_afec97134dcddcbbc8f71facb63fab3a1}{}\index{File\+System\+::\+File@{File\+System\+::\+File}!ice\+\_\+is\+A@{ice\+\_\+is\+A}}
+\index{ice\+\_\+is\+A@{ice\+\_\+is\+A}!File\+System\+::\+File@{File\+System\+::\+File}}
+\subsubsection[{ice\+\_\+is\+A}]{\setlength{\rightskip}{0pt plus 5cm}bool File\+System\+::\+File\+::ice\+\_\+is\+A (
+\begin{DoxyParamCaption}
+\item[{const \+::std\+::string \&}]{\+\_\+s, }
+\item[{const \+::Ice\+::\+Current \&}]{ = {\ttfamily \+:\+:Ice\+:\+:Current()}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\label{class_file_system_1_1_file_afec97134dcddcbbc8f71facb63fab3a1}
+\hypertarget{class_file_system_1_1_file_ad7894f231547d245a095e12fc557dc2c}{}\index{File\+System\+::\+File@{File\+System\+::\+File}!ice\+\_\+static\+Id@{ice\+\_\+static\+Id}}
+\index{ice\+\_\+static\+Id@{ice\+\_\+static\+Id}!File\+System\+::\+File@{File\+System\+::\+File}}
+\subsubsection[{ice\+\_\+static\+Id}]{\setlength{\rightskip}{0pt plus 5cm}const \+::std\+::string \& File\+System\+::\+File\+::ice\+\_\+static\+Id (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{class_file_system_1_1_file_ad7894f231547d245a095e12fc557dc2c}
+\hypertarget{class_file_system_1_1_file_a99b432d430b47e2f065cf9ad529c8956}{}\index{File\+System\+::\+File@{File\+System\+::\+File}!receive\+Latest@{receive\+Latest}}
+\index{receive\+Latest@{receive\+Latest}!File\+System\+::\+File@{File\+System\+::\+File}}
+\subsubsection[{receive\+Latest}]{\setlength{\rightskip}{0pt plus 5cm}virtual \+::{\bf File\+System\+::\+Byte\+Seq} File\+System\+::\+File\+::receive\+Latest (
+\begin{DoxyParamCaption}
+\item[{const \+::std\+::string \&}]{, }
+\item[{const \+::std\+::string \&}]{, }
+\item[{const \+::std\+::string \&}]{, }
+\item[{const \+::std\+::string \&}]{, }
+\item[{const \+::Ice\+::\+Current \&}]{ = {\ttfamily \+:\+:Ice\+:\+:Current()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\label{class_file_system_1_1_file_a99b432d430b47e2f065cf9ad529c8956}
+\hypertarget{class_file_system_1_1_file_a135c7e7f7f7838e6c76c36cdf0012131}{}\index{File\+System\+::\+File@{File\+System\+::\+File}!receive\+Version@{receive\+Version}}
+\index{receive\+Version@{receive\+Version}!File\+System\+::\+File@{File\+System\+::\+File}}
+\subsubsection[{receive\+Version}]{\setlength{\rightskip}{0pt plus 5cm}virtual \+::{\bf File\+System\+::\+Byte\+Seq} File\+System\+::\+File\+::receive\+Version (
+\begin{DoxyParamCaption}
+\item[{const \+::std\+::string \&}]{, }
+\item[{const \+::std\+::string \&}]{, }
+\item[{const \+::std\+::string \&}]{, }
+\item[{const \+::std\+::string \&}]{, }
+\item[{\+::Ice\+::\+Int}]{, }
+\item[{const \+::Ice\+::\+Current \&}]{ = {\ttfamily \+:\+:Ice\+:\+:Current()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\label{class_file_system_1_1_file_a135c7e7f7f7838e6c76c36cdf0012131}
+\hypertarget{class_file_system_1_1_file_a06849361bc722ed92f0075377eac6d09}{}\index{File\+System\+::\+File@{File\+System\+::\+File}!send\+File@{send\+File}}
+\index{send\+File@{send\+File}!File\+System\+::\+File@{File\+System\+::\+File}}
+\subsubsection[{send\+File}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool File\+System\+::\+File\+::send\+File (
+\begin{DoxyParamCaption}
+\item[{const \+::std\+::string \&}]{, }
+\item[{const \+::std\+::string \&}]{, }
+\item[{const \+::std\+::string \&}]{, }
+\item[{const \+::std\+::string \&}]{, }
+\item[{const \+::{\bf File\+System\+::\+Byte\+Seq} \&}]{, }
+\item[{const \+::Ice\+::\+Current \&}]{ = {\ttfamily \+:\+:Ice\+:\+:Current()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\label{class_file_system_1_1_file_a06849361bc722ed92f0075377eac6d09}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_file_system_8h}{File\+System.\+h}\item 
+\hyperlink{_file_system_8cpp}{File\+System.\+cpp}\end{DoxyCompactItemize}

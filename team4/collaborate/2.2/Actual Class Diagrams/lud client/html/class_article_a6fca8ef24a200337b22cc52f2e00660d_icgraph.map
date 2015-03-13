@@ -1,0 +1,8 @@
+<map id="Article::getTitle" name="Article::getTitle">
+<area shape="rect" id="node2" href="$classarticle_workspace.html#ad7fda7f14c95e55bc4596dc208bd9f6e" title="articleWorkspace::addArticle\lButton" alt="" coords="165,5,355,47"/>
+<area shape="rect" id="node6" href="$classarticle_workspace.html#a3404625169597df8daceb033cc64cf02" title="articleWorkspace::workspace\lExists" alt="" coords="163,71,357,112"/>
+<area shape="rect" id="node7" href="$classnew_article_workspace_window.html#a63010f293bf9b25d4f02953526d11990" title="newArticleWorkspaceWindow\l::setupFields" alt="" coords="163,136,357,177"/>
+<area shape="rect" id="node3" href="$classarticle_workspace.html#a03bdfc2424a786b51a46d04c1426798e" title="articleWorkspace::resetArticle\lButtons" alt="" coords="405,5,603,47"/>
+<area shape="rect" id="node4" href="$classarticle_workspace.html#ab0636a16c5adbfd2a624ac9635ffa381" title="articleWorkspace::update\lArticleList" alt="" coords="651,5,821,47"/>
+<area shape="rect" id="node5" href="$class_main_window.html#aadbdf8bfed00fa3a85ef2bbaed56fad7" title="MainWindow::init" alt="" coords="869,13,991,39"/>
+</map>

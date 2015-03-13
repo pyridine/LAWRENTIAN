@@ -1,0 +1,7 @@
+<map id="articleWorkspace::resetArticleButtons" name="articleWorkspace::resetArticleButtons">
+<area shape="rect" id="node2" href="$classarticle_workspace.html#ad7fda7f14c95e55bc4596dc208bd9f6e" title="articleWorkspace::addArticle\lButton" alt="" coords="251,57,440,98"/>
+<area shape="rect" id="node3" href="$class_article.html#a6fca8ef24a200337b22cc52f2e00660d" title="Article::getTitle" alt="" coords="499,5,609,32"/>
+<area shape="rect" id="node4" href="$class_database_controller.html#a399ace73dd39f858a625d86eccb6a311" title="DatabaseController\l::translateSection" alt="" coords="488,57,620,98"/>
+<area shape="rect" id="node6" href="$class_article.html#a6bdb98f93b921392d7258bf63c7c322b" title="Article::getSection" alt="" coords="489,123,619,149"/>
+<area shape="rect" id="node5" href="$class_client.html#a3a9e7a43f73fa36851226220366ea847" title="Client::execute" alt="" coords="668,64,777,91"/>
+</map>

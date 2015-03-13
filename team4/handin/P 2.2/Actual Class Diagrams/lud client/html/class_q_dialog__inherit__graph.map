@@ -1,0 +1,9 @@
+<map id="QDialog" name="QDialog">
+<area shape="rect" id="node2" href="$class_check_employees_window.html" title="{CheckEmployeesWindow\n||+ CheckEmployeesWindow()\l+ initCheckEmployeesWindow()\l+ ~CheckEmployeesWindow()\l}" alt="" coords="5,167,212,274"/>
+<area shape="rect" id="node3" href="$class_copy_history_window.html" title="{CopyHistoryWindow\n||+ CopyHistoryWindow()\l+ ~CopyHistoryWindow()\l}" alt="" coords="236,175,403,267"/>
+<area shape="rect" id="node4" href="$class_edit_employee_info.html" title="{EditEmployeeInfo\n|+ myParent\l|+ EditEmployeeInfo()\l+ ~EditEmployeeInfo()\l+ initDB()\l+ populateNameComboBox()\l+ populateAllFields()\l+ updateAllFields()\l}" alt="" coords="427,145,617,296"/>
+<area shape="rect" id="node5" href="$class_edit_route_window.html" title="{EditRouteWindow\n||+ EditRouteWindow()\l+ ~EditRouteWindow()\l}" alt="" coords="641,175,795,267"/>
+<area shape="rect" id="node6" href="$class_login_window.html" title="{LoginWindow\n||+ LoginWindow()\l+ initDB()\l+ ~LoginWindow()\l}" alt="" coords="819,167,945,274"/>
+<area shape="rect" id="node7" href="$classnew_article_workspace_window.html" title="{newArticleWorkspaceWindow\n||+ newArticleWorkspaceWindow()\l+ ~newArticleWorkspaceWindow()\l+ getParentArticleWorkspace\lWidget()\l+ setParentArticleWorkspace\lWidget()\l+ setupFields()\l+ initDB()\l}" alt="" coords="969,131,1192,311"/>
+<area shape="rect" id="node8" href="$class_registration_dialog.html" title="{RegistrationDialog\n||+ RegistrationDialog()\l+ ~RegistrationDialog()\l}" alt="" coords="1217,175,1371,267"/>
+</map>

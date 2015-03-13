@@ -1,0 +1,10 @@
+<map id="QWidget" name="QWidget">
+<area shape="rect" id="node2" href="$classad_widget.html" title="{adWidget\n||+ adWidget()\l+ ~adWidget()\l}" alt="" coords="5,197,111,289"/>
+<area shape="rect" id="node3" href="$classarticle_workspace.html" title="{articleWorkspace\n|+ x\l+ y\l|+ articleWorkspace()\l+ ~articleWorkspace()\l+ initArticle()\l+ addArticleButton()\l+ initDB()\l+ updateArticleList()\l+ resetArticleButtons()\l+ getNewArticle()\l+ setNewArticle()\l+ workspaceExists()\l}" alt="" coords="135,131,288,355"/>
+<area shape="rect" id="node4" href="$classcirculation_widget.html" title="{circulationWidget\n||+ circulationWidget()\l+ ~circulationWidget()\l+ init_ViewPrivileges()\l+ init_ViewAndEditPrivileges()\l}" alt="" coords="313,182,507,303"/>
+<area shape="rect" id="node5" href="$classeditor_timesheet_widget.html" title="{editorTimesheetWidget\n||+ editorTimesheetWidget()\l+ ~editorTimesheetWidget()\l}" alt="" coords="532,197,715,289"/>
+<area shape="rect" id="node6" href="$classemployees_widget.html" title="{employeesWidget\n||+ employeesWidget()\l+ ~employeesWidget()\l+ init()\l+ initDB()\l+ initNormalView()\l+ initPrivilegedView()\l+ initTotalView()\l+ getNumUnregistered()\l}" alt="" coords="739,153,899,333"/>
+<area shape="rect" id="node7" href="$classprofile_widget.html" title="{profileWidget\n||+ profileWidget()\l+ init()\l+ ~profileWidget()\l}" alt="" coords="923,189,1049,296"/>
+<area shape="rect" id="node8" href="$classsubscriptions_widget.html" title="{subscriptionsWidget\n||+ subscriptionsWidget()\l+ ~subscriptionsWidget()\l}" alt="" coords="1073,197,1241,289"/>
+<area shape="rect" id="node9" href="$classwriter_timesheet_widget.html" title="{writerTimesheetWidget\n||+ writerTimesheetWidget()\l+ ~writerTimesheetWidget()\l}" alt="" coords="1265,197,1448,289"/>
+</map>

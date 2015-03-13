@@ -1,0 +1,2 @@
+Use case is one actor and one goal. If there are multiple actors for one use case then that set of actors is one actor.
+

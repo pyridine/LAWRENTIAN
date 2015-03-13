@@ -1,0 +1,25 @@
+<map id="mainwindow.cpp" name="mainwindow.cpp">
+<area shape="rect" id="node2" href="$mainwindow_8h.html" title="mainwindow.h" alt="" coords="979,229,1082,256"/>
+<area shape="rect" id="node20" href="$mainwindowdbc_8h.html" title="mainwindowdbc.h" alt="" coords="1163,304,1287,331"/>
+<area shape="rect" id="node21" href="$permissiondef_8h.html" title="permissiondef.h" alt="" coords="803,379,917,405"/>
+<area shape="rect" id="node23" href="$articleworkspace_8h.html" title="articleworkspace.h" alt="" coords="156,229,287,256"/>
+<area shape="rect" id="node28" href="$profilewidget_8h.html" title="profilewidget.h" alt="" coords="941,155,1045,181"/>
+<area shape="rect" id="node29" href="$employeeswidget_8h.html" title="employeeswidget.h" alt="" coords="1173,80,1307,107"/>
+<area shape="rect" id="node32" href="$adwidget_8h.html" title="adwidget.h" alt="" coords="1677,155,1761,181"/>
+<area shape="rect" id="node33" href="$editortimesheetwidget_8h.html" title="editortimesheetwidget.h" alt="" coords="1785,155,1943,181"/>
+<area shape="rect" id="node34" href="$writertimesheetwidget_8h.html" title="writertimesheetwidget.h" alt="" coords="1557,80,1715,107"/>
+<area shape="rect" id="node35" href="$subscriptionswidget_8h.html" title="subscriptionswidget.h" alt="" coords="1505,155,1652,181"/>
+<area shape="rect" id="node36" href="$circulationwidget_8h.html" title="circulationwidget.h" alt="" coords="311,229,441,256"/>
+<area shape="rect" id="node4" href="$logincredentials_8h.html" title="logincredentials.h" alt="" coords="504,304,627,331"/>
+<area shape="rect" id="node10" href="$client_8h.html" title="client.h" alt="" coords="1149,603,1213,629"/>
+<area shape="rect" id="node16" href="$loginwindow_8h.html" title="loginwindow.h" alt="" coords="854,304,957,331"/>
+<area shape="rect" id="node5" href="$permissions_8h.html" title="permissions.h" alt="" coords="625,528,727,555"/>
+<area shape="rect" id="node11" href="$remotedbconnection_8h.html" title="remotedbconnection.h" alt="" coords="1106,677,1257,704"/>
+<area shape="rect" id="node17" href="$loginwindowdbc_8h.html" title="loginwindowdbc.h" alt="" coords="873,453,996,480"/>
+<area shape="rect" id="node18" href="$databasecontroller_8h.html" title="databasecontroller.h" alt="" coords="904,528,1043,555"/>
+<area shape="rect" id="node24" href="$article_8h.html" title="article.h" alt="" coords="135,528,203,555"/>
+<area shape="rect" id="node25" href="$articleworkspacedbc_8h.html" title="articleworkspacedbc.h" alt="" coords="94,453,245,480"/>
+<area shape="rect" id="node30" href="$employeetabledbc_8h.html" title="employeetabledbc.h" alt="" coords="1171,155,1309,181"/>
+<area shape="rect" id="node37" href="$route_8h.html" title="route.h" alt="" coords="334,528,397,555"/>
+<area shape="rect" id="node38" href="$circulationwindowdbc_8h.html" title="circulationwindowdbc.h" alt="" coords="320,453,475,480"/>
+</map>

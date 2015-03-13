@@ -1,0 +1,4 @@
+<map id="EditEmployeeInfoDBC" name="EditEmployeeInfoDBC">
+<area shape="rect" id="node2" href="$class_database_controller.html" title="{DatabaseController\n||+ DatabaseController()\l+ getClient()\l+ translateTitle()\l+ translatePermission()\l+ translateLocation()\l+ translateSection()\l}" alt="" coords="18,219,175,369"/>
+<area shape="rect" id="node3" href="$class_client.html" title="{Client\n||+ Client()\l+ connect()\l+ execute()\l+ execute()\l+ sampleQuery()\l+ ~Client()\l}" alt="" coords="37,5,156,156"/>
+</map>

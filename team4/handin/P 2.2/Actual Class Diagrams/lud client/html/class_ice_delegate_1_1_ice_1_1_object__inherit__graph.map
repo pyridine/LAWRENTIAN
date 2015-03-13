@@ -1,0 +1,5 @@
+<map id="Object" name="Object">
+<area shape="rect" id="node2" href="$class_ice_delegate_1_1_file_system_1_1_file.html" title="{IceDelegate::FileSystem\l::File\n||+ receiveLatest()\l+ receiveVersion()\l+ sendFile()\l+ getHistory()\l}" alt="" coords="109,131,273,267"/>
+<area shape="rect" id="node3" href="$class_ice_delegate_d_1_1_file_system_1_1_file.html" title="{IceDelegateD::FileSystem\l::File\n||+ receiveLatest()\l+ receiveVersion()\l+ sendFile()\l+ getHistory()\l}" alt="" coords="5,315,179,451"/>
+<area shape="rect" id="node4" href="$class_ice_delegate_m_1_1_file_system_1_1_file.html" title="{IceDelegateM::FileSystem\l::File\n||+ receiveLatest()\l+ receiveVersion()\l+ sendFile()\l+ getHistory()\l}" alt="" coords="203,315,378,451"/>
+</map>

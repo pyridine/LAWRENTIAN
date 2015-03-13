@@ -1,0 +1,6 @@
+<map id="CirculationWindowDBC::insertRoute" name="CirculationWindowDBC::insertRoute">
+<area shape="rect" id="node2" href="$class_circulation_window_d_b_c.html#a4c6dcb10809438c108e5ed26a5f08680" title="CirculationWindowDBC\l::dropRoute" alt="" coords="209,5,365,47"/>
+<area shape="rect" id="node4" href="$class_route.html#a5cbb29c06b365a9cb73c3a3afe4deff4" title="Route::begin" alt="" coords="240,71,335,98"/>
+<area shape="rect" id="node5" href="$class_route.html#afd80ce5371e7457f278b9c0fd0de79a9" title="Route::end" alt="" coords="245,122,330,149"/>
+<area shape="rect" id="node3" href="$class_client.html#a3a9e7a43f73fa36851226220366ea847" title="Client::execute" alt="" coords="413,13,523,39"/>
+</map>

@@ -1,0 +1,114 @@
+\hypertarget{class_file_system_i}{}\section{File\+System\+I Class Reference}
+\label{class_file_system_i}\index{File\+System\+I@{File\+System\+I}}
+
+
+{\ttfamily \#include $<$File\+System\+I.\+h$>$}
+
+
+
+Inheritance diagram for File\+System\+I\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{class_file_system_i__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for File\+System\+I\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{class_file_system_i__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_file_system_i_a74df9a51af59eeb364c5f570f955d82a}{File\+System\+I} (std\+::string main\+\_\+node)
+\item 
+\hyperlink{class_file_system_i_a9a61c34763e63d0d81183ff2ed7137f2}{File\+System\+I} ()
+\item 
+virtual \hyperlink{namespace_file_system_a5c85de065f9c451ae1d1dea2dacb68c5}{File\+System\+::\+Byte\+Seq} \hyperlink{class_file_system_i_abc9d41f5639080ba30ed563e579249c2}{receive\+Latest} (const std\+::string \&sec, const std\+::string \&art, const std\+::string \&type, const std\+::string \&f\+Name, const Ice\+::\+Current \&c)
+\item 
+virtual \hyperlink{namespace_file_system_a5c85de065f9c451ae1d1dea2dacb68c5}{File\+System\+::\+Byte\+Seq} \hyperlink{class_file_system_i_a5fa337576e6762b2b77f80b6e081b016}{receive\+Version} (const std\+::string \&sec, const std\+::string \&art, const std\+::string \&type, const std\+::string \&f\+Name, const int ver, const Ice\+::\+Current \&c)
+\item 
+virtual bool \hyperlink{class_file_system_i_a6f436b8f834663f35556b9e40c59df73}{send\+File} (const std\+::string \&sec, const std\+::string \&art, const std\+::string \&type, const std\+::string \&f\+Name\+Ext, const \hyperlink{namespace_file_system_a5c85de065f9c451ae1d1dea2dacb68c5}{File\+System\+::\+Byte\+Seq} \&seq, const Ice\+::\+Current \&c)
+\item 
+virtual \hyperlink{namespace_file_system_ac32dc1eb34c060160b52edc7c4e37d6e}{File\+System\+::\+Ver\+Seq} \hyperlink{class_file_system_i_ae61cfd5357bf5c2b380bdb87c9459dd8}{get\+History} (const std\+::string \&sec, const std\+::string \&art, const std\+::string \&type, const std\+::string \&f\+Name, const Ice\+::\+Current \&c)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_file_system_i_a74df9a51af59eeb364c5f570f955d82a}{}\index{File\+System\+I@{File\+System\+I}!File\+System\+I@{File\+System\+I}}
+\index{File\+System\+I@{File\+System\+I}!File\+System\+I@{File\+System\+I}}
+\subsubsection[{File\+System\+I}]{\setlength{\rightskip}{0pt plus 5cm}File\+System\+I\+::\+File\+System\+I (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{main\+\_\+node}
+\end{DoxyParamCaption}
+)}\label{class_file_system_i_a74df9a51af59eeb364c5f570f955d82a}
+\hypertarget{class_file_system_i_a9a61c34763e63d0d81183ff2ed7137f2}{}\index{File\+System\+I@{File\+System\+I}!File\+System\+I@{File\+System\+I}}
+\index{File\+System\+I@{File\+System\+I}!File\+System\+I@{File\+System\+I}}
+\subsubsection[{File\+System\+I}]{\setlength{\rightskip}{0pt plus 5cm}File\+System\+I\+::\+File\+System\+I (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_file_system_i_a9a61c34763e63d0d81183ff2ed7137f2}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_file_system_i_ae61cfd5357bf5c2b380bdb87c9459dd8}{}\index{File\+System\+I@{File\+System\+I}!get\+History@{get\+History}}
+\index{get\+History@{get\+History}!File\+System\+I@{File\+System\+I}}
+\subsubsection[{get\+History}]{\setlength{\rightskip}{0pt plus 5cm}{\bf File\+System\+::\+Ver\+Seq} File\+System\+I\+::get\+History (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{sec, }
+\item[{const std\+::string \&}]{art, }
+\item[{const std\+::string \&}]{type, }
+\item[{const std\+::string \&}]{f\+Name, }
+\item[{const Ice\+::\+Current \&}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{class_file_system_i_ae61cfd5357bf5c2b380bdb87c9459dd8}
+\hypertarget{class_file_system_i_abc9d41f5639080ba30ed563e579249c2}{}\index{File\+System\+I@{File\+System\+I}!receive\+Latest@{receive\+Latest}}
+\index{receive\+Latest@{receive\+Latest}!File\+System\+I@{File\+System\+I}}
+\subsubsection[{receive\+Latest}]{\setlength{\rightskip}{0pt plus 5cm}{\bf File\+System\+::\+Byte\+Seq} File\+System\+I\+::receive\+Latest (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{sec, }
+\item[{const std\+::string \&}]{art, }
+\item[{const std\+::string \&}]{type, }
+\item[{const std\+::string \&}]{f\+Name, }
+\item[{const Ice\+::\+Current \&}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{class_file_system_i_abc9d41f5639080ba30ed563e579249c2}
+\hypertarget{class_file_system_i_a5fa337576e6762b2b77f80b6e081b016}{}\index{File\+System\+I@{File\+System\+I}!receive\+Version@{receive\+Version}}
+\index{receive\+Version@{receive\+Version}!File\+System\+I@{File\+System\+I}}
+\subsubsection[{receive\+Version}]{\setlength{\rightskip}{0pt plus 5cm}{\bf File\+System\+::\+Byte\+Seq} File\+System\+I\+::receive\+Version (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{sec, }
+\item[{const std\+::string \&}]{art, }
+\item[{const std\+::string \&}]{type, }
+\item[{const std\+::string \&}]{f\+Name, }
+\item[{const int}]{ver, }
+\item[{const Ice\+::\+Current \&}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{class_file_system_i_a5fa337576e6762b2b77f80b6e081b016}
+\hypertarget{class_file_system_i_a6f436b8f834663f35556b9e40c59df73}{}\index{File\+System\+I@{File\+System\+I}!send\+File@{send\+File}}
+\index{send\+File@{send\+File}!File\+System\+I@{File\+System\+I}}
+\subsubsection[{send\+File}]{\setlength{\rightskip}{0pt plus 5cm}bool File\+System\+I\+::send\+File (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{sec, }
+\item[{const std\+::string \&}]{art, }
+\item[{const std\+::string \&}]{type, }
+\item[{const std\+::string \&}]{f\+Name\+Ext, }
+\item[{const {\bf File\+System\+::\+Byte\+Seq} \&}]{seq, }
+\item[{const Ice\+::\+Current \&}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{class_file_system_i_a6f436b8f834663f35556b9e40c59df73}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_file_system_i_8h}{File\+System\+I.\+h}\item 
+\hyperlink{_file_system_i_8cpp}{File\+System\+I.\+cpp}\end{DoxyCompactItemize}
