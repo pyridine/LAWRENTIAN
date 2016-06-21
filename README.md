@@ -10,7 +10,7 @@ A system intended to streamline the creation of the "Lawrentian" student newspap
 * Organize the newspaper archives and add issues to it
 * Assign writers/photographers to articles
 
-And more. The system's goal is to provide a single interface through which every manager, editor, administrator, and content creator can collaborate over a central database towards the goal of publishing a new issues every week.
+And more. The system's goal is to provide a single interface through which every manager, editor, administrator, and content creator can collaborate over a central database towards the goal of publishing a new issue every week.
 
 ## Libraries
 
@@ -18,7 +18,7 @@ And more. The system's goal is to provide a single interface through which every
 
 * Server communication is handled with **ZeroC Ice**.
 
-* The server itself uses a **MySQL** database. 
+* The server stores most of its data in a **MySQL** database. The exceptions are word documents and images (articles and photos/illustrations) which are handled manually.
 
 By the way, "L.A.W.R.E.N.T.I.A.N." stands for "Lawrence’s Astounding Web-Ready Eellogofusciouhipoppokunurious 
 News and Timely Information Assimilation Network". (*Eellogo...* means simply "very good" or "fine".)
